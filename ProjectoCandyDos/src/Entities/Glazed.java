@@ -42,7 +42,6 @@ public class Glazed extends Entity {
 		return this.posRow;
 	}
 
-	@Override
 	public int getColumn() {
 		return this.posColumn;
 	}

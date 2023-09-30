@@ -1,5 +1,12 @@
 package Entities;
 
+import java.util.List;
+
+import Entities.Interfaces.Equivalent;
+import Entities.Interfaces.LogicEntity;
+import Entities.Interfaces.Swappable;
+import Logic.Board;
+
 public abstract class Entity implements Equivalent, LogicEntity, Swappable {
 	/* Attributes */
 	protected Colour colour;
@@ -11,13 +18,17 @@ public abstract class Entity implements Equivalent, LogicEntity, Swappable {
 		return colour;
 	}
 
-	public boolean isEmpty() {
-		return false; // solamente lo redefiniria Empty
+	public int getRow() {
+		return posRow;
 	}
 
-	/*
-	 * public abstract List<Block> getDestroyables(Board b){
-	 * 
-	 * }
-	 */
+	public int getColumn() {
+		return posColumn;
+	}
+
+	public boolean isEmpty() {
+		return false; //=> solamente lo redefiniria Empty
+	}
+	
+	public abstract List<Block> getDestroyables(Board b);
 }

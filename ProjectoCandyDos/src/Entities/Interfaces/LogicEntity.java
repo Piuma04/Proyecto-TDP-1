@@ -1,4 +1,4 @@
-package Entities;
+package Entities.Interfaces;
 
 public interface LogicEntity {
     public int getRow();

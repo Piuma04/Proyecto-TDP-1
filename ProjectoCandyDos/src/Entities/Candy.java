@@ -1,5 +1,9 @@
 package Entities;
 
+import java.util.List;
+
+import Logic.Board;
+
 public class Candy extends Entity {
 
 	/* Constructor */
@@ -10,6 +14,7 @@ public class Candy extends Entity {
 	}
 
 	/* Methods */
+	//TODO
 	public boolean isEquivalent(Entity e) {
 		// TODO Auto-generated method stub
 		return false;
@@ -37,14 +42,6 @@ public class Candy extends Entity {
 		return false;
 	}
 
-	public int getRow() {
-		return this.posRow;
-	}
-
-	public int getColumn() {
-		return this.posColumn;
-	}
-
 	// TODO GUI
 	public String getImage() {
 		// TODO Auto-generated method stub
@@ -53,7 +50,7 @@ public class Candy extends Entity {
 
 	// TODO SWAPPABLE
 	public boolean isSwappable(Entity e) {
-		return false;
+		return true;
 	}
 
 	public boolean canReceive(Candy c) {
@@ -73,6 +70,13 @@ public class Candy extends Entity {
 	public boolean canReceive(Wrapped w) {
 		// TODO faltaria ver para las combinaciones?
 		return true;
+	}
+
+	@Override
+	//TODO
+	public List<Block> getDestroyables(Board b) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

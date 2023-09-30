@@ -1,5 +1,7 @@
 package Entities;
 
+import Entities.Interfaces.Equivalent;
+
 public abstract class Modifiers implements Equivalent {
 
 	@Override

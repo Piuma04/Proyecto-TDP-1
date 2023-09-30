@@ -1,4 +1,11 @@
-package Entities;
+package Entities.Interfaces;
+
+import Entities.Candy;
+import Entities.Entity;
+import Entities.Glazed;
+import Entities.Jelly;
+import Entities.Stripped;
+import Entities.Wrapped;
 
 public interface Equivalent {
 	public boolean isEquivalent(Entity e);
