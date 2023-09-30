@@ -2,8 +2,8 @@ package Entities;
 
 import java.util.Stack;
 
-import Entities.Interfaces.Equivalent;
-import Entities.Interfaces.Focusable;
+import Interfaces.Equivalent;
+import Interfaces.Focusable;
 
 public class Block implements Focusable {
 

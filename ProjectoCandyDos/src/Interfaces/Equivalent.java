@@ -1,4 +1,4 @@
-package Entities.Interfaces;
+package Interfaces;
 
 import Entities.Candy;
 import Entities.Empty;

@@ -1,19 +1,17 @@
 package Logic;
 
-
-// SHOULD USE java.util.Timer.
 public class Clock {
-    private long time;
-    
+    private long startTime;
+
     Clock() {
-        time = 0;
+        startTime = System.currentTimeMillis();
     }
-    
+
     public void start() {
-        
+        startTime = System.currentTimeMillis();
     }
-    
+
     public long getTime() {
-        return time;
+        return System.currentTimeMillis() - startTime;
     }
 }

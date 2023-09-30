@@ -2,9 +2,9 @@ package Entities;
 
 import java.util.List;
 
-import Entities.Interfaces.Equivalent;
-import Entities.Interfaces.LogicEntity;
-import Entities.Interfaces.Swappable;
+import Interfaces.Equivalent;
+import Interfaces.LogicEntity;
+import Interfaces.Swappable;
 import Logic.Board;
 
 public abstract class Entity implements Equivalent, LogicEntity, Swappable {

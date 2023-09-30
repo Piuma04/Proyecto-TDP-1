@@ -1,6 +1,6 @@
 package Entities;
 
-import Entities.Interfaces.Equivalent;
+import Interfaces.Equivalent;
 
 public abstract class Modifiers implements Equivalent {
 
