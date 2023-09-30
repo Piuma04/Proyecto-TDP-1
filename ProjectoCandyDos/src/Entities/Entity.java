@@ -1,28 +1,23 @@
 package Entities;
 
-public abstract class Entity implements Equivalent, LogicEntity, Focusable, Swappable{
+public abstract class Entity implements Equivalent, LogicEntity, Swappable {
 	/* Attributes */
-	private Colour colour;
-	private int posRow;
-	private int posColumn;
-	
-	/* Constructor */
-	public Entity(int posRow, int posColumn, Colour colour) {
-		this.posRow = posRow;
-		this.posColumn = posColumn;
-		this.colour = colour;
-	}
-	
-	/*Methods*/
+	protected Colour colour;
+	protected int posRow;
+	protected int posColumn;
+
+	/* Methods */
 	public Colour getColour() {
 		return colour;
 	}
-	
+
 	public boolean isEmpty() {
-		return false; //solamente lo redefiniria Empty
+		return false; // solamente lo redefiniria Empty
 	}
-	
-	/* public abstract List<Block> getDestroyables(Board b){
-		
-	}*/
+
+	/*
+	 * public abstract List<Block> getDestroyables(Board b){
+	 * 
+	 * }
+	 */
 }
