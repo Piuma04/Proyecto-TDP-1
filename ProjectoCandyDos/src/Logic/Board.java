@@ -1,11 +1,16 @@
 package Logic;
 
 import java.util.List;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.HashSet;
 
 import Entities.Block;
+import Entities.Entity;
+import Entities.Interfaces.Equivalent;
 
 public class Board {
-	private int row, column, cantR, cantC;
+	private int row, column,cantR,cantC;
 	private Block[][] matriz;
 	private Game myGame;
 	
@@ -25,34 +30,52 @@ public class Board {
 	
 	public void movePlayerDirection(int direction) {
 		switch(direction) {
-		case Juego.ABAJO:{
+		case myGame.ABAJO:{
 			setPlayerPosition(row + 1, column);
 			break;
 		}
-		case Juego.ARRIBA:{
+		case myGame.ARRIBA:{
 			setPlayerPosition(row - 1, column);
 			break;
 		}
-		case Juego.IZQUIERDA:{
+		case myGame.IZQUIERDA:{
 			setPlayerPosition(row, column - 1);
 			break;
 		}
-		case Juego.DERECHA:{
+		case myGame.DERECHA:{
 			setPlayerPosition(row, column + 1);
 			break;
 		}
 		}
 	}
 	
-	public PositionList<Equivalent> swap(int direction){
-		
+	public List<Equivalent> swap(int direction){
+		switch(direction) {
+		case myGame.ABAJO:{
+			swapEntities(row+1, column);
+			break;
+		}
+		case myGame.ARRIBA:{
+			swapEntities(row - 1, column);
+			break;
+		}
+		case myGame.IZQUIERDA:{
+			swapEntities(row, column - 1);
+			break;
+		}
+		case myGame.DERECHA:{
+			swapEntities(row, column + 1);
+			break;
+		}
+	}
 	}
 	
 	public Block getBlock(int row, int column) {
-		
+		return matriz[row][column];
 	}
 	
-	public PositionList<Equivalent> destroyEntities(PositionList<Block> l){
+	public List<Equivalent> destroyEntities(List<Block> l){
+		return null;
 		
 	}
 	
@@ -67,16 +90,59 @@ public class Board {
 			}
 		}
 	}
-	private List<Equivalent> swapEntities()
+	private List<Equivalent> swapEntities(int newRow, int newColumn)
 	{
+		Entity e1,e2;
+		List<Block> l1,l2;
+		List<Equivalent> destroyed = new LinkedList<Equivalent>();
+		boolean canExchange = false;
+		Block b1 = matriz[row][column];
+		Block b2 = matriz[newRow][newColumn];
 		
+		if(newRow<matriz.length && newColumn<matriz[0].length)
+		{
+			e1 = b1.getEntity();
+			e2 = b2.getEntity();
+			canExchange = e1.isSwappable(e2);
+			if(canExchange)
+			{
+				b1.swapEntity(b2);
+				l1 = checkCombinations(row,column);
+				l2 = checkCombinations(newRow,newColumn);
+				l1.addAll(l2);
+				destroyed = destroyEntities(l1);
+				//checkRemainingCombinations(); ver Detalles
+			}
+		}
+		return destroyed;
 	}
-	private void checkRemainingCombinations()
+	private List<Block> checkRemainingCombinations() 
 	{
-		
+		Set<Integer> s = new HashSet<Integer>();
+		List<Block> temp = new LinkedList<Block>();
+		for(int j =cantC; j>0 && s.size()<cantC;j--)
+		{
+			for(int i =cantR; i>0 && s.size()<cantC;i--)
+			{
+				if(matriz[i][j].isEmpty() && !s.contains(j))
+				{
+					s.add(j);
+				}
+			}
+		}
+		fillBoard();
+		for(Integer j : s)
+		{
+			for(int i = 0;i<cantR;i++)
+			{
+				temp.addAll(checkCombinations(i,j));
+			}
+		}
+		return temp;
 	}
 	private List<Block> checkCombinations(int row, int column)
 	{
+		return null;
 		
 	}
 }
