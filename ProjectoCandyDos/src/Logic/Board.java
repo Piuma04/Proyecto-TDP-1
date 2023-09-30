@@ -6,10 +6,13 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import Entities.Block;
+import Entities.Candy;
+import Entities.Colour;
 import Entities.Entity;
 import Interfaces.Equivalent;
 
 import java.util.HashSet;
+import java.util.Random;
 
 public class Board {
     private static final int ROWS = 6;
@@ -18,6 +21,14 @@ public class Board {
     private Block[][] matriz;
     private Game myGame;
 
+    public Board(Game g)
+    {
+    	row = 3;
+    	column = 3;
+    	for(int i = 0;i<ROWS;i++)
+    		for(int j = 0;j<COLUMNS;j++)
+    			matriz[i][j] = new Block();
+    }
     public int getRows() {
         return ROWS;
     }
@@ -46,9 +57,14 @@ public class Board {
                     }
                     if (canNext)
                         matriz[i][j].swapEntity(matriz[nextEntity][j]);
-                    // else
-                    // rellenarColumnaConCaramelosNuevos(j);
-                    canNext = false;
+                    else
+                    	//New
+                    for(int cont = i;cont>0;cont--)
+                    {
+                    	Entity e = new Candy(cont,j,Colour.YELLOW);
+                    	matriz[i][j].setEntity(e);
+                    }
+                    canNext = false;//
                 }
             }
         }
