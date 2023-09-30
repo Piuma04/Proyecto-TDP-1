@@ -1,86 +1,92 @@
 package GUI;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.Random;
 
-public class GUI extends JFrame implements KeyListener {
-	private final int numRows = 8;
-	private final int numCols = 8;
-	private final JLabel[][] candyButtons = new JLabel[numRows][numCols];
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-	public GUI() {
-		setTitle("Candy Crush");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setLayout(new GridLayout(numRows, numCols));
 
-		// Agregar el KeyListener para la navegación
-		addKeyListener(this);
-		setFocusable(true);
-		setFocusTraversalKeysEnabled(false);
 
-		// Crear botones con caramelos aleatorios
-		Random random = new Random();
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
-				JLabel label = new JLabel(getRandomCandy());
-				candyButtons[i][j] = label;
-				getContentPane().add(label);
-			}
-		}
+/**
+ * Modela el comportamiento de la Ventana de la aplicación.
+ * Ofrece servicios para comunicar los diferentes elementos que conforman la gráfica de la aplicación con la lógica de la misma.
+ * @author FJoaquin
+ *
+ */
 
-		pack();
-		setLocationRelativeTo(null);
-		setVisible(true);
+public class GUI extends JFrame {
+	
+	protected Juego mi_juego;
+	protected int filas;
+	protected int columnas;
+	
+	protected Celda celda_1_pendiente_animacion;
+	protected Celda celda_2_pendiente_animacion;
+	
+	protected JLabel texto_superior;
+	protected JPanel panel_principal;
+	private int size_label = 60;
+	
+	public GUI(Juego j, int f, int c) {
+		mi_juego = j;
+		filas = f;
+		columnas = c;
+		inicializar();
 	}
-
-	// Generar un caramelo aleatorio
-	private String getRandomCandy() {
-		String[] candyTypes = { "Caramelo1", "Caramelo2", "Caramelo3", "Caramelo4", "Caramelo5" };
-		Random random = new Random();
-		int index = random.nextInt(candyTypes.length);
-		return candyTypes[index];
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		int keyCode = e.getKeyCode();
-		int currentRow = 0;
-		int currentCol = 0;
-
-		// Encuentra la celda actualmente enfocada
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
-				if (candyButtons[i][j].isFocusOwner()) {
-					currentRow = i;
-					currentCol = j;
+	
+	protected void inicializar() {
+		setTitle("TdP 2023 :: Super mini Candy Crush");
+		setSize(new Dimension(500, 500));
+		setResizable(false);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setLayout(new BorderLayout());
+		
+		texto_superior = new JLabel("Esta es una versión super simplificada del Candy-Crush");
+		
+		panel_principal = new JPanel();
+		panel_principal.setSize(size_label * filas, size_label * columnas);
+		panel_principal.setLayout(null);
+		panel_principal.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {	
+				switch(e.getKeyCode()) {
+					case KeyEvent.VK_LEFT: 	{ mi_juego.mover_jugador(Juego.IZQUIERDA); break; }
+					case KeyEvent.VK_RIGHT: { mi_juego.mover_jugador(Juego.DERECHA); break; }
+					case KeyEvent.VK_UP: 	{ mi_juego.mover_jugador(Juego.ARRIBA);break; }
+					case KeyEvent.VK_DOWN: 	{ mi_juego.mover_jugador(Juego.ABAJO); break; }
+					case KeyEvent.VK_W:		{ mi_juego.intercambiar(Juego.ARRIBA); break; }
+					case KeyEvent.VK_S:		{ mi_juego.intercambiar(Juego.ABAJO); break; }
+					case KeyEvent.VK_A:		{ mi_juego.intercambiar(Juego.IZQUIERDA); break; }
+					case KeyEvent.VK_D:		{ mi_juego.intercambiar(Juego.DERECHA); break; } 
 				}
 			}
-		}
-
-		// Moverse a través de las celdas con las teclas de flecha
-		if (keyCode == KeyEvent.VK_LEFT && currentCol > 0) {
-			candyButtons[currentRow][currentCol - 1].requestFocus();
-		} else if (keyCode == KeyEvent.VK_RIGHT && currentCol < numCols - 1) {
-			candyButtons[currentRow][currentCol + 1].requestFocus();
-		} else if (keyCode == KeyEvent.VK_UP && currentRow > 0) {
-			candyButtons[currentRow - 1][currentCol].requestFocus();
-		} else if (keyCode == KeyEvent.VK_DOWN && currentRow < numRows - 1) {
-			candyButtons[currentRow + 1][currentCol].requestFocus();
-		}
+		});
+		
+		getContentPane().add(panel_principal, BorderLayout.CENTER);
+		getContentPane().add(texto_superior, BorderLayout.NORTH);
+		
+		panel_principal.setFocusable(true);
 	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
+	
+	public EntidadGrafica agregar_entidad(EntidadLogica e) {
+		Celda celda = new Celda(this, e, size_label);
+		panel_principal.add(celda);
+		return celda;
 	}
-
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> new GUI());
+	
+	public void considerar_para_intercambio_posicion(Celda c) {
+		if (celda_1_pendiente_animacion == null) {
+			celda_1_pendiente_animacion = c;
+		}else {
+			celda_2_pendiente_animacion = c;
+			AnimadorIntercambio mi_animador_intercambio = new AnimadorIntercambio(size_label, 10, 50, celda_1_pendiente_animacion, celda_2_pendiente_animacion);
+			celda_1_pendiente_animacion = null;
+			celda_2_pendiente_animacion = null;
+			mi_animador_intercambio.start();
+		}
 	}
 }
