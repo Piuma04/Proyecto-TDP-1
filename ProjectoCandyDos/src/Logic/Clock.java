@@ -3,7 +3,7 @@ package Logic;
 public class Clock {
     private long startTime;
 
-    Clock() {
+    public Clock() {
         startTime = System.currentTimeMillis();
     }
 
