@@ -14,30 +14,32 @@ public class Candy extends Entity {
 	}
 
 	/* Methods */
-	//TODO
+	@Override
 	public boolean isEquivalent(Entity e) {
-		// TODO Auto-generated method stub
-		return false;
+		return e.equals(this);
 	}
 
+	@Override
 	public boolean equals(Candy c) {
 		return c.getColour() == this.colour;
 	}
 
+	@Override
 	public boolean equals(Glazed g) {
 		return false;
 	}
 
-	// TODO
+	@Override
 	public boolean equals(Wrapped w) {
 		return w.getColour() == this.colour;
 	}
 
-	// TODO
+	@Override
 	public boolean equals(Stripped s) {
 		return s.getColour() == this.colour;
 	}
 
+	@Override
 	public boolean equals(Jelly j) {
 		return false;
 	}

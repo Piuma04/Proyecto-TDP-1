@@ -1,21 +1,27 @@
 package Entities;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import Logic.Board;
 
 public class Empty extends Entity {
 	/* Constructor */
-	// TODO
+	public Empty(int posRow, int posColumn) {
+		this.posRow = posRow;
+		this.posColumn = posColumn;
+		colour = Colour.TRANSPARENT;
+	}
+
 	public Empty() {
-		// Como inicializa?
+		this(0, 0); //TODO verificar
 	}
 
 	/* Methods */
 	@Override
 	public boolean isEquivalent(Entity e) {
 		return e.equals(this);
-		// o seria siempre falso?
+		// TODO seria siempre falso?
 	}
 
 	@Override
@@ -87,8 +93,7 @@ public class Empty extends Entity {
 	@Override
 	// TODO
 	public List<Block> getDestroyables(Board b) {
-		// TODO Auto-generated method stub
-		return null;
+		return new LinkedList<Block>(); //TODO seria una lista vacia
 	}
 
 }

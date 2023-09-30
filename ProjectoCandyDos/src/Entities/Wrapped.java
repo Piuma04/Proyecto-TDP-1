@@ -4,49 +4,43 @@ import java.util.List;
 
 import Logic.Board;
 
-public class Wrapped extends Entity{
-	
+public class Wrapped extends Entity {
+
 	/* Constructor */
 	public Wrapped(int posRow, int posColumn, Colour colour) {
 		this.posRow = posRow;
 		this.posColumn = posColumn;
 		this.colour = colour;
 	}
-	
+
 	/* Methods */
 	@Override
 	public boolean isEquivalent(Entity e) {
-		// TODO Auto-generated method stub
-		return false;
+		return e.equals(this);
 	}
 
 	@Override
 	public boolean equals(Candy c) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean equals(Glazed g) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean equals(Wrapped w) {
-		// TODO Auto-generated method stub
-		return false;
+		return w.getColour() == colour;
 	}
 
 	@Override
 	public boolean equals(Stripped s) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean equals(Jelly j) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -56,6 +50,7 @@ public class Wrapped extends Entity{
 	}
 
 	@Override
+	// TODO GUI
 	public String getImage() {
 		// TODO Auto-generated method stub
 		return null;
@@ -68,29 +63,26 @@ public class Wrapped extends Entity{
 
 	@Override
 	public boolean canReceive(Candy c) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean canReceive(Glazed g) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean canReceive(Stripped s) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean canReceive(Wrapped w) {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
+	// TODO
 	public List<Block> getDestroyables(Board b) {
 		// TODO Auto-generated method stub
 		return null;

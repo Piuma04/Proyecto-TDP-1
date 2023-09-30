@@ -6,5 +6,6 @@ public enum Colour {
 	GREEN,
 	PURPLE,
 	BLUE,
-	TRANSPARENT;
+	TRANSPARENT, //=> VACIA
+	GLAZED; //=> GLAZED // MERENGUE
 }
