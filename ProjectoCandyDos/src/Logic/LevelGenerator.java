@@ -77,10 +77,10 @@ public class LevelGenerator {
             if (e == null) e = new Candy(r, c, colour);
             break;
         case 'T':
-            e = new Candy(r, c, Colour.TRANSPARENT);
+            e = new Candy(r, c, Colour.NONE);
             break;
         case 'M':
-             e = new Glazed(r, c, Colour.TRANSPARENT);
+             e = new Glazed(r, c);
             break;
         }
         for (int i = 1; i < id.length(); i++) if (id.charAt(i) == CANDY_TYPE[2])
