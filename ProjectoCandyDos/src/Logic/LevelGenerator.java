@@ -5,8 +5,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import java.util.Dictionary;
-
 import Entities.Entity;
 import Entities.Colour;
 import Entities.Block;
@@ -23,8 +21,9 @@ public class LevelGenerator {
         try {
             fileText = new String(Files.readAllBytes(Paths.get(filename)), StandardCharsets.UTF_8);
         } catch (IOException e) {
+            System.out.println("Working Directory = " + System.getProperty("user.dir"));
             System.out.println("Could not read file.");
-            e.printStackTrace();
+            System.out.println(Paths.get(filename));
         }
 
         if (fileText != null) {
