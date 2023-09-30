@@ -47,6 +47,11 @@ public class Wrapped extends Entity{
 	}
 
 	@Override
+	public boolean equals(Empty e) {
+		return false;
+	}
+
+	@Override
 	public String getImage() {
 		// TODO Auto-generated method stub
 		return null;
@@ -54,8 +59,7 @@ public class Wrapped extends Entity{
 
 	@Override
 	public boolean isSwappable(Entity e) {
-		// TODO Auto-generated method stub
-		return false;
+		return e.canReceive(this);
 	}
 
 	@Override

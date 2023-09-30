@@ -37,25 +37,23 @@ public class Glazed extends Entity {
 	public boolean equals(Jelly j) {
 		return false;
 	}
-	
-	public int getRow() {
-		return this.posRow;
-	}
 
-	public int getColumn() {
-		return this.posColumn;
+	@Override
+	public boolean equals(Empty e) {
+		return false;
 	}
 
 	@Override
-	//TODO GUI
+	// TODO GUI
 	public String getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
 	@Override
+	// TODO No seria siempre false??
 	public boolean isSwappable(Entity e) {
-		return false;
+		return e.canReceive(this);
 	}
 
 	@Override
@@ -78,4 +76,14 @@ public class Glazed extends Entity {
 		return false;
 	}
 
+<<<<<<< HEAD
+=======
+	@Override
+	// TODO
+	public List<Block> getDestroyables(Board b) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+>>>>>>> branch 'master' of https://github.com/Piuma04/Proyecto-TDP-1.git
 }
