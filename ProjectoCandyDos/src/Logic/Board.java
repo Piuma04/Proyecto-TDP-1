@@ -29,9 +29,9 @@ public class Board {
     public Set<Integer> fillBoard() {
 		Set<Integer> s = new HashSet<Integer>();
 		boolean canNext = false;
-		for(int j =cantC; j>0 && s.size()<cantC;j--)
+		for(int j =COLUMNS; j>0 && s.size()<COLUMNS;j--)
 		{
-			for(int i =cantR; i>0 && s.size()<cantC;i--)
+			for(int i =ROWS; i>0 && s.size()<COLUMNS;i--)
 			{
 				if(matriz[i][j].isEmpty() && !s.contains(j))
 				{
@@ -41,7 +41,7 @@ public class Board {
 		}
 		for(Integer j : s)
 		{
-			for(int i = cantR;i>0;i--)
+			for(int i = ROWS;i>0;i--)
 			{
 				if(matriz[i][j].isEmpty())
 				{
@@ -158,7 +158,7 @@ public class Board {
 		List<Block> combinations = new LinkedList<Block>();
 		for(Integer j : fillBoard())
 		{
-			for(int i = 0;i<cantR;i++)
+			for(int i = 0;i<ROWS;i++)
 			{
 				combinations.addAll(checkCombinations(i,j));
 			}
