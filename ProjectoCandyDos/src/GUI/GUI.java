@@ -9,76 +9,73 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import Interfaces.LogicBlock;
+import Logic.Game;
 
 
-/**
- * Modela el comportamiento de la Ventana de la aplicación.
- * Ofrece servicios para comunicar los diferentes elementos que conforman la gráfica de la aplicación con la lógica de la misma.
- * @author FJoaquin
- *
- */
+
 
 public class GUI extends JFrame {
 	
-	protected Juego mi_juego;
-	protected int filas;
-	protected int columnas;
+	protected Game myGame;
+	protected int rows;
+	protected int columns;
 	
-	protected Celda celda_1_pendiente_animacion;
-	protected Celda celda_2_pendiente_animacion;
+	protected Cell celda_1_pendiente_animacion;
+	protected Cell celda_2_pendiente_animacion;
 	
-	protected JLabel texto_superior;
-	protected JPanel panel_principal;
+	protected JLabel upperText;
+	protected JPanel mainPanel;
 	private int size_label = 60;
 	
-	public GUI(Juego j, int f, int c) {
-		mi_juego = j;
-		filas = f;
-		columnas = c;
+	public GUI(Game j, int r, int c) {
+		myGame = j;
+		rows = r;
+		columns = c;
 		inicializar();
 	}
 	
 	protected void inicializar() {
-		setTitle("TdP 2023 :: Super mini Candy Crush");
+		setTitle("CandyCrush Villero");
 		setSize(new Dimension(500, 500));
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		
-		texto_superior = new JLabel("Esta es una versión super simplificada del Candy-Crush");
+		upperText = new JLabel("Esta es una versión super simplificada del Candy-Crush");
 		
-		panel_principal = new JPanel();
-		panel_principal.setSize(size_label * filas, size_label * columnas);
-		panel_principal.setLayout(null);
-		panel_principal.addKeyListener(new KeyAdapter() {
+		mainPanel = new JPanel();
+		mainPanel.setSize(size_label * rows, size_label * columns);
+		mainPanel.setLayout(null);
+		mainPanel.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {	
 				switch(e.getKeyCode()) {
-					case KeyEvent.VK_LEFT: 	{ mi_juego.mover_jugador(Juego.IZQUIERDA); break; }
-					case KeyEvent.VK_RIGHT: { mi_juego.mover_jugador(Juego.DERECHA); break; }
-					case KeyEvent.VK_UP: 	{ mi_juego.mover_jugador(Juego.ARRIBA);break; }
-					case KeyEvent.VK_DOWN: 	{ mi_juego.mover_jugador(Juego.ABAJO); break; }
-					case KeyEvent.VK_W:		{ mi_juego.intercambiar(Juego.ARRIBA); break; }
-					case KeyEvent.VK_S:		{ mi_juego.intercambiar(Juego.ABAJO); break; }
-					case KeyEvent.VK_A:		{ mi_juego.intercambiar(Juego.IZQUIERDA); break; }
-					case KeyEvent.VK_D:		{ mi_juego.intercambiar(Juego.DERECHA); break; } 
+					case KeyEvent.VK_LEFT: 	{ myGame.move(Game.LEFT); break; }
+					case KeyEvent.VK_RIGHT: { myGame.move(Game.RIGHT); break; }
+					case KeyEvent.VK_UP: 	{ myGame.move(Game.UP);break; }
+					case KeyEvent.VK_DOWN: 	{ myGame.move(Game.DOWN); break; }
+					case KeyEvent.VK_W:		{ myGame.swap(Game.UP); break; }
+					case KeyEvent.VK_S:		{ myGame.swap(Game.DOWN); break; }
+					case KeyEvent.VK_A:		{ myGame.swap(Game.LEFT); break; }
+					case KeyEvent.VK_D:		{ myGame.swap(Game.RIGHT); break; } 
 				}
 			}
 		});
 		
-		getContentPane().add(panel_principal, BorderLayout.CENTER);
-		getContentPane().add(texto_superior, BorderLayout.NORTH);
+		getContentPane().add(mainPanel, BorderLayout.CENTER);
+		getContentPane().add(upperText, BorderLayout.NORTH);
 		
-		panel_principal.setFocusable(true);
+		mainPanel.setFocusable(true);
 	}
 	
-	public EntidadGrafica agregar_entidad(EntidadLogica e) {
-		Celda celda = new Celda(this, e, size_label);
-		panel_principal.add(celda);
-		return celda;
+	public GraphicalBlock agregar_entidad(LogicBlock e) {
+		Cell Cellaux = new Cell(this, e, size_label);
+		mainPanel.add(Cellaux);
+		return Cellaux;
 	}
 	
-	public void considerar_para_intercambio_posicion(Celda c) {
+	/*public void considerForSwapPosition(Cell c) {
 		if (celda_1_pendiente_animacion == null) {
 			celda_1_pendiente_animacion = c;
 		}else {
@@ -88,5 +85,5 @@ public class GUI extends JFrame {
 			celda_2_pendiente_animacion = null;
 			mi_animador_intercambio.start();
 		}
-	}
+	}*/
 }

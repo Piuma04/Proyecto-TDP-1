@@ -1,11 +1,11 @@
 package Logic;
 
-import Entities.Candy;
-import Entities.Colour;
+import java.awt.EventQueue;
+
 import GUI.GUI;
 
 public class Game {
-	private static final int MAX_LIVES = 5;
+	
 	public static final int UP = 15000;
 	public static final int DOWN = 15001;
 	public static final int LEFT = 15002;
@@ -13,30 +13,23 @@ public class Game {
 	
     private Board myBoard;
     private Level myLevel;
-    //private LevelGenerator myLevelGenerator;
     private GUI myGui;
+    private LevelGenerator myLevelGenerator;
     private int lives;
     
-    public static void main(String[] args) {
-        
-        Game myGame = new Game();
-        myGame.loadLevel(1);
-        System.out.println("Hey!");
-    }
-
+    public Game() {
+    	myBoard = new Board(this);
+    	myLevel = myLevelGenerator.generateLevel("str", myBoard);
+		myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
+		asociar_entidades_logicas_graficas();
+	}
     
-    Game() {
-        lives = MAX_LIVES;
-        myBoard = new Board();
-        myLevel = new Level(new Candy(0,0,Colour.GREEN), 12, 40, 180);
-    }
-
     public void update() {
         
     }
 
     public void loadLevel(int level) {
-        LevelGenerator.generateLevel("src/Levels/level" + String.valueOf(level) + ".txt", myBoard);
+        
     }
     
     public void swap(int direction){
@@ -46,4 +39,16 @@ public class Game {
     public void move(int direction) {
         myBoard.movePlayerDirection(direction);
     }
+    public static void main(String [] args) {
+		EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                	new Game();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+	}
 }
+
