@@ -23,6 +23,7 @@ public class Board {
 
     public Board(Game g)
     {
+    	myGame = g;
     	row = 3;
     	column = 3;
     	for(int i = 0;i<ROWS;i++)
