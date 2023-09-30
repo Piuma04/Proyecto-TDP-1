@@ -1,11 +1,14 @@
 package Entities;
 
+import java.util.List;
+
+import Logic.Board;
+
 public class Stripped extends Entity{
 
 	@Override
 	public boolean isEquivalent(Entity e) {
-		// TODO Auto-generated method stub
-		return false;
+		return e.equals(this);
 	}
 
 	@Override
@@ -84,6 +87,13 @@ public class Stripped extends Entity{
 	public boolean canReceive(Wrapped w) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	//TODO
+	public List<Block> getDestroyables(Board b) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

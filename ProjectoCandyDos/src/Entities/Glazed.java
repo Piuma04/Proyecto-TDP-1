@@ -1,5 +1,9 @@
 package Entities;
 
+import java.util.List;
+
+import Logic.Board;
+
 public class Glazed extends Entity {
 
 	/* Constructor */
@@ -12,8 +16,7 @@ public class Glazed extends Entity {
 	/* Methods */
 	@Override
 	public boolean isEquivalent(Entity e) {
-		// TODO Auto-generated method stub
-		return false;
+		return e.equals(this);
 	}
 
 	@Override
@@ -76,6 +79,13 @@ public class Glazed extends Entity {
 	@Override
 	public boolean canReceive(Wrapped w) {
 		return false;
+	}
+
+	@Override
+	//TODO 
+	public List<Block> getDestroyables(Board b) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

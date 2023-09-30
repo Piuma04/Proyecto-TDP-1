@@ -1,6 +1,7 @@
 package Logic;
 
 import java.util.List;
+import Entities.Interfaces.Equivalent;
 
 public class Board {
 	private int posX, posY, rows, columns;
@@ -45,6 +46,7 @@ public class Board {
 	public Block getBlock(int row, int column) {
 		
 	}
+	
 	public PositionList<Equivalent> destroyEntities(PositionList<Block> l){
 		
 	}

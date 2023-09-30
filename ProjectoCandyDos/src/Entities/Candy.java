@@ -14,10 +14,8 @@ public class Candy extends Entity {
 	}
 
 	/* Methods */
-	//TODO
 	public boolean isEquivalent(Entity e) {
-		// TODO Auto-generated method stub
-		return false;
+		return e.equals(this);
 	}
 
 	public boolean equals(Candy c) {
@@ -73,7 +71,7 @@ public class Candy extends Entity {
 	}
 
 	@Override
-	//TODO
+	// TODO
 	public List<Block> getDestroyables(Board b) {
 		// TODO Auto-generated method stub
 		return null;
