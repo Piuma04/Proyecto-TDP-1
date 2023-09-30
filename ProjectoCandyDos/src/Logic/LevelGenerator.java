@@ -32,7 +32,7 @@ public class LevelGenerator {
             for (int r = 0; r < board.getRows(); r++) {
                 for (int c = 0; c < board.getColumns(); c++) {
                     //board.getBlock(r, c).setEntity(createEntity(candys[r * board.getRows() + c], r, c));
-                    createEntity(board.getBlock(r, c), candys[r * board.getRows() + c], r, c));
+                    createEntity(board.getBlock(r, c), candys[r * board.getRows() + c], r, c);
                 }
             }
         }

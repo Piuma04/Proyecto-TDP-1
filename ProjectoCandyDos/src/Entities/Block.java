@@ -2,12 +2,17 @@ package Entities;
 
 import java.util.Stack;
 
+import GUI.GraphicalBlock;
 import Interfaces.Equivalent;
+import Interfaces.Focusable;
 
-public class Block {
+public class Block implements Focusable {
 
     private Entity myEntity;
     private Stack<Modifiers> myModifiers;
+
+    private boolean focused;
+    private GraphicalBlock graphicalBlock;
 
     public Block() {
         // TODO Auto-generated constructor stub
@@ -46,9 +51,27 @@ public class Block {
         myEntity = new Empty();
         return e;
     }
-    
+
     public void pushModifier(Modifiers modifier) {
         myModifiers.add(modifier);
     }
 
+    public boolean focus() {
+        focused = true;
+        graphicalBlock.notifyChangeStatus();
+        return true;
+    }
+
+    @Override
+    public void defocus() {
+        focused = false;
+        graphicalBlock.notifyChangeStatus();
+    }
+    /*
+     * private void uploadRepresetnativePictures(String path_img) {
+     * imagenes_representativas = new String [2]; imagenes_representativas[0] =
+     * path_img + color +".png"; imagenes_representativas[1] = path_img + color
+     * +"-resaltado.png"; }
+     */
+//Hay que implementar este metodo, sirve para poner las imagenes a las entidades
 }

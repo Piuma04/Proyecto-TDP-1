@@ -16,8 +16,7 @@ public class Glazed extends Entity {
 	/* Methods */
 	@Override
 	public boolean isEquivalent(Entity e) {
-		// TODO Auto-generated method stub
-		return false;
+		return e.equals(this);
 	}
 
 	@Override
@@ -30,14 +29,17 @@ public class Glazed extends Entity {
 		return true;
 	}
 
+	@Override
 	public boolean equals(Wrapped w) {
 		return false;
 	}
 
+	@Override
 	public boolean equals(Stripped s) {
 		return false;
 	}
 
+	@Override
 	public boolean equals(Jelly j) {
 		return false;
 	}
@@ -53,7 +55,7 @@ public class Glazed extends Entity {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	// TODO No seria siempre false??
 	public boolean isSwappable(Entity e) {
@@ -80,13 +82,10 @@ public class Glazed extends Entity {
 		return false;
 	}
 
-
 	@Override
 	// TODO
 	public List<Block> getDestroyables(Board b) {
-		// TODO Auto-generated method stub
 		return null;
 	}
-
 
 }

@@ -26,8 +26,33 @@ public class Board {
         return COLUMNS;
     }
 
-    public void fillBoard() {
-
+    public Set<Integer> fillBoard() {
+        Set<Integer> s = new HashSet<Integer>();
+        boolean canNext = false;
+        for (int j = COLUMNS; j > 0 && s.size() < COLUMNS; j--) {
+            for (int i = ROWS; i > 0 && s.size() < COLUMNS; i--) {
+                if (matriz[i][j].isEmpty() && !s.contains(j)) {
+                    s.add(j);
+                }
+            }
+        }
+        for (Integer j : s) {
+            for (int i = ROWS; i > 0; i--) {
+                if (matriz[i][j].isEmpty()) {
+                    int nextEntity = i;
+                    while (nextEntity >= 0 && !canNext) {
+                        nextEntity--;
+                        canNext = !matriz[i][j].isEmpty();
+                    }
+                    if (canNext)
+                        matriz[i][j].swapEntity(matriz[nextEntity][j]);
+                    // else
+                    // rellenarColumnaConCaramelosNuevos(j);
+                    canNext = false;
+                }
+            }
+        }
+        return s;
     }
 
     public void movePlayerDirection(int direction) {
@@ -78,8 +103,12 @@ public class Board {
     }
 
     public List<Equivalent> destroyEntities(List<Block> l) {
-        return null;
-
+        List<Equivalent> destroyed = new LinkedList<Equivalent>();
+        for (Block b : l) {
+            //destroyed.addAll(b.getEntity().getDestroyables(this));
+            b.destroyEntity();
+        }
+        return destroyed;
     }
 
     private void setPlayerPosition(int newRow, int newColumn) {
@@ -117,26 +146,16 @@ public class Board {
     }
 
     private List<Block> checkRemainingCombinations() {
-        Set<Integer> s = new HashSet<Integer>();
-        List<Block> temp = new LinkedList<Block>();
-        for (int j = COLUMNS; j > 0 && s.size() < COLUMNS; j--) {
-            for (int i = ROWS; i > 0 && s.size() < ROWS; i--) {
-                if (matriz[i][j].isEmpty() && !s.contains(j)) {
-                    s.add(j);
-                }
-            }
-        }
-        fillBoard();
-        for (Integer j : s) {
+        List<Block> combinations = new LinkedList<Block>();
+        for (Integer j : fillBoard()) {
             for (int i = 0; i < ROWS; i++) {
-                temp.addAll(checkCombinations(i, j));
+                combinations.addAll(checkCombinations(i, j));
             }
         }
-        return temp;
+        return combinations;
     }
 
     private List<Block> checkCombinations(int row, int column) {
         return null;
-
     }
 }

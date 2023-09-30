@@ -1,6 +1,6 @@
 package GUI;
 
-public interface GraphicEntity {
+public interface GraphicalBlock {
 
 	
 		public void notifyChangeStatus();
