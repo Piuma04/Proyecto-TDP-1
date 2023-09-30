@@ -25,10 +25,6 @@ public abstract class Entity implements Equivalent, LogicEntity, Swappable {
 	public int getColumn() {
 		return posColumn;
 	}
-
-	public boolean isEmpty() {
-		return false; //=> solamente lo redefiniria Empty
-	}
 	
 	public abstract List<Block> getDestroyables(Board b);
 }

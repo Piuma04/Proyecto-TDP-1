@@ -24,7 +24,7 @@ public class Block implements Focusable {
 	}
 
 	public boolean isEmpty() {
-		return myEntity.isEmpty();
+		return myEntity.equals(new Empty());
 
 	}
 
