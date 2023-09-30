@@ -1,9 +1,13 @@
 package Logic;
 
 import java.util.List;
+<<<<<<< HEAD
 import java.util.LinkedList;
 import java.util.Set;
 import java.util.HashSet;
+=======
+import Entities.Interfaces.Equivalent;
+>>>>>>> branch 'master' of https://github.com/Piuma04/Proyecto-TDP-1.git
 
 import Entities.Block;
 import Entities.Entity;
