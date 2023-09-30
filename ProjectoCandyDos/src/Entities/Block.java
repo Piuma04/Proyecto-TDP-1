@@ -8,56 +8,55 @@ import Interfaces.Focusable;
 
 public class Block implements Focusable {
 
-	private Entity myEntity;
-	private Stack<Modifiers> myModifiers;
+    private Entity myEntity;
+    private Stack<Modifiers> myModifiers;
 
 	private boolean focused;
 
 	private GraphicalBlock graphicalBlock;
 
-	public Block() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public Entity getEntity() {
-		return myEntity;
-	}
+    public Block() {
+        // TODO Auto-generated constructor stub
+    }
 
-	public void setEntity(Entity e) {
-		myEntity = e;
+    public Entity getEntity() {
+        return myEntity;
+    }
 
-	}
+    public void setEntity(Entity e) {
+        myEntity = e;
 
-	public boolean isEmpty() {
-		return myEntity.equals(new Empty());
+    }
 
-	}
+    public boolean isEmpty() {
+        return myEntity.equals(new Empty());
 
-	public void createWrapped() {
-		myModifiers.push(new Jelly());
-	}
+    }
 
-	public void swapEntity(Block b) {
-		Entity e = b.getEntity();
-		b.setEntity(myEntity);
-		myEntity = e;
-	}
+    public void createWrapped() {
+        myModifiers.push(new Jelly());
+    }
 
-	public Equivalent popModifier() {
-		return myModifiers.pop();
-	}
+    public void swapEntity(Block b) {
+        Entity e = b.getEntity();
+        b.setEntity(myEntity);
+        myEntity = e;
+    }
 
-	public Entity destroyEntity() {
-		Entity e = myEntity;
-		myEntity = new Empty();
-		return e;
-	}
+    public Equivalent popModifier() {
+        return myModifiers.pop();
+    }
 
-	public boolean focus() {
-		focused = true;
-		graphicalBlock.notifyChangeStatus();
-		return true;
-	}
+    public Entity destroyEntity() {
+        Entity e = myEntity;
+        myEntity = new Empty();
+        return e;
+    }
+
+    public void pushModifier(Modifiers modifier) {
+        myModifiers.add(modifier);
+    }
 
 	@Override
 	public void defocus() {
@@ -72,5 +71,12 @@ public class Block implements Focusable {
 	 * +"-resaltado.png"; }
 	 */
 //TODO Hay que implementar este metodo, sirve para poner las imagenes a las entidades
+
+
+    public boolean focus() {
+        focused = true;
+        graphicalBlock.notifyChangeStatus();
+        return true;
+    }
 
 }

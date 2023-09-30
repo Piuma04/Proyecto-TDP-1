@@ -17,6 +17,13 @@ public class Stripped extends Entity {
 		this.isHorizontal = isHorizontal;
 	}
 
+    /* Constructor */
+    public Stripped(int posRow, int posColumn, Colour colour) {
+        this.posRow = posRow;
+        this.posColumn = posColumn;
+        this.colour = colour;
+    }
+    
 	@Override
 	public boolean isEquivalent(Entity e) {
 		return e.equals(this);

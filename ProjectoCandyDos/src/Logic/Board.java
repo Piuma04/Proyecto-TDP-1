@@ -27,40 +27,33 @@ public class Board {
     }
 
     public Set<Integer> fillBoard() {
-		Set<Integer> s = new HashSet<Integer>();
-		boolean canNext = false;
-		for(int j =COLUMNS; j>0 && s.size()<COLUMNS;j--)
-		{
-			for(int i =ROWS; i>0 && s.size()<COLUMNS;i--)
-			{
-				if(matriz[i][j].isEmpty() && !s.contains(j))
-				{
-					s.add(j);
-				}
-			}
-		}
-		for(Integer j : s)
-		{
-			for(int i = ROWS;i>0;i--)
-			{
-				if(matriz[i][j].isEmpty())
-				{
-					int nextEntity = i;
-					while(nextEntity>=0 && !canNext)
-					{
-						nextEntity--;
-						canNext = !matriz[i][j].isEmpty();
-					}
-					if(canNext)
-						matriz[i][j].swapEntity(matriz[nextEntity][j]);
-					//else
-						//rellenarColumnaConCaramelosNuevos(j);
-					canNext = false;
-				}
-			}
-		}
-		return s;
-	}
+        Set<Integer> s = new HashSet<Integer>();
+        boolean canNext = false;
+        for (int j = COLUMNS; j > 0 && s.size() < COLUMNS; j--) {
+            for (int i = ROWS; i > 0 && s.size() < COLUMNS; i--) {
+                if (matriz[i][j].isEmpty() && !s.contains(j)) {
+                    s.add(j);
+                }
+            }
+        }
+        for (Integer j : s) {
+            for (int i = ROWS; i > 0; i--) {
+                if (matriz[i][j].isEmpty()) {
+                    int nextEntity = i;
+                    while (nextEntity >= 0 && !canNext) {
+                        nextEntity--;
+                        canNext = !matriz[i][j].isEmpty();
+                    }
+                    if (canNext)
+                        matriz[i][j].swapEntity(matriz[nextEntity][j]);
+                    // else
+                    // rellenarColumnaConCaramelosNuevos(j);
+                    canNext = false;
+                }
+            }
+        }
+        return s;
+    }
 
     public void movePlayerDirection(int direction) {
         switch (direction) {
@@ -109,15 +102,14 @@ public class Board {
         return matriz[row][column];
     }
 
-    public List<Equivalent> destroyEntities(List<Block> l){
-		List<Equivalent> destroyed = new LinkedList<Equivalent>();
-		for(Block b: l)
-		{
-			destroyed.addAll(b.getEntity().getDestroyables(this));
-			b.destroyEntity();
-		}
-		return destroyed;
-	}
+    public List<Equivalent> destroyEntities(List<Block> l) {
+        List<Equivalent> destroyed = new LinkedList<Equivalent>();
+        for (Block b : l) {
+            //destroyed.addAll(b.getEntity().getDestroyables(this));
+            b.destroyEntity();
+        }
+        return destroyed;
+    }
 
     private void setPlayerPosition(int newRow, int newColumn) {
         if ((0 <= newRow) && (newRow < ROWS) && (0 <= newColumn) && (newColumn < COLUMNS)) {
@@ -153,18 +145,15 @@ public class Board {
         return destroyed;
     }
 
-    private List<Block> checkRemainingCombinations() 
-	{
-		List<Block> combinations = new LinkedList<Block>();
-		for(Integer j : fillBoard())
-		{
-			for(int i = 0;i<ROWS;i++)
-			{
-				combinations.addAll(checkCombinations(i,j));
-			}
-		}
-		return combinations;
-	}
+    private List<Block> checkRemainingCombinations() {
+        List<Block> combinations = new LinkedList<Block>();
+        for (Integer j : fillBoard()) {
+            for (int i = 0; i < ROWS; i++) {
+                combinations.addAll(checkCombinations(i, j));
+            }
+        }
+        return combinations;
+    }
 
     private List<Block> checkCombinations(int row, int column) {
         return null;
