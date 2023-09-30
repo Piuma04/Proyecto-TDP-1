@@ -42,7 +42,7 @@ public class Empty extends Entity {
 	public boolean equals(Jelly j) {
 		return false;
 	}
-	
+
 	@Override
 	public boolean equals(Empty e) {
 		return false;
@@ -55,7 +55,7 @@ public class Empty extends Entity {
 	}
 
 	@Override
-	//TODO seria siempre falso?
+	// TODO seria siempre falso?
 	public boolean isSwappable(Entity e) {
 		return false;
 	}

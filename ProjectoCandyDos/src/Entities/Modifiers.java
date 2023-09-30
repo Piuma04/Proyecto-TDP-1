@@ -33,5 +33,10 @@ public abstract class Modifiers implements Equivalent {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	@Override
+	public boolean equals(Empty e) {
+		return false;
+	}
 
 }
