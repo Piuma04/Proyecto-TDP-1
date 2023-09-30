@@ -168,6 +168,5 @@ public class Board {
 
     private List<Block> checkCombinations(int row, int column) {
         return null;
-
     }
 }
