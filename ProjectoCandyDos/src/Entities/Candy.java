@@ -40,15 +40,19 @@ public class Candy extends Entity {
 		return false;
 	}
 
+	@Override
+	public boolean equals(Empty e) {
+		return false;
+	}
+
 	// TODO GUI
 	public String getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	// TODO SWAPPABLE
 	public boolean isSwappable(Entity e) {
-		return true;
+		return e.canReceive(this);
 	}
 
 	public boolean canReceive(Candy c) {

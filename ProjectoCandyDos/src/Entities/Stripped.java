@@ -4,7 +4,7 @@ import java.util.List;
 
 import Logic.Board;
 
-public class Stripped extends Entity{
+public class Stripped extends Entity {
 
 	@Override
 	public boolean isEquivalent(Entity e) {
@@ -42,18 +42,12 @@ public class Stripped extends Entity{
 	}
 
 	@Override
-	public int getRow() {
-		// TODO Auto-generated method stub
-		return 0;
+	public boolean equals(Empty e) {
+		return false;
 	}
 
 	@Override
-	public int getColumn() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
+	// TODO GUI
 	public String getImage() {
 		// TODO Auto-generated method stub
 		return null;
@@ -61,8 +55,7 @@ public class Stripped extends Entity{
 
 	@Override
 	public boolean isSwappable(Entity e) {
-		// TODO Auto-generated method stub
-		return false;
+		return e.canReceive(this);
 	}
 
 	@Override
@@ -90,7 +83,7 @@ public class Stripped extends Entity{
 	}
 
 	@Override
-	//TODO
+	// TODO
 	public List<Block> getDestroyables(Board b) {
 		// TODO Auto-generated method stub
 		return null;

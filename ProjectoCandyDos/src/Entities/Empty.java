@@ -1,5 +1,9 @@
 package Entities;
 
+import java.util.List;
+
+import Logic.Board;
+
 public class Empty extends Entity {
 	/* Constructor */
 	// TODO
@@ -10,7 +14,8 @@ public class Empty extends Entity {
 	/* Methods */
 	@Override
 	public boolean isEquivalent(Entity e) {
-		return false;
+		return e.equals(this);
+		// o seria siempre falso?
 	}
 
 	@Override
@@ -37,6 +42,11 @@ public class Empty extends Entity {
 	public boolean equals(Jelly j) {
 		return false;
 	}
+	
+	@Override
+	public boolean equals(Empty e) {
+		return false;
+	}
 
 	@Override
 	// TODO GUI
@@ -45,6 +55,7 @@ public class Empty extends Entity {
 	}
 
 	@Override
+	//TODO seria siempre falso?
 	public boolean isSwappable(Entity e) {
 		return false;
 	}
@@ -71,6 +82,13 @@ public class Empty extends Entity {
 
 	public boolean isEmpty() {
 		return true;
+	}
+
+	@Override
+	// TODO
+	public List<Block> getDestroyables(Board b) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -1,6 +1,7 @@
 package Entities.Interfaces;
 
 import Entities.Candy;
+import Entities.Empty;
 import Entities.Entity;
 import Entities.Glazed;
 import Entities.Jelly;
@@ -14,4 +15,5 @@ public interface Equivalent {
 	public boolean equals(Wrapped w);
 	public boolean equals(Stripped s);
 	public boolean equals(Jelly j);
+	public boolean equals(Empty e);
 }
