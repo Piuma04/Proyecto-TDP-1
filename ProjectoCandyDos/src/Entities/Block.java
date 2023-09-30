@@ -2,14 +2,18 @@ package Entities;
 
 import java.util.Stack;
 
-import Interfaces.Equivalent;
-import Interfaces.Focusable;
 
-public class Block implements Focusable {
+import Interfaces.Equivalent;
+
+
+public class Block {
 
 	private Entity myEntity;
 	private Stack<Modifiers> myModifiers;
+	
+	
 
+	
 	public Block() {
 		// TODO Auto-generated constructor stub
 	}
@@ -48,13 +52,8 @@ public class Block implements Focusable {
 		return e;
 	}
 
-	public boolean focus() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
-	public void defocus() {
-		// TODO Auto-generated method stub
-	}
+	
 
 }

@@ -12,7 +12,7 @@ public class GUI extends JFrame implements KeyListener {
     public GUI() {
         setTitle("Candy Crush");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new GridLayout(numRows, numCols));
+        getContentPane().setLayout(new GridLayout(numRows, numCols));
 
         // Agregar el KeyListener para la navegación
         addKeyListener(this);
@@ -25,7 +25,7 @@ public class GUI extends JFrame implements KeyListener {
             for (int j = 0; j < numCols; j++) {
                 JButton button = new JButton(getRandomCandy());
                 candyButtons[i][j] = button;
-                add(button);
+                getContentPane().add(button);
             }
         }
 
