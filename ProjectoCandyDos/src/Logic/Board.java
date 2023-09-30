@@ -3,46 +3,52 @@ package Logic;
 import java.util.List;
 import Entities.Interfaces.Equivalent;
 
+import Entities.Block;
+
 public class Board {
-	private int posX, posY, rows, columns;
+	private int row, column, cantR, cantC;
 	private Block[][] matriz;
 	private Game myGame;
 	
 	
 	public int getRows() {
-		return rows;
+		return cantR;
 	}
 	
 	public int getColumns() {
-		return columns;
+		return cantC;
 	}
+	
 	
 	public void fillBoard() {
 		
 	}
+	
 	public void movePlayerDirection(int direction) {
 		switch(direction) {
 		case Juego.ABAJO:{
-			mover_jugador_auxiliar(posY + 1, posX);
+			setPlayerPosition(row + 1, column);
 			break;
 		}
 		case Juego.ARRIBA:{
-			mover_jugador_auxiliar(posY - 1, posX);
+			setPlayerPosition(row - 1, column);
 			break;
 		}
 		case Juego.IZQUIERDA:{
-			mover_jugador_auxiliar(posY, posX - 1);
+			setPlayerPosition(row, column - 1);
 			break;
 		}
 		case Juego.DERECHA:{
-			mover_jugador_auxiliar(posY, posX + 1);
+			setPlayerPosition(row, column + 1);
 			break;
 		}
 		}
 	}
+	
 	public PositionList<Equivalent> swap(int direction){
 		
 	}
+	
 	public Block getBlock(int row, int column) {
 		
 	}
@@ -51,18 +57,20 @@ public class Board {
 		
 	}
 	
+	
 	private void setPlayerPosition(int newRow, int newColumn)
 	{
-		posY = newRow;
-		posX = newColumn;
+		if ( (0 <= newRow) && (newRow < cantR) && (0 <= newColumn) && (newColumn < cantC)) {
+			if (matriz[newRow][newRow].focus()) {
+				matriz[row][column].defocus();
+				row = newRow;
+				column = newColumn;
+			}
+		}
 	}
 	private List<Equivalent> swapEntities()
 	{
 		
-	}
-	private Block getBlock(int row, int column)
-	{
-		return matriz[row][column];
 	}
 	private void checkRemainingCombinations()
 	{
