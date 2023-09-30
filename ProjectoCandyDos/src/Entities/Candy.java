@@ -1,14 +1,14 @@
 package Entities;
 
-public class Candy extends Entity{
-	
+public class Candy extends Entity {
+
 	/* Constructor */
 	public Candy(int posRow, int posColumn, Colour colour) {
 		this.posRow = posRow;
 		this.posColumn = posColumn;
 		this.colour = colour;
 	}
-	
+
 	/* Methods */
 	public boolean isEquivalent(Entity e) {
 		// TODO Auto-generated method stub
@@ -16,21 +16,21 @@ public class Candy extends Entity{
 	}
 
 	public boolean equals(Candy c) {
-		return c.getColour()==this.colour;
+		return c.getColour() == this.colour;
 	}
 
 	public boolean equals(Glazed g) {
 		return false;
 	}
-	
-	//TODO
+
+	// TODO
 	public boolean equals(Wrapped w) {
-		return w.getColour()==this.colour;
+		return w.getColour() == this.colour;
 	}
 
-	//TODO
+	// TODO
 	public boolean equals(Stripped s) {
-		return s.getColour()==this.colour;
+		return s.getColour() == this.colour;
 	}
 
 	public boolean equals(Jelly j) {
@@ -45,13 +45,19 @@ public class Candy extends Entity{
 		return this.posColumn;
 	}
 
-	//TODO SWAPPABLE
+	// TODO GUI
+	public String getImage() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// TODO SWAPPABLE
 	public boolean isSwappable(Entity e) {
 		return false;
 	}
 
 	public boolean canReceive(Candy c) {
-		//TODO faltaria ver para las combinaciones?
+		// TODO faltaria ver para las combinaciones?
 		return true;
 	}
 
@@ -60,12 +66,13 @@ public class Candy extends Entity{
 	}
 
 	public boolean canReceive(Stripped s) {
-		//TODO faltaria ver para las combinaciones?
+		// TODO faltaria ver para las combinaciones?
 		return true;
 	}
-	
+
 	public boolean canReceive(Wrapped w) {
-		//TODO faltaria ver para las combinaciones?
+		// TODO faltaria ver para las combinaciones?
 		return true;
 	}
+
 }
