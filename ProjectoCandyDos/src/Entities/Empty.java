@@ -10,7 +10,7 @@ public class Empty extends Entity {
 	public Empty(int posRow, int posColumn) {
 		this.posRow = posRow;
 		this.posColumn = posColumn;
-		colour = Colour.TRANSPARENT;
+		colour = 
 	}
 
 	public Empty() {

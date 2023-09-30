@@ -1,11 +1,6 @@
 package Entities;
 
 public enum Colour {
-	RED,
-	YELLOW,
-	GREEN,
-	PURPLE,
-	BLUE,
-	TRANSPARENT, //=> VACIA
-	GLAZED; //=> GLAZED // MERENGUE
+	RED, YELLOW, GREEN, PURPLE, BLUE, NONE, // => VACIA
+	GLAZED; // => GLAZED // MERENGUE
 }

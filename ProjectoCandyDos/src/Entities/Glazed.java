@@ -7,10 +7,10 @@ import Logic.Board;
 public class Glazed extends Entity {
 
 	/* Constructor */
-	public Glazed(int posRow, int posColumn, Colour colour) {
+	public Glazed(int posRow, int posColumn) {
 		this.posRow = posRow;
 		this.posColumn = posColumn;
-		this.colour = colour;
+		this.colour = Colour.GLAZED;
 	}
 
 	/* Methods */
