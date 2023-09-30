@@ -2,21 +2,21 @@ package Entities;
 
 import java.util.List;
 
-import GUI.GraphicEntity;
+
 import Interfaces.Equivalent;
-import Interfaces.Focusable;
-import Interfaces.LogicEntity;
+
+import Interfaces.LogicBlock;
 import Interfaces.Swappable;
 import Logic.Board;
 
-public abstract class Entity implements Equivalent, LogicEntity, Swappable, Focusable {
+public abstract class Entity implements Equivalent, Swappable, LogicBlock{
 	/* Attributes */
 	protected Colour colour;
 	protected int posRow;
 	protected int posColumn;
 	
-	protected boolean focused;
-	protected GraphicEntity graphicalEntity;
+
+	
 
 	/* Methods */
 	public Colour getColour() {
@@ -30,21 +30,11 @@ public abstract class Entity implements Equivalent, LogicEntity, Swappable, Focu
 	public int getColumn() {
 		return posColumn;
 	}
-	public boolean focus() {
-		focused = true;
-		graphicalEntity.notifyChangeStatus();
-		return true;
-	}
 	
-	@Override
-	public void defocus() {
-		focused = false;
-		graphicalEntity.notifyChangeStatus();
-	}
 	public void changePosition(int newRow, int newColumn) {
 		posRow = newRow;
 		posColumn = newColumn;
-		graphicalEntity.notifyChangePosition();;
+		
 	}
 	
 	/*private void uploadRepresetnativePictures(String path_img) {
