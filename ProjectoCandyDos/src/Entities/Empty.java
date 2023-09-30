@@ -3,6 +3,7 @@ package Entities;
 import java.util.LinkedList;
 import java.util.List;
 
+import Interfaces.Equivalent;
 import Logic.Board;
 
 public class Empty extends Entity {
@@ -10,11 +11,11 @@ public class Empty extends Entity {
 	public Empty(int posRow, int posColumn) {
 		this.posRow = posRow;
 		this.posColumn = posColumn;
-		colour = 
+		colour = Colour.NONE;
 	}
 
 	public Empty() {
-		this(0, 0); //TODO verificar
+		this(0, 0); // TODO verificar
 	}
 
 	/* Methods */
@@ -92,8 +93,8 @@ public class Empty extends Entity {
 
 	@Override
 	// TODO
-	public List<Block> getDestroyables(Board b) {
-		return new LinkedList<Block>(); //TODO seria una lista vacia
+	public List<Equivalent> getDestroyables(Board b) {
+		return new LinkedList<Equivalent>(); // TODO seria una lista vacia
 	}
 
 }

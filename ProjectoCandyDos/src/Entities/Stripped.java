@@ -2,6 +2,7 @@ package Entities;
 
 import java.util.List;
 
+import Interfaces.Equivalent;
 import Logic.Board;
 
 public class Stripped extends Entity {
@@ -88,7 +89,7 @@ public class Stripped extends Entity {
 
 	@Override
 	// TODO
-	public List<Block> getDestroyables(Board b) {
+	public List<Equivalent> getDestroyables(Board b) {
 		return null;
 	}
 

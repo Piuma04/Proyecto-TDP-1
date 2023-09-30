@@ -2,6 +2,7 @@ package Entities;
 
 import java.util.List;
 
+import Interfaces.Equivalent;
 import Logic.Board;
 
 public class Glazed extends Entity {
@@ -84,7 +85,7 @@ public class Glazed extends Entity {
 
 	@Override
 	// TODO
-	public List<Block> getDestroyables(Board b) {
+	public List<Equivalent> getDestroyables(Board b) {
 		return null;
 	}
 

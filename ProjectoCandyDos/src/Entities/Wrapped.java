@@ -2,6 +2,7 @@ package Entities;
 
 import java.util.List;
 
+import Interfaces.Equivalent;
 import Logic.Board;
 
 public class Wrapped extends Entity {
@@ -83,8 +84,7 @@ public class Wrapped extends Entity {
 
 	@Override
 	// TODO
-	public List<Block> getDestroyables(Board b) {
-		// TODO Auto-generated method stub
+	public List<Equivalent> getDestroyables(Board b) {
 		return null;
 	}
 

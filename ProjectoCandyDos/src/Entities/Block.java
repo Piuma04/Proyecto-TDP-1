@@ -12,6 +12,7 @@ public class Block implements Focusable {
 	private Stack<Modifiers> myModifiers;
 
 	private boolean focused;
+
 	private GraphicalBlock graphicalBlock;
 
 	public Block() {
@@ -63,12 +64,13 @@ public class Block implements Focusable {
 		focused = false;
 		graphicalBlock.notifyChangeStatus();
 	}
+
 	/*
 	 * private void uploadRepresetnativePictures(String path_img) {
 	 * imagenes_representativas = new String [2]; imagenes_representativas[0] =
 	 * path_img + color +".png"; imagenes_representativas[1] = path_img + color
 	 * +"-resaltado.png"; }
 	 */
-//Hay que implementar este metodo, sirve para poner las imagenes a las entidades
+//TODO Hay que implementar este metodo, sirve para poner las imagenes a las entidades
 
 }

@@ -43,5 +43,5 @@ public abstract class Entity implements Equivalent, Swappable, LogicBlock{
 		imagenes_representativas[1] = path_img + color +"-resaltado.png";
 	}*/
 	//Hay que implementar este metodo, sirve para poner las imagenes a las entidades
-	public abstract List<Block> getDestroyables(Board b);
+	public abstract List<Equivalent> getDestroyables(Board b);
 }
