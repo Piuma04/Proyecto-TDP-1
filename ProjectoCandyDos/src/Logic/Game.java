@@ -1,5 +1,7 @@
 package Logic;
 
+import java.awt.EventQueue;
+
 import GUI.GUI;
 
 public class Game {
@@ -11,9 +13,16 @@ public class Game {
 	
     private Board myBoard;
     private Level myLevel;
-    private LevelGenerator myLevelGenerator;
     private GUI myGui;
+    private LevelGenerator myLevelGenerator;
     private int lives;
+    
+    public Game() {
+    	myBoard = new Board(this);
+    	myLevel = myLevelGenerator.generateLevel("str", myBoard);
+		myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
+		asociar_entidades_logicas_graficas();
+	}
     
     public void update() {
         
@@ -30,4 +39,16 @@ public class Game {
     public void move(int direction) {
         myBoard.movePlayerDirection(direction);
     }
+    public static void main(String [] args) {
+		EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                	new Game();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+	}
 }
+

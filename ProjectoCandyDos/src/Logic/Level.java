@@ -14,6 +14,7 @@ public class Level {
     public Level(Entity toDestroyEntityType, int amount, int remainingMoves, int timeLimit) {
         myGoal = new Goal(amount, toDestroyEntityType);
         myClock = new Clock();
+        
     }
 
     public boolean update(List<Equivalent> l) {
@@ -27,4 +28,5 @@ public class Level {
     public boolean lost() {
         return !hasMove() || !(myClock.getTime() < timeLimit * 1000l);
     }
+    
 }
