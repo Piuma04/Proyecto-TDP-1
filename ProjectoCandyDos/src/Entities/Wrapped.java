@@ -1,5 +1,9 @@
 package Entities;
 
+import java.util.List;
+
+import Logic.Board;
+
 public class Wrapped extends Entity{
 	
 	/* Constructor */
@@ -84,6 +88,12 @@ public class Wrapped extends Entity{
 	public boolean canReceive(Wrapped w) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public List<Block> getDestroyables(Board b) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

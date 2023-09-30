@@ -1,7 +1,14 @@
 package Logic;
+
 import GUI.GUI;
 
 public class Game {
+	
+	public static final int UP = 15000;
+	public static final int DOWN = 15001;
+	public static final int LEFT = 15002;
+	public static final int RIGHT = 15003;
+	
     private Board myBoard;
     private Level myLevel;
     private LevelGenerator myLevelGenerator;

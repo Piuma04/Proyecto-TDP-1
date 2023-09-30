@@ -1,17 +1,17 @@
 package Logic;
 
 import java.util.List;
-<<<<<<< HEAD
+
 import java.util.LinkedList;
 import java.util.Set;
-import java.util.HashSet;
-=======
-import Entities.Interfaces.Equivalent;
->>>>>>> branch 'master' of https://github.com/Piuma04/Proyecto-TDP-1.git
 
 import Entities.Block;
 import Entities.Entity;
-import Entities.Interfaces.Equivalent;
+import Interfaces.Equivalent;
+
+import java.util.HashSet;
+
+
 
 public class Board {
 	private int row, column,cantR,cantC;
@@ -29,24 +29,24 @@ public class Board {
 	
 	
 	public void fillBoard() {
-		a
+		
 	}
 	
 	public void movePlayerDirection(int direction) {
 		switch(direction) {
-		case myGame.ABAJO:{
+		case Game.DOWN:{
 			setPlayerPosition(row + 1, column);
 			break;
 		}
-		case myGame.ARRIBA:{
+		case Game.UP:{
 			setPlayerPosition(row - 1, column);
 			break;
 		}
-		case myGame.IZQUIERDA:{
+		case Game.LEFT:{
 			setPlayerPosition(row, column - 1);
 			break;
 		}
-		case myGame.DERECHA:{
+		case Game.RIGHT:{
 			setPlayerPosition(row, column + 1);
 			break;
 		}
@@ -55,23 +55,24 @@ public class Board {
 	
 	public List<Equivalent> swap(int direction){
 		switch(direction) {
-		case myGame.ABAJO:{
+		case Game.DOWN:{
 			swapEntities(row+1, column);
 			break;
 		}
-		case myGame.ARRIBA:{
+		case Game.UP:{
 			swapEntities(row - 1, column);
 			break;
 		}
-		case myGame.IZQUIERDA:{
+		case Game.LEFT:{
 			swapEntities(row, column - 1);
 			break;
 		}
-		case myGame.DERECHA:{
+		case Game.RIGHT:{
 			swapEntities(row, column + 1);
 			break;
 		}
 	}
+		return null; //deber retornar bien
 	}
 	
 	public Block getBlock(int row, int column) {

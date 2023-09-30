@@ -1,14 +1,11 @@
 package Entities;
 
-<<<<<<< HEAD
-public class Stripped extends Entity{
-=======
+
 import java.util.List;
 
 import Logic.Board;
 
 public class Stripped extends Entity {
->>>>>>> branch 'master' of https://github.com/Piuma04/Proyecto-TDP-1.git
 
 	@Override
 	public boolean isEquivalent(Entity e) {
@@ -87,8 +84,7 @@ public class Stripped extends Entity {
 		return false;
 	}
 
-<<<<<<< HEAD
-=======
+
 	@Override
 	// TODO
 	public List<Block> getDestroyables(Board b) {
@@ -96,5 +92,4 @@ public class Stripped extends Entity {
 		return null;
 	}
 
->>>>>>> branch 'master' of https://github.com/Piuma04/Proyecto-TDP-1.git
 }
