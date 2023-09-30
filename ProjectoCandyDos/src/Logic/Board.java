@@ -29,7 +29,7 @@ public class Board {
 	
 	
 	public void fillBoard() {
-		
+		a
 	}
 	
 	public void movePlayerDirection(int direction) {
