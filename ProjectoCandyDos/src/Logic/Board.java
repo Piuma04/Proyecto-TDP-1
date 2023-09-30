@@ -1,32 +1,30 @@
 package Logic;
 
+import java.util.List;
+
 public class Board {
 	private int posX, posY, rows, columns;
-	private Block matriz [][];
+	private Block[][] matriz;
 	private Game myGame;
-	
-	
-	public int getRows() {
-		return rows;
+	private void setPlayerPosition(int newRow, int newColumn)
+	{
+		posY = newRow;
+		posX = newColumn;
 	}
-	
-	public int getColumns() {
-		return rows;
-	}
-	
-	public void fillBoard() {
+	private List<Equivalent> swapEntities()
+	{
 		
 	}
-	public void movePlayerDirection(int direction) {
+	private Block getBlock(int row, int column)
+	{
+		return matriz[row][column];
+	}
+	private void checkRemainingCombinations()
+	{
 		
 	}
-	public PositionList<Equivalent> swap(int direction){
-		
-	}
-	public Block getBlock(int row, int column) {
-		
-	}
-	public PositionList<Equivalent> destroyEntities(PositionList<Block> l){
+	private List<Block> checkCombinations(int row, int column)
+	{
 		
 	}
 }
