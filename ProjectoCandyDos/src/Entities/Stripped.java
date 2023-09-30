@@ -7,6 +7,13 @@ import Logic.Board;
 
 public class Stripped extends Entity {
 
+    /* Constructor */
+    public Stripped(int posRow, int posColumn, Colour colour) {
+        this.posRow = posRow;
+        this.posColumn = posColumn;
+        this.colour = colour;
+    }
+    
 	@Override
 	public boolean isEquivalent(Entity e) {
 		// TODO Auto-generated method stub
