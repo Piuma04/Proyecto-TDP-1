@@ -21,37 +21,17 @@ public class Game {
 
     public Game() {
         myBoard = new Board(this);
-        myLevel = LevelGenerator.generateLevel("src/Levels/Level1.txt", myBoard);
-        //myBoard.showMatrix();
+        loadLevel(1);
         // myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
         // asociar_entidades_logicas_graficas();
     }
 
-    public static void main(String[] args) {
-        Game g = new Game();
-    }
-
-    private void assocciateLogicalGraphicBlocks() {
-        Block e;
-        GraphicalBlock eg;
-
-        for (int r = 0; r < myBoard.getRows(); r++) {
-            for (int c = 0; c < myBoard.getColumns(); c++) {
-                e = myBoard.getBlock(r, c);
-                eg = myGui.agregar_entidad(e);
-                e.setGraphicBlock(eg);
-            }
-        }
-        myGui.setVisible(true);
-
-    }
-
     public void update() {
-
+        
     }
 
     public void loadLevel(int level) {
-
+        myLevel = LevelGenerator.generateLevel("src/Levels/Level" + String.valueOf(level) + ".txt", myBoard);
     }
 
     public void swap(int direction) {
@@ -61,10 +41,31 @@ public class Game {
     public void move(int direction) {
         myBoard.movePlayerDirection(direction);
     }
-
     
-     /*public static void main(String[] args) { EventQueue.invokeLater(new
-      Runnable() { public void run() { try { new Game(); } catch (Exception e) {
-      e.printStackTrace(); } } }); }*/
-     
+    private void assocciateLogicalGraphicBlocks() {
+        Block e;
+        GraphicalBlock eg;
+        
+        for (int r = 0; r < myBoard.getRows(); r++) {
+            for (int c = 0; c < myBoard.getColumns(); c++) {
+                e = myBoard.getBlock(r, c);
+                eg = myGui.agregar_entidad(e);
+                e.setGraphicBlock(eg);
+            }
+        }
+        myGui.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    new Game();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }
