@@ -288,4 +288,14 @@ public class Board {
 		}
 		return false;
 	}
+	
+    //DEBUG
+    public void showMatrix() {
+        for (Block[] row : matriz) {
+            for (Block block : row) {
+                System.out.print(block.getEntity().toString() + "   ");
+            }
+            System.out.println();
+        }
+    }
 }

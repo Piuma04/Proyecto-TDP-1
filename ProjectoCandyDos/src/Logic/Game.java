@@ -22,6 +22,7 @@ public class Game {
     public Game() {
         myBoard = new Board(this);
         loadLevel(1);
+        myBoard.showMatrix();
         // myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
         // asociar_entidades_logicas_graficas();
     }
