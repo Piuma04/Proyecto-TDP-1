@@ -141,11 +141,8 @@ public class Board {
 
 	public void setPlayerPosition(int newRow, int newColumn) {
 
-		if (matrix[newRow][newColumn].focus()) {
-			matrix[row][column].defocus();
-			row = newRow;
-			column = newColumn;
-		}
+		matrix[newRow][newColumn].focus();
+			
 
 	}
 
