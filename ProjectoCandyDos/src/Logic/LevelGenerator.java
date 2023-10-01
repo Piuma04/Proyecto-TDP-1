@@ -57,7 +57,7 @@ public class LevelGenerator {
             for (int r = 0; r < board.getRows(); r++) {
                 candys = lines.get(r+1).split(",");
                 for (int c = 0; c < board.getColumns(); c++) {
-                    String id = candys[r * board.getRows() + c];
+                    String id = candys[c];
                     Block block = board.getBlock(r, c);
                     Entity e = createEntity(id, r, c);
                     for (int i = 1; i < id.length(); i++) if (id.charAt(i) == 'J')

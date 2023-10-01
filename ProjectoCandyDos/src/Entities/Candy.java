@@ -86,4 +86,5 @@ public class Candy extends Entity {
 		return null;
 	}
 
+    public String toString() { return "Candy("+this.posRow+", "+this.posColumn+", "+this.colour+")"; }
 }

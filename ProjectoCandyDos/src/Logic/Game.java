@@ -22,8 +22,13 @@ public class Game {
     public Game() {
         myBoard = new Board(this);
         myLevel = LevelGenerator.generateLevel("src/Levels/Level1.txt", myBoard);
+        myBoard.showMatrix();
         // myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
         // asociar_entidades_logicas_graficas();
+    }
+
+    public static void main(String[] args) {
+        Game g = new Game();
     }
 
     private void assocciateLogicalGraphicBlocks() {
