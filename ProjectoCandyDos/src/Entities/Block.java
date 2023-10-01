@@ -75,9 +75,8 @@ public class Block implements Focusable, LogicBlock{
 	
 	  public void uploadRepresetnativePictures() {
 		 images = new String [2]; 
-		System.out.println("/imagenes/vacio-"+myEntity.getColour()+".png"); 
-		 if(myEntity.getColour() == Colour.RED) images[0] = "/imagenes/vacio-"+myEntity.getColour()+".png";
-		 else images[0] = "/imagenes/vacio.png"; 
+		 
+		 images[0] = "/imagenes/vacio.png"; 
 		 images[1] = "/imagenes/vacio-resaltado.png"; 
 		 }
 	
