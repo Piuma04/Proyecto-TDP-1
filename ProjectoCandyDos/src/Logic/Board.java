@@ -182,18 +182,18 @@ public class Board {
 
 	private List<Block> checkCombinations(int row, int column) {
 		List<Block> toReturn = new LinkedList<Block>();
-		if (checkMatch3(row, column, toReturn)) {
-		} else if (checkMatch4(row, column, toReturn)) { // TODO falta verificar si es horizontal o vertical
-		} else if (checkMatchT(row, column, toReturn)) {
+		if (match3(row, column, toReturn)) {
+		} else if (match4(row, column, toReturn)) { // TODO falta verificar si es horizontal o vertical
+		} else if (matchT(row, column, toReturn)) {
 			matrix[row][column].createWrapped();
-		} else if (checkMatchL(row, column, toReturn)) {
+		} else if (matchL(row, column, toReturn)) {
 			matrix[row][column].createWrapped();
 		} else {
 		} // no hay combinacion
 		return toReturn;
 	}
 
-	private boolean checkMatch3(int row, int column, List<Block> list) {
+	private boolean match3(int row, int column, List<Block> list) {
 		List<Block> toAdd = new LinkedList<Block>();
 		boolean toRet = false;
 		Entity ent = matrix[row][column].getEntity();
@@ -202,79 +202,14 @@ public class Board {
 		if (check3Medio(row, column, list)) // se fija vertical y horizontalmente
 			return true;
 
-		// hoz derecha
-		for (int c = column; c < matrix[0].length && !toRet; c++) {
-			if (matrix[row][c].getEntity().getColour() == ent.getColour()) {
-				cont++;
-				toAdd.add(matrix[row][c]);
-				if (cont == 3)
-					toRet = true;
-			} else
-				break;
-		}
-		if (toRet) {
-			list.addAll(toAdd);
-			list.add(matrix[row][column]);
-			return toRet;
-		}
-
-		// ver abajo
-		toRet = false;
-		cont = 0;
-		toAdd = new LinkedList<Block>();
-		for (int r = row; row < matrix.length && !toRet; r++) {
-			if (matrix[r][column].getEntity().getColour() == ent.getColour()) {
-				cont++;
-				toAdd.add(matrix[r][column]);
-				if (cont == 3)
-					toRet = true;
-			} else
-				break;
-		}
-		if (toRet) {
-			list.addAll(toAdd);
-			list.add(matrix[row][column]);
-			return toRet;
-		}
-
-		// ver arriba
-		toRet = false;
-		cont = 0;
-		toAdd = new LinkedList<Block>();
-		for (int r = row; r >= 0 && !toRet; r--) {
-			if (matrix[r][column].getEntity().getColour() == ent.getColour()) {
-				cont++;
-				toAdd.add(matrix[r][column]);
-				if (cont == 3)
-					toRet = true;
-			} else
-				break;
-		}
-		if (toRet) {
-			list.addAll(toAdd);
-			list.add(matrix[row][column]);
-			return toRet;
-		}
-
-		// hoz izq
-		toRet = false;
-		cont = 0;
-		toAdd = new LinkedList<Block>();
-		for (int c = column; c >= 0 && !toRet; c--) {
-			if (matrix[row][c].getEntity().getColour() == ent.getColour()) {
-				cont++;
-				toAdd.add(matrix[row][c]);
-				if (cont == 3)
-					toRet = true;
-			} else
-				break;
-		}
-
-		if (toRet) {
-			list.addAll(toAdd);
-			list.add(matrix[row][column]);
-			return toRet;
-		}
+		if (check3Arriba(row, column, list))
+			return true;
+		else if (check3Abajo(row, column, list))
+			return true;
+		else if (check3Der(row, column, list))
+			return true;
+		else if (check3Izq(row, column, list))
+			return true;
 
 		return false;
 
@@ -282,7 +217,7 @@ public class Board {
 
 	private boolean check3Medio(int row, int column, List<Block> list) {
 		// uno es vertical y el otro horizontal
-		return match3medioH(row, column, list) || match3medioV(row, column, list);
+		return check3MedioH(row, column, list) || check3MedioV(row, column, list);
 
 	}
 
@@ -312,8 +247,110 @@ public class Board {
 		return false;
 
 	}
-	
-	private boolean checkMatch4(int row, int column, List<Block> list) {
+
+	private boolean check3Arriba(int row, int column, List<Block> list) {
+		// ver arriba
+		List<Block> toAdd = new LinkedList<Block>();
+		boolean toRet = false;
+		Entity ent = matrix[row][column].getEntity();
+		int cont = 0;
+		toRet = false;
+		cont = 0;
+		toAdd = new LinkedList<Block>();
+		for (int r = row; r >= 0 && !toRet; r--) {
+			if (matrix[r][column].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matrix[r][column]);
+				if (cont == 3)
+					toRet = true;
+			} else
+				break;
+		}
+		if (toRet) {
+			list.addAll(toAdd);
+			list.add(matrix[row][column]);
+			return toRet;
+		}
+		return false;
+	}
+
+	private boolean check3Abajo(int row, int column, List<Block> list) {
+		List<Block> toAdd = new LinkedList<Block>();
+		boolean toRet = false;
+		Entity ent = matrix[row][column].getEntity();
+		int cont = 0;
+		// ver abajo
+		toRet = false;
+		cont = 0;
+		toAdd = new LinkedList<Block>();
+		for (int r = row; row < matrix.length && !toRet; r++) {
+			if (matrix[r][column].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matrix[r][column]);
+				if (cont == 3)
+					toRet = true;
+			} else
+				break;
+		}
+		if (toRet) {
+			list.addAll(toAdd);
+			list.add(matrix[row][column]);
+			return toRet;
+		}
+		return false;
+	}
+
+	private boolean check3Der(int row, int column, List<Block> list) {
+		List<Block> toAdd = new LinkedList<Block>();
+		boolean toRet = false;
+		Entity ent = matrix[row][column].getEntity();
+		int cont = 0;
+		// hoz derecha
+		for (int c = column; c < matrix[0].length && !toRet; c++) {
+			if (matrix[row][c].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matrix[row][c]);
+				if (cont == 3)
+					toRet = true;
+			} else
+				break;
+		}
+		if (toRet) {
+			list.addAll(toAdd);
+			list.add(matrix[row][column]);
+			return toRet;
+		}
+		return false;
+	}
+
+	private boolean check3Izq(int row, int column, List<Block> list) {
+		List<Block> toAdd = new LinkedList<Block>();
+		boolean toRet = false;
+		Entity ent = matrix[row][column].getEntity();
+		int cont = 0;
+		// hoz izq
+		toRet = false;
+		cont = 0;
+		toAdd = new LinkedList<Block>();
+		for (int c = column; c >= 0 && !toRet; c--) {
+			if (matrix[row][c].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matrix[row][c]);
+				if (cont == 3)
+					toRet = true;
+			} else
+				break;
+		}
+
+		if (toRet) {
+			list.addAll(toAdd);
+			list.add(matrix[row][column]);
+			return toRet;
+		}
+		return false;
+	}
+
+	private boolean match4(int row, int column, List<Block> list) {
 		List<Block> toAdd = new LinkedList<Block>();
 		boolean toRet = false;
 		Entity ent = matrix[row][column].getEntity();
@@ -440,26 +477,20 @@ public class Board {
 		return false;
 	}
 
-	private boolean match3Arriba(int row, int column, List<Block> list) {
+	
 
-	}
-
-	private boolean match3Abajo(int row, int column, List<Block> list) {
-
-	}
-
-	private boolean checkMatchT(int row, int column, List<Block> list) {
+	private boolean matchT(int row, int column, List<Block> list) {
 		// T
-		if (check3MedioH(row, column, list) && (match3Arriba(row, column, list) || match3Abajo(row, column, list)))
+		if (check3MedioH(row, column, list) && (check3Arriba(row, column, list) || check3Abajo(row, column, list)))
 			return true;
 
 		// T "apaisada"
-		if (check3MedioV(row, column, list)
-				&& (match3Derecha(row, column, list) || match3.Izquierda(row, column, list)))
+		if (check3MedioV(row, column, list) && (check3Der(row, column, list) || check3Izq(row, column, list)))
 			return false;
+		return false;
 	}
 
-	private boolean checkMatchL(int row, int column, List<Block> list) {
+	private boolean matchL(int row, int column, List<Block> list) {
 		return false;
 	}
 
