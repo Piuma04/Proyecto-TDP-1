@@ -22,7 +22,7 @@ public class Game {
     public Game() {
         myBoard = new Board(this);
         myLevel = LevelGenerator.generateLevel("src/Levels/Level1.txt", myBoard);
-        myBoard.showMatrix();
+        //myBoard.showMatrix();
         // myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
         // asociar_entidades_logicas_graficas();
     }
@@ -62,9 +62,9 @@ public class Game {
         myBoard.movePlayerDirection(direction);
     }
 
-    /*
-     * public static void main(String[] args) { EventQueue.invokeLater(new
-     * Runnable() { public void run() { try { new Game(); } catch (Exception e) {
-     * e.printStackTrace(); } } }); }
-     */
+    
+     /*public static void main(String[] args) { EventQueue.invokeLater(new
+      Runnable() { public void run() { try { new Game(); } catch (Exception e) {
+      e.printStackTrace(); } } }); }*/
+     
 }

@@ -42,7 +42,7 @@ public class GUI extends JFrame {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		
-		upperText = new JLabel("Esta es una versión super simplificada del Candy-Crush");
+		upperText = new JLabel("( ͡°( ͡° ͜ʖ( ͡° ͜ʖ ͡°)ʖ ͡°) ͡°)");
 		
 		mainPanel = new JPanel();
 		mainPanel.setSize(size_label * rows, size_label * columns);

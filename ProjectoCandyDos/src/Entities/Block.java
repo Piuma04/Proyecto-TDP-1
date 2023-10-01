@@ -24,7 +24,7 @@ public class Block implements Focusable, LogicBlock{
     public Block(int r, int c) {
         row = r;
         column = c;
-        typeOfBlock = "empty";
+        typeOfBlock = "empty"; //deberia podes ser varios ( con gelatina, etc) tal vez se lo pueda pasar el modifier
         uploadRepresetnativePictures("/imagenes/");
     }
 
