@@ -23,6 +23,7 @@ public class Stripped extends Entity {
 		this.posRow = posRow;
 		this.posColumn = posColumn;
 		this.colour = colour;
+		isHorizontal=true; //DEFAULT
 	}
 
 	@Override
@@ -96,7 +97,6 @@ public class Stripped extends Entity {
 	}
 
 	@Override
-	// TODO
 	public List<Equivalent> getDestroyables(Board b) {
 		List<Equivalent> toReturn = new LinkedList<Equivalent>();
 		if (isHorizontal)
@@ -105,7 +105,7 @@ public class Stripped extends Entity {
 		else
 			for (int r = 0; r < b.getRows(); r++)
 				toReturn.add(b.getBlock(r, posColumn).getEntity());
-		return toReturn;
+		return toReturn;	
 	}
 
 	public String toString() {
