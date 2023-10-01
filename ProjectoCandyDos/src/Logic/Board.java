@@ -76,19 +76,19 @@ public class Board {
 	public void movePlayerDirection(int direction) {
 		switch (direction) {
 		case Game.DOWN: {
-			setPlayerPosition(row + 1, column);
+			movePlayerPosition(row + 1, column);
 			break;
 		}
 		case Game.UP: {
-			setPlayerPosition(row - 1, column);
+			movePlayerPosition(row - 1, column);
 			break;
 		}
 		case Game.LEFT: {
-			setPlayerPosition(row, column - 1);
+			movePlayerPosition(row, column - 1);
 			break;
 		}
 		case Game.RIGHT: {
-			setPlayerPosition(row, column + 1);
+			movePlayerPosition(row, column + 1);
 			break;
 		}
 		}
@@ -129,14 +129,23 @@ public class Board {
 		return destroyed;
 	}
 
-	private void setPlayerPosition(int newRow, int newColumn) {
+	private void movePlayerPosition(int newRow, int newColumn) {
 		if ((0 <= newRow) && (newRow < ROWS) && (0 <= newColumn) && (newColumn < COLUMNS)) {
-			if (matrix[newRow][newRow].focus()) {
+			if (matrix[newRow][newColumn].focus()) {
 				matrix[row][column].defocus();
 				row = newRow;
 				column = newColumn;
 			}
 		}
+	}
+	public void setPlayerPosition(int newRow, int newColumn) {
+		
+			if (matrix[newRow][newColumn].focus()) {
+				matrix[row][column].defocus();
+				row = newRow;
+				column = newColumn;
+			}
+		
 	}
 
 	private List<Equivalent> swapEntities(int newRow, int newColumn) {

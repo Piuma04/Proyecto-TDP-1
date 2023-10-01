@@ -22,6 +22,7 @@ public class Block implements Focusable, LogicBlock{
 	private String [] images;
 
     public Block(int r, int c) {
+    	focused = false;
         row = r;
         column = c;
         typeOfBlock = "empty"; //deberia podes ser varios ( con gelatina, etc) tal vez se lo pueda pasar el modifier
@@ -75,8 +76,8 @@ public class Block implements Focusable, LogicBlock{
 	
 	  private void uploadRepresetnativePictures(String path_img) {
 		 images = new String [2]; 
-		 images[0] = path_img + typeOfBlock +".png"; 
-		 images[1] = path_img + typeOfBlock +"-resaltado.png"; 
+		 images[0] = "/imagenes/vacio.png"; 
+		 images[1] = "/imagenes/vacio-resaltado.png"; 
 		 }
 	
 
