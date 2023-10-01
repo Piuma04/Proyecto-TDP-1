@@ -183,12 +183,13 @@ public class Board {
     private List<Block> checkCombinations(int row, int column) {
         List<Block> toReturn = new LinkedList<Block>();
         checkMatch3(row, column, toReturn);
-        checkMatch4(row, column, toReturn);
-        checkMatchT(row, column, toReturn);
-        checkMatchL(row, column, toReturn);
+        //checkMatch4(row, column, toReturn);
+        //checkMatchT(row, column, toReturn);
+        //checkMatchL(row, column, toReturn);
         return toReturn;
     }
-
+   
+    
     private boolean checkMatch3(int row, int column, List<Block> list) {
         List<Block> toAdd = new LinkedList<Block>();
         boolean toRet = false;
@@ -206,7 +207,6 @@ public class Board {
                 break;
         }
 
-<<<<<<< HEAD
 		// hoz derecha
 		for (int c = column; c < matriz[0].length && !toRet; c++) {
 			if (matriz[row][c].getEntity().getColour() == ent.getColour()) {
@@ -260,6 +260,7 @@ public class Board {
 		if (toRet) {
 			list.addAll(toAdd);
 			return toRet;
+		}
 
 		toRet = false;
 		cont = 0;
@@ -280,9 +281,7 @@ public class Board {
 			list.addAll(toAdd);
 			return toRet;
 		}
-		return false;
-	}
-=======
+		
         if (toRet) {
             list.addAll(toAdd);
             return toRet;
@@ -315,5 +314,4 @@ public class Board {
         return toRet;
 
     }
->>>>>>> 12fe90cf765a86330639fcc1f742f2ec2624269f
 }
