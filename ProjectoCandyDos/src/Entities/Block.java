@@ -26,7 +26,6 @@ public class Block implements Focusable, LogicBlock{
         row = r;
         column = c;
         typeOfBlock = "empty"; //deberia podes ser varios ( con gelatina, etc) tal vez se lo pueda pasar el modifier
-        uploadRepresetnativePictures("/imagenes/");
     }
 
     public Entity getEntity() {
@@ -74,8 +73,9 @@ public class Block implements Focusable, LogicBlock{
 	}
 
 	
-	  private void uploadRepresetnativePictures(String path_img) {
+	  public void uploadRepresetnativePictures() {
 		 images = new String [2]; 
+		 
 		 images[0] = "/imagenes/vacio.png"; 
 		 images[1] = "/imagenes/vacio-resaltado.png"; 
 		 }

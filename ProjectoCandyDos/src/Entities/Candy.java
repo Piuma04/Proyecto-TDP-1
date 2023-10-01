@@ -83,7 +83,7 @@ public class Candy extends Entity {
 	@Override
 	//TODO
 	public List<Equivalent> getDestroyables(Board b) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

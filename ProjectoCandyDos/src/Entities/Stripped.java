@@ -1,5 +1,6 @@
 package Entities;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import Interfaces.Equivalent;
@@ -17,13 +18,14 @@ public class Stripped extends Entity {
 		this.isHorizontal = isHorizontal;
 	}
 
-    /* Constructor */
-    public Stripped(int posRow, int posColumn, Colour colour) {
-        this.posRow = posRow;
-        this.posColumn = posColumn;
-        this.colour = colour;
-    }
-    
+	/* Constructor */
+	public Stripped(int posRow, int posColumn, Colour colour) {
+		this.posRow = posRow;
+		this.posColumn = posColumn;
+		this.colour = colour;
+		isHorizontal=true; //DEFAULT
+	}
+
 	@Override
 	public boolean isEquivalent(Entity e) {
 		return e.equals(this);
@@ -95,10 +97,18 @@ public class Stripped extends Entity {
 	}
 
 	@Override
-	// TODO
 	public List<Equivalent> getDestroyables(Board b) {
-		return null;
+		List<Equivalent> toReturn = new LinkedList<Equivalent>();
+		if (isHorizontal)
+			for (int c = 0; c < b.getColumns(); c++)
+				toReturn.add(b.getBlock(posRow, c).getEntity());
+		else
+			for (int r = 0; r < b.getRows(); r++)
+				toReturn.add(b.getBlock(r, posColumn).getEntity());
+		return toReturn;	
 	}
 
-	public String toString() { return setStringColor("S"); }
+	public String toString() {
+		return setStringColor("S");
+	}
 }

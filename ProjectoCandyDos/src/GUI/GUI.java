@@ -12,6 +12,9 @@ import javax.swing.JPanel;
 import Interfaces.LogicBlock;
 import Logic.Game;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 
 
 
@@ -24,10 +27,9 @@ public class GUI extends JFrame {
 	
 	protected Cell celda_1_pendiente_animacion;
 	protected Cell celda_2_pendiente_animacion;
-	
-	protected JLabel upperText;
 	protected JPanel mainPanel;
-	private int size_label = 150;
+	private int size_label = 150,i = 0;
+
 	
 	public GUI(Game j, int r, int c) {
 		myGame = j;
@@ -37,14 +39,13 @@ public class GUI extends JFrame {
 	}
 	
 	protected void inicializar() {
+		
+		
 		setTitle("CandyCrush Villero");
 		setSize(new Dimension(1500, 950));
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
-		
-		upperText = new JLabel("( ͡°( ͡° ͜ʖ( ͡° ͜ʖ ͡°)ʖ ͡°) ͡°)");
-		
 		mainPanel = new JPanel();
 		mainPanel.setSize(size_label * rows, size_label * columns);
 		mainPanel.setLayout(null);
@@ -54,7 +55,7 @@ public class GUI extends JFrame {
 				switch(e.getKeyCode()) {
 					case KeyEvent.VK_LEFT: 	{ myGame.move(Game.LEFT); break; }
 					case KeyEvent.VK_RIGHT: { myGame.move(Game.RIGHT); break; }
-					case KeyEvent.VK_UP: 	{ myGame.move(Game.UP);break; }
+					case KeyEvent.VK_UP: 	{ myGame.move(Game.UP); break; }
 					case KeyEvent.VK_DOWN: 	{ myGame.move(Game.DOWN); break; }
 					case KeyEvent.VK_W:		{ myGame.swap(Game.UP); break; }
 					case KeyEvent.VK_S:		{ myGame.swap(Game.DOWN); break; }
@@ -65,9 +66,13 @@ public class GUI extends JFrame {
 		});
 		
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
-		getContentPane().add(upperText, BorderLayout.NORTH);
 		
 		mainPanel.setFocusable(true);
+		
+		
+		
+		
+		
 	}
 	
 	public GraphicalBlock agregar_entidad(LogicBlock e) {
