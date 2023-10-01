@@ -6,10 +6,13 @@ import java.util.LinkedList;
 import java.util.Set;
 
 import Entities.Block;
+import Entities.Candy;
+import Entities.Colour;
 import Entities.Entity;
 import Interfaces.Equivalent;
 
 import java.util.HashSet;
+import java.util.Random;
 
 public class Board {
     private static final int ROWS = 6;
@@ -17,6 +20,15 @@ public class Board {
     private int row, column;
     private Block[][] matriz;
     private Game myGame;
+
+    public Board(Game g) {
+        myGame = g;
+        row = 3;
+        column = 3;
+        for (int i = 0; i < ROWS; i++)
+            for (int j = 0; j < COLUMNS; j++)
+                matriz[i][j] = new Block(i, j);
+    }
 
     public int getRows() {
         return ROWS;
@@ -46,9 +58,14 @@ public class Board {
                     }
                     if (canNext)
                         matriz[i][j].swapEntity(matriz[nextEntity][j]);
-                    // else
-                    // rellenarColumnaConCaramelosNuevos(j);
-                    canNext = false;
+                    else
+                        // TODO
+                        // New
+                        for (int cont = i; cont > 0; cont--) {
+                            Entity e = new Candy(cont, j, Colour.YELLOW);
+                            matriz[i][j].setEntity(e);
+                        }
+                    canNext = false;//
                 }
             }
         }
@@ -105,7 +122,7 @@ public class Board {
     public List<Equivalent> destroyEntities(List<Block> l) {
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         for (Block b : l) {
-            //destroyed.addAll(b.getEntity().getDestroyables(this));
+            destroyed.addAll(b.getEntity().getDestroyables(this));
             b.destroyEntity();
         }
         return destroyed;
@@ -123,7 +140,8 @@ public class Board {
 
     private List<Equivalent> swapEntities(int newRow, int newColumn) {
         Entity e1, e2;
-        List<Block> l1, l2;
+        Set<Integer> columnsToCheck;
+        List<Block> l1, l2, remaining;
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         boolean canExchange = false;
         Block b1 = matriz[row][column];
@@ -139,15 +157,21 @@ public class Board {
                 l2 = checkCombinations(newRow, newColumn);
                 l1.addAll(l2);
                 destroyed = destroyEntities(l1);
-                // checkRemainingCombinations(); ver Detalles
+                columnsToCheck = fillBoard();
+                remaining = checkRemainingCombinations(columnsToCheck);
+                while (!remaining.isEmpty()) {
+                    destroyed.addAll(destroyEntities(remaining));
+                    columnsToCheck = fillBoard();
+                    remaining = checkRemainingCombinations(columnsToCheck);
+                }
             }
         }
         return destroyed;
     }
 
-    private List<Block> checkRemainingCombinations() {
+    private List<Block> checkRemainingCombinations(Set<Integer> s) {
         List<Block> combinations = new LinkedList<Block>();
-        for (Integer j : fillBoard()) {
+        for (Integer j : s) {
             for (int i = 0; i < ROWS; i++) {
                 combinations.addAll(checkCombinations(i, j));
             }
@@ -156,6 +180,61 @@ public class Board {
     }
 
     private List<Block> checkCombinations(int row, int column) {
-        return null;
+        List<Block> toReturn = new LinkedList<Block>();
+        checkMatch3(row, column, toReturn);
+        checkMatch4(row, column, toReturn);
+        checkMatchT(row, column, toReturn);
+        checkMatchL(row, column, toReturn);
+        return toReturn;
+    }
+
+    private boolean checkMatch3(int row, int column, List<Block> list) {
+        List<Block> toAdd = new LinkedList<Block>();
+        boolean toRet = false;
+        Entity ent = matriz[row][column].getEntity();
+        int cont = 0;
+
+        // hoz derecha
+        for (int c = column; c < matriz[0].length && !toRet; c++) {
+            if (matriz[row][c].getEntity().getColour() == ent.getColour()) {
+                cont++;
+                toAdd.add(matriz[row][c]);
+                if (cont == 3)
+                    toRet = true;
+            } else
+                break;
+        }
+
+        if (toRet) {
+            list.addAll(toAdd);
+            return toRet;
+        }
+
+        toRet = false;
+        cont = 0;
+        toAdd = new LinkedList<Block>();
+
+        for (int r = row; row < matriz.length && !toRet; r++) {
+            if (matriz[r][column].getEntity().getColour() == ent.getColour()) {
+                cont++;
+                toAdd.add(matriz[r][column]);
+                if (cont == 3)
+                    toRet = true;
+            } else
+                break;
+
+        }
+
+        if (toRet) {
+            list.addAll(toAdd);
+            return toRet;
+        }
+
+        toRet = false;
+        cont = 0;
+        toAdd = new LinkedList<Block>();
+
+        return toRet;
+
     }
 }

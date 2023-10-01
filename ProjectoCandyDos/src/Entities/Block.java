@@ -5,8 +5,9 @@ import java.util.Stack;
 import GUI.GraphicalBlock;
 import Interfaces.Equivalent;
 import Interfaces.Focusable;
+import Interfaces.LogicBlock;
 
-public class Block implements Focusable {
+public class Block implements Focusable, LogicBlock{
 
     private Entity myEntity;
     private Stack<Modifiers> myModifiers;
@@ -14,10 +15,17 @@ public class Block implements Focusable {
 	private boolean focused;
 
 	private GraphicalBlock graphicalBlock;
+	private int row;
+	private int column;
+	
+	private String typeOfBlock;
+	private String [] images;
 
-
-    public Block() {
-        // TODO Auto-generated constructor stub
+    public Block(int r, int c) {
+        row = r;
+        column = c;
+        typeOfBlock = "empty";
+        uploadRepresetnativePictures("/imagenes/");
     }
 
     public Entity getEntity() {
@@ -64,13 +72,14 @@ public class Block implements Focusable {
 		graphicalBlock.notifyChangeStatus();
 	}
 
-	/*
-	 * private void uploadRepresetnativePictures(String path_img) {
-	 * imagenes_representativas = new String [2]; imagenes_representativas[0] =
-	 * path_img + color +".png"; imagenes_representativas[1] = path_img + color
-	 * +"-resaltado.png"; }
-	 */
-//TODO Hay que implementar este metodo, sirve para poner las imagenes a las entidades
+	
+	  private void uploadRepresetnativePictures(String path_img) {
+		 images = new String [2]; 
+		 images[0] = path_img + typeOfBlock +".png"; 
+		 images[1] = path_img + typeOfBlock +"-resaltado.png"; 
+		 }
+	
+
 
 
     public boolean focus() {
@@ -78,5 +87,25 @@ public class Block implements Focusable {
         graphicalBlock.notifyChangeStatus();
         return true;
     }
+
+	@Override
+	public int getRow() {
+		return row;
+	}
+
+	@Override
+	public int getColumn() {
+		return column;
+	}
+
+	@Override
+	public String getImage() {
+		int indice = 0;
+		indice += (focused ? 1 : 0);
+		return images[indice];
+	}
+	public void setGraphicBlock(GraphicalBlock e) {
+		 graphicalBlock = e;
+	}
 
 }

@@ -2,7 +2,9 @@ package Logic;
 
 import java.awt.EventQueue;
 
+import Entities.Block;
 import GUI.GUI;
+import GUI.GraphicalBlock;
 
 public class Game {
 
@@ -18,19 +20,29 @@ public class Game {
     private int lives;
 
     public Game() {
-        myBoard = new Board();
-        myLevel = myLevelGenerator.generateLevel("src/Levels/Level1.txt", myBoard);
-        //myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
+        myBoard = new Board(this);
+        myLevel = LevelGenerator.generateLevel("src/Levels/Level1.txt", myBoard);
+        // myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
         // asociar_entidades_logicas_graficas();
     }
 
-    public static void main(String[] args)
-    {
-        Game g = new Game();
+    private void assocciateLogicalGraphicBlocks() {
+        Block e;
+        GraphicalBlock eg;
+
+        for (int r = 0; r < myBoard.getRows(); r++) {
+            for (int c = 0; c < myBoard.getColumns(); c++) {
+                e = myBoard.getBlock(r, c);
+                eg = myGui.agregar_entidad(e);
+                e.setGraphicBlock(eg);
+            }
+        }
+        myGui.setVisible(true);
+
     }
-    
+
     public void update() {
-        
+
     }
 
     public void loadLevel(int level) {
@@ -45,15 +57,9 @@ public class Game {
         myBoard.movePlayerDirection(direction);
     }
 
-    /*public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    new Game();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }*/
+    /*
+     * public static void main(String[] args) { EventQueue.invokeLater(new
+     * Runnable() { public void run() { try { new Game(); } catch (Exception e) {
+     * e.printStackTrace(); } } }); }
+     */
 }
