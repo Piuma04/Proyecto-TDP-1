@@ -22,7 +22,7 @@ public class Board {
 	private Game myGame;
 
 	public Board(Game g) {
-		matriz = new Block[6][6];
+		matriz = new Block[ROWS][COLUMNS];
 		myGame = g;
 		row = 3;
 		column = 3;
