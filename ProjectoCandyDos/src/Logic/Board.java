@@ -264,7 +264,7 @@ public class Board {
 		if (toRet) {
 			list.addAll(toAdd);
 			return toRet;
-
+		}
 		toRet = false;
 		cont = 0;
 		toAdd = new LinkedList<Block>();
@@ -285,7 +285,7 @@ public class Board {
 			return toRet;
 		}
 		return false;
-	}
+    }
 
         if (toRet) {
             list.addAll(toAdd);
