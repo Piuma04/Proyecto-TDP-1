@@ -157,14 +157,19 @@ public class Board {
 				l1 = checkCombinations(row, column);
 				l2 = checkCombinations(newRow, newColumn);
 				l1.addAll(l2);
-				destroyed = destroyEntities(l1);
-				columnsToCheck = fillBoard();
-				remaining = checkRemainingCombinations(columnsToCheck);
-				while (!remaining.isEmpty()) {
-					destroyed.addAll(destroyEntities(remaining));
+				if(!l1.isEmpty())
+				{
+					destroyed = destroyEntities(l1);
 					columnsToCheck = fillBoard();
 					remaining = checkRemainingCombinations(columnsToCheck);
+					while (!remaining.isEmpty()) {
+						destroyed.addAll(destroyEntities(remaining));
+						columnsToCheck = fillBoard();
+						remaining = checkRemainingCombinations(columnsToCheck);
+					}
 				}
+				else
+					b1.swapEntity(b2);
 			}
 		}
 		return destroyed;
