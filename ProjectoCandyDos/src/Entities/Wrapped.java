@@ -87,5 +87,5 @@ public class Wrapped extends Entity {
 		return null;
 	}
 
-    public String toString() { return "Wrapped("+this.posRow+", "+this.posColumn+", "+this.colour+")"; }
+    public String toString() { return setStringColor("Wrapped("+this.posRow+", "+this.posColumn+")"); }
 }

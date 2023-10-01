@@ -7,6 +7,7 @@ import Logic.Board;
 
 public class Candy extends Entity {
 
+    
 	/* Constructor */
 	public Candy(int posRow, int posColumn, Colour colour) {
 		this.posRow = posRow;
@@ -86,5 +87,5 @@ public class Candy extends Entity {
 		return null;
 	}
 
-    public String toString() { return "Candy("+this.posRow+", "+this.posColumn+", "+this.colour+")"; }
+    public String toString() { return setStringColor("Candy("+this.posRow+", "+this.posColumn+")"); }
 }

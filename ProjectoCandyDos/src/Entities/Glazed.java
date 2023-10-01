@@ -89,5 +89,5 @@ public class Glazed extends Entity {
 		return null;
 	}
 
-    public String toString() { return "Glazed("+this.posRow+", "+this.posColumn+")"; }
+    public String toString() { return setStringColor("Glazed("+this.posRow+", "+this.posColumn+")"); }
 }
