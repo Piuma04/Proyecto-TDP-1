@@ -195,7 +195,7 @@ public class Board {
 		Entity ent = matrix[row][column].getEntity();
 		int cont = 0;
 
-		if (match3Medio(row, column, list))
+		if (match3Medio(row, column, list)) //se fija vertical y horizontalmente
 			return true;
 
 		// hoz derecha
@@ -286,16 +286,124 @@ public class Board {
 				return true;
 			}
 		}
+
+		else if (row - 1 >= 0 && row + 1 < matrix.length) {
+			if (matrix[row - 1][column].getEntity().getColour() == matrix[row][column].getEntity().getColour()
+					&& matrix[row][column].getEntity().getColour() == matrix[row + 1][column].getEntity().getColour()) {
+				list.add(matrix[row - 1][column]);
+				list.add(matrix[row][column]);
+				list.add(matrix[row + 1][column]);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean checkMatch4(int row, int column, List<Block> list) {
+		List<Block> toAdd = new LinkedList<Block>();
+		boolean toRet = false;
+		Entity ent = matrix[row][column].getEntity();
+		int cont = 0;
+
+		if (match4Medio(row, column, list)) //se fija vertical y horizontalmente
+			return true;
+
+		// hoz derecha
+		for (int c = column; c < matrix[0].length && !toRet; c++) {
+			if (matrix[row][c].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matrix[row][c]);
+				if (cont == 4)
+					toRet = true;
+			} else
+				break;
+		}
+		if (toRet) {
+			list.addAll(toAdd);
+			list.add(matrix[row][column]);
+			return toRet;
+		}
+
+		// ver abajo
+		toRet = false;
+		cont = 0;
+		toAdd = new LinkedList<Block>();
+		for (int r = row; row < matrix.length && !toRet; r++) {
+			if (matrix[r][column].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matrix[r][column]);
+				if (cont == 4)
+					toRet = true;
+			} else
+				break;
+		}
+		if (toRet) {
+			list.addAll(toAdd);
+			list.add(matrix[row][column]);
+			return toRet;
+		}
+
+		// ver arriba
+		toRet = false;
+		cont = 0;
+		toAdd = new LinkedList<Block>();
+		for (int r = row; r >= 0 && !toRet; r--) {
+			if (matrix[r][column].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matrix[r][column]);
+				if (cont == 4)
+					toRet = true;
+			} else
+				break;
+		}
+		if (toRet) {
+			list.addAll(toAdd);
+			list.add(matrix[row][column]);
+			return toRet;
+		}
+
+		// hoz izq
+		toRet = false;
+		cont = 0;
+		toAdd = new LinkedList<Block>();
+		for (int c = column; c >= 0 && !toRet; c--) {
+			if (matrix[row][c].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matrix[row][c]);
+				if (cont == 4)
+					toRet = true;
+			} else
+				break;
+		}
+
+		if (toRet) {
+			list.addAll(toAdd);
+			list.add(matrix[row][column]);
+			return toRet;
+		}
+
 		return false;
 	}
 	
-    //DEBUG
-    public void showMatrix() {
-        for (Block[] row : matrix) {
-            for (Block block : row) {
-                System.out.print(block.getEntity().toString() + "   ");
-            }
-            System.out.println();
-        }
-    }
+	private boolean check4Medio(int row, int column, List<Block> list) {
+		return check4MedioH(row, column, list) || check4MedioV(row,column,list);
+	}
+	
+	private boolean check4MedioH(int row, int column, List<Block> list) {
+		if(row-2>=0 && row+1<matrix.length)
+			if(matrix[row-2][column].get)
+	}
+	
+	private boolean check4MedioV(int row, int column, List<Block> list) {
+		
+	}
+	// DEBUG
+	public void showMatrix() {
+		for (Block[] row : matrix) {
+			for (Block block : row) {
+				System.out.print(block.getEntity().toString() + "   ");
+			}
+			System.out.println();
+		}
+	}
 }
