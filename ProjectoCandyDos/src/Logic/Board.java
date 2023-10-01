@@ -182,10 +182,14 @@ public class Board {
 
 	private List<Block> checkCombinations(int row, int column) {
 		List<Block> toReturn = new LinkedList<Block>();
-		checkMatch3(row, column, toReturn);
-		checkMatch4(row, column, toReturn);
-		// checkMatchT(row, column, toReturn);
-		// checkMatchL(row, column, toReturn);
+		if (checkMatch3(row, column, toReturn)) {
+		} else if (checkMatch4(row, column, toReturn)) { // TODO falta verificar si es horizontal o vertical
+		} else if (checkMatchT(row, column, toReturn)) {
+			matrix[row][column].createWrapped();
+		} else if (checkMatchL(row, column, toReturn)) {
+			matrix[row][column].createWrapped();
+		} else {
+		} // no hay combinacion
 		return toReturn;
 	}
 
@@ -277,17 +281,13 @@ public class Board {
 	}
 
 	private boolean check3Medio(int row, int column, List<Block> list) {
-		if (column - 1 >= 0 && column + 1 < matrix[0].length) {
-			if (matrix[row][column - 1].getEntity().getColour() == matrix[row][column].getEntity().getColour()
-					&& matrix[row][column].getEntity().getColour() == matrix[row][column + 1].getEntity().getColour()) {
-				list.add(matrix[row][column - 1]);
-				list.add(matrix[row][column]);
-				list.add(matrix[row][column + 1]);
-				return true;
-			}
-		}
+		// uno es vertical y el otro horizontal
+		return match3medioH(row, column, list) || match3medioV(row, column, list);
 
-		else if (row - 1 >= 0 && row + 1 < matrix.length) {
+	}
+
+	private boolean check3MedioV(int row, int column, List<Block> list) {
+		if (row - 1 >= 0 && row + 1 < matrix.length) {
 			if (matrix[row - 1][column].getEntity().getColour() == matrix[row][column].getEntity().getColour()
 					&& matrix[row][column].getEntity().getColour() == matrix[row + 1][column].getEntity().getColour()) {
 				list.add(matrix[row - 1][column]);
@@ -299,6 +299,20 @@ public class Board {
 		return false;
 	}
 
+	private boolean check3MedioH(int row, int column, List<Block> list) {
+		if (column - 1 >= 0 && column + 1 < matrix[0].length) {
+			if (matrix[row][column - 1].getEntity().getColour() == matrix[row][column].getEntity().getColour()
+					&& matrix[row][column].getEntity().getColour() == matrix[row][column + 1].getEntity().getColour()) {
+				list.add(matrix[row][column - 1]);
+				list.add(matrix[row][column]);
+				list.add(matrix[row][column + 1]);
+				return true;
+			}
+		}
+		return false;
+
+	}
+	
 	private boolean checkMatch4(int row, int column, List<Block> list) {
 		List<Block> toAdd = new LinkedList<Block>();
 		boolean toRet = false;
@@ -423,6 +437,29 @@ public class Board {
 				list.add(matrix[row][column + 1]);
 				return true;
 			}
+		return false;
+	}
+
+	private boolean match3Arriba(int row, int column, List<Block> list) {
+
+	}
+
+	private boolean match3Abajo(int row, int column, List<Block> list) {
+
+	}
+
+	private boolean checkMatchT(int row, int column, List<Block> list) {
+		// T
+		if (check3MedioH(row, column, list) && (match3Arriba(row, column, list) || match3Abajo(row, column, list)))
+			return true;
+
+		// T "apaisada"
+		if (check3MedioV(row, column, list)
+				&& (match3Derecha(row, column, list) || match3.Izquierda(row, column, list)))
+			return false;
+	}
+
+	private boolean checkMatchL(int row, int column, List<Block> list) {
 		return false;
 	}
 
