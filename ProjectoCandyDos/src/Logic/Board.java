@@ -9,6 +9,8 @@ import Entities.Block;
 import Entities.Candy;
 import Entities.Colour;
 import Entities.Entity;
+import Entities.Stripped;
+import Entities.Wrapped;
 import Interfaces.Equivalent;
 
 import java.util.HashSet;
@@ -212,18 +214,21 @@ public class Board {
 		} // no hay combinacion
 		return toReturn;
 	}
-	/*METODO BALTASAR
+	//METODO BALTASAR
 	private int checkCombinations(int row,int column)
 	{
 		List<Block> combination = new LinkedList<Block>();
+		Colour color = matrix[row][column].getEntity().getColour();
 		int cantHorizontal =checkSeguidosH(row,column,combination);
 		int cantVertical = checkSeguidosV(row,column,combination);
 		if(cantHorizontal >=3 && cantVertical>=3)
-			//crearCARAMELOEMPAQUETADO;
-		if(cantHorizontal ==4 && cantVertical<3)) {}
-			//crearCARAMELORAYADOH;
-		if(cantHorizontal <3 && cantVertical==4){}
-			//crearCARAMELORAYADOV;
+			matrix[row][column].setEntity(new Wrapped(row,column,color));
+		else if(cantHorizontal ==4 && cantVertical<3)
+			matrix[row][column].setEntity(new Stripped(row,column,color,true));
+		else if(cantHorizontal <3 && cantVertical==4)
+			matrix[row][column].setEntity(new Stripped(row,column,color,false));
+		else 
+			combination.add(matrix[row][column]);
 		return combination;
 	}
 	private int checkSeguidosH(int row, int column, List<Block> combination)
@@ -273,7 +278,7 @@ public class Board {
 		if(toAdd.size()>=3)
 			combination.addAll(toAdd);
 		return toAdd.size();
-	}*/
+	}//END Problema en checkRemaining ya que puede destruirse el rayado creado
 
 	/**
 	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
