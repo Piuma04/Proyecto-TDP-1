@@ -9,11 +9,7 @@ import javax.swing.JLabel;
 import Interfaces.LogicBlock;
 
 
-/**
- * Modela el comportamiento de las celdas que formarán parte de la GUI y que permitirán visualizar gráficamente a una LogicBlock.
- * @author FJoaquin (federico.joaquin@cs.uns.edu.ar)
- *
- */
+
 @SuppressWarnings("serial")
 public class Cell extends JLabel implements GraphicalBlock {
 	
