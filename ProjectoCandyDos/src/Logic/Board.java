@@ -212,6 +212,68 @@ public class Board {
 		} // no hay combinacion
 		return toReturn;
 	}
+	/*METODO BALTASAR
+	private int checkCombinations(int row,int column)
+	{
+		List<Block> combination = new LinkedList<Block>();
+		int cantHorizontal =checkSeguidosH(row,column,combination);
+		int cantVertical = checkSeguidosV(row,column,combination);
+		if(cantHorizontal >=3 && cantVertical>=3)
+			//crearCARAMELOEMPAQUETADO;
+		if(cantHorizontal ==4 && cantVertical<3)) {}
+			//crearCARAMELORAYADOH;
+		if(cantHorizontal <3 && cantVertical==4){}
+			//crearCARAMELORAYADOV;
+		return combination;
+	}
+	private int checkSeguidosH(int row, int column, List<Block> combination)
+	{
+		List<Block> toAdd = new LinkedList<Block>();
+		Entity comparable = matrix[row][column].getEntity();
+		boolean cumple = true;
+		for(int i = row+1 ;i>=0 && i<ROWS && cumple;i++)
+		{
+			cumple = matrix[i][column].getEntity().getColour()==comparable.getColour();
+			if(cumple)
+				toAdd.add(matrix[i][column]);
+		}
+		cumple = true;
+		for(int i = row-1;i>=0 && i<ROWS && cumple;i--)
+		{
+			cumple = matrix[i][column].getEntity().getColour()==comparable.getColour();
+			if(cumple) 
+			{
+				toAdd.add(matrix[i][column]);
+			}
+		}
+		if(toAdd.size()>=3)
+			combination.addAll(toAdd);
+		return toAdd.size();
+	}
+	private int checkSeguidosV(int row, int column, List<Block> combination)
+	{
+		List<Block> toAdd = new LinkedList<Block>();
+		Entity comparable = matrix[row][column].getEntity();
+		boolean cumple = true;
+		for(int j = column+1 ;j>=0 && j<COLUMNS && cumple;j++)
+		{
+			cumple = matrix[row][j].getEntity().getColour()==comparable.getColour();
+			if(cumple)
+				toAdd.add(matrix[row][j]);
+		}
+		cumple = true;
+		for(int j = column-1;j>=0 && j<COLUMNS && cumple;j--)
+		{
+			cumple = matrix[row][j].getEntity().getColour()==comparable.getColour();
+			if(cumple) 
+			{
+				toAdd.add(matrix[row][j]);
+			}
+		}
+		if(toAdd.size()>=3)
+			combination.addAll(toAdd);
+		return toAdd.size();
+	}*/
 
 	/**
 	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
