@@ -197,8 +197,38 @@ public class Board {
 			} else
 				break;
 		}
-		if (toRet)
+		
+		if (toRet) {
 			list.addAll(toAdd);
+			return toRet;
+		}
+		
+		toRet = false;
+		cont = 0;
+		toAdd = new LinkedList<Block>();
+		
+		for(int r=row; row<matriz.length && !toRet; r++) {
+			if(matriz[r][column].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matriz[r][column]);
+				if(cont == 3)
+					toRet=true;
+			}
+			else break;
+			
+		}
+		
+		if (toRet) {
+			list.addAll(toAdd);
+			return toRet;
+		}
+		
+		toRet = false;
+		cont = 0;
+		toAdd = new LinkedList<Block>();
+		
 		return toRet;
+		
+		
 	}
 }
