@@ -18,17 +18,25 @@ import Entities.Jelly;
 
 public class LevelGenerator {
     /**
-     * reads filename, which is comma separated with the following format
+     * reads filename, which is comma separated with the following format</br></br>
      * 
-     * (String representation of an entity),(Amount of entities to destroy to
-     * win),(moves),(time) (entity),(entity),... (entity),(entity),... ..., ..., ...
+     * (entity),(amount of entities),(moves),(time)</br>
+     * (entity),(entity),...</br>
+     * (entity),(entity),...</br>
+     *  ..., ..., ...
      * 
-     * example: RS,6,40,40 R,R,Y,R,R,Y B,B,R,B,B,P B,B,Y,B,B,P Y,Y,R,Y,Y,B
-     * B,B,R,B,B,P Y,Y,R,Y,Y,B
+     * example:</br>
+     * RS,6,40,40</br>
+     * R,R,Y,R,R,Y</br>
+     * B,B,R,B,B,P</br>
+     * B,B,Y,B,B,P</br>
+     * Y,Y,R,Y,Y,B</br>
+     * B,B,R,B,B,P</br>
+     * Y,Y,R,Y,Y,B
      * 
-     * @param filename
-     * @param board
-     * @return level {@link Level}
+     * @param filename name of the file
+     * @param board {@link Board} object to initialize matrix.
+     * @return level {@link Level} object initialized.
      */
     public static Level generateLevel(String filename, Board board) {
 
@@ -61,6 +69,29 @@ public class LevelGenerator {
         return level;
     }
 
+    /**
+     * given an {@code id} which represents an Entity in plain text, a row {@code r} and a column {@code c}</br>
+     * creates an entity with position {@code (r, c)}.
+     * 
+     * @param id String with the following format</br>
+     * first char can be:</br>
+     * 'R' for RED</br>
+     * 'Y' for YELLOW</br>
+     * 'G' for GREEN</br>
+     * 'P' for PURPLE</br>
+     * 'B' for BLUE</br>
+     * 'T' for EMPTY/TRANSPARENT/NONE</br>
+     * 'M' for GLAZED/MERENGUE</br></br>
+     * second char can be:</br>
+     * 'S' for STRIPPED</br>
+     * 'W' for WRAPPED</br>
+     * 'J' for JELLY</br></br>
+     * after that, all chars can be 'J' for extra JELLYS
+     * 
+     * @param r
+     * @param c
+     * @return
+     */
     private static Entity createEntity(String id, int r, int c) {
 
         Entity e = null;
@@ -97,6 +128,11 @@ public class LevelGenerator {
         return e;
     }
 
+    /**
+     * given a filename, it returns a list of Strings in which every list is a line of the file.
+     * @param filename file name to open and read.
+     * @return List of String which every element is a String(line) of the file.
+     */
     private static List<String> readFileLines(String filename) {
         List<String> fileText = null;
         try {

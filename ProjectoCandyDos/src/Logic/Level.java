@@ -16,6 +16,11 @@ public class Level {
         myClock = new Clock();
     }
 
+    /**
+     * Updates level {@link Goal} and returns {@code true} if won.
+     * @param l list of board destroyed objects {@link Equivalent}.
+     * @return {@code true} if goal reached.
+     */
     public boolean update(List<Equivalent> l) {
         return myGoal.updateCounter(l);
     }
