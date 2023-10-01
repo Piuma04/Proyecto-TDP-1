@@ -42,15 +42,15 @@ public class Board {
 	public Set<Integer> fillBoard() {
 		Set<Integer> s = new HashSet<Integer>();
 		boolean canNext = false;
-		for (int j = COLUMNS-1; j >= 0 && s.size() < COLUMNS; j--) {
-			for (int i = ROWS-1; i >= 0 && s.size() < COLUMNS; i--) {
+		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) {
+			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS; i--) {
 				if (matrix[i][j].isEmpty() && !s.contains(j)) {
 					s.add(j);
 				}
 			}
 		}
 		for (Integer j : s) {
-			for (int i = ROWS-1; i >= 0; i--) {
+			for (int i = ROWS - 1; i >= 0; i--) {
 				if (matrix[i][j].isEmpty()) {
 					int nextEntity = i;
 					while (nextEntity >= 0 && !canNext) {
@@ -183,7 +183,7 @@ public class Board {
 	private List<Block> checkCombinations(int row, int column) {
 		List<Block> toReturn = new LinkedList<Block>();
 		checkMatch3(row, column, toReturn);
-		// checkMatch4(row, column, toReturn);
+		checkMatch4(row, column, toReturn);
 		// checkMatchT(row, column, toReturn);
 		// checkMatchL(row, column, toReturn);
 		return toReturn;
@@ -304,9 +304,9 @@ public class Board {
 		boolean toRet = false;
 		Entity ent = matrix[row][column].getEntity();
 		int cont = 0;
-		
-		//if (match4Medio(row, column, list)) //se fija vertical y horizontalmente
-		//	return true;
+
+		if (check4Medio(row, column, list)) // se fija vertical y horizontalmente
+			return true;
 
 		if (check4Medio(row, column, list)) // se fija vertical y horizontalmente
 			return true;
@@ -393,19 +393,22 @@ public class Board {
 	}
 
 	private boolean check4MedioH(int row, int column, List<Block> list) {
-		if(row-2>=0 && row+1<matrix.length) {}
-			//if(matrix[row-2][column].get)
-			//{}
-		if (row - 2 >= 0 && row + 1 < matrix.length)
-			if (matrix[row - 2][column].getEntity().getColour() == matrix[row][column].getEntity().getColour()
-					&& matrix[row - 1][column].getEntity().getColour() == matrix[row][column].getEntity().getColour()
-					&& matrix[row][column].getEntity().getColour() == matrix[row + 1][column].getEntity().getColour()) {
-				list.add(matrix[row - 2][column]);
-				list.add(matrix[row - 1][column]);
-				list.add(matrix[row][column]);
-				list.add(matrix[row + 1][column]);
-				return true;
-			}
+		if (row - 2 >= 0 && row + 1 < matrix.length) {
+			// if(matrix[row-2][column].get)
+			// {}
+			if (row - 2 >= 0 && row + 1 < matrix.length)
+				if (matrix[row - 2][column].getEntity().getColour() == matrix[row][column].getEntity().getColour()
+						&& matrix[row - 1][column].getEntity().getColour() == matrix[row][column].getEntity()
+								.getColour()
+						&& matrix[row][column].getEntity().getColour() == matrix[row + 1][column].getEntity()
+								.getColour()) {
+					list.add(matrix[row - 2][column]);
+					list.add(matrix[row - 1][column]);
+					list.add(matrix[row][column]);
+					list.add(matrix[row + 1][column]);
+					return true;
+				}
+		}
 		return false;
 	}
 
