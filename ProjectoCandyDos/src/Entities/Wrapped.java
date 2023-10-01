@@ -86,4 +86,6 @@ public class Wrapped extends Entity {
 	public List<Equivalent> getDestroyables(Board b) {
 		return null;
 	}
+
+    public String toString() { return "Wrapped("+this.posRow+", "+this.posColumn+", "+this.colour+")"; }
 }
