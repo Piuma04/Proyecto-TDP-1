@@ -138,14 +138,15 @@ public class Board {
 			}
 		}
 	}
+
 	public void setPlayerPosition(int newRow, int newColumn) {
-		
-			if (matrix[newRow][newColumn].focus()) {
-				matrix[row][column].defocus();
-				row = newRow;
-				column = newColumn;
-			}
-		
+
+		if (matrix[newRow][newColumn].focus()) {
+			matrix[row][column].defocus();
+			row = newRow;
+			column = newColumn;
+		}
+
 	}
 
 	private List<Equivalent> swapEntities(int newRow, int newColumn) {
@@ -194,6 +195,14 @@ public class Board {
 		return combinations;
 	}
 
+	/**
+	 * Metodo privado que chequea las combinaciones de la entidad del bloque dado la
+	 * fila y la columna
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @return lista de bloques destruibles
+	 */
 	private List<Block> checkCombinations(int row, int column) {
 		List<Block> toReturn = new LinkedList<Block>();
 		if (match3(row, column, toReturn)) {
@@ -207,15 +216,18 @@ public class Board {
 		return toReturn;
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean match3(int row, int column, List<Block> list) {
-		List<Block> toAdd = new LinkedList<Block>();
-		boolean toRet = false;
-		Entity ent = matrix[row][column].getEntity();
-		int cont = 0;
-
 		if (check3Medio(row, column, list)) // se fija vertical y horizontalmente
 			return true;
-
 		if (check3Arriba(row, column, list))
 			return true;
 		else if (check3Abajo(row, column, list))
@@ -224,17 +236,33 @@ public class Board {
 			return true;
 		else if (check3Izq(row, column, list))
 			return true;
-
 		return false;
 
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean check3Medio(int row, int column, List<Block> list) {
-		// uno es vertical y el otro horizontal
 		return check3MedioH(row, column, list) || check3MedioV(row, column, list);
 
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean check3MedioV(int row, int column, List<Block> list) {
 		if (row - 1 >= 0 && row + 1 < matrix.length) {
 			if (matrix[row - 1][column].getEntity().getColour() == matrix[row][column].getEntity().getColour()
@@ -248,6 +276,15 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean check3MedioH(int row, int column, List<Block> list) {
 		if (column - 1 >= 0 && column + 1 < matrix[0].length) {
 			if (matrix[row][column - 1].getEntity().getColour() == matrix[row][column].getEntity().getColour()
@@ -262,6 +299,15 @@ public class Board {
 
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean check3Arriba(int row, int column, List<Block> list) {
 		// ver arriba
 		List<Block> toAdd = new LinkedList<Block>();
@@ -288,6 +334,15 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean check3Abajo(int row, int column, List<Block> list) {
 		List<Block> toAdd = new LinkedList<Block>();
 		boolean toRet = false;
@@ -314,6 +369,15 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean check3Der(int row, int column, List<Block> list) {
 		List<Block> toAdd = new LinkedList<Block>();
 		boolean toRet = false;
@@ -337,6 +401,15 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean check3Izq(int row, int column, List<Block> list) {
 		List<Block> toAdd = new LinkedList<Block>();
 		boolean toRet = false;
@@ -364,6 +437,15 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 4 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean match4(int row, int column, List<Block> list) {
 		List<Block> toAdd = new LinkedList<Block>();
 		boolean toRet = false;
@@ -453,10 +535,30 @@ public class Board {
 		return false;
 	}
 
+	// TODO FALTA VER COMO DIFERENCIAR 4 HORIZONTAL Y VERTICAL
+
+	/**
+	 * Metodo privado que chequea que haya match 4 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean check4Medio(int row, int column, List<Block> list) {
 		return check4MedioH(row, column, list) || check4MedioV(row, column, list);
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 4 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean check4MedioH(int row, int column, List<Block> list) {
 		if (row - 2 >= 0 && row + 1 < matrix.length) {
 			// if(matrix[row-2][column].get)
@@ -477,6 +579,15 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match 4 dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean check4MedioV(int row, int column, List<Block> list) {
 		if (column - 2 >= 0 && column + 1 < matrix.length)
 			if (matrix[row][column - 2].getEntity().getColour() == matrix[row][column].getEntity().getColour()
@@ -491,8 +602,15 @@ public class Board {
 		return false;
 	}
 
-	
-
+	/**
+	 * Metodo privado que chequea que haya match T dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean matchT(int row, int column, List<Block> list) {
 		// T
 		if (check3MedioH(row, column, list) && (check3Arriba(row, column, list) || check3Abajo(row, column, list)))
@@ -504,7 +622,20 @@ public class Board {
 		return false;
 	}
 
+	/**
+	 * Metodo privado que chequea que haya match L dada la posicion de la matriz
+	 * dada
+	 * 
+	 * @param row    fila
+	 * @param column columna
+	 * @param list   lista de destruibles
+	 * @return lista de destruibles a retornar
+	 */
 	private boolean matchL(int row, int column, List<Block> list) {
+		if (check3Arriba(row, column, list) && (check3Der(row, column, list) || check3Izq(row, column, list)))
+			return true;
+		else if (check3Abajo(row, column, list) && (check3Der(row, column, list) || check3Izq(row, column, list)))
+			return true;
 		return false;
 	}
 
