@@ -57,9 +57,9 @@ public class Game {
         myBoard.movePlayerDirection(direction);
     }
 
-    /*
-     * public static void main(String[] args) { EventQueue.invokeLater(new
-     * Runnable() { public void run() { try { new Game(); } catch (Exception e) {
-     * e.printStackTrace(); } } }); }
-     */
+    
+     public static void main(String[] args) { EventQueue.invokeLater(new
+      Runnable() { public void run() { try { new Game(); } catch (Exception e) {
+      e.printStackTrace(); } } }); }
+     
 }
