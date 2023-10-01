@@ -195,7 +195,7 @@ public class Board {
 		Entity ent = matrix[row][column].getEntity();
 		int cont = 0;
 
-		if (match3Medio(row, column, list)) //se fija vertical y horizontalmente
+		if (match3Medio(row, column, list)) // se fija vertical y horizontalmente
 			return true;
 
 		// hoz derecha
@@ -305,7 +305,7 @@ public class Board {
 		Entity ent = matrix[row][column].getEntity();
 		int cont = 0;
 
-		if (match4Medio(row, column, list)) //se fija vertical y horizontalmente
+		if (match4Medio(row, column, list)) // se fija vertical y horizontalmente
 			return true;
 
 		// hoz derecha
@@ -384,19 +384,30 @@ public class Board {
 
 		return false;
 	}
-	
+
 	private boolean check4Medio(int row, int column, List<Block> list) {
-		return check4MedioH(row, column, list) || check4MedioV(row,column,list);
+		return check4MedioH(row, column, list) || check4MedioV(row, column, list);
 	}
-	
+
 	private boolean check4MedioH(int row, int column, List<Block> list) {
-		if(row-2>=0 && row+1<matrix.length)
-			if(matrix[row-2][column].get)
+		if (row - 2 >= 0 && row + 1 < matrix.length)
+			if (matrix[row - 2][column].getEntity().getColour() == matrix[row][column].getEntity().getColour()
+					&& matrix[row - 1][column].getEntity().getColour() == matrix[row][column].getEntity().getColour()
+					&& matrix[row][column].getEntity().getColour() == matrix[row + 1][column].getEntity().getColour()) {
+				list.add(matrix[row - 2][column]);
+				list.add(matrix[row - 1][column]);
+				list.add(matrix[row][column]);
+				list.add(matrix[row + 1][column]);
+				return true;
+			}
+		return false;
+
 	}
-	
+
 	private boolean check4MedioV(int row, int column, List<Block> list) {
-		
+
 	}
+
 	// DEBUG
 	public void showMatrix() {
 		for (Block[] row : matrix) {
