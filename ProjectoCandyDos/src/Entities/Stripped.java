@@ -100,5 +100,5 @@ public class Stripped extends Entity {
 		return null;
 	}
 
-	public String toString() { return setStringColor("Stripped("+this.posRow+", "+this.posColumn+")"); }
+	public String toString() { return setStringColor("S"); }
 }
