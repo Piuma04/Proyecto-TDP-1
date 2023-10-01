@@ -195,7 +195,7 @@ public class Board {
 		Entity ent = matrix[row][column].getEntity();
 		int cont = 0;
 
-		if (match3Medio(row, column, list)) // se fija vertical y horizontalmente
+		if (check3Medio(row, column, list)) // se fija vertical y horizontalmente
 			return true;
 
 		// hoz derecha
@@ -276,7 +276,7 @@ public class Board {
 
 	}
 
-	private boolean match3Medio(int row, int column, List<Block> list) {
+	private boolean check3Medio(int row, int column, List<Block> list) {
 		if (column - 1 >= 0 && column + 1 < matrix[0].length) {
 			if (matrix[row][column - 1].getEntity().getColour() == matrix[row][column].getEntity().getColour()
 					&& matrix[row][column].getEntity().getColour() == matrix[row][column + 1].getEntity().getColour()) {
@@ -305,7 +305,7 @@ public class Board {
 		Entity ent = matrix[row][column].getEntity();
 		int cont = 0;
 
-		if (match4Medio(row, column, list)) // se fija vertical y horizontalmente
+		if (check4Medio(row, column, list)) // se fija vertical y horizontalmente
 			return true;
 
 		// hoz derecha
@@ -401,11 +401,20 @@ public class Board {
 				return true;
 			}
 		return false;
-
 	}
 
 	private boolean check4MedioV(int row, int column, List<Block> list) {
-
+		if (column - 2 >= 0 && column + 1 < matrix.length)
+			if (matrix[row][column - 2].getEntity().getColour() == matrix[row][column].getEntity().getColour()
+					&& matrix[row][column - 1].getEntity().getColour() == matrix[row][column].getEntity().getColour()
+					&& matrix[row][column].getEntity().getColour() == matrix[row][column + 1].getEntity().getColour()) {
+				list.add(matrix[row][column - 2]);
+				list.add(matrix[row][column - 1]);
+				list.add(matrix[row][column]);
+				list.add(matrix[row][column + 1]);
+				return true;
+			}
+		return false;
 	}
 
 	// DEBUG
