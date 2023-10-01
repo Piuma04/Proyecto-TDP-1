@@ -206,27 +206,15 @@ public class Board {
             } else
                 break;
         }
-
-		// hoz derecha
-		for (int c = column; c < matriz[0].length && !toRet; c++) {
-			if (matriz[row][c].getEntity().getColour() == ent.getColour()) {
-				cont++;
-				toAdd.add(matriz[row][c]);
-				if (cont == 3)
-					toRet = true;
-			} else
-				break;
-		}
-
 		if (toRet) {
 			list.addAll(toAdd);
 			return toRet;
 		}
 
+		// ver abajo
 		toRet = false;
 		cont = 0;
 		toAdd = new LinkedList<Block>();
-		// ver abajo
 		for (int r = row; row < matriz.length && !toRet; r++) {
 			if (matriz[r][column].getEntity().getColour() == ent.getColour()) {
 				cont++;
@@ -236,17 +224,15 @@ public class Board {
 			} else
 				break;
 		}
-
 		if (toRet) {
 			list.addAll(toAdd);
 			return toRet;
 		}
 
+		// ver arriba
 		toRet = false;
 		cont = 0;
-		toAdd = new LinkedList<Block>();
-
-		// ver arriba
+		toAdd = new LinkedList<Block>();		
 		for (int r = row; r >= 0 && !toRet; r--) {
 			if (matriz[r][column].getEntity().getColour() == ent.getColour()) {
 				cont++;
@@ -256,17 +242,15 @@ public class Board {
 			} else
 				break;
 		}
-		
 		if (toRet) {
 			list.addAll(toAdd);
 			return toRet;
 		}
 
+		// hoz izq
 		toRet = false;
 		cont = 0;
 		toAdd = new LinkedList<Block>();
-
-		// hoz izq
 		for (int c = column; c >= 0 && !toRet; c--) {
 			if (matriz[row][c].getEntity().getColour() == ent.getColour()) {
 				cont++;
@@ -281,37 +265,8 @@ public class Board {
 			list.addAll(toAdd);
 			return toRet;
 		}
-		
-        if (toRet) {
-            list.addAll(toAdd);
-            return toRet;
-        }
 
-        toRet = false;
-        cont = 0;
-        toAdd = new LinkedList<Block>();
-
-        for (int r = row; row < matriz.length && !toRet; r++) {
-            if (matriz[r][column].getEntity().getColour() == ent.getColour()) {
-                cont++;
-                toAdd.add(matriz[r][column]);
-                if (cont == 3)
-                    toRet = true;
-            } else
-                break;
-
-        }
-
-        if (toRet) {
-            list.addAll(toAdd);
-            return toRet;
-        }
-
-        toRet = false;
-        cont = 0;
-        toAdd = new LinkedList<Block>();
-
-        return toRet;
+        return false;
 
     }
 }
