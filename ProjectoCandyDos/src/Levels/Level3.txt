@@ -1,7 +1,7 @@
 R,40,40,180
-R,R,G,R,Y,R,
-Y,R,G,P,B,P,
-P,Y,Y,R,R,P,
-P,P,B,B,Y,R,
-Y,B,G,G,B,G,
+R,R,G,R,Y,R
+Y,R,G,P,B,P
+P,Y,Y,R,R,P
+P,P,B,B,Y,R
+Y,B,G,G,B,G
 Y,G,Y,Y,P,R
