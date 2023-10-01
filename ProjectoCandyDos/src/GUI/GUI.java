@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import Interfaces.LogicBlock;
 import Logic.Game;
+import javax.swing.JTextField;
 
 
 
@@ -26,7 +27,7 @@ public class GUI extends JFrame {
 	
 	protected JLabel upperText;
 	protected JPanel mainPanel;
-	private int size_label = 60;
+	private int size_label = 150;
 	
 	public GUI(Game j, int r, int c) {
 		myGame = j;
@@ -37,10 +38,10 @@ public class GUI extends JFrame {
 	
 	protected void inicializar() {
 		setTitle("CandyCrush Villero");
-		setSize(new Dimension(500, 500));
+		setSize(new Dimension(1500, 950));
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 		
 		upperText = new JLabel("( ͡°( ͡° ͜ʖ( ͡° ͜ʖ ͡°)ʖ ͡°) ͡°)");
 		
@@ -74,16 +75,4 @@ public class GUI extends JFrame {
 		mainPanel.add(Cellaux);
 		return Cellaux;
 	}
-	
-	/*public void considerForSwapPosition(Cell c) {
-		if (celda_1_pendiente_animacion == null) {
-			celda_1_pendiente_animacion = c;
-		}else {
-			celda_2_pendiente_animacion = c;
-			AnimadorIntercambio mi_animador_intercambio = new AnimadorIntercambio(size_label, 10, 50, celda_1_pendiente_animacion, celda_2_pendiente_animacion);
-			celda_1_pendiente_animacion = null;
-			celda_2_pendiente_animacion = null;
-			mi_animador_intercambio.start();
-		}
-	}*/
 }
