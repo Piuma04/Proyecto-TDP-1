@@ -23,8 +23,7 @@ public class LevelGenerator {
      * (entity),(amount of entities),(moves),(time)</br>
      * (entity),(entity),...</br>
      * (entity),(entity),...</br>
-     *  ..., ..., ...
-     * 
+     *  ..., ..., ...</br></br>
      * example:</br>
      * RS,6,40,40</br>
      * R,R,Y,R,R,Y</br>
