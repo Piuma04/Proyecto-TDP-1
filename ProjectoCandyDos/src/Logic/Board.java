@@ -28,7 +28,7 @@ public class Board {
     	column = 3;
     	for(int i = 0;i<ROWS;i++)
     		for(int j = 0;j<COLUMNS;j++)
-    			matriz[i][j] = new Block();
+    			matriz[i][j] = new Block(i,j);
     }
     public int getRows() {
         return ROWS;

@@ -2,7 +2,9 @@ package Logic;
 
 import java.awt.EventQueue;
 
+import Entities.Block;
 import GUI.GUI;
+import GUI.GraphicalBlock;
 
 public class Game {
 	
@@ -21,10 +23,25 @@ public class Game {
     	myBoard = new Board(this);
     	myLevel = myLevelGenerator.generateLevel("str", myBoard);
 		myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
-		asociar_entidades_logicas_graficas();
+		assocciateLogicalGraphicBlocks();
 	}
     
-    public void update() {
+    private void assocciateLogicalGraphicBlocks() {
+    	Block e;
+		GraphicalBlock eg;
+		
+		for (int r=0; r<myBoard.getRows(); r++) {
+			for (int c=0; c<myBoard.getColumns(); c++) {
+				e = myBoard.getBlock(r, c);
+				eg = myGui.agregar_entidad(e);
+				e.setGraphicBlock(eg);
+			}
+		}
+		myGui.setVisible(true);
+		
+	}
+
+	public void update() {
         
     }
 
