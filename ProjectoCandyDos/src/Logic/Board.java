@@ -157,7 +157,7 @@ public class Board {
 		Block b1 = matrix[row][column];
 		Block b2 = matrix[newRow][newColumn];
 
-		if (newRow < matrix.length && newColumn < matrix[0].length) {
+		if (newRow>=0 && newRow < ROWS && newColumn>=0 && newColumn < COLUMNS) {
 			e1 = b1.getEntity();
 			e2 = b2.getEntity();
 			canExchange = e1.isSwappable(e2);
