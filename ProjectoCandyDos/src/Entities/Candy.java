@@ -87,5 +87,5 @@ public class Candy extends Entity {
 		return null;
 	}
 
-    public String toString() { return setStringColor("Candy("+this.posRow+", "+this.posColumn+")"); }
+    public String toString() { return setStringColor("C"); }
 }
