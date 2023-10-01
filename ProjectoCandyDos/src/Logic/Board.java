@@ -138,38 +138,36 @@ public class Board {
 		}
 	}
 
-	 private List<Equivalent> swapEntities(int newRow, int newColumn) {
-	        Entity e1, e2;
-	        Set<Integer> columnsToCheck;
-	        List<Block> l1, l2, remaining;
-	        List<Equivalent> destroyed = new LinkedList<Equivalent>();
-	        boolean canExchange = false;
-	        Block b1 = matriz[row][column];
-	        Block b2 = matriz[newRow][newColumn];
+	private List<Equivalent> swapEntities(int newRow, int newColumn) {
+		Entity e1, e2;
+		Set<Integer> columnsToCheck;
+		List<Block> l1, l2, remaining;
+		List<Equivalent> destroyed = new LinkedList<Equivalent>();
+		boolean canExchange = false;
+		Block b1 = matriz[row][column];
+		Block b2 = matriz[newRow][newColumn];
 
-	        if (newRow < matriz.length && newColumn < matriz[0].length) {
-	            e1 = b1.getEntity();
-	            e2 = b2.getEntity();
-	            canExchange = e1.isSwappable(e2);
-	            if (canExchange) {
-	                b1.swapEntity(b2);
-	                l1 = checkCombinations(row, column);
-	                l2 = checkCombinations(newRow, newColumn);
-	                l1.addAll(l2);
-	                destroyed = destroyEntities(l1);
-	                columnsToCheck = fillBoard();
-	                remaining = checkRemainingCombinations(columnsToCheck);
-	                while(!remaining.isEmpty())
-	                {
-	                	destroyed.addAll(destroyEntities(remaining));
-	                	columnsToCheck = fillBoard();
-	                	remaining = checkRemainingCombinations(columnsToCheck);
-	                }
-	            }
-	        }
-	        return destroyed;
-	    }
-
+		if (newRow < matriz.length && newColumn < matriz[0].length) {
+			e1 = b1.getEntity();
+			e2 = b2.getEntity();
+			canExchange = e1.isSwappable(e2);
+			if (canExchange) {
+				b1.swapEntity(b2);
+				l1 = checkCombinations(row, column);
+				l2 = checkCombinations(newRow, newColumn);
+				l1.addAll(l2);
+				destroyed = destroyEntities(l1);
+				columnsToCheck = fillBoard();
+				remaining = checkRemainingCombinations(columnsToCheck);
+				while (!remaining.isEmpty()) {
+					destroyed.addAll(destroyEntities(remaining));
+					columnsToCheck = fillBoard();
+					remaining = checkRemainingCombinations(columnsToCheck);
+				}
+			}
+		}
+		return destroyed;
+	}
 
 	private List<Block> checkRemainingCombinations(Set<Integer> s) {
 		List<Block> combinations = new LinkedList<Block>();
@@ -206,38 +204,69 @@ public class Board {
 			} else
 				break;
 		}
-		
+
 		if (toRet) {
 			list.addAll(toAdd);
 			return toRet;
 		}
-		
+
 		toRet = false;
 		cont = 0;
 		toAdd = new LinkedList<Block>();
-		
-		for(int r=row; row<matriz.length && !toRet; r++) {
-			if(matriz[r][column].getEntity().getColour() == ent.getColour()) {
+		// ver abajo
+		for (int r = row; row < matriz.length && !toRet; r++) {
+			if (matriz[r][column].getEntity().getColour() == ent.getColour()) {
 				cont++;
 				toAdd.add(matriz[r][column]);
-				if(cont == 3)
-					toRet=true;
-			}
-			else break;
-			
+				if (cont == 3)
+					toRet = true;
+			} else
+				break;
+		}
+
+		if (toRet) {
+			list.addAll(toAdd);
+			return toRet;
+		}
+
+		toRet = false;
+		cont = 0;
+		toAdd = new LinkedList<Block>();
+
+		// ver arriba
+		for (int r = row; r >= 0 && !toRet; r--) {
+			if (matriz[r][column].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matriz[r][column]);
+				if (cont == 3)
+					toRet = true;
+			} else
+				break;
 		}
 		
 		if (toRet) {
 			list.addAll(toAdd);
 			return toRet;
-		}
-		
+
 		toRet = false;
 		cont = 0;
 		toAdd = new LinkedList<Block>();
-		
-		return toRet;
-		
-		
+
+		// hoz izq
+		for (int c = column; c >= 0 && !toRet; c--) {
+			if (matriz[row][c].getEntity().getColour() == ent.getColour()) {
+				cont++;
+				toAdd.add(matriz[row][c]);
+				if (cont == 3)
+					toRet = true;
+			} else
+				break;
+		}
+
+		if (toRet) {
+			list.addAll(toAdd);
+			return toRet;
+		}
+		return false;
 	}
 }
