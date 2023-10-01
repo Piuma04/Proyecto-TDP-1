@@ -42,15 +42,15 @@ public class Board {
 	public Set<Integer> fillBoard() {
 		Set<Integer> s = new HashSet<Integer>();
 		boolean canNext = false;
-		for (int j = COLUMNS; j > 0 && s.size() < COLUMNS; j--) {
-			for (int i = ROWS; i > 0 && s.size() < COLUMNS; i--) {
+		for (int j = COLUMNS-1; j >= 0 && s.size() < COLUMNS; j--) {
+			for (int i = ROWS-1; i >= 0 && s.size() < COLUMNS; i--) {
 				if (matrix[i][j].isEmpty() && !s.contains(j)) {
 					s.add(j);
 				}
 			}
 		}
 		for (Integer j : s) {
-			for (int i = ROWS; i > 0; i--) {
+			for (int i = ROWS-1; i >= 0; i--) {
 				if (matrix[i][j].isEmpty()) {
 					int nextEntity = i;
 					while (nextEntity >= 0 && !canNext) {
@@ -62,7 +62,7 @@ public class Board {
 					else
 						// TODO
 						// New
-						for (int cont = i; cont > 0; cont--) {
+						for (int cont = i; cont >= 0; cont--) {
 							Entity e = new Candy(cont, j, Colour.YELLOW);
 							matrix[i][j].setEntity(e);
 						}
