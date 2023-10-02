@@ -25,11 +25,8 @@ public class Game {
         //myBoard.showMatrix();
         myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
         assocciateLogicalGraphicBlocks();
-        myBoard.setPlayerPosition(3, 3);
-    }
-
-    public void update() {
-        
+        myGui.setVisible(true);
+        //myBoard.setPlayerPosition(3, 3);
     }
 
     public void loadLevel(int level) {
@@ -45,17 +42,16 @@ public class Game {
     }
     
     private void assocciateLogicalGraphicBlocks() {
-        Block e;
-        GraphicalBlock eg;
+        Block block;
+        GraphicalBlock graphicalBlock;
         
         for (int r = 0; r < myBoard.getRows(); r++) {
             for (int c = 0; c < myBoard.getColumns(); c++) {
-                e = myBoard.getBlock(r, c);
-                eg = myGui.agregar_entidad(e);
-                e.setGraphicBlock(eg);
+                block = myBoard.getBlock(r, c);
+                graphicalBlock = myGui.agregar_entidad(block);
+                block.setGraphicBlock(graphicalBlock);
             }
         }
-        myGui.setVisible(true);
     }
 
     public static void main(String[] args) {

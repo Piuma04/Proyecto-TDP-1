@@ -215,7 +215,7 @@ public class Board {
 		return toReturn;
 	}
 	//METODO BALTASAR
-	private int checkCombinations(int row,int column)
+	/*private int checkCombinations(int row,int column)
 	{
 		List<Block> combination = new LinkedList<Block>();
 		Colour color = matrix[row][column].getEntity().getColour();
@@ -230,7 +230,7 @@ public class Board {
 		else 
 			combination.add(matrix[row][column]);
 		return combination;
-	}
+	}*/
 	private int checkSeguidosH(int row, int column, List<Block> combination)
 	{
 		List<Block> toAdd = new LinkedList<Block>();
