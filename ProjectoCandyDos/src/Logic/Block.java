@@ -50,14 +50,14 @@ public class Block implements Focusable, LogicEntity {
         myModifiers.push(new Jelly());
     }
 
-    public void swapEntity(Block b) {
-        Entity e = b.getEntity();
-        myEntity.setNewCol(e.getColumn());
-        myEntity.setNewRow(e.getRow());
-        e.setNewRow(row);
-        e.setNewCol(column);
-        b.setEntity(myEntity);
-        myEntity = e;
+    public void swapEntity(Block block) {
+        Entity entity = block.getEntity();
+        int tempRow = this.row;
+        int tempColumn = this.column;
+        myEntity.changePosition(entity.getRow(), entity.getColumn());
+        entity.changePosition(tempRow, tempColumn);
+        block.setEntity(myEntity);
+        myEntity = entity;
     }
 
     public Equivalent popModifier() {
