@@ -1,7 +1,11 @@
-package Entities;
+package Logic;
 
 import java.util.Stack;
 
+import Entities.Empty;
+import Entities.Entity;
+import Entities.Jelly;
+import Entities.Modifiers;
 import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
 import Interfaces.Focusable;
@@ -39,7 +43,7 @@ public class Block implements Focusable, LogicEntity {
     }
 
     public boolean isEmpty() {
-        return myEntity.equals(new Empty());
+        return myEntity.equals(new Empty()); // TODO ??
 
     }
 

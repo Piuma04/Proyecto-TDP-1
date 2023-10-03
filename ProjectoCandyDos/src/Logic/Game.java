@@ -2,7 +2,6 @@ package Logic;
 
 import java.awt.EventQueue;
 
-import Entities.Block;
 import Entities.Entity;
 import GUI.GUI;
 import GUI.GraphicalEntity;

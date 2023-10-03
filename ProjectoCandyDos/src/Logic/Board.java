@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Set;
 
-import Entities.Block;
 import Entities.Candy;
 import Entities.Colour;
 import Entities.Entity;

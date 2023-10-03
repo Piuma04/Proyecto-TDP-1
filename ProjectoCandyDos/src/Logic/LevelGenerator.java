@@ -9,7 +9,6 @@ import java.util.List;
 import Entities.Entity;
 import Entities.Empty;
 import Entities.Colour;
-import Entities.Block;
 import Entities.Candy;
 import Entities.Stripped;
 import Entities.Wrapped;
