@@ -22,6 +22,13 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public Colour getColour() {
         return colour;
     }
+    public void setNewRow(int r) {
+         posRow = r;
+    }
+
+    public void  setNewColumn(int c) {
+         posColumn = c;
+    }
 
     public int getRow() {
         return posRow;
