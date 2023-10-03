@@ -74,14 +74,6 @@ public class Candy extends Entity {
 	public List<Block> getDestroyables(Board b) {
 		List<Block> toDestroy = new LinkedList<Block>();
 		toDestroy.add(b.getBlock(row, column));
-
-
-		/*
-		 * adyacentRow[i] y adyacentColumn[i] serian las posiciones relativas desde la
-		 * posicion del caramelo a explotar
-		 */
-		if (row >= 0 && row < b.getRows() && column >= 0 && column < b.getColumns())
-				toDestroy.add(b.getBlock(row, column));
 		int[] adyacentRows = {-1, 0, 1, 0};
 		int[] adyacentColumns = {0, -1, 0, 1};
 
