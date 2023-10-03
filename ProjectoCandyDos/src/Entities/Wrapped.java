@@ -82,21 +82,15 @@ public class Wrapped extends Entity {
 	@Override
 	// TODO
 	public List<Block> getDestroyables(Board b) {
-		List<Block> toDestroy = new LinkedList<Block>();
-		toDestroy.add(b.getBlock(row, column));
-		int[] adyacentRows = { -1, -1, -1, 0, 0, 1, 1, 1 };
-		int[] adyacentColumns = { -1, 0, 1, -1, 1, -1, 0, 1 };
-
-		for (int i = 0; i < 8; i++) {
-			int newRow = row + adyacentRows[i];
-			int newColumn = column + adyacentColumns[i];
-
-			if (newRow >= 0 && newRow < b.getRows() && newColumn >= 0 && newColumn < b.getColumns()) {
-				toDestroy.add(b.getBlock(newRow, newColumn));
-			}
-		}
-		return toDestroy;
-	}
+        List<Block> toDestroy = new LinkedList<Block>();
+        for(int j = column-1;j<=column+1;j++)
+            for(int i = row-1;i<=row+1;i++)
+            {
+                if(i>=0 && i<b.getRows() && j>=0 && j<b.getColumns())
+                    toDestroy.add(b.getBlock(i, j));
+            }
+        return toDestroy;
+    }
 
 	public String toString() {
 		return setStringColor("W");
