@@ -248,7 +248,7 @@ public class Board {
 				toAdd.add(matrix[i][column]);
 			}
 		}
-		if(toAdd.size()>=3)
+		if(toAdd.size()>=2)
 			combination.addAll(toAdd);
 		return toAdd.size();
 	}
@@ -272,7 +272,7 @@ public class Board {
 				toAdd.add(matrix[row][j]);
 			}
 		}
-		if(toAdd.size()>=3)
+		if(toAdd.size()>=2)
 			combination.addAll(toAdd);
 		return toAdd.size();
 	}//END Problema en checkRemaining ya que puede destruirse el rayado creado
