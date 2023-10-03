@@ -32,12 +32,12 @@ public class Board {
 				matrix[i][j] = new Block(i, j);
 	}
 
-	private Colour randomColour()
-	{
-		Colour[] colores = {Colour.BLUE,Colour.GREEN,Colour.PURPLE,Colour.RED,Colour.YELLOW};
+	private Colour randomColour() {
+		Colour[] colores = { Colour.BLUE, Colour.GREEN, Colour.PURPLE, Colour.RED, Colour.YELLOW };
 		Random r = new Random();
-		return colores[Math.abs(r.nextInt())%5];
+		return colores[Math.abs(r.nextInt()) % 5];
 	}
+
 	public int getRows() {
 		return ROWS;
 	}
@@ -46,18 +46,14 @@ public class Board {
 		return COLUMNS;
 	}
 
-	/*private Set<Integer> columnsToFill()
-	{
-		Set<Integer> s = new HashSet<Integer>();
-		
-		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) {
-			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) {
-				if (matrix[i][j].isEmpty()) {
-					s.add(j);
-				}
-			}
-		}
-	}*/
+	/*
+	 * private Set<Integer> columnsToFill() { Set<Integer> s = new
+	 * HashSet<Integer>();
+	 * 
+	 * for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) { for (int i =
+	 * ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) { if
+	 * (matrix[i][j].isEmpty()) { s.add(j); } } } }
+	 */
 	public Set<Integer> fillBoard() {
 		Set<Integer> s = new HashSet<Integer>();
 		Entity e;
@@ -84,7 +80,7 @@ public class Board {
 						// TODO
 						// New
 						for (int cont = i; cont >= 0; cont--) {
-							e = new Candy(i,j,randomColour());
+							e = new Candy(i, j, randomColour());
 							matrix[i][j].setEntity(e);
 						}
 					found = false;//
@@ -137,7 +133,7 @@ public class Board {
 		return null; // deber retornar bien
 	}
 
-	public Block getBlock(int row, int column) { //Requiere row y column validos
+	public Block getBlock(int row, int column) { // Requiere row y column validos
 		return matrix[row][column];
 	}
 
@@ -147,8 +143,7 @@ public class Board {
 		for (Block b : l) {
 			toDestroy.addAll(b.getEntity().getDestroyables(this));
 		}
-		for(Block b : toDestroy)
-		{
+		for (Block b : toDestroy) {
 			destroyed.add(b.getEntity());
 			b.destroyEntity();
 		}
@@ -168,7 +163,6 @@ public class Board {
 	public void setPlayerPosition(int newRow, int newColumn) {
 
 		matrix[newRow][newColumn].focus();
-			
 
 	}
 
@@ -179,7 +173,7 @@ public class Board {
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
 		boolean canExchange = false;
 
-		if (newRow>=0 && newRow < ROWS && newColumn>=0 && newColumn < COLUMNS) {
+		if (newRow >= 0 && newRow < ROWS && newColumn >= 0 && newColumn < COLUMNS) {
 			Block b1 = matrix[row][column];
 			Block b2 = matrix[newRow][newColumn];
 			e1 = b1.getEntity();
@@ -191,8 +185,7 @@ public class Board {
 				l2 = checkCombinations(newRow, newColumn);
 				l1.addAll(l2);
 				System.out.println(l1.size());
-				if(!l1.isEmpty())
-				{
+				if (!l1.isEmpty()) {
 					destroyed = destroyEntities(l1);
 					System.out.println(destroyed);
 					columnsToCheck = fillBoard();
@@ -202,8 +195,12 @@ public class Board {
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
+<<<<<<< HEAD
 				}
 				else 
+=======
+				} else
+>>>>>>> branch 'gui2' of https://github.com/Piuma04/Proyecto-TDP-1.git
 					b1.swapEntity(b2);
 			}
 		}
@@ -219,78 +216,67 @@ public class Board {
 		}
 		return combinations;
 	}
-	//METODO BALTASAR
-	private List<Block> checkCombinations(int row,int column)
-	{
+
+	// METODO BALTASAR
+	private List<Block> checkCombinations(int row, int column) {
 		List<Block> combination = new LinkedList<Block>();
 		Colour color = matrix[row][column].getEntity().getColour();
-		int cantHorizontal =checkSeguidosH(row,column,combination);
-		int cantVertical = checkSeguidosV(row,column,combination);
-		if(cantHorizontal >=3 && cantVertical>=3)
-		{
-			matrix[row][column].setEntity(new Wrapped(row,column,color));
+		int cantHorizontal = checkSeguidosH(row, column, combination);
+		int cantVertical = checkSeguidosV(row, column, combination);
+		if (cantHorizontal >= 3 && cantVertical >= 3) {
+			matrix[row][column].setEntity(new Wrapped(row, column, color));
 			combination.remove(matrix[row][column]);
-		}
-		else if(cantHorizontal ==4 && cantVertical<3)
-		{
-			matrix[row][column].setEntity(new Stripped(row,column,color,true));
+		} else if (cantHorizontal == 4 && cantVertical < 3) {
+			matrix[row][column].setEntity(new Stripped(row, column, color, true));
 			combination.remove(matrix[row][column]);
-		}
-		else if(cantHorizontal <3 && cantVertical==4)
-		{
-			matrix[row][column].setEntity(new Stripped(row,column,color,false));
+		} else if (cantHorizontal < 3 && cantVertical == 4) {
+			matrix[row][column].setEntity(new Stripped(row, column, color, false));
 			combination.remove(matrix[row][column]);
 		}
 		return combination;
 	}
-	private int checkSeguidosH(int row, int column, List<Block> combination)
-	{
+
+	private int checkSeguidosH(int row, int column, List<Block> combination) {
 		List<Block> toAdd = new LinkedList<Block>();
 		Entity comparable = matrix[row][column].getEntity();
 		boolean cumple = true;
 		toAdd.add(matrix[row][column]);
-		for(int i = row+1 ;i>=0 && i<ROWS && cumple;i++)
-		{
-			cumple = matrix[i][column].getEntity().getColour()==comparable.getColour();
-			if(cumple)
+		for (int i = row + 1; i >= 0 && i < ROWS && cumple; i++) {
+			cumple = matrix[i][column].getEntity().getColour() == comparable.getColour();
+			if (cumple)
 				toAdd.add(matrix[i][column]);
 		}
 		cumple = true;
-		for(int i = row-1;i>=0 && i<ROWS && cumple;i--)
-		{
-			cumple = matrix[i][column].getEntity().getColour()==comparable.getColour();
-			if(cumple) 
-			{
+		for (int i = row - 1; i >= 0 && i < ROWS && cumple; i--) {
+			cumple = matrix[i][column].getEntity().getColour() == comparable.getColour();
+			if (cumple) {
 				toAdd.add(matrix[i][column]);
 			}
 		}
-		if(toAdd.size()>=3)
+		if (toAdd.size() >= 3)
 			combination.addAll(toAdd);
 		return toAdd.size();
 	}
-	private int checkSeguidosV(int row, int column, List<Block> combination)
-	{
+
+	private int checkSeguidosV(int row, int column, List<Block> combination) {
 		List<Block> toAdd = new LinkedList<Block>();
 		Entity comparable = matrix[row][column].getEntity();
 		boolean cumple = true;
 		toAdd.add(matrix[row][column]);
-		for(int j = column+1 ;j>=0 && j<COLUMNS && cumple;j++)
-		{
-			cumple = matrix[row][j].getEntity().getColour()==comparable.getColour();
-			if(cumple)
+		for (int j = column + 1; j >= 0 && j < COLUMNS && cumple; j++) {
+			cumple = matrix[row][j].getEntity().getColour() == comparable.getColour();
+			if (cumple)
 				toAdd.add(matrix[row][j]);
 		}
 		cumple = true;
-		for(int j = column-1;j>=0 && j<COLUMNS && cumple;j--)
-		{
-			cumple = matrix[row][j].getEntity().getColour()==comparable.getColour();
-			if(cumple) 
-			{
+		for (int j = column - 1; j >= 0 && j < COLUMNS && cumple; j--) {
+			cumple = matrix[row][j].getEntity().getColour() == comparable.getColour();
+			if (cumple) {
 				toAdd.add(matrix[row][j]);
 			}
 		}
-		if(toAdd.size()>=3)
+		if (toAdd.size() >= 3)
 			combination.addAll(toAdd);
 		return toAdd.size();
-	}//END Problema en checkRemaining ya que puede destruirse el rayado creado
+	}// END Problema en checkRemaining ya que puede destruirse el rayado creado
 }
