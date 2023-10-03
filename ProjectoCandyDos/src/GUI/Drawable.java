@@ -23,8 +23,8 @@ public class Drawable extends JComponent implements GraphicalEntity {
         sizeImage = 80; // NOT HARDCODED! // TODO
         myLogicBlock = logicBlock;
         notifyChangeStatus();
+        notifyChangePosition();
         setSize(sizeImage, sizeImage);
-        setLocation(myLogicBlock.getColumn() * sizeImage, myLogicBlock.getRow() * sizeImage);
         //setBounds(logicBlock.getColumn() * size, logicBlock.getRow() * size, size, size);
     }
 
@@ -54,5 +54,7 @@ public class Drawable extends JComponent implements GraphicalEntity {
 
     public void notifyChangePosition() {
         // implementar esto: mi_ventana.considerar_para_intercambio_posicion(this);
+        setLocation(myLogicBlock.getColumn() * sizeImage, myLogicBlock.getRow() * sizeImage);
+        repaint();
     }
 }
