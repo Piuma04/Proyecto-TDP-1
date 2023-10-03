@@ -75,6 +75,7 @@ public class Candy extends Entity {
 		List<Block> toDestroy = new LinkedList<Block>();
 		toDestroy.add(b.getBlock(row, column));
 
+
 		/*
 		 * adyacentRow[i] y adyacentColumn[i] serian las posiciones relativas desde la
 		 * posicion del caramelo a explotar
@@ -90,8 +91,6 @@ public class Candy extends Entity {
 
 			if (newRow >= 0 && newRow < b.getRows() && newColumn >= 0 && newColumn < b.getColumns()
 					&& b.getBlock(newRow, newColumn).getEntity().getColour()==Colour.GLAZED) {
-				 {
-			}
 				// pregunta si hay algun glaseado alrededor
 				// *podria ser b.getBlock(newRow,newColumn).getEntity()==Colour.GLAZED
 				toDestroy.add(b.getBlock(newRow, newColumn));
