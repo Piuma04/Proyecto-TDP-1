@@ -154,10 +154,10 @@ public class Board {
 		List<Block> l1, l2, remaining;
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
 		boolean canExchange = false;
-		Block b1 = matrix[row][column];
-		Block b2 = matrix[newRow][newColumn];
 
 		if (newRow>=0 && newRow < ROWS && newColumn>=0 && newColumn < COLUMNS) {
+			Block b1 = matrix[row][column];
+			Block b2 = matrix[newRow][newColumn];
 			e1 = b1.getEntity();
 			e2 = b2.getEntity();
 			canExchange = e1.isSwappable(e2);
@@ -227,8 +227,6 @@ public class Board {
 			matrix[row][column].setEntity(new Stripped(row,column,color,true));
 		else if(cantHorizontal <3 && cantVertical==4)
 			matrix[row][column].setEntity(new Stripped(row,column,color,false));
-		else 
-			combination.add(matrix[row][column]);
 		return combination;
 	}
 	private int checkSeguidosH(int row, int column, List<Block> combination)
@@ -236,6 +234,7 @@ public class Board {
 		List<Block> toAdd = new LinkedList<Block>();
 		Entity comparable = matrix[row][column].getEntity();
 		boolean cumple = true;
+		toAdd.add(matrix[row][column]);
 		for(int i = row+1 ;i>=0 && i<ROWS && cumple;i++)
 		{
 			cumple = matrix[i][column].getEntity().getColour()==comparable.getColour();
@@ -260,6 +259,7 @@ public class Board {
 		List<Block> toAdd = new LinkedList<Block>();
 		Entity comparable = matrix[row][column].getEntity();
 		boolean cumple = true;
+		toAdd.add(matrix[row][column]);
 		for(int j = column+1 ;j>=0 && j<COLUMNS && cumple;j++)
 		{
 			cumple = matrix[row][j].getEntity().getColour()==comparable.getColour();
