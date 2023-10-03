@@ -61,7 +61,7 @@ public class Board {
 	public Set<Integer> fillBoard() {
 		Set<Integer> s = new HashSet<Integer>();
 		Entity e;
-		boolean canNext = false;
+		boolean found = false;
 		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) {
 			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) {
 				if (matrix[i][j].isEmpty()) {
@@ -72,12 +72,13 @@ public class Board {
 		for (Integer j : s) {
 			for (int i = ROWS - 1; i >= 0; i--) {
 				if (matrix[i][j].isEmpty()) {
-					int nextEntity = i;
-					while (nextEntity >= 0 && !canNext) {
-						nextEntity--;
-						canNext = !matrix[i][j].isEmpty();
+					int nextEntity = i-1;
+					while (nextEntity >= 0 && !found) {
+						found = !matrix[nextEntity][j].isEmpty();
+						if(!found) 
+							nextEntity--;
 					}
-					if (canNext)
+					if (found)
 						matrix[i][j].swapEntity(matrix[nextEntity][j]);
 					else
 						// TODO
@@ -86,7 +87,7 @@ public class Board {
 							e = new Candy(i,j,randomColour());
 							matrix[i][j].setEntity(e);
 						}
-					canNext = false;//
+					found = false;//
 				}
 			}
 		}
@@ -194,15 +195,16 @@ public class Board {
 				{
 					destroyed = destroyEntities(l1);
 					System.out.println(destroyed);
-					/*columnsToCheck = fillBoard();
+					columnsToCheck = fillBoard();
 					remaining = checkRemainingCombinations(columnsToCheck);
 					while (!remaining.isEmpty()) {
 						destroyed.addAll(destroyEntities(remaining));
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
-					}*/
+					}
 				}
-				//else b1.swapEntity(b2);
+				else 
+					b1.swapEntity(b2);
 			}
 		}
 		return destroyed;
