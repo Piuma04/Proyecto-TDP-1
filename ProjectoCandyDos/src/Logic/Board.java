@@ -165,10 +165,10 @@ public class Board {
 		List<Block> l1, l2, remaining;
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
 		boolean canExchange = false;
-		Block b1 = matrix[row][column];
-		Block b2 = matrix[newRow][newColumn];
 
 		if (newRow>=0 && newRow < ROWS && newColumn>=0 && newColumn < COLUMNS) {
+			Block b1 = matrix[row][column];
+			Block b2 = matrix[newRow][newColumn];
 			e1 = b1.getEntity();
 			e2 = b2.getEntity();
 			canExchange = e1.isSwappable(e2);
