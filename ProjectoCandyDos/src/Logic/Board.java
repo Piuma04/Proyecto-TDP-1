@@ -193,8 +193,7 @@ public class Board {
 				{
 					destroyed = destroyEntities(l1);
 					System.out.println(destroyed);
-					columnsToCheck = fillBoard();
-					/*
+					/*columnsToCheck = fillBoard();
 					remaining = checkRemainingCombinations(columnsToCheck);
 					while (!remaining.isEmpty()) {
 						destroyed.addAll(destroyEntities(remaining));
@@ -202,8 +201,7 @@ public class Board {
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}*/
 				}
-				else
-					b1.swapEntity(b2);
+				//else b1.swapEntity(b2);
 			}
 		}
 		return destroyed;
