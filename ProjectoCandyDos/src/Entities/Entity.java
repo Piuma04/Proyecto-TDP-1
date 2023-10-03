@@ -55,6 +55,10 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
             gEntity.notifyChangeStatus();
         }
     }
+    
+    public String getImage() {
+        return destroyed ? null : (this.colour.toString() + ".png");
+    }
 
     protected String setStringColor(String str) {
         final String ANSI_RESET = "\u001B[0m";

@@ -61,8 +61,7 @@ public class Stripped extends Entity {
 
 	@Override
 	public String getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		return "S" + super.getImage();
 	}
 
 	@Override

@@ -49,36 +49,6 @@ public class Candy extends Entity {
 		return false;
 	}
 
-	// TODO GUI
-	public String getImage() {
-		// TODO Auto-generated method stub
-	    String imageName = null;
-	    if (!destroyed) {
-	        
-	    switch (colour) {
-    	    case RED:
-    	        imageName = "redCaramel.png";
-    	        break;
-    	    case YELLOW:
-                imageName = "yellowCaramel.png";
-                break;
-    	    case GREEN:
-                imageName = "greenCaramel.png";
-                break;
-    	    case PURPLE:
-                imageName = "purpleCaramel.png";
-                break;
-    	    case BLUE:
-                imageName = "blueCaramel.png";
-                break;
-            default:
-                imageName = null; // TODO ??? exception?
-                break;
-    	    }
-	    }
-		return imageName;
-	}
-
 	public boolean isSwappable(Entity e) {
 		return e.canReceive(this);
 	}

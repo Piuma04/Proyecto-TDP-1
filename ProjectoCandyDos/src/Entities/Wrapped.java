@@ -51,8 +51,7 @@ public class Wrapped extends Entity {
 
 	@Override
 	public String getImage() {
-		// TODO Auto-generated method stub
-		return null;
+		return "W" + super.getImage();
 	}
 
 	@Override

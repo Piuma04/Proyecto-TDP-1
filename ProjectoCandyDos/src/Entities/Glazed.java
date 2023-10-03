@@ -48,13 +48,6 @@ public class Glazed extends Entity {
 	}
 
 	@Override
-	// TODO GUI
-	public String getImage() {
-		// TODO Auto-generated method stub
-		return destroyed ? null : "glazed.png";
-	}
-
-	@Override
 	// TODO No seria siempre false??
 	public boolean isSwappable(Entity e) {
 		return e.canReceive(this);
