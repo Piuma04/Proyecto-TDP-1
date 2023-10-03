@@ -11,31 +11,23 @@ import Logic.Block;
 import Logic.Board;
 
 public abstract class Entity implements Equivalent, Swappable, LogicEntity {
-    /* Attributes */
+
     protected Colour colour;
     protected int posRow;
     protected int posColumn;
-
     private GraphicalEntity gEntity;
 
-    /* Methods */
-    public Colour getColour() {
-        return colour;
-    }
-
-    public int getRow() {
-        return posRow;
-    }
-
-    public int getColumn() {
-        return posColumn;
-    }
-
+    public Colour getColour() { return colour; }
+    public int getRow() { return posRow; }
+    public int getColumn() { return posColumn; }
+    
     public void changePosition(int newRow, int newColumn) {
         posRow = newRow;
         posColumn = newColumn;
         gEntity.notifyChangePosition();
     }
+
+    public void setGraphicEntity(GraphicalEntity gEntity) { this.gEntity = gEntity; }
 
     /*
      * private void uploadRepresetnativePictures(String path_img) {
@@ -56,7 +48,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
         final String ANSI_BLUE = "\u001B[34m";
         final String ANSI_BLACK = "\u001B[30m";
         final String ANSI_CYAN = "\u001B[36m";
-        final String ANSI_WHITE = "\u001B[37m";
+        //final String ANSI_WHITE = "\u001B[37m";
 
         String colourStr = null;
         switch (this.colour) {
@@ -84,9 +76,5 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
         }
 
         return colourStr + str + ANSI_RESET;
-    }
-
-    public void setGraphicEntity(GraphicalEntity gEntity) {
-        this.gEntity = gEntity;
     }
 }

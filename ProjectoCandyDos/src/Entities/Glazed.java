@@ -8,14 +8,12 @@ import Logic.Board;
 
 public class Glazed extends Entity {
 
-	/* Constructor */
 	public Glazed(int posRow, int posColumn) {
 		this.posRow = posRow;
 		this.posColumn = posColumn;
 		this.colour = Colour.GLAZED;
 	}
 
-	/* Methods */
 	@Override
 	public boolean isEquivalent(Entity e) {
 		return e.equals(this);
@@ -55,7 +53,7 @@ public class Glazed extends Entity {
 	// TODO GUI
 	public String getImage() {
 		// TODO Auto-generated method stub
-		return null;
+		return "glazed.png";
 	}
 
 	@Override
