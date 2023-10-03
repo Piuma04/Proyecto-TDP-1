@@ -185,15 +185,15 @@ public class Board {
 				System.out.println(l1.size());
 				if(!l1.isEmpty())
 				{
-					System.out.println("Entro en el bucle");
 					destroyed = destroyEntities(l1);
-					columnsToCheck = fillBoard();
+					System.out.println(destroyed);
+					/*columnsToCheck = fillBoard();
 					remaining = checkRemainingCombinations(columnsToCheck);
 					while (!remaining.isEmpty()) {
 						destroyed.addAll(destroyEntities(remaining));
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
-					}
+					}*/
 				}
 				//else
 					//b1.swapEntity(b2);
@@ -224,7 +224,7 @@ public class Board {
 			matrix[row][column].setEntity(new Stripped(row,column,color,true));
 		else if(cantHorizontal <3 && cantVertical==4)
 			matrix[row][column].setEntity(new Stripped(row,column,color,false));
-		else if(cantHorizontal==3 || cantVertical==3)
+		else if(cantHorizontal==2 || cantVertical==2)
 			combination.add(matrix[row][column]);
 		return combination;
 	}
