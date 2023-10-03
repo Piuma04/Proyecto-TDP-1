@@ -87,6 +87,7 @@ public class Block implements Focusable, LogicBlock{
         graphicalBlock.notifyChangeStatus();
         return true;
     }
+    
 
 	@Override
 	public int getRow() {

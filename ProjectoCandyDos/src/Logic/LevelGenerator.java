@@ -50,6 +50,7 @@ public class LevelGenerator {
             level = new Level(createEntity(candys[0], -1, -1), // Entity to compare.
                     Integer.valueOf(candys[1]), // Amount of entities to win. (GOAL)
                     2, // Amount of Moves.
+                    
                     Integer.valueOf(candys[3])); // max time in SECONDS.
 
             for (int r = 0; r < board.getRows(); r++) {

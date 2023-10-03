@@ -48,6 +48,7 @@ public class Game {
         			loadLevel(1);
         			myGui.reset();
         			
+        			
         			assocciateLogicalGraphicBlocks();
         			myBoard.setPlayerPosition(3, 3);
         			myGui.updateMoves(myLevel.getRemainingMoves());

@@ -99,6 +99,7 @@ public class GUI extends JFrame {
 		JOptionPane.showMessageDialog(mainPanel, "Perdio el juego");
 		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 	}
+	
 	public void reset() {
 		mainPanel = new JPanel();
 		mainPanel.setSize(size_label * rows, size_label * columns);

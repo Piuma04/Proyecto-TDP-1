@@ -40,6 +40,7 @@ public class Cell extends JLabel implements GraphicalBlock {
 		Icon iconoEscalado = new ImageIcon(imgEscalada);
 		setIcon(iconoEscalado);
 	}
+	
 
 
 	@Override

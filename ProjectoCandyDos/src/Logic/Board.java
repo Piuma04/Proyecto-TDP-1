@@ -162,6 +162,7 @@ public class Board {
 			e2 = b2.getEntity();
 			canExchange = e1.isSwappable(e2);
 			if (canExchange) {
+				
 				b1.swapEntity(b2);
 				l1 = checkCombinations(row, column);
 				l2 = checkCombinations(newRow, newColumn);

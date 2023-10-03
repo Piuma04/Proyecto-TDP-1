@@ -13,6 +13,7 @@ public class Goal {
         counter = amount;
         type = toDestroyEntityType;
     }
+    
 
     /**
      * 

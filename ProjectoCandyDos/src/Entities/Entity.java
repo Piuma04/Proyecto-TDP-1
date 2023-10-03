@@ -25,6 +25,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicBlock{
 	public int getRow() {
 		return posRow;
 	}
+	
 
 	public int getColumn() {
 		return posColumn;

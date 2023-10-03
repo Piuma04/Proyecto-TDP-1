@@ -28,6 +28,7 @@ public class Level {
        // return myGoal.updateCounter(l);
     	return false;
     }
+    
 
     public boolean hasMove() {
         return remainingMoves > 0;
