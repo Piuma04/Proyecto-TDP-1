@@ -135,8 +135,13 @@ public class Board {
 
 	public List<Equivalent> destroyEntities(List<Block> l) {
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
+		List<Block> toDestroy = new LinkedList<Block>();
 		for (Block b : l) {
-			destroyed.addAll(b.getEntity().getDestroyables(this));
+			toDestroy.addAll(b.getEntity().getDestroyables(this));
+		}
+		for(Block b : toDestroy)
+		{
+			destroyed.add(b.getEntity());
 			b.destroyEntity();
 		}
 		return destroyed;
