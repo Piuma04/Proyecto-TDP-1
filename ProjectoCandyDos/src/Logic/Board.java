@@ -56,11 +56,12 @@ public class Board {
 	 */
 	public Set<Integer> fillBoard() {
 		Set<Integer> s = new HashSet<Integer>();
-		Entity e;
+	
 		boolean found = false;
 		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) {
 			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) {
 				if (matrix[i][j].isEmpty()) {
+					System.out.println("w");
 					s.add(j);
 				}
 			}
@@ -80,7 +81,7 @@ public class Board {
 						// TODO
 						// New
 						for (int cont = i; cont >= 0; cont--) {
-							e = new Candy(i, j, randomColour());
+							Entity e = new Candy(i, j, randomColour());
 							matrix[i][j].setEntity(e);
 						}
 					found = false;//
@@ -224,11 +225,9 @@ public class Board {
 			matrix[row][column].setEntity(new Wrapped(row, column, color));
 			combination.remove(matrix[row][column]);
 		} else if (cantHorizontal == 4 && cantVertical < 3) {
-			matrix[row][column].setEntity(new Stripped(row, column, color, true));
-			combination.remove(matrix[row][column]);
-		} else if (cantHorizontal < 3 && cantVertical == 4) {
 			matrix[row][column].setEntity(new Stripped(row, column, color, false));
-			combination.remove(matrix[row][column]);
+		} else if (cantHorizontal < 3 && cantVertical == 4) {
+			matrix[row][column].setEntity(new Stripped(row, column, color, true));
 		}
 		return combination;
 	}

@@ -42,7 +42,8 @@ public class Block implements Focusable, LogicEntity {
     }
 
     public boolean isEmpty() {
-        return myEntity.equals(new Empty()); // TODO ??
+    	Empty e = new Empty();
+        return myEntity.equals(e); // TODO ??
 
     }
 
