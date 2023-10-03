@@ -195,14 +195,10 @@ public class Board {
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
-<<<<<<< HEAD
+
 				}
-				else 
-=======
-				} else
->>>>>>> branch 'gui2' of https://github.com/Piuma04/Proyecto-TDP-1.git
+			} else
 					b1.swapEntity(b2);
-			}
 		}
 		return destroyed;
 	}

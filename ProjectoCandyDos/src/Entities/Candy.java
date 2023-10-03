@@ -73,10 +73,7 @@ public class Candy extends Entity {
 	// TODO
 	public List<Block> getDestroyables(Board b) {
 		List<Block> toDestroy = new LinkedList<Block>();
-<<<<<<< HEAD
-=======
 		toDestroy.add(b.getBlock(row, column));
->>>>>>> branch 'gui2' of https://github.com/Piuma04/Proyecto-TDP-1.git
 
 		/*
 		 * adyacentRow[i] y adyacentColumn[i] serian las posiciones relativas desde la
@@ -92,11 +89,9 @@ public class Candy extends Entity {
 			int newColumn = column + adyacentColumns[i];
 
 			if (newRow >= 0 && newRow < b.getRows() && newColumn >= 0 && newColumn < b.getColumns()
-<<<<<<< HEAD
 					&& b.getBlock(newRow, newColumn).getEntity().getColour()==Colour.GLAZED) {
-=======
-					&& b.getBlock(newRow, newColumn).getEntity().getColour() == Colour.GLAZED) {
->>>>>>> branch 'gui2' of https://github.com/Piuma04/Proyecto-TDP-1.git
+				 {
+			}
 				// pregunta si hay algun glaseado alrededor
 				// *podria ser b.getBlock(newRow,newColumn).getEntity()==Colour.GLAZED
 				toDestroy.add(b.getBlock(newRow, newColumn));
