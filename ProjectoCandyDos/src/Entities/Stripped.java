@@ -64,7 +64,6 @@ public class Stripped extends Entity {
 	}
 
 	@Override
-	// TODO GUI
 	public String getImage() {
 		// TODO Auto-generated method stub
 		return null;
