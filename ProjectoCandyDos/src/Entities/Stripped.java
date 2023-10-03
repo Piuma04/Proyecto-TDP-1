@@ -98,14 +98,14 @@ public class Stripped extends Entity {
 
 	@Override
 	public List<Equivalent> getDestroyables(Board b) {
-		List<Equivalent> toReturn = new LinkedList<Equivalent>();
+		List<Equivalent> toDestroy = new LinkedList<Equivalent>();
 		if (isHorizontal)
 			for (int c = 0; c < b.getColumns(); c++)
-				toReturn.add(b.getBlock(posRow, c).getEntity());
+				toDestroy.add(b.getBlock(posRow, c).getEntity());
 		else
 			for (int r = 0; r < b.getRows(); r++)
-				toReturn.add(b.getBlock(r, posColumn).getEntity());
-		return toReturn;	
+				toDestroy.add(b.getBlock(r, posColumn).getEntity());
+		return toDestroy;	
 	}
 
 	public String toString() {

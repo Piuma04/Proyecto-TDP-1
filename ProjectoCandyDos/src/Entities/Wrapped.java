@@ -1,7 +1,7 @@
 package Entities;
 
 import java.util.List;
-
+import java.util.LinkedList;
 import Interfaces.Equivalent;
 import Logic.Board;
 
@@ -84,7 +84,14 @@ public class Wrapped extends Entity {
 	@Override
 	// TODO
 	public List<Equivalent> getDestroyables(Board b) {
-		return null;
+		List<Equivalent> toDestroy = new LinkedList<Equivalent>();
+		for(int j = posColumn-1;j<=posColumn+1;j++)
+			for(int i = posRow-1;i<=posRow+1;i++)
+			{
+				if(i>=0 && i<b.getRows() && j>=0 && j<b.getColumns())
+					toDestroy.add(b.getBlock(i, j).getEntity());
+			}
+		return toDestroy;
 	}
 
     public String toString() { return setStringColor("W"); }

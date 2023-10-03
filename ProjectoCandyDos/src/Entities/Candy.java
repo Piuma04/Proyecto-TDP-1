@@ -1,6 +1,7 @@
 package Entities;
 
 import java.util.List;
+import java.util.LinkedList;
 
 import Interfaces.Equivalent;
 import Logic.Board;
@@ -104,8 +105,10 @@ public class Candy extends Entity {
 	@Override
 	//TODO
 	public List<Equivalent> getDestroyables(Board b) {
-		
-		return null;
+		List<Equivalent> toDestroy = new LinkedList<Equivalent>();
+		toDestroy.add(this);
+		return toDestroy;
+			
 	}
 
     public String toString() { return setStringColor("C"); }
