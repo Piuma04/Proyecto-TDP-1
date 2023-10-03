@@ -2,30 +2,31 @@ package Entities;
 
 import java.util.Stack;
 
-import GUI.GraphicalBlock;
+import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
 import Interfaces.Focusable;
-import Interfaces.LogicBlock;
+import Interfaces.LogicEntity;
 
-public class Block implements Focusable, LogicBlock{
+public class Block implements Focusable, LogicEntity {
 
     private Entity myEntity;
     private Stack<Modifiers> myModifiers;
 
-	private boolean focused;
+    private boolean focused;
 
-	private GraphicalBlock graphicalBlock;
-	private int row;
-	private int column;
-	
-	private String typeOfBlock;
-	private String [] images;
+    private GraphicalEntity gBlock;
+    private int row;
+    private int column;
+
+    private String typeOfBlock;
+    private String[] images;
 
     public Block(int r, int c) {
-    	focused = false;
+        focused = false;
         row = r;
         column = c;
-        typeOfBlock = "empty"; //deberia podes ser varios ( con gelatina, etc) tal vez se lo pueda pasar el modifier
+        typeOfBlock = "empty"; // deberia podes ser varios ( con gelatina, etc) tal vez se lo pueda pasar el
+                               // modifier
     }
 
     public Entity getEntity() {
@@ -66,47 +67,43 @@ public class Block implements Focusable, LogicBlock{
         myModifiers.add(modifier);
     }
 
-	@Override
-	public void defocus() {
-		focused = false;
-		graphicalBlock.notifyChangeStatus();
-	}
+    @Override
+    public void defocus() {
+        focused = false;
+        gBlock.notifyChangeStatus();
+    }
 
-	
-	  public void uploadRepresetnativePictures() {
-		 images = new String [2]; 
-		 
-		 images[0] = "/imagenes/vacio.png"; 
-		 images[1] = "/imagenes/vacio-resaltado.png"; 
-		 }
-	
+    public void uploadRepresetnativePictures() {
+        images = new String[2];
 
-
+        images[0] = "vacio.png";
+        images[1] = "vacio-resaltado.png";
+    }
 
     public boolean focus() {
         focused = true;
-        graphicalBlock.notifyChangeStatus();
+        gBlock.notifyChangeStatus();
         return true;
     }
 
-	@Override
-	public int getRow() {
-		return row;
-	}
+    @Override
+    public int getRow() {
+        return row;
+    }
 
-	@Override
-	public int getColumn() {
-		return column;
-	}
+    @Override
+    public int getColumn() {
+        return column;
+    }
 
-	@Override
-	public String getImage() {
-		int indice = 0;
-		indice += (focused ? 1 : 0);
-		return images[indice];
-	}
-	public void setGraphicBlock(GraphicalBlock e) {
-		 graphicalBlock = e;
-	}
+    @Override
+    public String getImage() {
+        //int indice = 0;
+        //indice += (focused ? 1 : 0);
+        return images[0];
+    }
 
+    public void setGraphicEntity(GraphicalEntity gEntity) {
+        gBlock = gEntity;
+    }
 }

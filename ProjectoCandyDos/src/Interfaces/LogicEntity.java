@@ -1,8 +1,8 @@
 package Interfaces;
 
-public interface LogicBlock {
-   
-	public int getRow();
+public interface LogicEntity {
+
+    public int getRow();
 
     public int getColumn();
 

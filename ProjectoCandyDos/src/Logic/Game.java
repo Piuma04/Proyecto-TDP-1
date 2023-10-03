@@ -3,8 +3,9 @@ package Logic;
 import java.awt.EventQueue;
 
 import Entities.Block;
+import Entities.Entity;
 import GUI.GUI;
-import GUI.GraphicalBlock;
+import GUI.GraphicalEntity;
 
 public class Game {
 
@@ -43,13 +44,18 @@ public class Game {
     
     private void assocciateLogicalGraphicBlocks() {
         Block block;
-        GraphicalBlock graphicalBlock;
+        GraphicalEntity gEntity;
         
         for (int r = 0; r < myBoard.getRows(); r++) {
             for (int c = 0; c < myBoard.getColumns(); c++) {
                 block = myBoard.getBlock(r, c);
-                graphicalBlock = myGui.agregar_entidad(block);
-                block.setGraphicBlock(graphicalBlock);
+                gEntity = myGui.agregar_entidad(block);
+                block.setGraphicEntity(gEntity);
+
+                Entity entity = block.getEntity();
+                gEntity = myGui.agregar_entidad(entity);
+                entity.setGraphicEntity(gEntity);
+                
             }
         }
     }

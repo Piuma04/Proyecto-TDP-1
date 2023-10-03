@@ -9,23 +9,24 @@ import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import Interfaces.LogicBlock;
+import Interfaces.LogicEntity;
 import Logic.Game;
 
 @SuppressWarnings("serial")
 public class GUI extends JFrame {
 
+    private int LABEL_SIZE = 80;
+    
     protected Game myGame;
     protected int rows;
     protected int columns;
 
-    protected Cell celda_1_pendiente_animacion;
-    protected Cell celda_2_pendiente_animacion;
+    protected Drawable celda_1_pendiente_animacion;
+    protected Drawable celda_2_pendiente_animacion;
     
     protected JPanel boardPanel;
     private Container contentPane;
     
-    private int LABEL_SIZE = 70;
 
     public GUI(Game game, int r, int c) {
         myGame = game;
@@ -37,7 +38,7 @@ public class GUI extends JFrame {
 
     protected void inicializar() {
         setTitle("CandyCrush Villero");
-        setSize(new Dimension(LABEL_SIZE*rows + 20, LABEL_SIZE*columns + 50));
+        setSize(new Dimension(LABEL_SIZE*rows + 100, LABEL_SIZE*columns + 100));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
@@ -63,13 +64,11 @@ public class GUI extends JFrame {
         });
         contentPane.add(boardPanel, BorderLayout.CENTER);
         boardPanel.setFocusable(true);
-        
-        
     }
 
-    public GraphicalBlock agregar_entidad(LogicBlock e) {
-        Cell Cellaux = new Cell(e, LABEL_SIZE);
-        boardPanel.add(Cellaux);
-        return Cellaux;
+    public GraphicalEntity agregar_entidad(LogicEntity e) {
+        Drawable drawable = new Drawable(e);
+        boardPanel.add(drawable);
+        return drawable;
     }
 }
