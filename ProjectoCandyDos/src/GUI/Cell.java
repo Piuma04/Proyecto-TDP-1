@@ -13,9 +13,10 @@ import Interfaces.LogicBlock;
 @SuppressWarnings("serial")
 public class Cell extends JLabel implements GraphicalBlock {
 	
-	protected GUI mi_ventana;
-	protected LogicBlock MyLogicBlock;
-	protected int sizeLabel;
+	private GUI mi_ventana;
+	private LogicBlock MyLogicBlock;
+	private int sizeLabel;
+
 	
 	public Cell(GUI v, LogicBlock e, int s) {
 		super();
@@ -24,6 +25,7 @@ public class Cell extends JLabel implements GraphicalBlock {
 		sizeLabel = s;
 		setBounds(e.getColumn()*sizeLabel, e.getRow()*sizeLabel, sizeLabel, sizeLabel);
 		cambiar_imagen(e.getImage());	
+		
 	}
 	
 	

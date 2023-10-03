@@ -71,12 +71,11 @@ public class Block implements Focusable, LogicBlock{
 		focused = false;
 		graphicalBlock.notifyChangeStatus();
 	}
-
 	
 	  public void uploadRepresetnativePictures() {
 		 images = new String [2]; 
 		 
-		 images[0] = "/imagenes/vacio.png"; 
+		 images[0] = "/imagenes/vacio.png"; //cambiar esto
 		 images[1] = "/imagenes/vacio-resaltado.png"; 
 		 }
 	

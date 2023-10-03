@@ -14,6 +14,8 @@ public class Level {
     public Level(Entity toDestroyEntityType, int amount, int remainingMoves, int timeLimit) {
         myGoal = new Goal(amount, toDestroyEntityType);
         myClock = new Clock();
+        System.out.println(myClock.getTime());
+        this.remainingMoves = remainingMoves;
     }
 
     /**
@@ -22,7 +24,9 @@ public class Level {
      * @return {@code true} if goal reached.
      */
     public boolean update(List<Equivalent> l) {
-        return myGoal.updateCounter(l);
+    	remainingMoves--;
+       // return myGoal.updateCounter(l);
+    	return false;
     }
 
     public boolean hasMove() {
@@ -30,7 +34,10 @@ public class Level {
     }
 
     public boolean lost() {
-        return !hasMove() || !(myClock.getTime() < timeLimit * 1000l);
+        return !hasMove() ;//|| !(myClock.getTime() < timeLimit * 1000l);
+    }
+    public int getRemainingMoves() {
+    	return remainingMoves;
     }
 
 }
