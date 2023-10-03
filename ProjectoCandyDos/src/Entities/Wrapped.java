@@ -3,6 +3,7 @@ package Entities;
 import java.util.List;
 import java.util.LinkedList;
 import Interfaces.Equivalent;
+import Logic.Block;
 import Logic.Board;
 
 public class Wrapped extends Entity {
@@ -83,13 +84,13 @@ public class Wrapped extends Entity {
 
 	@Override
 	// TODO
-	public List<Equivalent> getDestroyables(Board b) {
-		List<Equivalent> toDestroy = new LinkedList<Equivalent>();
+	public List<Block> getDestroyables(Board b) {
+		List<Block> toDestroy = new LinkedList<Block>();
 		for(int j = posColumn-1;j<=posColumn+1;j++)
 			for(int i = posRow-1;i<=posRow+1;i++)
 			{
 				if(i>=0 && i<b.getRows() && j>=0 && j<b.getColumns())
-					toDestroy.add(b.getBlock(i, j).getEntity());
+					toDestroy.add(b.getBlock(i, j));
 			}
 		return toDestroy;
 	}

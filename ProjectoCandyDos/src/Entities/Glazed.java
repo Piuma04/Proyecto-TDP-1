@@ -3,6 +3,7 @@ package Entities;
 import java.util.List;
 import java.util.LinkedList;
 import Interfaces.Equivalent;
+import Logic.Block;
 import Logic.Board;
 
 public class Glazed extends Entity {
@@ -85,9 +86,9 @@ public class Glazed extends Entity {
 
 	@Override
 	// TODO
-	public List<Equivalent> getDestroyables(Board b) {
-		List<Equivalent> toDestroy = new LinkedList<Equivalent>();
-		toDestroy.add(this);
+	public List<Block> getDestroyables(Board b) {
+		List<Block> toDestroy = new LinkedList<Block>();
+		toDestroy.add(b.getBlock(posRow, posColumn));
 		return toDestroy;
 	}
 

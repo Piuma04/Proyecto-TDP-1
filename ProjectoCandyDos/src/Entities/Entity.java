@@ -7,6 +7,7 @@ import Interfaces.Equivalent;
 
 import Interfaces.LogicEntity;
 import Interfaces.Swappable;
+import Logic.Block;
 import Logic.Board;
 
 public abstract class Entity implements Equivalent, Swappable, LogicEntity {
@@ -44,7 +45,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
      */
     // Hay que implementar este metodo, sirve para poner las imagenes a las
     // entidades
-    public abstract List<Equivalent> getDestroyables(Board b);
+    public abstract List<Block> getDestroyables(Board b);
 
     protected String setStringColor(String str) {
         final String ANSI_RESET = "\u001B[0m";

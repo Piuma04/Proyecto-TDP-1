@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Interfaces.Equivalent;
+import Logic.Block;
 import Logic.Board;
 
 public class Stripped extends Entity {
@@ -97,14 +98,14 @@ public class Stripped extends Entity {
 	}
 
 	@Override
-	public List<Equivalent> getDestroyables(Board b) {
-		List<Equivalent> toDestroy = new LinkedList<Equivalent>();
+	public List<Block> getDestroyables(Board b) {
+		List<Block> toDestroy = new LinkedList<Block>();
 		if (isHorizontal)
 			for (int c = 0; c < b.getColumns(); c++)
-				toDestroy.add(b.getBlock(posRow, c).getEntity());
+				toDestroy.add(b.getBlock(posRow, c));
 		else
 			for (int r = 0; r < b.getRows(); r++)
-				toDestroy.add(b.getBlock(r, posColumn).getEntity());
+				toDestroy.add(b.getBlock(r, posColumn));
 		return toDestroy;	
 	}
 

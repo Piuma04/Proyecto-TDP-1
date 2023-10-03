@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Interfaces.Equivalent;
+import Logic.Block;
 import Logic.Board;
 
 public class Empty extends Entity {
@@ -93,8 +94,8 @@ public class Empty extends Entity {
 
 	@Override
 	// TODO
-	public List<Equivalent> getDestroyables(Board b) {
-		return new LinkedList<Equivalent>(); // TODO seria una lista vacia
+	public List<Block> getDestroyables(Board b) {
+		return new LinkedList<Block>(); // TODO seria una lista vacia
 	}
 
 }
