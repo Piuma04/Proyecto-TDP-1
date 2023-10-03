@@ -50,7 +50,7 @@ public class Glazed extends Entity {
 	@Override
 	// TODO No seria siempre false??
 	public boolean isSwappable(Entity e) {
-		return e.canReceive(this);
+		return false;
 	}
 
 	@Override
