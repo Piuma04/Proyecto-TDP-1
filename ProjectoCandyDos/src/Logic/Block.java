@@ -102,9 +102,7 @@ public class Block implements Focusable, LogicEntity {
 
     @Override
     public String getImage() {
-        //int indice = 0;
-        //indice += (focused ? 1 : 0);
-        return images[0];
+        return images[focused ? 1 : 0];
     }
 
     public void setGraphicEntity(GraphicalEntity gEntity) {

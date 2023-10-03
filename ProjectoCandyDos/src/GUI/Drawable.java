@@ -20,15 +20,12 @@ public class Drawable extends JComponent implements GraphicalEntity {
 
     public Drawable(LogicEntity logicBlock) {
         super();
-        
-        //image = new ImageIcon("src/imagenes/vacio.png").getImage().getScaledInstance(s, s, Image.SCALE_SMOOTH);
         sizeImage = 80; // NOT HARDCODED! // TODO
         myLogicBlock = logicBlock;
-        openImage("src/imagenes/" + logicBlock.getImage());
+        notifyChangeStatus();
         setSize(sizeImage, sizeImage);
         setLocation(myLogicBlock.getColumn() * sizeImage, myLogicBlock.getRow() * sizeImage);
         //setBounds(logicBlock.getColumn() * size, logicBlock.getRow() * size, size, size);
-        //cambiar_imagen(e.getImage());
     }
 
     @Override
@@ -43,23 +40,16 @@ public class Drawable extends JComponent implements GraphicalEntity {
         return myLogicBlock;
     }
 
-    protected void cambiar_imagen(String i) {
-        //ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(i));
-        //Image imgEscalada = imgIcon.getImage().getScaledInstance(sizeImage, sizeImage, Image.SCALE_SMOOTH);
-        //Icon iconoEscalado = new ImageIcon(imgEscalada);
-        //setIcon(iconoEscalado);
-    }
-
-    protected void openImage(String path) {
+    protected void setImage(String path) {
         Image scaledImage = new ImageIcon(path).getImage().getScaledInstance(sizeImage, sizeImage, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         image = scaledIcon.getImage();
     }
-    
+
     @Override
     public void notifyChangeStatus() {
-        //cambiar_imagen(myLogicBlock.getImage());
-
+        setImage("src/imagenes/" + myLogicBlock.getImage());
+        repaint();
     }
 
     public void notifyChangePosition() {

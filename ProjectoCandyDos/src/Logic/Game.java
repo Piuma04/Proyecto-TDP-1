@@ -26,7 +26,7 @@ public class Game {
         myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
         assocciateLogicalGraphicBlocks();
         myGui.setVisible(true);
-        //myBoard.setPlayerPosition(3, 3);
+        myBoard.setPlayerPosition(3, 3);
     }
 
     public void loadLevel(int level) {
@@ -48,11 +48,11 @@ public class Game {
         for (int r = 0; r < myBoard.getRows(); r++) {
             for (int c = 0; c < myBoard.getColumns(); c++) {
                 block = myBoard.getBlock(r, c);
-                gEntity = myGui.agregar_entidad(block);
+                gEntity = myGui.addEntity(block);
                 block.setGraphicEntity(gEntity);
 
                 Entity entity = block.getEntity();
-                gEntity = myGui.agregar_entidad(entity);
+                gEntity = myGui.addEntity(entity);
                 entity.setGraphicEntity(gEntity);
                 
             }
