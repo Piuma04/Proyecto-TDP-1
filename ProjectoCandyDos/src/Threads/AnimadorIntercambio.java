@@ -26,18 +26,18 @@ public class AnimadorIntercambio extends Thread {
 	}
 		
 	public void run() {
-		LogicEntity el1 = Drwbl_1.get_entidad_logica();
-		LogicEntity el2 = Drwbl_2.get_entidad_logica();
+		LogicEntity el1 = Drwbl_1.getLogicalBlock();
+		LogicEntity el2 = Drwbl_2.getLogicalBlock();
 		
 		int pos_x_c1 = Drwbl_1.getX();
 		int pos_y_c1 = Drwbl_1.getY();
 		int pos_x_c2 = Drwbl_2.getX();
 		int pos_y_c2 = Drwbl_2.getY();
 		
-		int pos_x_c1_futura = el1.get_columna() * size_label;
-		int pos_y_c1_futura = el1.get_fila() * size_label;
-		int pos_x_c2_futura = el2.get_columna() * size_label;
-		int pos_y_c2_futura = el2.get_fila() * size_label;
+		int pos_x_c1_futura = el1.getColumn() * size_label;
+		int pos_y_c1_futura = el1.getRow() * size_label;
+		int pos_x_c2_futura = el2.getColumn() * size_label;
+		int pos_y_c2_futura = el2.getRow() * size_label;
 		
 		int paso_c1_en_x = 0;
 		int paso_c1_en_y = 0;
