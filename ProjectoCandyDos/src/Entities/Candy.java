@@ -79,10 +79,10 @@ public class Candy extends Entity {
 		 * adyacentRow[i] y adyacentColumn[i] serian las posiciones relativas desde la
 		 * posicion del caramelo a explotar
 		 */
-		int[] adyacentRows = { -1, -1, -1, 0, 0, 1, 1, 1 };
-		int[] adyacentColumns = { -1, 0, 1, -1, 1, -1, 0, 1 };
+		int[] adyacentRows = { -1, 0, 1, 0 };
+		int[] adyacentColumns = { 0, -1, 0, 1 };
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 4; i++) {
 			int newRow = row + adyacentRows[i];
 			int newColumn = column + adyacentColumns[i];
 
@@ -94,7 +94,6 @@ public class Candy extends Entity {
 			}
 		}
 		return toDestroy;
-
 	}
 
 	public String toString() {
