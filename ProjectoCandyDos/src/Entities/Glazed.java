@@ -8,11 +8,9 @@ import Logic.Board;
 
 public class Glazed extends Entity {
 
-	public Glazed(int posRow, int posColumn) {
-		this.posRow = posRow;
-		this.posColumn = posColumn;
-		this.colour = Colour.GLAZED;
-	}
+    public Glazed(int rowPosition, int columnPosition) {
+        super(rowPosition, columnPosition, Colour.GLAZED);
+    }
 
 	@Override
 	public boolean isEquivalent(Entity e) {
@@ -53,7 +51,7 @@ public class Glazed extends Entity {
 	// TODO GUI
 	public String getImage() {
 		// TODO Auto-generated method stub
-		return "glazed.png";
+		return destroyed ? null : "glazed.png";
 	}
 
 	@Override
@@ -86,7 +84,7 @@ public class Glazed extends Entity {
 	// TODO
 	public List<Block> getDestroyables(Board b) {
 		List<Block> toDestroy = new LinkedList<Block>();
-		toDestroy.add(b.getBlock(posRow, posColumn));
+		toDestroy.add(b.getBlock(row, column));
 		return toDestroy;
 	}
 

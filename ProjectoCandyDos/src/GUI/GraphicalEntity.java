@@ -4,5 +4,6 @@ public interface GraphicalEntity {
 
     public void notifyChangeStatus();
     public void notifyChangePosition();
+    public void unattach();
 
 }

@@ -12,18 +12,14 @@ public class Stripped extends Entity {
 	protected boolean isHorizontal;
 
 	/* Constructor */
-	public Stripped(int posRow, int posColumn, Colour colour, boolean isHorizontal) {
-		this.posRow = posRow;
-		this.posColumn = posColumn;
-		this.colour = colour;
+	public Stripped(int rowPosition, int columnPosition, Colour colour, boolean isHorizontal) {
+		super(rowPosition, columnPosition, colour);
 		this.isHorizontal = isHorizontal;
 	}
 
 	/* Constructor */
-	public Stripped(int posRow, int posColumn, Colour colour) {
-		this.posRow = posRow;
-		this.posColumn = posColumn;
-		this.colour = colour;
+	public Stripped(int rowPosition, int columnPosition, Colour colour) {
+	    super(rowPosition, columnPosition, colour);
 		isHorizontal=true; //DEFAULT
 	}
 
@@ -101,10 +97,10 @@ public class Stripped extends Entity {
 		List<Block> toDestroy = new LinkedList<Block>();
 		if (isHorizontal)
 			for (int c = 0; c < b.getColumns(); c++)
-				toDestroy.add(b.getBlock(posRow, c));
+				toDestroy.add(b.getBlock(row, c));
 		else
 			for (int r = 0; r < b.getRows(); r++)
-				toDestroy.add(b.getBlock(r, posColumn));
+				toDestroy.add(b.getBlock(r, column));
 		return toDestroy;	
 	}
 

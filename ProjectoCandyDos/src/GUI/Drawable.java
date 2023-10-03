@@ -57,4 +57,8 @@ public class Drawable extends JComponent implements GraphicalEntity {
         setLocation(myLogicBlock.getColumn() * sizeImage, myLogicBlock.getRow() * sizeImage);
         repaint();
     }
+    
+    public void unattach() {
+        
+    }
 }

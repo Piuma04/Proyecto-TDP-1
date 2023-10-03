@@ -13,17 +13,26 @@ import Logic.Board;
 public abstract class Entity implements Equivalent, Swappable, LogicEntity {
 
     protected Colour colour;
-    protected int posRow;
-    protected int posColumn;
+    protected int row;
+    protected int column;
+    protected boolean destroyed;
+
     private GraphicalEntity gEntity;
 
     public Colour getColour() { return colour; }
-    public int getRow() { return posRow; }
-    public int getColumn() { return posColumn; }
+    public int getRow() { return row; }
+    public int getColumn() { return column; }
+    
+    Entity(int rowPosition, int columnPosition, Colour colour) {
+        destroyed = false;
+        row = rowPosition;
+        column = columnPosition;
+        this.colour = colour;
+    }
     
     public void changePosition(int newRow, int newColumn) {
-        posRow = newRow;
-        posColumn = newColumn;
+        row = newRow;
+        column = newColumn;
         gEntity.notifyChangePosition();
     }
 
@@ -38,6 +47,14 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     // Hay que implementar este metodo, sirve para poner las imagenes a las
     // entidades
     public abstract List<Block> getDestroyables(Board b);
+    
+    public void destroy() {
+        destroyed = true;
+        if (gEntity != null) {
+            //gEntity.unattach();
+            gEntity.notifyChangeStatus();
+        }
+    }
 
     protected String setStringColor(String str) {
         final String ANSI_RESET = "\u001B[0m";

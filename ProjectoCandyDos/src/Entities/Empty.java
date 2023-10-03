@@ -8,11 +8,9 @@ import Logic.Block;
 import Logic.Board;
 
 public class Empty extends Entity {
-	/* Constructor */
-	public Empty(int posRow, int posColumn) {
-		this.posRow = posRow;
-		this.posColumn = posColumn;
-		colour = Colour.NONE;
+    
+	public Empty(int rowPosition, int columnPosition) {
+	    super(rowPosition, columnPosition, Colour.NONE);
 	}
 
 	public Empty() {
@@ -97,5 +95,9 @@ public class Empty extends Entity {
 	public List<Block> getDestroyables(Board b) {
 		return new LinkedList<Block>(); // TODO seria una lista vacia
 	}
+
+    public String toString() {
+        return "\" \"";
+    }
 
 }

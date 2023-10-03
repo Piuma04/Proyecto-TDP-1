@@ -9,10 +9,8 @@ import Logic.Board;
 public class Wrapped extends Entity {
 
 	/* Constructor */
-	public Wrapped(int posRow, int posColumn, Colour colour) {
-		this.posRow = posRow;
-		this.posColumn = posColumn;
-		this.colour = colour;
+	public Wrapped(int rowPosition, int columnPosition, Colour colour) {
+	    super(rowPosition, columnPosition, colour);
 	}
 
 	/* Methods */
@@ -86,8 +84,8 @@ public class Wrapped extends Entity {
 	// TODO
 	public List<Block> getDestroyables(Board b) {
 		List<Block> toDestroy = new LinkedList<Block>();
-		for(int j = posColumn-1;j<=posColumn+1;j++)
-			for(int i = posRow-1;i<=posRow+1;i++)
+		for(int j = column-1;j<=column+1;j++)
+			for(int i = row-1;i<=row+1;i++)
 			{
 				if(i>=0 && i<b.getRows() && j>=0 && j<b.getColumns())
 					toDestroy.add(b.getBlock(i, j));

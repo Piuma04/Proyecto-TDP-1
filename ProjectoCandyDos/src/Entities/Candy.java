@@ -9,13 +9,9 @@ import Logic.Board;
 
 public class Candy extends Entity {
 
-    
-	/* Constructor */
-	public Candy(int posRow, int posColumn, Colour colour) {
-		this.posRow = posRow;
-		this.posColumn = posColumn;
-		this.colour = colour;
-	}
+    public Candy(int rowPosition, int columnPosition, Colour colour) {
+        super(rowPosition, columnPosition, colour);
+    }
 
 	/* Methods */
 	@Override
@@ -57,25 +53,28 @@ public class Candy extends Entity {
 	public String getImage() {
 		// TODO Auto-generated method stub
 	    String imageName = null;
+	    if (!destroyed) {
+	        
 	    switch (colour) {
-	    case RED:
-	        imageName = "redCaramel.png";
-	        break;
-	    case YELLOW:
-            imageName = "yellowCaramel.png";
-            break;
-	    case GREEN:
-            imageName = "greenCaramel.png";
-            break;
-	    case PURPLE:
-            imageName = "purpleCaramel.png";
-            break;
-	    case BLUE:
-            imageName = "blueCaramel.png";
-            break;
-        default:
-            imageName = null; // TODO ??? exception?
-            break;
+    	    case RED:
+    	        imageName = "redCaramel.png";
+    	        break;
+    	    case YELLOW:
+                imageName = "yellowCaramel.png";
+                break;
+    	    case GREEN:
+                imageName = "greenCaramel.png";
+                break;
+    	    case PURPLE:
+                imageName = "purpleCaramel.png";
+                break;
+    	    case BLUE:
+                imageName = "blueCaramel.png";
+                break;
+            default:
+                imageName = null; // TODO ??? exception?
+                break;
+    	    }
 	    }
 		return imageName;
 	}
@@ -107,7 +106,7 @@ public class Candy extends Entity {
 	//TODO
 	public List<Block> getDestroyables(Board b) {
 		List<Block> toDestroy = new LinkedList<Block>();
-		toDestroy.add(b.getBlock(posRow, posColumn));
+		toDestroy.add(b.getBlock(row, column));
 		return toDestroy;
 	}
 
