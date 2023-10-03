@@ -76,7 +76,13 @@ public class Board {
 						// TODO
 						// New
 						for (int cont = i; cont >= 0; cont--) {
-							Entity e = new Candy(cont, j, Colour.YELLOW);
+							Entity e;
+							if(i==cont)
+								e= new Candy(i,j,Colour.BLUE);
+							if(i==cont-1)
+								e= new Candy(i,j,Colour.RED);
+							else
+								e = new Candy(i,j,Colour.YELLOW);
 							matrix[i][j].setEntity(e);
 						}
 					canNext = false;//
@@ -187,7 +193,8 @@ public class Board {
 				{
 					destroyed = destroyEntities(l1);
 					System.out.println(destroyed);
-					/*columnsToCheck = fillBoard();
+					columnsToCheck = fillBoard();
+					/*
 					remaining = checkRemainingCombinations(columnsToCheck);
 					while (!remaining.isEmpty()) {
 						destroyed.addAll(destroyEntities(remaining));
@@ -195,8 +202,8 @@ public class Board {
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}*/
 				}
-				//else
-					//b1.swapEntity(b2);
+				else
+					b1.swapEntity(b2);
 			}
 		}
 		return destroyed;
@@ -219,13 +226,20 @@ public class Board {
 		int cantHorizontal =checkSeguidosH(row,column,combination);
 		int cantVertical = checkSeguidosV(row,column,combination);
 		if(cantHorizontal >=3 && cantVertical>=3)
+		{
 			matrix[row][column].setEntity(new Wrapped(row,column,color));
+			combination.remove(matrix[row][column]);
+		}
 		else if(cantHorizontal ==4 && cantVertical<3)
+		{
 			matrix[row][column].setEntity(new Stripped(row,column,color,true));
+			combination.remove(matrix[row][column]);
+		}
 		else if(cantHorizontal <3 && cantVertical==4)
+		{
 			matrix[row][column].setEntity(new Stripped(row,column,color,false));
-		else if(cantHorizontal==2 || cantVertical==2)
-			combination.add(matrix[row][column]);
+			combination.remove(matrix[row][column]);
+		}
 		return combination;
 	}
 	private int checkSeguidosH(int row, int column, List<Block> combination)
@@ -233,6 +247,7 @@ public class Board {
 		List<Block> toAdd = new LinkedList<Block>();
 		Entity comparable = matrix[row][column].getEntity();
 		boolean cumple = true;
+		toAdd.add(matrix[row][column]);
 		for(int i = row+1 ;i>=0 && i<ROWS && cumple;i++)
 		{
 			cumple = matrix[i][column].getEntity().getColour()==comparable.getColour();
@@ -248,7 +263,7 @@ public class Board {
 				toAdd.add(matrix[i][column]);
 			}
 		}
-		if(toAdd.size()>=2)
+		if(toAdd.size()>=3)
 			combination.addAll(toAdd);
 		return toAdd.size();
 	}
@@ -257,6 +272,7 @@ public class Board {
 		List<Block> toAdd = new LinkedList<Block>();
 		Entity comparable = matrix[row][column].getEntity();
 		boolean cumple = true;
+		toAdd.add(matrix[row][column]);
 		for(int j = column+1 ;j>=0 && j<COLUMNS && cumple;j++)
 		{
 			cumple = matrix[row][j].getEntity().getColour()==comparable.getColour();
@@ -272,7 +288,7 @@ public class Board {
 				toAdd.add(matrix[row][j]);
 			}
 		}
-		if(toAdd.size()>=2)
+		if(toAdd.size()>=3)
 			combination.addAll(toAdd);
 		return toAdd.size();
 	}//END Problema en checkRemaining ya que puede destruirse el rayado creado
