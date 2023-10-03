@@ -32,6 +32,12 @@ public class Board {
 				matrix[i][j] = new Block(i, j);
 	}
 
+	private Colour randomColour()
+	{
+		Colour[] colores = {Colour.BLUE,Colour.GREEN,Colour.PURPLE,Colour.RED,Colour.YELLOW};
+		Random r = new Random();
+		return colores[Math.abs(r.nextInt())%5];
+	}
 	public int getRows() {
 		return ROWS;
 	}
@@ -54,6 +60,7 @@ public class Board {
 	}*/
 	public Set<Integer> fillBoard() {
 		Set<Integer> s = new HashSet<Integer>();
+		Entity e;
 		boolean canNext = false;
 		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) {
 			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) {
@@ -76,13 +83,7 @@ public class Board {
 						// TODO
 						// New
 						for (int cont = i; cont >= 0; cont--) {
-							Entity e;
-							if(i==cont)
-								e= new Candy(i,j,Colour.BLUE);
-							if(i==cont-1)
-								e= new Candy(i,j,Colour.RED);
-							else
-								e = new Candy(i,j,Colour.YELLOW);
+							e = new Candy(i,j,randomColour());
 							matrix[i][j].setEntity(e);
 						}
 					canNext = false;//
