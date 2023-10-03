@@ -40,12 +40,24 @@ public class Board {
 		return COLUMNS;
 	}
 
+	/*private Set<Integer> columnsToFill()
+	{
+		Set<Integer> s = new HashSet<Integer>();
+		
+		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) {
+			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) {
+				if (matrix[i][j].isEmpty()) {
+					s.add(j);
+				}
+			}
+		}
+	}*/
 	public Set<Integer> fillBoard() {
 		Set<Integer> s = new HashSet<Integer>();
 		boolean canNext = false;
 		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) {
-			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS; i--) {
-				if (matrix[i][j].isEmpty() && !s.contains(j)) {
+			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) {
+				if (matrix[i][j].isEmpty()) {
 					s.add(j);
 				}
 			}
@@ -117,7 +129,7 @@ public class Board {
 		return null; // deber retornar bien
 	}
 
-	public Block getBlock(int row, int column) {
+	public Block getBlock(int row, int column) { //Requiere row y column validos
 		return matrix[row][column];
 	}
 
@@ -201,7 +213,7 @@ public class Board {
 	 * @param column columna
 	 * @return lista de bloques destruibles
 	 */
-	private List<Block> checkCombinations(int row, int column) {
+	/*private List<Block> checkCombinations(int row, int column) {
 		List<Block> toReturn = new LinkedList<Block>();
 		if (match3(row, column, toReturn)) {
 		} else if (match4(row, column, toReturn)) { // TODO falta verificar si es horizontal o vertical
@@ -212,9 +224,9 @@ public class Board {
 		} else {
 		} // no hay combinacion
 		return toReturn;
-	}
+	}*/
 	//METODO BALTASAR
-	/*private int checkCombinations(int row,int column)
+	private List<Block> checkCombinations(int row,int column)
 	{
 		List<Block> combination = new LinkedList<Block>();
 		Colour color = matrix[row][column].getEntity().getColour();
@@ -226,10 +238,10 @@ public class Board {
 			matrix[row][column].setEntity(new Stripped(row,column,color,true));
 		else if(cantHorizontal <3 && cantVertical==4)
 			matrix[row][column].setEntity(new Stripped(row,column,color,false));
-		else 
+		else if(cantHorizontal==3 || cantVertical==3)
 			combination.add(matrix[row][column]);
 		return combination;
-	}*/
+	}
 	private int checkSeguidosH(int row, int column, List<Block> combination)
 	{
 		List<Block> toAdd = new LinkedList<Block>();
@@ -277,8 +289,7 @@ public class Board {
 		if(toAdd.size()>=3)
 			combination.addAll(toAdd);
 		return toAdd.size();
-	}//END Problema en checkRemaining ya que puede destruirse el rayado creado
-
+	}//END Problema en checkRemaining ya que puede destruirse el rayado cread
 	/**
 	 * Metodo privado que chequea que haya match 3 dada la posicion de la matriz
 	 * dada
