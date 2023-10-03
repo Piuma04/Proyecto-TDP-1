@@ -34,7 +34,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public void changePosition(int newRow, int newColumn) {
         posRow = newRow;
         posColumn = newColumn;
-
+        gEntity.notifyChangePosition();
     }
 
     /*

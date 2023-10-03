@@ -39,7 +39,6 @@ public class Block implements Focusable, LogicEntity {
 
     public void setEntity(Entity e) {
         myEntity = e;
-
     }
 
     public boolean isEmpty() {
