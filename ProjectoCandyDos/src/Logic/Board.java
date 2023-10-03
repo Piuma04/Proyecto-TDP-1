@@ -18,7 +18,7 @@ import java.util.Random;
 public class Board {
 	private static final int ROWS = 6;
 	private static final int COLUMNS = 6;
-	public int row, column;
+	private int row, column;
 	private Block[][] matrix;
 	private Game myGame;
 
