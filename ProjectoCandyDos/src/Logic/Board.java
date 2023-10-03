@@ -233,7 +233,7 @@ public class Board {
 		List<Block> toAdd = new LinkedList<Block>();
 		Entity comparable = matrix[row][column].getEntity();
 		boolean cumple = true;
-		for(int i = row+1 ;i>=0 && i<ROWS && cumple;i++)aaaassa
+		for(int i = row+1 ;i>=0 && i<ROWS && cumple;i++)
 		{
 			cumple = matrix[i][column].getEntity().getColour()==comparable.getColour();
 			if(cumple)
