@@ -179,6 +179,7 @@ public class Board {
 			e1 = b1.getEntity();
 			e2 = b2.getEntity();
 			canExchange = e1.isSwappable(e2);
+			System.out.println(canExchange);
 			if (canExchange) {
 				b1.swapEntity(b2);
 				l1 = checkCombinations(row, column);
@@ -195,11 +196,11 @@ public class Board {
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
-
-				}
-			} else
-					b1.swapEntity(b2);
+				} else b1.swapEntity(b2);
+			}	
 		}
+		
+		
 		return destroyed;
 	}
 

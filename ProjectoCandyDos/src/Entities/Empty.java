@@ -51,7 +51,7 @@ public class Empty extends Entity {
 
 	@Override
 	public boolean equals(Empty e) {
-		return true;
+		return false;
 	}
 
 	@Override
