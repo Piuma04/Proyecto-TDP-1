@@ -73,7 +73,7 @@ public class Candy extends Entity {
 	// TODO
 	public List<Block> getDestroyables(Board b) {
 		List<Block> toDestroy = new LinkedList<Block>();
-		Entity glazedCompareTo = new Glazed(0, 0);
+		toDestroy.add(b.getBlock(row, column));
 
 		/*
 		 * adyacentRow[i] y adyacentColumn[i] serian las posiciones relativas desde la
@@ -87,7 +87,7 @@ public class Candy extends Entity {
 			int newColumn = column + adyacentColumns[i];
 
 			if (newRow >= 0 && newRow < b.getRows() && newColumn >= 0 && newColumn < b.getColumns()
-					&& glazedCompareTo.equals(b.getBlock(newRow, newColumn).getEntity())) {
+					&& b.getBlock(newRow, newColumn).getEntity().getColour() == Colour.GLAZED) {
 				// pregunta si hay algun glaseado alrededor
 				// *podria ser b.getBlock(newRow,newColumn).getEntity()==Colour.GLAZED
 				toDestroy.add(b.getBlock(newRow, newColumn));
