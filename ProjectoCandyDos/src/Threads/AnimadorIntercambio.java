@@ -1,7 +1,7 @@
 package Threads;
 
-import GUI.Celda;
-import Logica.EntidadLogica;
+import GUI.Drawable;
+import Interfaces.LogicEntity;
 
 /**
  * Clase que permite animar el intercambio entre dos entidades.
@@ -14,25 +14,25 @@ public class AnimadorIntercambio extends Thread {
 	protected int size_label;
 	protected int step;
 	protected int delay;
-	protected Celda celda_1;
-	protected Celda celda_2;
+	protected Drawable Drwbl_1;
+	protected Drawable Drwbl_2;
 	
-	public AnimadorIntercambio(int size, int step, int d, Celda c1, Celda c2) {
+	public AnimadorIntercambio(int size, int step, int d, Drawable c1, Drawable c2) {
 		size_label = size;
 		this.step = step;
 		delay = d;
-		celda_1 = c1;
-		celda_2 = c2;
+		Drwbl_1 = c1;
+		Drwbl_2 = c2;
 	}
 		
 	public void run() {
-		EntidadLogica el1 = celda_1.get_entidad_logica();
-		EntidadLogica el2 = celda_2.get_entidad_logica();
+		LogicEntity el1 = Drwbl_1.get_entidad_logica();
+		LogicEntity el2 = Drwbl_2.get_entidad_logica();
 		
-		int pos_x_c1 = celda_1.getX();
-		int pos_y_c1 = celda_1.getY();
-		int pos_x_c2 = celda_2.getX();
-		int pos_y_c2 = celda_2.getY();
+		int pos_x_c1 = Drwbl_1.getX();
+		int pos_y_c1 = Drwbl_1.getY();
+		int pos_x_c2 = Drwbl_2.getX();
+		int pos_y_c2 = Drwbl_2.getY();
 		
 		int pos_x_c1_futura = el1.get_columna() * size_label;
 		int pos_y_c1_futura = el1.get_fila() * size_label;
@@ -68,14 +68,14 @@ public class AnimadorIntercambio extends Thread {
 			if (seguir_c1) {
 				pos_x_c1 += paso_c1_en_x * step;
 				pos_y_c1 += paso_c1_en_y * step;
-				celda_1.setBounds(pos_x_c1, pos_y_c1, size_label, size_label);
+				Drwbl_1.setBounds(pos_x_c1, pos_y_c1, size_label, size_label);
 			}
 			
 			seguir_c2 = seguir_c2 && (pos_x_c2 != pos_x_c2_futura || pos_y_c2 != pos_y_c2_futura);
 			if (seguir_c2) {
 				pos_x_c2 += paso_c2_en_x * step;
 				pos_y_c2 += paso_c2_en_y * step;
-				celda_2.setBounds(pos_x_c2, pos_y_c2, size_label, size_label);
+				Drwbl_2.setBounds(pos_x_c2, pos_y_c2, size_label, size_label);
 			}
 			
 			try {
@@ -86,8 +86,8 @@ public class AnimadorIntercambio extends Thread {
 			
 		}
 		
-		celda_1 = null;
-		celda_2 = null;
+		Drwbl_1 = null;
+		Drwbl_2 = null;
 		
 	}
 	

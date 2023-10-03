@@ -53,6 +53,10 @@ public class Block implements Focusable, LogicEntity {
 
     public void swapEntity(Block b) {
         Entity e = b.getEntity();
+        myEntity.setNewCol(e.getColumn());
+        myEntity.setNewRow(e.getRow());
+        e.setNewRow(row);
+        e.setNewCol(column);
         b.setEntity(myEntity);
         myEntity = e;
     }
