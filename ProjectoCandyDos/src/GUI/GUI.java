@@ -15,36 +15,38 @@ import Logic.Game;
 @SuppressWarnings("serial")
 public class GUI extends JFrame {
 
-    private int LABEL_SIZE = 80;
+    private Container contentPane;
+    protected JPanel boardPanel;
     
     protected Game myGame;
     protected int rows;
     protected int columns;
+    
+    private int LABEL_SIZE = 80;
 
-    protected Drawable celda_1_pendiente_animacion;
-    protected Drawable celda_2_pendiente_animacion;
     
-    protected JPanel boardPanel;
-    private Container contentPane;
     
+    //protected Drawable celda_1_pendiente_animacion;
+    //protected Drawable celda_2_pendiente_animacion;
 
     public GUI(Game game, int r, int c) {
         myGame = game;
-        rows = r;
-        columns = c;
+        rows = r; columns = c;
         contentPane = getContentPane();
+        boardPanel = new JPanel();
         inicializar();
     }
 
     protected void inicializar() {
         setTitle("CandyCrush Villero");
-        setSize(new Dimension(LABEL_SIZE*rows + 100, LABEL_SIZE*columns + 100));
+        final int width = LABEL_SIZE*rows + 100;
+        final int height = LABEL_SIZE*columns + 100;
+        setSize(new Dimension(width, height));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         contentPane.setLayout(new BorderLayout());
         
-        boardPanel = new JPanel();
         boardPanel.setSize(LABEL_SIZE * rows, LABEL_SIZE * columns);
         boardPanel.setLayout(null);
         boardPanel.addKeyListener(new KeyAdapter() {
@@ -58,7 +60,7 @@ public class GUI extends JFrame {
                     case KeyEvent.VK_W:     { myGame.swap(Game.UP); break; }
                     case KeyEvent.VK_S:     { myGame.swap(Game.DOWN); break; }
                     case KeyEvent.VK_A:     { myGame.swap(Game.LEFT); break; }
-                    case KeyEvent.VK_D:     { myGame.swap(Game.RIGHT); break; } 
+                    case KeyEvent.VK_D:     { myGame.swap(Game.RIGHT); break; }
                 }
             }
         });
@@ -66,7 +68,7 @@ public class GUI extends JFrame {
         boardPanel.setFocusable(true);
     }
 
-    public GraphicalEntity agregar_entidad(LogicEntity e) {
+    public GraphicalEntity addEntity(LogicEntity e) {
         Drawable drawable = new Drawable(e);
         boardPanel.add(drawable);
         return drawable;
