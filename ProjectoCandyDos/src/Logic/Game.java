@@ -23,13 +23,14 @@ public class Game {
     public Game() {
     	 myGui = new Gui(this, Board.getRows(), Board.getColumns());
          myBoard = new Board(this, myGui);
-         int l = 1; //myGui.chooseLevel();
+         int l = 1;//myGui.chooseLevel();
          loadLevel(l);
          myGui.setVisible(true);
          myBoard.setPlayerPosition(3, 3);
          lives = 3; 
          myGui.updateLives(lives);
          myGui.showObjective(myLevel.getObjective(), myLevel.getRemainingObjectives());
+         myGui.setCurrentLevel("Nivel "+myLevel.getCurrentLevel());
     }
 
     public void loadLevel(int level) {
@@ -45,8 +46,9 @@ public class Game {
         if(finished) {
         	if(myLevel.lastLevel())
         		myGui.ending();
-        	else
-        		System.out.println("se tendria que avanzar de nivel");
+        	else {
+        		
+        	}
         }
         else {
         	if(myLevel.lost()) {

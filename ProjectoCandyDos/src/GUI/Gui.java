@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,7 +28,7 @@ import Logic.Game;
 public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     private Container contentPane;
-    protected JPanel boardPanel, auxPanel;
+    protected JPanel boardPanel;
     protected Game myGame;
     protected int rows;
     protected int columns;
@@ -39,14 +40,14 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     protected boolean stopInterchanges;
     
     private JLabel live1, live2, live3;
-    private JLabel cantMoves, typeOfCandy, amountToGo;
+    private JLabel cantMoves, typeOfCandy, amountToGo, levelShower, watch;
 
     public Gui(Game game, int r, int c) {
         myGame = game;
         rows = r; columns = c;
         contentPane = getContentPane();
         boardPanel = new JPanel();
-        auxPanel = new JPanel();
+        
 
         animator = new CentralAnimator(this);
         pendingAnimations = 0;
@@ -57,14 +58,14 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     protected void inicializar() {
         setTitle("CandyCrush Villero");
-        final int width = LABEL_SIZE*rows + 500;
-        final int height = LABEL_SIZE*columns + 500;
+        final int width = LABEL_SIZE*rows + 350;
+        final int height = LABEL_SIZE*columns + 175;
         setSize(new Dimension(width, height));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-       
-        boardPanel.setSize(486, 445);
+        boardPanel.setLocation(0, 50);
+        boardPanel.setSize(486, 435);
         boardPanel.setLayout(null);
         boardPanel.addKeyListener(new KeyAdapter() {
             @Override
@@ -99,8 +100,17 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 		getContentPane().add(amountToGo);
 		
 		typeOfCandy = new JLabel();
-		typeOfCandy.setBounds(540, 210, 64, 58);
+		typeOfCandy.setBounds(540, 195, 80, 80);
 		getContentPane().add(typeOfCandy);
+		
+		levelShower = new JLabel();
+		levelShower.setBounds(194, 20, 80,20);
+		levelShower.setFont(new Font("Stencil", Font.PLAIN, 20));
+		getContentPane().add(levelShower);
+		
+		watch = new JLabel("Aca iria el reloj");
+		watch.setBounds(560, 85, 200, 14);
+		getContentPane().add(watch);
     }
 
     
@@ -178,7 +188,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 	public void showObjective(String typeOfEntity, int amountMissing) {
 		ImageIcon imageIconAux = new ImageIcon("src/imagenes/"+typeOfEntity); 
 		System.out.println("src/imagenes/"+typeOfEntity);
-		imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(25, 25, Image.SCALE_DEFAULT));
+		imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 	    typeOfCandy.setIcon(imageIconAux);
 	  
 		amountToGo.setText(amountMissing+"");
@@ -189,6 +199,9 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 		
 		int i = amountMissing <0 ? 0 : amountMissing;
 		amountToGo.setText(i+"");
+	}
+	public void setCurrentLevel(String level) {
+		levelShower.setText(level);
 	}
     
     @Override
