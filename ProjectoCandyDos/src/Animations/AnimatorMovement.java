@@ -81,8 +81,4 @@ public class AnimatorMovement extends Thread implements Animator {
         }
         manager.notifyEndAnimation(this);
     }
-    
-    public Thread getThread() {
-        return this;
-    }
 }

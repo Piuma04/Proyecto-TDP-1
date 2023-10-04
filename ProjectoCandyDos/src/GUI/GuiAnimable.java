@@ -20,5 +20,5 @@ public interface GuiAnimable {
      * modificación del estado de la entidad lógica asociada.
      * @param c La celda que debe modificar su imagen asociada, de forma animada.
      */
-    //public void animateChangeState(Drawable c);
+    public void animateChangeState(Drawable c);
 }

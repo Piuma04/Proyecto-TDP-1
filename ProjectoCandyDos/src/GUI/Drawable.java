@@ -43,7 +43,7 @@ public class Drawable extends JComponent implements GraphicalEntity {
         return myLogicBlock;
     }
 
-    protected void setImage(String path) {
+    public void setImage(String path) {
         Image scaledImage = new ImageIcon(path).getImage().getScaledInstance(sizeImage, sizeImage, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(scaledImage);
         image = scaledIcon.getImage();
@@ -51,14 +51,11 @@ public class Drawable extends JComponent implements GraphicalEntity {
 
     @Override
     public void notifyChangeState() {
-        //agui.animateChangeState(this);
-        setImage("src/imagenes/" + myLogicBlock.getImage());
-        repaint();
+        agui.animateChangeState(this);
     }
 
     public void notifyChangePosition() {
-        agui.animateMovement(this);        
-        repaint();
+        agui.animateMovement(this);
     }
 
 }
