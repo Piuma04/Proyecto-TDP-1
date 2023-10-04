@@ -78,6 +78,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
                     case KeyEvent.VK_S:     { myGame.swap(Game.DOWN); break; }
                     case KeyEvent.VK_A:     { myGame.swap(Game.LEFT); break; }
                     case KeyEvent.VK_D:     { myGame.swap(Game.RIGHT); break; }
+                    case KeyEvent.VK_J:     { System.out.println(boardPanel.getComponents().length); }
                 }
             }
         });
