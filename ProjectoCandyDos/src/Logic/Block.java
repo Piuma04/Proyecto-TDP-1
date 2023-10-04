@@ -22,7 +22,7 @@ public class Block implements Focusable, LogicEntity {
     private int row;
     private int column;
 
-    //private String typeOfBlock;
+    // private String typeOfBlock;
     private static String[] images = { "vacio.png", "vacio-resaltado.png" };
     private static Empty empty = new Empty();
 
@@ -30,17 +30,26 @@ public class Block implements Focusable, LogicEntity {
         focused = false;
         row = r;
         column = c;
-        //typeOfBlock = "empty"; // deberia podes ser varios ( con gelatina, etc) tal vez se lo pueda pasar el
-                               // modifier
+        // typeOfBlock = "empty"; // deberia podes ser varios ( con gelatina, etc) tal
+        // vez se lo pueda pasar el
+        // modifier
     }
 
-    public Entity getEntity() { return myEntity; }
-    
-    public void setEntity(Entity e) { myEntity = e; }
+    public Entity getEntity() {
+        return myEntity;
+    }
 
-    public boolean isEmpty() { return myEntity.equals(empty); }
+    public void setEntity(Entity e) {
+        myEntity = e;
+    }
 
-    public void createWrapped() { myModifiers.push(new Jelly()); }
+    public boolean isEmpty() {
+        return myEntity.equals(empty);
+    }
+
+    public void createWrapped() {
+        myModifiers.push(new Jelly());
+    }
 
     public void swapEntity(Block block) {
         Entity entity = block.getEntity();
@@ -97,7 +106,12 @@ public class Block implements Focusable, LogicEntity {
     public void setGraphicEntity(GraphicalEntity gEntity) {
         gBlock = gEntity;
     }
+
     public int getPicSize() {
-    	return picSize;
+        return picSize;
+    }
+
+    public String toString() {
+        return getEntity().toString();
     }
 }

@@ -94,10 +94,10 @@ public class Stripped extends Entity {
 	public List<Block> getDestroyables(Board b) {
 		List<Block> toDestroy = new LinkedList<Block>();
 		if (isHorizontal)
-			for (int c = 0; c < b.getColumns(); c++)
+			for (int c = 0; c < Board.getColumns(); c++)
 				toDestroy.add(b.getBlock(row, c));
 		else
-			for (int r = 0; r < b.getRows(); r++)
+			for (int r = 0; r < Board.getRows(); r++)
 				toDestroy.add(b.getBlock(r, column));
 		return toDestroy;
 	}
