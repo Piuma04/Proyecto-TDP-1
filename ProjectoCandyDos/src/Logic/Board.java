@@ -26,16 +26,17 @@ public class Board {
 	private Game myGame;
 	private Gui myGui;
 
-	public Board(Game g, Gui gui) {
+	public Board(Game g, Gui gui) 
+	{
 		matrix = new Block[ROWS][COLUMNS];
 		playerRow = 3;
 		playerColumn = 3;
 		myGame = g;
 		myGui = gui;
-
 		GraphicalEntity gEntity = null;
 		for (int row = 0; row < ROWS; row++)
-			for (int column = 0; column < COLUMNS; column++) {
+			for (int column = 0; column < COLUMNS; column++) 
+			{
 			    Block block =  new Block(row, column);
 			    gEntity = myGui.addEntity(block);
                 block.setGraphicEntity(gEntity);
@@ -43,11 +44,21 @@ public class Board {
 			}
 	}
 	
-	public static int getRows() {
+	/**
+	 * returns the amount of {@code rows} the board has.
+	 * @return {@code rows}
+	 */
+	public static int getRows() 
+	{
 		return ROWS;
 	}
 
-	public static int getColumns() {
+	/**
+	 * returns the amount of {@code columns} the board has.
+	 * @return {@code columns}
+	 */
+	public static int getColumns() 
+	{
 		return COLUMNS;
 	}
 
@@ -59,75 +70,122 @@ public class Board {
 	 * ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) { if
 	 * (matrix[i][j].isEmpty()) { s.add(j); } } } }
 	 */
-	public void movePlayerDirection(int direction) {
-		switch (direction) {
-		case Game.DOWN: {
-			movePlayerPosition(playerRow + 1, playerColumn);
-			break;
-		}
-		case Game.UP: {
-			movePlayerPosition(playerRow - 1, playerColumn);
-			break;
-		}
-		case Game.LEFT: {
-			movePlayerPosition(playerRow, playerColumn - 1);
-			break;
-		}
-		case Game.RIGHT: {
-			movePlayerPosition(playerRow, playerColumn + 1);
-			break;
-		}
+	/**
+	 * Moves the player towards a specific direction.
+	 * @param direction the direction the player will move towards to
+	 */
+	public void movePlayerDirection(int direction) 
+	{
+		switch (direction) 
+		{
+			case Game.DOWN: 
+			{
+				movePlayerPosition(playerRow + 1, playerColumn);
+				break;
+			}
+			case Game.UP: 
+			{
+				movePlayerPosition(playerRow - 1, playerColumn);
+				break;
+			}
+			case Game.LEFT: 
+			{
+				movePlayerPosition(playerRow, playerColumn - 1);
+				break;
+			}
+			case Game.RIGHT: 
+			{
+				movePlayerPosition(playerRow, playerColumn + 1);
+				break;
+			}
 		}
 	}
 
-	public List<Equivalent> swap(int direction) {
-		List<Equivalent> toRet = new ArrayList<>();
-		switch (direction) {
+	/**
+	 * Swaps the element the player is on with one that is relative to a specific direction
+	 * @param direction in which the element will be swapped
+	 * @return a list of the elements destroyed
+	 */
+	public List<Equivalent> swap(int direction) 
+	{
+		List<Equivalent> destroyed = new LinkedList<Equivalent>();
+		switch (direction) 
+		{
 		case Game.DOWN: {
-			toRet = swapEntities(playerRow + 1, playerColumn);
+			destroyed = swapEntities(playerRow + 1, playerColumn);
 			break;
-		}
+			}
 		case Game.UP: {
-			toRet = swapEntities(playerRow - 1, playerColumn);
+			destroyed = swapEntities(playerRow - 1, playerColumn);
 			break;
-		}
+			}
 		case Game.LEFT: {
-			toRet = swapEntities(playerRow, playerColumn - 1);
+			destroyed = swapEntities(playerRow, playerColumn - 1);
 			break;
-		}
+			}
 		case Game.RIGHT: {
-			toRet = swapEntities(playerRow, playerColumn + 1);
+			destroyed = swapEntities(playerRow, playerColumn + 1);
 			break;
+			}
 		}
-		}
-		return toRet; 
+		return destroyed;
 	}
 
-	public Block getBlock(int row, int column) { // Requiere row y column validos
+	/**
+	 * returns a specific block from the board
+	 * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
+     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+ 	 * @return Block from the board,in the row and column specified
+	 */
+	public Block getBlock(int row, int column) 
+	{ 
 		return matrix[row][column];
 	}
 	
-	public void setPlayerPosition(int newRow, int newColumn) {
-
+	/**
+	 * Sets the player's position
+	 * @param newRow valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
+     * @param newColumn valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+ 	 */
+	public void setPlayerPosition(int newRow, int newColumn) 
+	{
 		matrix[newRow][newColumn].focus();
-
 	}
 	
-    public void setEntity(int row, int column, Entity entity) {
+	/**
+	 * Sets a new entity in the block specified with row and column
+	 * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
+     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+ 	 * @param entity to be set on the block
+	 */
+    public void setEntity(int row, int column, Entity entity) 
+    {
         Block block = getBlock(row, column);
         if (block.getEntity() != null) destroyEntity(row, column);
         block.setEntity(entity);
         entity.setGraphicEntity(myGui.addEntity(entity));
     }
 
+    /**
+     * Destroys the entity inside the block specified with {@code row} and {@code column}
+     * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
+     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+ 	 */
     public void destroyEntity(int row, int column) {
         getBlock(row, column).destroyEntity();
     }
     
-    private List<Equivalent> swapEntities(int newRow, int newColumn) {
+    /**
+     * Swaps the entity the player is on with the one specified with {@code row} and {@code column}.
+     * @param newRow valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
+     * @param newColumn valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+ 	 * @return Elements destroyed by potential combinations
+     */
+    private List<Equivalent> swapEntities(int newRow, int newColumn) 
+    {
 		Entity e1, e2;
 		Set<Integer> columnsToCheck;
-		List<Block> l1, l2, remaining;
+		List<Block> remaining;
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
 		boolean canExchange = false;
 
@@ -142,18 +200,15 @@ public class Board {
 			if (canExchange) 
 			{
 				b1.swapEntity(b2);
-				l1 = checkCombinations(playerRow, playerColumn);
-				if(!l1.contains(matrix[newRow][newColumn]))
-					l2 = checkCombinations(newRow, newColumn);
-				else 
-					l2 = new LinkedList<Block>();
-				l1.addAll(l2);
-				if (!l1.isEmpty()) {
-					destroyed = destroyEntities(l1);
-					columnsToCheck = fillBoard();
-					remaining = checkRemainingCombinations(columnsToCheck);
-					while (!remaining.isEmpty()) {
+				remaining = checkCombinations(playerRow, playerColumn);	//Get combinations for the first entity
+				if(!remaining.contains(matrix[newRow][newColumn]))	    //Checks whether the second entity's combination is already checked
+					remaining.addAll(checkCombinations(newRow, newColumn));
+				if (!remaining.isEmpty()) 
+				{
+					while (!remaining.isEmpty()) //While there are remaining combinations, destroy them,fill the board, and check again
+					{
 						destroyed.addAll(destroyEntities(remaining));
+						System.out.println(destroyed);
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
@@ -161,29 +216,39 @@ public class Board {
 				} //else b1.swapEntity(b2);
 			}	
 		}
-		
-		
 		return destroyed;
 	}
-    private List<Equivalent> destroyEntities(List<Block> l) {
+    /**
+     * Destroys the entities inside the blocks specified.
+     * @param toDestroy list of blocks set to be destroyed
+     * @return entities destroyed
+     */
+    private List<Equivalent> destroyEntities(List<Block> toDestroy) 
+    {
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
-		List<Block> toDestroy = new LinkedList<Block>();
-		for (Block b : l) {
+		List<Block> destroyables = new LinkedList<Block>();
+		for (Block b : toDestroy) 
+		{
 			for(Block bb: b.getEntity().getDestroyables(this))//raro
-				if(!toDestroy.contains(bb))
-					toDestroy.add(bb);
+				if(!destroyables.contains(bb))
+					destroyables.add(bb);
 		}
-		System.out.println("toDestroy" +toDestroy);
-		for (Block b : toDestroy) {
+		System.out.println("toDestroy" + destroyables);
+		for (Block b : destroyables) 
+		{
 			destroyed.add(b.getEntity());
 			destroyEntity(b.getRow(), b.getColumn());
 		}
 		System.out.println("destroyed" +destroyed);
 		return destroyed;
 	}
-    private Set<Integer> fillBoard() {
+    /**
+     * Fills the board pulling down the elements and putting random elements on the empty blocks
+     * @return {@code columns} that were filled
+     */
+    private Set<Integer> fillBoard() 
+    {
 		Set<Integer> s = new HashSet<Integer>();
-	
 		boolean found = false;
 		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--)
 			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--)
@@ -191,10 +256,13 @@ public class Board {
 					s.add(j);
 
 		for (Integer j : s) {
-			for (int i = ROWS - 1; i >= 0; i--) {
-				if (matrix[i][j].isEmpty()) {
+			for (int i = ROWS - 1; i >= 0; i--) 
+			{
+				if (matrix[i][j].isEmpty()) 
+				{
 					int nextEntity = i-1;
-					while (nextEntity >= 0 && !found) {
+					while (nextEntity >= 0 && !found) 
+					{
 						found = !matrix[nextEntity][j].isEmpty();
 						if(!found) 
 							nextEntity--;
@@ -202,7 +270,8 @@ public class Board {
 					if (found)
 						matrix[i][j].swapEntity(matrix[nextEntity][j]);
 					else
-						for (int cont = i; cont >= 0; cont--) {
+						for (int cont = i; cont >= 0; cont--) 
+						{
 							Entity e = new Candy(i, j, randomColour());
 							setEntity(i, j, e);
 						}
@@ -212,10 +281,18 @@ public class Board {
 		}
 		return s;
 	}
-    private List<Block> checkRemainingCombinations(Set<Integer> s) {
+    /**
+     * checks the combinations of the {@code columns} specified
+     * @param columns {@code columns} to be checked
+     * @return blocks that make combinations on the {@code columns} specified
+     */
+    private List<Block> checkRemainingCombinations(Set<Integer> columns) 
+    {
 		List<Block> combinations = new LinkedList<Block>();
-		for (Integer j : s) {
-			for (int i = 0; i < ROWS; i++) {
+		for (Integer j : columns) 
+		{
+			for (int i = 0; i < ROWS; i++) 
+			{
 				if(!combinations.contains(matrix[i][j]))
 					combinations.addAll(checkCombinations(i,j));
 			}
@@ -223,39 +300,61 @@ public class Board {
 		return combinations;
 	}
 
- 	private List<Block> checkCombinations(int row, int column) {
+    /**
+     * Checks the combinations an element specified with {@code row} and {@code column} makes with the surrounding elements
+     * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
+     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+ 	 * @return blocks that contain the elements that combined
+     */
+ 	private List<Block> checkCombinations(int row, int column) 
+ 	{
  		List<Block> combination = new LinkedList<Block>();
  		Colour color = matrix[row][column].getEntity().getColour();
  		int cantHorizontal = checkSeguidosH(row, column, combination);
  		int cantVertical = checkSeguidosV(row, column, combination);
- 		if (cantHorizontal >= 3 && cantVertical >= 3) {
+ 		if (cantHorizontal >= 3 && cantVertical >= 3) 
+ 		{
  			setEntity(row, column, new Wrapped(row, column, color));
  			combination.remove(matrix[row][column]);
- 		} else if (cantHorizontal == 4 && cantVertical < 3) {
+ 		} 
+ 		else if (cantHorizontal == 4 && cantVertical < 3) 
+ 		{
  		    setEntity(row, column, new Stripped(row, column, color, false));
  		    combination.remove(matrix[row][column]);
- 		} else if (cantHorizontal < 3 && cantVertical == 4) {
+ 		} 
+ 		else if (cantHorizontal < 3 && cantVertical == 4) 
+ 		{
  			setEntity(row, column, new Stripped(row, column, color, true));
  			combination.remove(matrix[row][column]);
  		}
  		System.out.println("Combination found"+combination);
  		return combination;
  	}
-
- 	private int checkSeguidosH(int row, int column, List<Block> combination) {
+ 	/**
+ 	 * Checks the horizontal combinations an element specified with row and column makes
+ 	 * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
+     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+ 	 * @param combination blocks that make combinations
+ 	 * @return amount of horizontal combinations
+ 	 */
+ 	private int checkSeguidosH(int row, int column, List<Block> combination) 
+ 	{
  		List<Block> toAdd = new LinkedList<Block>();
  		Entity comparable = matrix[row][column].getEntity();
  		boolean cumple = true;
  		toAdd.add(matrix[row][column]);
- 		for (int i = row + 1; i >= 0 && i < ROWS && cumple; i++) {
+ 		for (int i = row + 1; i >= 0 && i < ROWS && cumple; i++) 
+ 		{
  			cumple = matrix[i][column].getEntity().getColour() == comparable.getColour();
  			if (cumple)
  				toAdd.add(matrix[i][column]);
  		}
  		cumple = true;
- 		for (int i = row - 1; i >= 0 && i < ROWS && cumple; i--) {
+ 		for (int i = row - 1; i >= 0 && i < ROWS && cumple; i--) 
+ 		{
  			cumple = matrix[i][column].getEntity().getColour() == comparable.getColour();
- 			if (cumple) {
+ 			if (cumple) 
+ 			{
  				toAdd.add(matrix[i][column]);
  			}
  		}
@@ -263,28 +362,36 @@ public class Board {
  			combination.addAll(toAdd);
  		return toAdd.size();
  	}
-
- 	private int checkSeguidosV(int row, int column, List<Block> combination) {
+ 	/**
+ 	 * Checks the vertical combinations an element specified with row and column makes
+ 	 * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
+     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+ 	 * @param combination blocks that make combinations
+ 	 * @return amount of vertical combinations
+ 	 */
+ 	private int checkSeguidosV(int row, int column, List<Block> combination) 
+ 	{
  		List<Block> toAdd = new LinkedList<Block>();
  		Entity comparable = matrix[row][column].getEntity();
  		boolean cumple = true;
  		toAdd.add(matrix[row][column]);
- 		for (int j = column + 1; j >= 0 && j < COLUMNS && cumple; j++) {
+ 		for (int j = column + 1; j >= 0 && j < COLUMNS && cumple; j++) 
+ 		{
  			cumple = matrix[row][j].getEntity().getColour() == comparable.getColour();
  			if (cumple)
  				toAdd.add(matrix[row][j]);
  		}
  		cumple = true;
- 		for (int j = column - 1; j >= 0 && j < COLUMNS && cumple; j--) {
+ 		for (int j = column - 1; j >= 0 && j < COLUMNS && cumple; j--) 
+ 		{
  			cumple = matrix[row][j].getEntity().getColour() == comparable.getColour();
- 			if (cumple) {
+ 			if (cumple) 
  				toAdd.add(matrix[row][j]);
- 			}
  		}
  		if (toAdd.size() >= 3)
  			combination.addAll(toAdd);
  		return toAdd.size();
- 	}// END Problema en checkRemaining ya que puede destruirse el rayado creado
+ 	}
     /**
      * 
      * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
@@ -294,6 +401,11 @@ public class Board {
     private boolean isValidPosition(int row, int column) {
         return row >= 0 && row < ROWS && column >= 0 && column < COLUMNS;
     }
+    /**
+     * Moves player's position to a new {@code row} and new {@code column} 
+     * @param newRow valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
+     * @param newColumn valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+     */
 	private void movePlayerPosition(int newRow, int newColumn) {
 		if ((0 <= newRow) && (newRow < ROWS) && (0 <= newColumn) && (newColumn < COLUMNS)) {
 			if (matrix[newRow][newColumn].focus()) {
@@ -303,6 +415,10 @@ public class Board {
 			}
 		}
 	}
+	/**
+	 * returns a random {@link Colour}, posibilities are RED,BLUE,PURPLE,YELLOW,GREEN
+	 * @return random colour
+	 */
 	private Colour randomColour() {
 		Colour[] colores = { Colour.BLUE, Colour.GREEN, Colour.PURPLE, Colour.RED, Colour.YELLOW };
 		Random r = new Random();
