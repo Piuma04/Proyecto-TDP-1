@@ -18,15 +18,15 @@ import java.util.Random;
 public class Board {
 	private static final int ROWS = 6;
 	private static final int COLUMNS = 6;
-	private int row, column;
+	private int playerRow, playerColumn;
 	private Block[][] matrix;
 	private Game myGame;
 
 	public Board(Game g) {
 		matrix = new Block[ROWS][COLUMNS];
 		myGame = g;
-		row = 3;
-		column = 3;
+		playerRow = 3;
+		playerColumn = 3;
 		for (int i = 0; i < ROWS; i++)
 			for (int j = 0; j < COLUMNS; j++)
 				matrix[i][j] = new Block(i, j);
@@ -94,19 +94,19 @@ public class Board {
 	public void movePlayerDirection(int direction) {
 		switch (direction) {
 		case Game.DOWN: {
-			movePlayerPosition(row + 1, column);
+			movePlayerPosition(playerRow + 1, playerColumn);
 			break;
 		}
 		case Game.UP: {
-			movePlayerPosition(row - 1, column);
+			movePlayerPosition(playerRow - 1, playerColumn);
 			break;
 		}
 		case Game.LEFT: {
-			movePlayerPosition(row, column - 1);
+			movePlayerPosition(playerRow, playerColumn - 1);
 			break;
 		}
 		case Game.RIGHT: {
-			movePlayerPosition(row, column + 1);
+			movePlayerPosition(playerRow, playerColumn + 1);
 			break;
 		}
 		}
@@ -115,19 +115,19 @@ public class Board {
 	public List<Equivalent> swap(int direction) {
 		switch (direction) {
 		case Game.DOWN: {
-			swapEntities(row + 1, column);
+			swapEntities(playerRow + 1, playerColumn);
 			break;
 		}
 		case Game.UP: {
-			swapEntities(row - 1, column);
+			swapEntities(playerRow - 1, playerColumn);
 			break;
 		}
 		case Game.LEFT: {
-			swapEntities(row, column - 1);
+			swapEntities(playerRow, playerColumn - 1);
 			break;
 		}
 		case Game.RIGHT: {
-			swapEntities(row, column + 1);
+			swapEntities(playerRow, playerColumn + 1);
 			break;
 		}
 		}
@@ -154,9 +154,9 @@ public class Board {
 	private void movePlayerPosition(int newRow, int newColumn) {
 		if ((0 <= newRow) && (newRow < ROWS) && (0 <= newColumn) && (newColumn < COLUMNS)) {
 			if (matrix[newRow][newColumn].focus()) {
-				matrix[row][column].defocus();
-				row = newRow;
-				column = newColumn;
+				matrix[playerRow][playerColumn].defocus();
+				playerRow = newRow;
+				playerColumn = newColumn;
 			}
 		}
 	}
@@ -174,8 +174,8 @@ public class Board {
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
 		boolean canExchange = false;
 
-		if (newRow >= 0 && newRow < ROWS && newColumn >= 0 && newColumn < COLUMNS) {
-			Block b1 = matrix[row][column];
+		if (isValidPosition(newRow, newColumn)) {
+			Block b1 = matrix[playerRow][playerColumn];
 			Block b2 = matrix[newRow][newColumn];
 			e1 = b1.getEntity();
 			e2 = b2.getEntity();
@@ -183,7 +183,7 @@ public class Board {
 			System.out.println(canExchange);
 			if (canExchange) {
 				b1.swapEntity(b2);
-				l1 = checkCombinations(row, column);
+				l1 = checkCombinations(playerRow, playerColumn);
 				l2 = checkCombinations(newRow, newColumn);
 				l1.addAll(l2);
 				System.out.println(l1.size());
@@ -275,4 +275,15 @@ public class Board {
 			combination.addAll(toAdd);
 		return toAdd.size();
 	}// END Problema en checkRemaining ya que puede destruirse el rayado creado
+	
+    
+    /**
+     * 
+     * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
+     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+     * @return {@code true} if it is a valid position inside the board.
+     */
+    private boolean isValidPosition(int row, int column) {
+        return row >= 0 && row < ROWS && column >= 0 && column < COLUMNS;
+    }
 }

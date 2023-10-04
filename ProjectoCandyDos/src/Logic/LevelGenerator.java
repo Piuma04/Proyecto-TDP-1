@@ -61,7 +61,6 @@ public class LevelGenerator {
                         if (id.charAt(i) == 'J')
                             block.pushModifier(new Jelly());
                     block.setEntity(e);
-                    block.uploadRepresetnativePictures();
                 }
             }
         }

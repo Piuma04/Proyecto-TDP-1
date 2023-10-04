@@ -22,39 +22,29 @@ public class Block implements Focusable, LogicEntity {
     private int row;
     private int column;
 
-    private String typeOfBlock;
-    private String[] images;
+    //private String typeOfBlock;
+    private static String[] images = { "vacio.png", "vacio-resaltado.png" };
+    private static Empty empty = new Empty();
 
     public Block(int r, int c) {
         focused = false;
         row = r;
         column = c;
-        typeOfBlock = "empty"; // deberia podes ser varios ( con gelatina, etc) tal vez se lo pueda pasar el
+        //typeOfBlock = "empty"; // deberia podes ser varios ( con gelatina, etc) tal vez se lo pueda pasar el
                                // modifier
     }
 
-    public Entity getEntity() {
-        return myEntity;
-    }
+    public Entity getEntity() { return myEntity; }
+    public void setEntity(Entity e) { myEntity = e; }
 
-    public void setEntity(Entity e) {
-        myEntity = e;
-    }
+    public boolean isEmpty() { return myEntity.equals(empty); }
 
-    public boolean isEmpty() {
-    	Empty e = new Empty();
-        return myEntity.equals(e); // TODO ??
-
-    }
-
-    public void createWrapped() {
-        myModifiers.push(new Jelly());
-    }
+    public void createWrapped() { myModifiers.push(new Jelly()); }
 
     public void swapEntity(Block block) {
         Entity entity = block.getEntity();
-        int tempRow = this.row;
-        int tempColumn = this.column;
+        int tempRow = row;
+        int tempColumn = column;
         myEntity.changePosition(entity.getRow(), entity.getColumn());
         entity.changePosition(tempRow, tempColumn);
         block.setEntity(myEntity);
@@ -80,13 +70,6 @@ public class Block implements Focusable, LogicEntity {
     public void defocus() {
         focused = false;
         gBlock.notifyChangeStatus();
-    }
-
-    public void uploadRepresetnativePictures() {
-        images = new String[2];
-
-        images[0] = "vacio.png";
-        images[1] = "vacio-resaltado.png";
     }
 
     public boolean focus() {

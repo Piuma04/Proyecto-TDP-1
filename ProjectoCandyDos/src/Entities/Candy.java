@@ -3,7 +3,6 @@ package Entities;
 import java.util.List;
 import java.util.LinkedList;
 
-import Interfaces.Equivalent;
 import Logic.Block;
 import Logic.Board;
 
@@ -83,6 +82,7 @@ public class Candy extends Entity {
 			int newRow = row + adyacentRows[i];
 			int newColumn = column + adyacentColumns[i];
 
+			// isVAlidPosition. TODO
 			if (newRow >= 0 && newRow < b.getRows() && newColumn >= 0 && newColumn < b.getColumns()
 					&& b.getBlock(newRow, newColumn).getEntity().getColour()==Colour.GLAZED) {
 				// pregunta si hay algun glaseado alrededor

@@ -13,10 +13,9 @@ public class Game {
     public static final int LEFT = 15002;
     public static final int RIGHT = 15003;
 
+    private GUI myGui;
     private Board myBoard;
     private Level myLevel;
-    private GUI myGui;
-    private LevelGenerator myLevelGenerator;
     private int lives;
 
     public Game() {

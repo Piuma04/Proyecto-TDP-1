@@ -3,7 +3,6 @@ package Entities;
 import java.util.LinkedList;
 import java.util.List;
 
-import Interfaces.Equivalent;
 import Logic.Block;
 import Logic.Board;
 
