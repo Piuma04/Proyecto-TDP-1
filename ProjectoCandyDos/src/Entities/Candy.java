@@ -9,6 +9,8 @@ import Logic.Board;
 
 public class Candy extends Entity {
 
+	
+	
 	public Candy(int rowPosition, int columnPosition, Colour colour) {
 		super(rowPosition, columnPosition, colour);
 	}

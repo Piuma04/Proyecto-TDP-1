@@ -18,9 +18,9 @@ public class Drawable extends JComponent implements GraphicalEntity {
     protected int sizeImage;
 
 
-    public Drawable(LogicEntity logicBlock) {
+    public Drawable(LogicEntity logicBlock, int si) {
         super();
-        sizeImage = 80; // NOT HARDCODED! // TODO
+        sizeImage = si; // NOT HARDCODED! // TODO
         myLogicBlock = logicBlock;
         notifyChangeStatus();
         notifyChangePosition();

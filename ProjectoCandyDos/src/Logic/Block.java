@@ -17,7 +17,7 @@ public class Block implements Focusable, LogicEntity {
     private Stack<Modifiers> myModifiers;
 
     private boolean focused;
-
+    private static final int picSize = 70;
     private GraphicalEntity gBlock;
     private int row;
     private int column;
@@ -112,5 +112,8 @@ public class Block implements Focusable, LogicEntity {
 
     public void setGraphicEntity(GraphicalEntity gEntity) {
         gBlock = gEntity;
+    }
+    public int getPicSize() {
+    	return picSize;
     }
 }

@@ -12,6 +12,7 @@ import Logic.Board;
 
 public abstract class Entity implements Equivalent, Swappable, LogicEntity {
 
+	protected static final int picSize = 70;
     protected Colour colour;
     protected int row;
     protected int column;
@@ -59,7 +60,9 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public String getImage() {
         return destroyed ? null : (this.colour.toString() + ".png");
     }
-
+    public int getPicSize() {
+    	return picSize;
+    }
     protected String setStringColor(String str) {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";
