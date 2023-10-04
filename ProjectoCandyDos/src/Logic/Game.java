@@ -1,7 +1,13 @@
 package Logic;
 
 import java.awt.EventQueue;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
+import javax.sound.sampled.*;
+import javax.imageio.stream.FileImageInputStream;
 
 import Entities.Entity;
 import GUI.Gui;
@@ -31,6 +37,7 @@ public class Game {
          myGui.updateLives(lives);
          myGui.showObjective(myLevel.getObjective(), myLevel.getRemainingObjectives());
          myGui.setCurrentLevel("Nivel "+myLevel.getCurrentLevel());
+    
     }
 
     public void loadLevel(int level) {
