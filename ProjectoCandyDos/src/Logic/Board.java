@@ -213,7 +213,7 @@ public class Board {
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
 					System.out .println("Total: "+destroyed);
-				} else b1.swapEntity(b2);
+				} // else b1.swapEntity(b2);
 			}	
 		}
 		return destroyed;

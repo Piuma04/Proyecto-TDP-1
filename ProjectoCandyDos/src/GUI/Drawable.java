@@ -56,7 +56,6 @@ public class Drawable extends JComponent implements GraphicalEntity {
 
     public void notifyChangePosition() {
         agui.animateMovement(this);
-        notifyChangeState();
     }
 
 }
