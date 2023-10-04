@@ -25,4 +25,10 @@ public class Goal {
                 counter--;
         return counter <= 0;
     }
+    public int amountMissing() {
+    	return counter;
+    }
+    public String typeOfEntity() {
+    	return type.getImage();
+    }
 }

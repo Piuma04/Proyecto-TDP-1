@@ -49,7 +49,7 @@ public class LevelGenerator {
             level = new Level(createEntity(candys[0], -1, -1), // Entity to compare.
                     Integer.valueOf(candys[1]), // Amount of entities to win. (GOAL)
                     Integer.valueOf(candys[2]), // Amount of Moves.
-                    Integer.valueOf(candys[3])); // max time in SECONDS.
+                    Integer.valueOf(candys[3]), Integer.valueOf(filename.charAt(filename.length()-5))-'0'); // max time in SECONDS.
 
             for (int r = 0; r < Board.getRows(); r++) {
                 candys = lines.get(r + 1).split(",");
