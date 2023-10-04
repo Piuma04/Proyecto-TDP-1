@@ -17,9 +17,6 @@ import Interfaces.Equivalent;
 import java.util.HashSet;
 import java.util.Random;
 
-/**
- * Represents a Board in the Game
- */
 public class Board {
 	private static final int ROWS = 6;
 	private static final int COLUMNS = 6;
@@ -45,20 +42,10 @@ public class Board {
 			}
 	}
 	
-	/**
-	 * Gets the number of rows on the board.
-	 *
-	 * @return The number of rows.
-	 */
 	public static int getRows() {
 		return ROWS;
 	}
 
-	/**
-	 * Gets the number of columns on the board.
-	 *
-	 * @return The number of columns.
-	 */
 	public static int getColumns() {
 		return COLUMNS;
 	}
