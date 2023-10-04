@@ -200,13 +200,13 @@ public class Board {
 				if (!l1.isEmpty()) {
 					destroyed = destroyEntities(l1);
 					System.out.println(destroyed);
-					columnsToCheck = fillBoard();
+					/*columnsToCheck = fillBoard();
 					remaining = checkRemainingCombinations(columnsToCheck);
 					while (!remaining.isEmpty()) {
 						destroyed.addAll(destroyEntities(remaining));
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
-					}
+					}*/
 				}// else b1.swapEntity(b2);
 			}	
 		}
