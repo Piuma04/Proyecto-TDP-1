@@ -68,14 +68,11 @@ public class Board {
 		Set<Integer> s = new HashSet<Integer>();
 	
 		boolean found = false;
-		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) {
-			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) {
-				if (matrix[i][j].isEmpty()) {
-					System.out.println("w");
+		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--)
+			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--)
+				if (matrix[i][j].isEmpty())
 					s.add(j);
-				}
-			}
-		}
+
 		for (Integer j : s) {
 			for (int i = ROWS - 1; i >= 0; i--) {
 				if (matrix[i][j].isEmpty()) {
@@ -196,10 +193,9 @@ public class Board {
 				l1 = checkCombinations(playerRow, playerColumn);
 				l2 = checkCombinations(newRow, newColumn);
 				l1.addAll(l2);
-				System.out.println(l1.size());
 				if (!l1.isEmpty()) {
 					destroyed = destroyEntities(l1);
-					System.out.println(destroyed);
+					System.out .println(destroyed);
 					columnsToCheck = fillBoard();
 					remaining = checkRemainingCombinations(columnsToCheck);
 					while (!remaining.isEmpty()) {
