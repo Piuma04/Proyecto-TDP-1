@@ -23,7 +23,7 @@ public class Game {
     public Game() {
     	 myGui = new Gui(this, Board.getRows(), Board.getColumns());
          myBoard = new Board(this, myGui);
-         int l = 1; //myGui.chooseLevel();
+         int l = 1;//myGui.chooseLevel();
          loadLevel(l);
          myGui.setVisible(true);
          myBoard.setPlayerPosition(3, 3);

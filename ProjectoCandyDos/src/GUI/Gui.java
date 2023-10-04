@@ -40,7 +40,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     protected boolean stopInterchanges;
     
     private JLabel live1, live2, live3;
-    private JLabel cantMoves, typeOfCandy, amountToGo, levelShower;
+    private JLabel cantMoves, typeOfCandy, amountToGo, levelShower, watch;
 
     public Gui(Game game, int r, int c) {
         myGame = game;
@@ -107,6 +107,10 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 		levelShower.setBounds(194, 20, 80,20);
 		levelShower.setFont(new Font("Stencil", Font.PLAIN, 20));
 		getContentPane().add(levelShower);
+		
+		watch = new JLabel("Aca iria el reloj");
+		watch.setBounds(560, 85, 200, 14);
+		getContentPane().add(watch);
     }
 
     
