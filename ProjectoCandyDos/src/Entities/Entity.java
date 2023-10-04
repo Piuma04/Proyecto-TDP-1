@@ -16,7 +16,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     protected Colour colour;
     protected int row;
     protected int column;
-    protected boolean destroyed;
+    protected boolean bDestroyed;
 
     private GraphicalEntity gEntity;
 
@@ -25,7 +25,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public int getColumn() { return column; }
     
     Entity(int rowPosition, int columnPosition, Colour colour) {
-        destroyed = false;
+        bDestroyed = false;
         row = rowPosition;
         column = columnPosition;
         this.colour = colour;
@@ -34,7 +34,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public void changePosition(int newRow, int newColumn) {
         row = newRow;
         column = newColumn;
-        gEntity.notifyChangePosition();
+        if (!bDestroyed && gEntity != null) gEntity.notifyChangePosition();
     }
 
     public void setGraphicEntity(GraphicalEntity gEntity) { this.gEntity = gEntity; }
@@ -50,15 +50,15 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public abstract List<Block> getDestroyables(Board b);
     
     public void destroy() {
-        destroyed = true;
+        bDestroyed = true;
         if (gEntity != null) {
-            //gEntity.unattach();
             gEntity.notifyChangeStatus();
+            //gEntity.unattach();
         }
     }
     
     public String getImage() {
-        return destroyed ? null : (this.colour.toString() + ".png");
+        return bDestroyed ? null : (this.colour.toString() + ".png");
     }
     public int getPicSize() {
     	return picSize;
