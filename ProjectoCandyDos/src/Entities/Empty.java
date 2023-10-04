@@ -14,10 +14,9 @@ public class Empty extends Entity {
     }
 
     public Empty() {
-        this(0, 0); // TODO verificar
+        this(0, 0);
     }
 
-    /* Methods */
     @Override
     public boolean isEquivalent(Entity e) {
         return e.equals(this);
@@ -97,7 +96,7 @@ public class Empty extends Entity {
     }
 
     public String toString() {
-        return "\" \"";
+        return setStringColor("*");
     }
 
 }

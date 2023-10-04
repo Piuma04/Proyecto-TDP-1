@@ -85,7 +85,7 @@ public class Wrapped extends Entity {
         for(int j = column-1;j<=column+1;j++)
             for(int i = row-1;i<=row+1;i++)
             {
-                if(i>=0 && i<b.getRows() && j>=0 && j<b.getColumns())
+                if(i>=0 && i < Board.getRows() && j>=0 && j < Board.getColumns())
                     toDestroy.add(b.getBlock(i, j));
             }
         return toDestroy;

@@ -8,8 +8,6 @@ import Logic.Board;
 
 public class Candy extends Entity {
 
-	
-	
 	public Candy(int rowPosition, int columnPosition, Colour colour) {
 		super(rowPosition, columnPosition, colour);
 	}
@@ -83,7 +81,7 @@ public class Candy extends Entity {
 			int newColumn = column + adyacentColumns[i];
 
 			// isVAlidPosition. TODO
-			if (newRow >= 0 && newRow < b.getRows() && newColumn >= 0 && newColumn < b.getColumns()
+			if (newRow >= 0 && newRow < Board.getRows() && newColumn >= 0 && newColumn < Board.getColumns()
 					&& b.getBlock(newRow, newColumn).getEntity().getColour()==Colour.GLAZED) {
 				// pregunta si hay algun glaseado alrededor
 				// *podria ser b.getBlock(newRow,newColumn).getEntity()==Colour.GLAZED

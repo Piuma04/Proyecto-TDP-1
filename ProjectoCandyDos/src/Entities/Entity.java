@@ -16,7 +16,6 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     protected Colour colour;
     protected int row;
     protected int column;
-    protected boolean bDestroyed;
 
     private GraphicalEntity gEntity;
 
@@ -25,7 +24,6 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public int getColumn() { return column; }
     
     Entity(int rowPosition, int columnPosition, Colour colour) {
-        bDestroyed = false;
         row = rowPosition;
         column = columnPosition;
         this.colour = colour;
@@ -34,32 +32,22 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public void changePosition(int newRow, int newColumn) {
         row = newRow;
         column = newColumn;
-        if (!bDestroyed && gEntity != null) gEntity.notifyChangePosition();
+        if (gEntity != null) gEntity.notifyChangePosition();
     }
 
     public void setGraphicEntity(GraphicalEntity gEntity) { this.gEntity = gEntity; }
+
     public GraphicalEntity getGraphicEntity() { return gEntity; }
 
-    /*
-     * private void uploadRepresetnativePictures(String path_img) {
-     * imagenes_representativas = new String [2]; imagenes_representativas[0] =
-     * path_img + color +".png"; imagenes_representativas[1] = path_img + color
-     * +"-resaltado.png"; }
-     */
-    // Hay que implementar este metodo, sirve para poner las imagenes a las
-    // entidades
     public abstract List<Block> getDestroyables(Board b);
     
     public void destroy() {
-        bDestroyed = true;
-        changePosition(-1, -1);
-        if (gEntity != null) {
+        //changePosition(7, 6);
+        if (gEntity != null)
             gEntity.notifyChangeStatus();
-            //gEntity.unattach();
-        }
     }
     
-    public String getImage() { return bDestroyed ? null : (this.colour.toString() + ".png"); }
+    public String getImage() { return colour.toString() + ".png"; }
     public int getPicSize() { return picSize; }
 
     protected String setStringColor(String str) {

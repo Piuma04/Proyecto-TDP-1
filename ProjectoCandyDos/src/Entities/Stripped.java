@@ -103,6 +103,6 @@ public class Stripped extends Entity {
 	}
 
 	public String toString() {
-		return setStringColor("S");
+		return setStringColor((isHorizontal ? "H" : "V") + "S");
 	}
 }
