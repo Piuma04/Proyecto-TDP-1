@@ -44,7 +44,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public void destroy() {
         //changePosition(7, 6);
         if (gEntity != null)
-            gEntity.notifyChangeStatus();
+            gEntity.notifyChangeState();
     }
     
     public String getImage() { return colour.toString() + ".png"; }

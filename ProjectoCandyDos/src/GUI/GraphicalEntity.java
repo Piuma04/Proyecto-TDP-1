@@ -2,8 +2,7 @@ package GUI;
 
 public interface GraphicalEntity {
 
-    public void notifyChangeStatus();
+    public void notifyChangeState();
     public void notifyChangePosition();
-    public void unattach();
 
 }

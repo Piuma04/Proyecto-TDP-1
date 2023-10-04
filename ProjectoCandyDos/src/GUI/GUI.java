@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -11,12 +13,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
+import Animations.CentralAnimator;
 import Interfaces.LogicEntity;
 import Logic.Game;
 
 @SuppressWarnings("serial")
-public class GUI extends JFrame {
+public class GUI extends JFrame implements GUIAnimable, GUINotifiable {
 
     private Container contentPane;
     protected JPanel boardPanel, auxPanel;
@@ -27,10 +31,9 @@ public class GUI extends JFrame {
     
     private int LABEL_SIZE = 80;
 
-    
-    
-    //protected Drawable celda_1_pendiente_animacion;
-    //protected Drawable celda_2_pendiente_animacion;
+    protected CentralAnimator animator;
+    protected int pendingAnimations;
+    protected boolean stopInterchanges;
 
     public GUI(Game game, int r, int c) {
         myGame = game;
@@ -38,6 +41,11 @@ public class GUI extends JFrame {
         contentPane = getContentPane();
         boardPanel = new JPanel();
         auxPanel = new JPanel();
+
+        animator = new CentralAnimator(this);
+        pendingAnimations = 0;
+        stopInterchanges = false;
+
         inicializar();
     }
 
@@ -50,8 +58,6 @@ public class GUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         contentPane.setLayout(new BorderLayout());
-        
-        
         
         boardPanel.setSize(LABEL_SIZE * rows, LABEL_SIZE * columns);
         boardPanel.setLayout(null);
@@ -91,7 +97,7 @@ public class GUI extends JFrame {
     }
 
     public GraphicalEntity addEntity(LogicEntity e) {
-        Drawable drawable = new Drawable(e, e.getPicSize());
+        Drawable drawable = new Drawable(this, e, e.getPicSize());
         boardPanel.add(drawable);
         return drawable;
     }
@@ -100,4 +106,30 @@ public class GUI extends JFrame {
         boardPanel.remove((Drawable)gentity);
         boardPanel.repaint();
     }
+
+    @Override
+    public void notifyAnimationInProgress() {
+        synchronized(this){
+            pendingAnimations++;
+            stopInterchanges = true;
+        }
+    }
+    
+    @Override
+    public void notifyAnimationEnd() {
+        synchronized(this){
+            pendingAnimations--;
+            stopInterchanges = pendingAnimations > 0;
+        }
+    }
+
+    @Override
+    public void animateMovement(Drawable c) {
+        animator.animateChangePosition(c);
+    }
+    
+    /*@Override
+    public void animateChangeState(Drawable c) {
+        animator.animateChangeState(c);
+    }*/
 }

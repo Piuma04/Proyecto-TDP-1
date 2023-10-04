@@ -79,12 +79,12 @@ public class Block implements Focusable, LogicEntity {
     @Override
     public void defocus() {
         focused = false;
-        gBlock.notifyChangeStatus();
+        gBlock.notifyChangeState();
     }
 
     public boolean focus() {
         focused = true;
-        gBlock.notifyChangeStatus();
+        gBlock.notifyChangeState();
         return true;
     }
 

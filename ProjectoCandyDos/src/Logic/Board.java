@@ -196,6 +196,7 @@ public class Board {
 				l1 = checkCombinations(playerRow, playerColumn);
 				l2 = checkCombinations(newRow, newColumn);
 				l1.addAll(l2);
+				remaining = l1;
 				if (!l1.isEmpty()) {
 					destroyed = destroyEntities(l1);
 					columnsToCheck = fillBoard();
@@ -206,7 +207,7 @@ public class Board {
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
 					System.out .println("Total: "+destroyed);
-				} //else b1.swapEntity(b2);
+				} else b1.swapEntity(b2);
 			}	
 		}
 		

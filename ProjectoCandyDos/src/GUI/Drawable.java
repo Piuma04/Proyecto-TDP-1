@@ -13,19 +13,23 @@ import Interfaces.LogicEntity;
 public class Drawable extends JComponent implements GraphicalEntity {
 
     protected Image image;
+    protected GUIAnimable agui;
     protected LogicEntity myLogicBlock;
     protected int sizeImage;
 
 
-    public Drawable(LogicEntity logicBlock, int si) {
+    public Drawable(GUIAnimable GUIAnimable, LogicEntity logicBlock, int si) {
         super();
-        sizeImage = si; // NOT HARDCODED! // TODO
+        agui = GUIAnimable;
+        sizeImage = si; // NOT HARDCODED!
         myLogicBlock = logicBlock;
-        notifyChangeStatus();
-        notifyChangePosition();
+        notifyChangeState();
+        setLocation(myLogicBlock.getColumn() * sizeImage, myLogicBlock.getRow() * sizeImage);
         setSize(sizeImage, sizeImage);
         //setBounds(logicBlock.getColumn() * size, logicBlock.getRow() * size, size, size);
     }
+    
+    public int getImageSize() { return sizeImage; }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -35,7 +39,7 @@ public class Drawable extends JComponent implements GraphicalEntity {
         // Draw other shapes as needed
     }
 
-    public LogicEntity getLogicalBlock() {
+    public LogicEntity getLogicalEntity() {
         return myLogicBlock;
     }
 
@@ -46,18 +50,15 @@ public class Drawable extends JComponent implements GraphicalEntity {
     }
 
     @Override
-    public void notifyChangeStatus() {
+    public void notifyChangeState() {
+        //agui.animateChangeState(this);
         setImage("src/imagenes/" + myLogicBlock.getImage());
         repaint();
     }
 
     public void notifyChangePosition() {
-        // implementar esto: mi_ventana.considerar_para_intercambio_posicion(this);
-        setLocation(myLogicBlock.getColumn() * sizeImage, myLogicBlock.getRow() * sizeImage);
+        agui.animateMovement(this);        
         repaint();
     }
-    
-    public void unattach() {
-        
-    }
+
 }
