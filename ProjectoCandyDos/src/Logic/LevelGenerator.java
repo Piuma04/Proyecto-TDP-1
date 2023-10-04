@@ -108,8 +108,10 @@ public class LevelGenerator {
                             : type == 'G' ? Colour.GREEN : type == 'P' ? Colour.PURPLE : Colour.BLUE;
 
             if (id.length() > 1) {
-                if (id.charAt(1) == 'S')
-                    e = new Stripped(r, c, colour);
+                if (id.charAt(1) == 'V')
+                    e = new Stripped(r, c, colour, false);
+                else if (id.charAt(1) == 'H')
+                    e = new Stripped(r, c, colour, true);
                 else if (id.charAt(1) == 'W')
                     e = new Wrapped(r, c, colour);
             }
