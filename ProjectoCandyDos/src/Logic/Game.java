@@ -37,14 +37,6 @@ public class Game {
          myGui.updateLives(lives);
          myGui.showObjective(myLevel.getObjective(), myLevel.getRemainingObjectives());
          myGui.setCurrentLevel("Nivel "+myLevel.getCurrentLevel());
-
-         try {
-        	 
-        	 AudioInputStream audios = AudioSystem.getAudioInputStream(new File("src/music/track1.mp3"));
-        	 Clip clip = AudioSystem.getClip();
-        	 clip.open(audios);
-        	 clip.start();
-         }catch(IOException | UnsupportedAudioFileException | LineUnavailableException e) {System.out.println(e.getMessage());}
     
     }
 
