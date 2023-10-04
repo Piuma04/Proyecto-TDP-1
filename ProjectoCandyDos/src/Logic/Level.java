@@ -27,7 +27,8 @@ public class Level {
      * @return {@code true} if goal reached.
      */
     public boolean update(List<Equivalent> l) {
-    	remainingMoves--;
+    	if(!l.isEmpty())
+    		remainingMoves--;
         return myGoal.updateCounter(l);
         
     }
