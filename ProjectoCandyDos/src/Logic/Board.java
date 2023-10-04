@@ -298,7 +298,8 @@ public class Board {
     }
 
     public void setEntity(int row, int column, Entity entity) {
-        Block block = getBlock(row, column); 
+        Block block = getBlock(row, column);
+        if (block.getEntity() != null) destroyEntity(row, column);
         block.setEntity(entity);
         entity.setGraphicEntity(myGui.addEntity(entity));
     }
