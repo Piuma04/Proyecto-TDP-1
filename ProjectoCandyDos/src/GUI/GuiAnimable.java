@@ -6,7 +6,7 @@ package GUI;
  * @author FJoaquin (federico.joaquin@cs.uns.edu.ar)
  *
  */
-public interface GUIAnimable {
+public interface GuiAnimable {
     
     /**
      * Solicita se anime el movimiento entre la posición actual de una celda, y la posición nueva que tendrá a partir de una 

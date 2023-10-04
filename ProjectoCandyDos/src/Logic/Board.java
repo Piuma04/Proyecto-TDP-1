@@ -10,7 +10,7 @@ import Entities.Colour;
 import Entities.Entity;
 import Entities.Stripped;
 import Entities.Wrapped;
-import GUI.GUI;
+import GUI.Gui;
 import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
 
@@ -23,9 +23,9 @@ public class Board {
 	private int playerRow, playerColumn;
 	private Block[][] matrix;
 	private Game myGame;
-	private GUI myGui;
+	private Gui myGui;
 
-	public Board(Game g, GUI gui) {
+	public Board(Game g, Gui gui) {
 		matrix = new Block[ROWS][COLUMNS];
 		playerRow = 3;
 		playerColumn = 3;

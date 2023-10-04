@@ -6,7 +6,7 @@ package GUI;
  * @author FJoaquin (federico.joaquin@cs.uns.edu.ar)
  *
  */
-public interface GUINotifiable {
+public interface GuiNotifiable {
     /**
      * Notifica que una nueva animación comenzó a ejecutarse.
      */

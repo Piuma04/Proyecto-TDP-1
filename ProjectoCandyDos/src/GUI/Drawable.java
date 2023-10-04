@@ -13,12 +13,12 @@ import Interfaces.LogicEntity;
 public class Drawable extends JComponent implements GraphicalEntity {
 
     protected Image image;
-    protected GUIAnimable agui;
+    protected GuiAnimable agui;
     protected LogicEntity myLogicBlock;
     protected int sizeImage;
 
 
-    public Drawable(GUIAnimable GUIAnimable, LogicEntity logicBlock, int si) {
+    public Drawable(GuiAnimable GUIAnimable, LogicEntity logicBlock, int si) {
         super();
         agui = GUIAnimable;
         sizeImage = si; // NOT HARDCODED!

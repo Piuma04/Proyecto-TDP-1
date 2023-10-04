@@ -20,7 +20,7 @@ import Interfaces.LogicEntity;
 import Logic.Game;
 
 @SuppressWarnings("serial")
-public class GUI extends JFrame implements GUIAnimable, GUINotifiable {
+public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     private Container contentPane;
     protected JPanel boardPanel, auxPanel;
@@ -35,7 +35,7 @@ public class GUI extends JFrame implements GUIAnimable, GUINotifiable {
     protected int pendingAnimations;
     protected boolean stopInterchanges;
 
-    public GUI(Game game, int r, int c) {
+    public Gui(Game game, int r, int c) {
         myGame = game;
         rows = r; columns = c;
         contentPane = getContentPane();

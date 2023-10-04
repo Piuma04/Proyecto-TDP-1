@@ -3,7 +3,7 @@ package Logic;
 import java.awt.EventQueue;
 
 import Entities.Entity;
-import GUI.GUI;
+import GUI.Gui;
 import GUI.GraphicalEntity;
 
 public class Game {
@@ -13,13 +13,13 @@ public class Game {
     public static final int LEFT = 15002;
     public static final int RIGHT = 15003;
 
-    private GUI myGui;
+    private Gui myGui;
     private Board myBoard;
     private Level myLevel;
     private int lives;
 
     public Game() {
-        myGui = new GUI(this, Board.getRows(), Board.getColumns());
+        myGui = new Gui(this, Board.getRows(), Board.getColumns());
         myBoard = new Board(this, myGui);
         loadLevel(1);
         myGui.setVisible(true);

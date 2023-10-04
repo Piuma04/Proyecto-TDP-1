@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import GUI.Drawable;
-import GUI.GUI;
+import GUI.Gui;
 
 /**
  * Modela el manager de animaciones requerido para efectivizar las mismas en función al orden en el que fueron solicitadas desde la ventana.
@@ -18,12 +18,12 @@ import GUI.GUI;
  */
 public class CentralAnimator implements AnimatorDriver {
     
-    protected GUI gui;
+    protected Gui gui;
     protected HashMap<Drawable, List<Animator>> map_drawable_animations;
     protected List<Thread> animationThreads;
     protected int size_label;
     
-    public CentralAnimator(GUI v) {
+    public CentralAnimator(Gui v) {
         gui = v;
         map_drawable_animations = new HashMap<Drawable, List<Animator>>();
         animationThreads = new LinkedList<Thread>();
