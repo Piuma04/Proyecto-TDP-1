@@ -228,13 +228,14 @@ public class Board {
 		List<Block> destroyables = new LinkedList<Block>();
 		for (Block b : toDestroy) 
 		{
-			for(Block bb: b.getEntity().getDestroyables(this))//raro
-				if(!destroyables.contains(bb))
-					destroyables.add(bb);
+			destroyables.addAll(b.getEntity().getDestroyables(this));//raro
 		}
 		for (Block b : destroyables) 
 		{
-			destroyed.add(b.getEntity());
+			if(b.hasModifiers())
+				destroyed.add(b.popModifier());
+			else
+				destroyed.add(b.getEntity());
 			destroyEntity(b.getRow(), b.getColumn());
 		}
 		System.out.println("destroyed" +destroyed);
@@ -329,7 +330,6 @@ public class Board {
  			combination.clear();
  		if(!combination.isEmpty())
  			System.out.println("combination: "+combination);
- 		System.out.println("Combination found"+combination);
  		return combination;
  	}
  	/**

@@ -72,6 +72,10 @@ public class Block implements Focusable, LogicEntity {
 		myModifiers.push(new Jelly()); // TODO
 	}
 
+	public boolean hasModifiers()
+	{
+		return !myModifiers.isEmpty();
+	}
 	/**
 	 * Swaps the entity of this block with the entity of another block.
 	 *
