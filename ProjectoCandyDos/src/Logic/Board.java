@@ -151,10 +151,13 @@ public class Board {
 		for (Block b : l) {
 			toDestroy.addAll(b.getEntity().getDestroyables(this));
 		}
+		System.out.println("toDestrtoy" +toDestroy);
 		for (Block b : toDestroy) {
-			destroyed.add(b.getEntity());
+			if(!destroyed.contains(b))
+				destroyed.add(b.getEntity());
 			destroyEntity(b.getRow(), b.getColumn());
 		}
+		System.out.println("destroyed" +destroyed);
 		return destroyed;
 	}
 
@@ -202,7 +205,7 @@ public class Board {
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
-					System.out .println(destroyed);
+					System.out .println("Total: "+destroyed);
 				} //else b1.swapEntity(b2);
 			}	
 		}
@@ -215,7 +218,9 @@ public class Board {
 		List<Block> combinations = new LinkedList<Block>();
 		for (Integer j : s) {
 			for (int i = 0; i < ROWS; i++) {
-				combinations.addAll(checkCombinations(i, j));
+				for(Block b: checkCombinations(i,j))
+				if(!combinations.contains(b))
+					combinations.add(b);
 			}
 		}
 		return combinations;
@@ -237,6 +242,7 @@ public class Board {
 			setEntity(row, column, new Stripped(row, column, color, true));
 			combination.remove(matrix[row][column]);
 		}
+		System.out.println("Combination found"+combination);
 		return combination;
 	}
 
