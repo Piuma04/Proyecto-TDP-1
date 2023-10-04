@@ -45,8 +45,10 @@ public class Level {
     }
 
 	public boolean lastLevel() {
-		
 		return currentLevel == lastLevel;
+	}
+	public int getCurrentLevel() {
+		return currentLevel;
 	}
 	public int getRemainingObjectives() {
 		return myGoal.amountMissing();
