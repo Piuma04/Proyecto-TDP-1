@@ -10,6 +10,8 @@ import Entities.Colour;
 import Entities.Entity;
 import Entities.Stripped;
 import Entities.Wrapped;
+import GUI.GUI;
+import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
 
 import java.util.HashSet;
@@ -21,15 +23,23 @@ public class Board {
 	private int playerRow, playerColumn;
 	private Block[][] matrix;
 	private Game myGame;
+	private GUI myGui;
 
-	public Board(Game g) {
+	public Board(Game g, GUI gui) {
 		matrix = new Block[ROWS][COLUMNS];
-		myGame = g;
 		playerRow = 3;
 		playerColumn = 3;
-		for (int i = 0; i < ROWS; i++)
-			for (int j = 0; j < COLUMNS; j++)
-				matrix[i][j] = new Block(i, j);
+		myGame = g;
+		myGui = gui;
+
+		GraphicalEntity gEntity = null;
+		for (int row = 0; row < ROWS; row++)
+			for (int column = 0; column < COLUMNS; column++) {
+			    Block block =  new Block(row, column);
+			    gEntity = myGui.addEntity(block);
+                block.setGraphicEntity(gEntity);
+                matrix[row][column] = block;
+			}
 	}
 
 	private Colour randomColour() {
@@ -38,11 +48,11 @@ public class Board {
 		return colores[Math.abs(r.nextInt()) % 5];
 	}
 
-	public int getRows() {
+	public static int getRows() {
 		return ROWS;
 	}
 
-	public int getColumns() {
+	public static int getColumns() {
 		return COLUMNS;
 	}
 
@@ -82,7 +92,7 @@ public class Board {
 						// New
 						for (int cont = i; cont >= 0; cont--) {
 							Entity e = new Candy(i, j, randomColour());
-							matrix[i][j].setEntity(e);
+							setEntity(i, j, e);
 						}
 					found = false;//
 				}
@@ -146,7 +156,7 @@ public class Board {
 		}
 		for (Block b : toDestroy) {
 			destroyed.add(b.getEntity());
-			b.destroyEntity();
+			destroyEntity(b.getRow(), b.getColumn());
 		}
 		return destroyed;
 	}
@@ -197,7 +207,7 @@ public class Board {
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
-				} else b1.swapEntity(b2);
+				}// else b1.swapEntity(b2);
 			}	
 		}
 		
@@ -222,12 +232,12 @@ public class Board {
 		int cantHorizontal = checkSeguidosH(row, column, combination);
 		int cantVertical = checkSeguidosV(row, column, combination);
 		if (cantHorizontal >= 3 && cantVertical >= 3) {
-			matrix[row][column].setEntity(new Wrapped(row, column, color));
+			setEntity(row, column, new Wrapped(row, column, color));
 			combination.remove(matrix[row][column]);
 		} else if (cantHorizontal == 4 && cantVertical < 3) {
-			matrix[row][column].setEntity(new Stripped(row, column, color, false));
+		    setEntity(row, column, new Stripped(row, column, color, false));
 		} else if (cantHorizontal < 3 && cantVertical == 4) {
-			matrix[row][column].setEntity(new Stripped(row, column, color, true));
+			setEntity(row, column, new Stripped(row, column, color, true));
 		}
 		return combination;
 	}
@@ -285,5 +295,20 @@ public class Board {
      */
     private boolean isValidPosition(int row, int column) {
         return row >= 0 && row < ROWS && column >= 0 && column < COLUMNS;
+    }
+
+    public void setEntity(int row, int column, Entity entity) {
+        Block block = getBlock(row, column); 
+        block.setEntity(entity);
+        entity.setGraphicEntity(myGui.addEntity(entity));
+    }
+
+    public void destroyEntity(int row, int column) {
+        Block block = getBlock(row, column);
+        Entity entity = block.getEntity();
+        GraphicalEntity gentity = entity.getGraphicEntity();
+        if (gentity != null)
+            myGui.removeEntity(gentity);
+        block.destroyEntity();
     }
 }

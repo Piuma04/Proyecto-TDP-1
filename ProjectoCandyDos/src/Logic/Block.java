@@ -35,6 +35,7 @@ public class Block implements Focusable, LogicEntity {
     }
 
     public Entity getEntity() { return myEntity; }
+    
     public void setEntity(Entity e) { myEntity = e; }
 
     public boolean isEmpty() { return myEntity.equals(empty); }
@@ -58,7 +59,7 @@ public class Block implements Focusable, LogicEntity {
     public Entity destroyEntity() {
         Entity e = myEntity;
         myEntity.destroy();
-        myEntity = new Empty();
+        myEntity = empty;
         return e;
     }
 

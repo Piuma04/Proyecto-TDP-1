@@ -1,5 +1,5 @@
 R,40,40,180
-R,R,G,R,Y,R
+R,RS,G,R,Y,R
 Y,R,M,P,B,P
 P,Y,M,R,R,P
 P,P,B,B,Y,R

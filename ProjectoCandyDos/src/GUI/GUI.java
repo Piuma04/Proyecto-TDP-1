@@ -67,6 +67,7 @@ public class GUI extends JFrame {
                     case KeyEvent.VK_S:     { myGame.swap(Game.DOWN); break; }
                     case KeyEvent.VK_A:     { myGame.swap(Game.LEFT); break; }
                     case KeyEvent.VK_D:     { myGame.swap(Game.RIGHT); break; }
+                    case KeyEvent.VK_J:     { System.out.println(boardPanel.getComponentCount()); }
                 }
             }
         });
@@ -93,5 +94,10 @@ public class GUI extends JFrame {
         Drawable drawable = new Drawable(e, e.getPicSize());
         boardPanel.add(drawable);
         return drawable;
+    }
+
+    public void removeEntity(GraphicalEntity gentity) {
+        boardPanel.remove((Drawable)gentity);
+        boardPanel.repaint();
     }
 }

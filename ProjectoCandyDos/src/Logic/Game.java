@@ -19,11 +19,9 @@ public class Game {
     private int lives;
 
     public Game() {
-        myBoard = new Board(this);
+        myGui = new GUI(this, Board.getRows(), Board.getColumns());
+        myBoard = new Board(this, myGui);
         loadLevel(1);
-        //myBoard.showMatrix();
-        myGui = new GUI(this, myBoard.getRows(), myBoard.getColumns());
-        assocciateLogicalGraphicBlocks();
         myGui.setVisible(true);
         myBoard.setPlayerPosition(3, 3);
     }
@@ -38,24 +36,6 @@ public class Game {
 
     public void move(int direction) {
         myBoard.movePlayerDirection(direction);
-    }
-    
-    private void assocciateLogicalGraphicBlocks() {
-        Block block;
-        GraphicalEntity gEntity;
-        
-        for (int r = 0; r < myBoard.getRows(); r++) {
-            for (int c = 0; c < myBoard.getColumns(); c++) {
-                block = myBoard.getBlock(r, c);
-                gEntity = myGui.addEntity(block);
-                block.setGraphicEntity(gEntity);
-
-                Entity entity = block.getEntity();
-                gEntity = myGui.addEntity(entity);
-                entity.setGraphicEntity(gEntity);
-                
-            }
-        }
     }
 
     public static void main(String[] args) {

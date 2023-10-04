@@ -38,6 +38,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     }
 
     public void setGraphicEntity(GraphicalEntity gEntity) { this.gEntity = gEntity; }
+    public GraphicalEntity getGraphicEntity() { return gEntity; }
 
     /*
      * private void uploadRepresetnativePictures(String path_img) {
@@ -51,6 +52,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     
     public void destroy() {
         bDestroyed = true;
+        changePosition(-1, -1);
         if (gEntity != null) {
             gEntity.notifyChangeStatus();
             //gEntity.unattach();
