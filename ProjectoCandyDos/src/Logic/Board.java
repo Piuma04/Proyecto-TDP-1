@@ -200,13 +200,13 @@ public class Board {
 				if (!l1.isEmpty()) {
 					destroyed = destroyEntities(l1);
 					System.out.println(destroyed);
-					/*columnsToCheck = fillBoard();
+					columnsToCheck = fillBoard();
 					remaining = checkRemainingCombinations(columnsToCheck);
 					while (!remaining.isEmpty()) {
 						destroyed.addAll(destroyEntities(remaining));
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
-					}*/
+					}
 				}// else b1.swapEntity(b2);
 			}	
 		}
@@ -236,8 +236,10 @@ public class Board {
 			combination.remove(matrix[row][column]);
 		} else if (cantHorizontal == 4 && cantVertical < 3) {
 		    setEntity(row, column, new Stripped(row, column, color, false));
+		    combination.remove(matrix[row][column]);
 		} else if (cantHorizontal < 3 && cantVertical == 4) {
 			setEntity(row, column, new Stripped(row, column, color, true));
+			combination.remove(matrix[row][column]);
 		}
 		return combination;
 	}
