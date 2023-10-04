@@ -14,6 +14,7 @@ import GUI.Gui;
 import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -80,25 +81,26 @@ public class Board {
 	}
 
 	public List<Equivalent> swap(int direction) {
+		List<Equivalent> toRet = new ArrayList<>();
 		switch (direction) {
 		case Game.DOWN: {
-			swapEntities(playerRow + 1, playerColumn);
+			toRet = swapEntities(playerRow + 1, playerColumn);
 			break;
 		}
 		case Game.UP: {
-			swapEntities(playerRow - 1, playerColumn);
+			toRet = swapEntities(playerRow - 1, playerColumn);
 			break;
 		}
 		case Game.LEFT: {
-			swapEntities(playerRow, playerColumn - 1);
+			toRet = swapEntities(playerRow, playerColumn - 1);
 			break;
 		}
 		case Game.RIGHT: {
-			swapEntities(playerRow, playerColumn + 1);
+			toRet = swapEntities(playerRow, playerColumn + 1);
 			break;
 		}
 		}
-		return null; // deber retornar bien
+		return toRet; 
 	}
 
 	public Block getBlock(int row, int column) { // Requiere row y column validos
