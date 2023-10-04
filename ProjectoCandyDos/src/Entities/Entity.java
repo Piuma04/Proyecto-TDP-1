@@ -59,12 +59,9 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
         }
     }
     
-    public String getImage() {
-        return bDestroyed ? null : (this.colour.toString() + ".png");
-    }
-    public int getPicSize() {
-    	return picSize;
-    }
+    public String getImage() { return bDestroyed ? null : (this.colour.toString() + ".png"); }
+    public int getPicSize() { return picSize; }
+
     protected String setStringColor(String str) {
         final String ANSI_RESET = "\u001B[0m";
         final String ANSI_RED = "\u001B[31m";

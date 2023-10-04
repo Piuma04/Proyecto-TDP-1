@@ -60,7 +60,7 @@ public class Stripped extends Entity {
 
 	@Override
 	public String getImage() {
-		return "S" + super.getImage();
+		return (isHorizontal ? "H" : "V") + "S" + super.getImage();
 	}
 
 	@Override
@@ -99,7 +99,7 @@ public class Stripped extends Entity {
 		else
 			for (int r = 0; r < b.getRows(); r++)
 				toDestroy.add(b.getBlock(r, column));
-		return toDestroy;	
+		return toDestroy;
 	}
 
 	public String toString() {
