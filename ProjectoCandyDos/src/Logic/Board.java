@@ -196,7 +196,7 @@ public class Board {
 			e1 = b1.getEntity();
 			e2 = b2.getEntity();
 			canExchange = e1.isSwappable(e2);
-			System.out.println(canExchange);
+			System.out.println("canExchange: "+canExchange);
 			if (canExchange) 
 			{
 				b1.swapEntity(b2);
@@ -208,12 +208,11 @@ public class Board {
 					while (!remaining.isEmpty()) //While there are remaining combinations, destroy them,fill the board, and check again
 					{
 						destroyed.addAll(destroyEntities(remaining));
-						System.out.println(destroyed);
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
-					System.out .println("Total: "+destroyed);
-				} // else b1.swapEntity(b2);
+					System.out.println("Total: "+destroyed);
+				} //else b1.swapEntity(b2);
 			}	
 		}
 		return destroyed;
@@ -233,7 +232,6 @@ public class Board {
 				if(!destroyables.contains(bb))
 					destroyables.add(bb);
 		}
-		System.out.println("toDestroy" + destroyables);
 		for (Block b : destroyables) 
 		{
 			destroyed.add(b.getEntity());
@@ -312,22 +310,26 @@ public class Board {
  		Colour color = matrix[row][column].getEntity().getColour();
  		int cantHorizontal = checkSeguidosH(row, column, combination);
  		int cantVertical = checkSeguidosV(row, column, combination);
- 		if (cantHorizontal >= 3 && cantVertical >= 3) 
+ 		
+ 		if (cantHorizontal >= 2 && cantVertical >= 2) 
  		{
  			setEntity(row, column, new Wrapped(row, column, color));
- 			combination.remove(matrix[row][column]);
  		} 
- 		else if (cantHorizontal == 4 && cantVertical < 3) 
+ 		else if (cantHorizontal == 3 && cantVertical < 2) 
  		{
  		    setEntity(row, column, new Stripped(row, column, color, false));
- 		    combination.remove(matrix[row][column]);
  		} 
- 		else if (cantHorizontal < 3 && cantVertical == 4) 
+ 		else if (cantHorizontal < 2 && cantVertical == 3) 
  		{
  			setEntity(row, column, new Stripped(row, column, color, true));
- 			combination.remove(matrix[row][column]);
  		}
- 		//System.out.println("Combination found"+combination);
+ 		else
+ 			combination.add(matrix[row][column]);
+ 		if(combination.size()<3)
+ 			combination.clear();
+ 		if(!combination.isEmpty())
+ 			System.out.println("combination: "+combination);
+ 		System.out.println("Combination found"+combination);
  		return combination;
  	}
  	/**
@@ -342,7 +344,6 @@ public class Board {
  		List<Block> toAdd = new LinkedList<Block>();
  		Entity comparable = matrix[row][column].getEntity();
  		boolean cumple = true;
- 		toAdd.add(matrix[row][column]);
  		for (int i = row + 1; i >= 0 && i < ROWS && cumple; i++) 
  		{
  			cumple = matrix[i][column].getEntity().getColour() == comparable.getColour();
@@ -358,7 +359,7 @@ public class Board {
  				toAdd.add(matrix[i][column]);
  			}
  		}
- 		if (toAdd.size() >= 3)
+ 		if (toAdd.size() >= 2)
  			combination.addAll(toAdd);
  		return toAdd.size();
  	}
@@ -374,7 +375,6 @@ public class Board {
  		List<Block> toAdd = new LinkedList<Block>();
  		Entity comparable = matrix[row][column].getEntity();
  		boolean cumple = true;
- 		toAdd.add(matrix[row][column]);
  		for (int j = column + 1; j >= 0 && j < COLUMNS && cumple; j++) 
  		{
  			cumple = matrix[row][j].getEntity().getColour() == comparable.getColour();
@@ -388,7 +388,7 @@ public class Board {
  			if (cumple) 
  				toAdd.add(matrix[row][j]);
  		}
- 		if (toAdd.size() >= 3)
+ 		if (toAdd.size() >= 2)
  			combination.addAll(toAdd);
  		return toAdd.size();
  	}
