@@ -108,8 +108,7 @@ public class Block implements Focusable, LogicEntity {
 		myEntity = empty;
 		return e;
 	}
-	
-	
+
 	/**
 	 * Adds a modifier to the list of modifiers associated with this block.
 	 *
@@ -132,11 +131,21 @@ public class Block implements Focusable, LogicEntity {
 	}
 
 	@Override
+	/**
+	 * Gets the row position of this block on a board.
+	 *
+	 * @return The row position.
+	 */
 	public int getRow() {
 		return row;
 	}
 
 	@Override
+	/**
+	 * Gets the column position of this block on a board.
+	 *
+	 * @return The column position.
+	 */
 	public int getColumn() {
 		return column;
 	}
@@ -146,6 +155,11 @@ public class Block implements Focusable, LogicEntity {
 		return images[focused ? 1 : 0];
 	}
 
+	/**
+	 * Sets the graphical entity associated with this block.
+	 *
+	 * @param gEntity The graphical entity to associate with the block.
+	 */
 	public void setGraphicEntity(GraphicalEntity gEntity) {
 		gBlock = gEntity;
 	}
