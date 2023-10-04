@@ -10,19 +10,16 @@ import Logic.Board;
  * Represents a type of stripped candy entity.
  */
 public class Stripped extends Entity {
-	/* Attributes */
 	protected boolean isHorizontal;
 
-	/* Constructor */
 	public Stripped(int rowPosition, int columnPosition, Colour colour, boolean isHorizontal) {
 		super(rowPosition, columnPosition, colour);
 		this.isHorizontal = isHorizontal;
+		image = (isHorizontal ? "H" : "V") + super.getImage();
 	}
 
-	/* Constructor */
 	public Stripped(int rowPosition, int columnPosition, Colour colour) {
-		super(rowPosition, columnPosition, colour);
-		isHorizontal = true; // DEFAULT
+		this(rowPosition, columnPosition, colour, false);
 	}
 
 	@Override
@@ -59,11 +56,6 @@ public class Stripped extends Entity {
 	@Override
 	public boolean equals(Empty e) {
 		return false;
-	}
-
-	@Override
-	public String getImage() {
-		return (isHorizontal ? "H" : "V") + "S" + super.getImage();
 	}
 
 	@Override
@@ -104,6 +96,6 @@ public class Stripped extends Entity {
 	}
 
 	public String toString() {
-		return setStringColor((isHorizontal ? "H" : "V") + "S");
+		return setStringColor((isHorizontal ? "H" : "V"));
 	}
 }

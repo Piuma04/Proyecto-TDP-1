@@ -13,6 +13,7 @@ public class Wrapped extends Entity {
 	/* Constructor */
 	public Wrapped(int rowPosition, int columnPosition, Colour colour) {
 		super(rowPosition, columnPosition, colour);
+		 image = "W" + super.getImage();
 	}
 
 	/* Methods */
@@ -49,11 +50,6 @@ public class Wrapped extends Entity {
 	@Override
 	public boolean equals(Empty e) {
 		return false;
-	}
-
-	@Override
-	public String getImage() {
-		return "W" + super.getImage();
 	}
 
 	@Override

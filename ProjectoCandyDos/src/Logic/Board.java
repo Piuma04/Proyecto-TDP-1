@@ -223,7 +223,7 @@ public class Board {
      * @param toDestroy list of blocks set to be destroyed
      * @return entities destroyed
      */
-    private List<Equivalent> destroyEntities(List<Block> toDestroy) 
+    private List<Equivalent> destroyEntities(List<Block> toDestroy)
     {
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
 		List<Block> destroyables = new LinkedList<Block>();
@@ -327,7 +327,7 @@ public class Board {
  			setEntity(row, column, new Stripped(row, column, color, true));
  			combination.remove(matrix[row][column]);
  		}
- 		System.out.println("Combination found"+combination);
+ 		//System.out.println("Combination found"+combination);
  		return combination;
  	}
  	/**
