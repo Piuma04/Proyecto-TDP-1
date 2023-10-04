@@ -5,11 +5,14 @@ import java.util.LinkedList;
 import Logic.Block;
 import Logic.Board;
 
+/**
+ * Represents a type of glazed candy entity.
+ */
 public class Glazed extends Entity {
 
-    public Glazed(int rowPosition, int columnPosition) {
-        super(rowPosition, columnPosition, Colour.GLAZED);
-    }
+	public Glazed(int rowPosition, int columnPosition) {
+		super(rowPosition, columnPosition, Colour.GLAZED);
+	}
 
 	@Override
 	public boolean isEquivalent(Entity e) {
@@ -80,5 +83,7 @@ public class Glazed extends Entity {
 		return toDestroy;
 	}
 
-    public String toString() { return setStringColor("G"); }
+	public String toString() {
+		return setStringColor("G");
+	}
 }

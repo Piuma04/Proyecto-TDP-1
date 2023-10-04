@@ -6,6 +6,9 @@ import java.util.List;
 import Logic.Block;
 import Logic.Board;
 
+/**
+ * Represents a type of stripped candy entity.
+ */
 public class Stripped extends Entity {
 	/* Attributes */
 	protected boolean isHorizontal;
@@ -18,8 +21,8 @@ public class Stripped extends Entity {
 
 	/* Constructor */
 	public Stripped(int rowPosition, int columnPosition, Colour colour) {
-	    super(rowPosition, columnPosition, colour);
-		isHorizontal=true; //DEFAULT
+		super(rowPosition, columnPosition, colour);
+		isHorizontal = true; // DEFAULT
 	}
 
 	@Override
@@ -69,8 +72,6 @@ public class Stripped extends Entity {
 	}
 
 	@Override
-	// TODO retorna true dependiendo del color o si hay combinaciones => si hay
-	// combinaciones o no, se fija el tablero
 	public boolean canReceive(Candy c) {
 		return true;
 	}

@@ -6,6 +6,9 @@ import java.util.LinkedList;
 import Logic.Block;
 import Logic.Board;
 
+/**
+ * Represents a type of candy entity.
+ */
 public class Candy extends Entity {
 
 	public Candy(int rowPosition, int columnPosition, Colour colour) {
@@ -69,7 +72,6 @@ public class Candy extends Entity {
 	}
 
 	@Override
-	// TODO
 	public List<Block> getDestroyables(Board b) {
 		List<Block> toDestroy = new LinkedList<Block>();
 		toDestroy.add(b.getBlock(row, column));

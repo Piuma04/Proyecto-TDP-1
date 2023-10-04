@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import Logic.Block;
 import Logic.Board;
 
+/**
+ * Represents a type of wrapped candy entity.
+ */
 public class Wrapped extends Entity {
 
 	/* Constructor */
@@ -81,15 +84,14 @@ public class Wrapped extends Entity {
 	@Override
 	// TODO
 	public List<Block> getDestroyables(Board b) {
-        List<Block> toDestroy = new LinkedList<Block>();
-        for(int j = column-1;j<=column+1;j++)
-            for(int i = row-1;i<=row+1;i++)
-            {
-                if(i>=0 && i < Board.getRows() && j>=0 && j < Board.getColumns())
-                    toDestroy.add(b.getBlock(i, j));
-            }
-        return toDestroy;
-    }
+		List<Block> toDestroy = new LinkedList<Block>();
+		for (int j = column - 1; j <= column + 1; j++)
+			for (int i = row - 1; i <= row + 1; i++) {
+				if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns())
+					toDestroy.add(b.getBlock(i, j));
+			}
+		return toDestroy;
+	}
 
 	public String toString() {
 		return setStringColor("W");
