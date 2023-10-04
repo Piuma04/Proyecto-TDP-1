@@ -33,6 +33,7 @@ public class Block implements Focusable, LogicEntity {
 		focused = false;
 		row = r;
 		column = c;
+		myModifiers = new Stack<Modifiers>();
 		// typeOfBlock = "empty"; // deberia podes ser varios ( con gelatina, etc) tal
 		// vez se lo pueda pasar el
 		// modifier

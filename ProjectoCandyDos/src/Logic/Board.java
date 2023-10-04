@@ -228,7 +228,9 @@ public class Board {
 		List<Block> destroyables = new LinkedList<Block>();
 		for (Block b : toDestroy) 
 		{
-			destroyables.addAll(b.getEntity().getDestroyables(this));//raro
+			for(Block bb : b.getEntity().getDestroyables(this))
+				if(!destroyables.contains(bb))
+					destroyables.add(bb);//raro
 		}
 		for (Block b : destroyables) 
 		{
