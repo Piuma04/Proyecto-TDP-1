@@ -207,7 +207,7 @@ public class Board {
 						columnsToCheck = fillBoard();
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
-				} else b1.swapEntity(b2);
+				} //else b1.swapEntity(b2);
 			}	
 		}
 		
