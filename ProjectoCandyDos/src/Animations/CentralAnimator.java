@@ -17,16 +17,13 @@ import GUI.Gui;
  *
  */
 public class CentralAnimator implements AnimatorDriver {
-    
     protected Gui gui;
     protected HashMap<Drawable, List<Animator>> map_drawable_animations;
-    protected List<Thread> animationThreads;
     protected int size_label;
     
     public CentralAnimator(Gui v) {
         gui = v;
         map_drawable_animations = new HashMap<Drawable, List<Animator>>();
-        animationThreads = new LinkedList<Thread>();
     }
     
     /**

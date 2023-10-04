@@ -1,24 +1,19 @@
 package GUI;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 import Animations.CentralAnimator;
 import Interfaces.LogicEntity;
@@ -75,10 +70,10 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
                     case KeyEvent.VK_RIGHT: { myGame.move(Game.RIGHT); break; }
                     case KeyEvent.VK_UP:    { myGame.move(Game.UP); break; }
                     case KeyEvent.VK_DOWN:  { myGame.move(Game.DOWN); break; }
-                    case KeyEvent.VK_W:     { myGame.swap(Game.UP); break; }
-                    case KeyEvent.VK_S:     { myGame.swap(Game.DOWN); break; }
-                    case KeyEvent.VK_A:     { myGame.swap(Game.LEFT); break; }
-                    case KeyEvent.VK_D:     { myGame.swap(Game.RIGHT); break; }
+                    case KeyEvent.VK_W:     { if (!stopInterchanges) myGame.swap(Game.UP); break; }
+                    case KeyEvent.VK_S:     { if (!stopInterchanges) myGame.swap(Game.DOWN); break; }
+                    case KeyEvent.VK_A:     { if (!stopInterchanges) myGame.swap(Game.LEFT); break; }
+                    case KeyEvent.VK_D:     { if (!stopInterchanges) myGame.swap(Game.RIGHT); break; }
                     case KeyEvent.VK_J:     { System.out.println(boardPanel.getComponents().length); }
                 }
             }
