@@ -57,33 +57,36 @@ public class CentralAnimator implements AnimatorDriver {
      * se realicen primero.
      * @param c Celda que debe animarse, en relación a la imagen actual que la representa.
      */
-    /*public void animateChangeState(Drawable c) {
+    public void animateChangeState(Drawable c) {
         Animator animador = new AnimatorStateChange(this, c);
         gui.notifyAnimationInProgress();
         
         if (hasAnimationInProgress (c) ) {
-            mapeo_celda_animaciones.get(c).add(animador);
+            map_drawable_animations.get(c).add(animador);
         }else {
-            mapeo_celda_animaciones.put(c, new LinkedList<Animator>());
-            mapeo_celda_animaciones.get(c).add(animador);
+            map_drawable_animations.put(c, new LinkedList<Animator>());
+            map_drawable_animations.get(c).add(animador);
             animador.startAnimation();
         }
-        
-    }*/
+    }
 
     @Override
     public void notifyEndAnimation(Animator a) {
         Animator animator;
         List<Animator> drawableAnimations;
-        
+
         gui.notifyAnimationEnd();
-        
+
         drawableAnimations = map_drawable_animations.get(a.getDrawable());
         drawableAnimations.remove(a);
         
         if (!drawableAnimations.isEmpty()) {
             animator = drawableAnimations.get(0);
             animator.startAnimation();
+        }
+        // CHECK IF NULL IMAGE && FINISHED ANIMATION, REMOVE IT FROM GUI.
+        else if (a.getDrawable().getLogicalEntity().getImage() == null) {
+            gui.removeEntity(a.getDrawable());
         }
     }
     

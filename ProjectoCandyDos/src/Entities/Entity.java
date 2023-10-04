@@ -16,6 +16,7 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     protected Colour colour;
     protected int row;
     protected int column;
+    protected String image;
 
     private GraphicalEntity gEntity;
 
@@ -27,12 +28,14 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
         row = rowPosition;
         column = columnPosition;
         this.colour = colour;
+        image = colour.toString() + ".png";
     }
     
     public void changePosition(int newRow, int newColumn) {
         row = newRow;
         column = newColumn;
-        if (gEntity != null) gEntity.notifyChangePosition();
+        if (gEntity != null)
+            gEntity.notifyChangePosition();
     }
 
     public void setGraphicEntity(GraphicalEntity gEntity) { this.gEntity = gEntity; }
@@ -42,12 +45,13 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public abstract List<Block> getDestroyables(Board b);
     
     public void destroy() {
-        //changePosition(7, 6);
-        if (gEntity != null)
+        if (gEntity != null) {
+            image = null;
             gEntity.notifyChangeState();
+        }
     }
-    
-    public String getImage() { return colour.toString() + ".png"; }
+
+    public String getImage() { return image; }
     public int getPicSize() { return picSize; }
 
     protected String setStringColor(String str) {

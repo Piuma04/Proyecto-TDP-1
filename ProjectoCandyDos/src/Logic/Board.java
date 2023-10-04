@@ -119,12 +119,7 @@ public class Board {
     }
 
     public void destroyEntity(int row, int column) {
-        Block block = getBlock(row, column);
-        Entity entity = block.getEntity();
-        GraphicalEntity gentity = entity.getGraphicEntity();
-        if (gentity != null)
-            myGui.removeEntity(gentity);
-        block.destroyEntity();
+        getBlock(row, column).destroyEntity();
     }
     
     private List<Equivalent> swapEntities(int newRow, int newColumn) {
@@ -151,7 +146,6 @@ public class Board {
 				else 
 					l2 = new LinkedList<Block>();
 				l1.addAll(l2);
-				remaining = l1;
 				if (!l1.isEmpty()) {
 					destroyed = destroyEntities(l1);
 					columnsToCheck = fillBoard();

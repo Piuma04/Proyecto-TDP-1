@@ -1,10 +1,5 @@
 package Animations;
 
-import java.awt.Image;
-
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import GUI.Drawable;
 
 /**
@@ -31,7 +26,6 @@ public class AnimatorStateChange implements Animator {
     public AnimatorStateChange(AnimatorDriver m, Drawable c) {
         manager = m;
         drawableAnimated = c;
-        
         path_img = c.getLogicalEntity().getImage();
     }
     
@@ -43,12 +37,9 @@ public class AnimatorStateChange implements Animator {
 
     @Override
     public void startAnimation() {
-        //int size_label = drawableAnimated.getImageSize();
-        //ImageIcon imgIcon = new ImageIcon(this.getClass().getResource(path_img));
-        //Image imgEscalada = imgIcon.getImage().getScaledInstance(size_label, size_label, Image.SCALE_SMOOTH);
-        //Icon iconoEscalado = new ImageIcon(imgEscalada);
-        //mi_celda_animada.setIcon(iconoEscalado);
+        drawableAnimated.setImage("src/imagenes/" + path_img);
         manager.notifyEndAnimation(this);
+        drawableAnimated.repaint();
     }
 
 }

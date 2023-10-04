@@ -128,8 +128,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         animator.animateChangePosition(c);
     }
     
-    /*@Override
+    @Override
     public void animateChangeState(Drawable c) {
         animator.animateChangeState(c);
-    }*/
+    }
 }
