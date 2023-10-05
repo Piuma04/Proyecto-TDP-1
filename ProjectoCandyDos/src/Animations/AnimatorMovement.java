@@ -28,7 +28,7 @@ public class AnimatorMovement extends Thread implements Animator {
      * @param d El delay establecido entre desplazamiento y desplazamiento.
      * @param c La celda animada.
      */
-    public AnimatorMovement(AnimatorDriver m, int step, int d, Drawable c) {
+    public AnimatorMovement(AnimatorDriver m, int step, int d, Drawable c, int finalRow, int finalColumn) {
         manager = m;
         drawableAnimated = c;
         
@@ -36,8 +36,8 @@ public class AnimatorMovement extends Thread implements Animator {
         delay = d;
         
         int size_label = drawableAnimated.getImageSize();
-        pos_x_destination = c.getLogicalEntity().getColumn() * size_label;
-        pos_y_destination = c.getLogicalEntity().getRow() * size_label;     
+        pos_x_destination = finalColumn * size_label;
+        pos_y_destination = finalRow * size_label;     
     }
     
     @Override
@@ -52,7 +52,6 @@ public class AnimatorMovement extends Thread implements Animator {
     
     @Override
     public void run() {
-        int size_label = drawableAnimated.getImageSize();
         int pos_x_actual = drawableAnimated.getX();
         int pos_y_actual = drawableAnimated.getY();
         
@@ -71,7 +70,7 @@ public class AnimatorMovement extends Thread implements Animator {
             pos_x_actual += paso_en_x * step;
             pos_y_actual += paso_en_y * step;
             
-            drawableAnimated.setBounds(pos_x_actual, pos_y_actual, size_label, size_label);
+            drawableAnimated.setLocation(pos_x_actual, pos_y_actual);
             drawableAnimated.repaint();
             try {
                 sleep(delay);

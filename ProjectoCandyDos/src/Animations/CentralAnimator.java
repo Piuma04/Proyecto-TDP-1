@@ -3,6 +3,9 @@ package Animations;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.ArrayDeque;
 
 import GUI.Drawable;
 import GUI.Gui;
@@ -21,10 +24,60 @@ public class CentralAnimator implements AnimatorDriver {
     protected HashMap<Drawable, List<Animator>> map_drawable_animations;
     protected int size_label;
     
+    protected Queue<Object[]> queue;
+    protected int currentAnimatorType;
+    protected Runnable myTask;
+    protected Thread myThread;
+    
     public CentralAnimator(Gui v) {
         gui = v;
         map_drawable_animations = new HashMap<Drawable, List<Animator>>();
+        queue = new ArrayDeque<Object[]>();
+        currentAnimatorType = 2;
+        
+        myTask = () -> {
+            Object[] head = queue.poll();
+            while (head != null) {
+                Drawable c = (Drawable)head[0];
+                Integer i = (Integer)head[1];
+                if (i != currentAnimatorType) {
+                    while (gui.getPendingAnimations() > 0) {
+                        try {
+                            Thread.sleep(10);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    } currentAnimatorType = i;
+                }
+                if (i == 1)
+                {
+                    int finalRow = (Integer)head[2];
+                    int finalColumn = (Integer)head[3];
+                    Animator animador = new AnimatorMovement(this, 1,5, c, finalRow, finalColumn);
+                    startAnimation(c, animador);
+                }
+                else if (i == 2) {
+                    Animator animador = new AnimatorStateChange(this, c);
+                    startAnimation(c, animador);
+                }
+                head = queue.poll();
+            }
+        };
+        myThread = new Thread(myTask);
     }
+
+    /*        Thread myThread = new Thread(() -> {
+            while (currentAmountAnimating == 0 && lastAnimatorType != 1) {
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            startAnimation(c, animador);
+            lastAnimatorType = 1;
+        });
+        myThread.start();*/
     
     /**
      * Indica que la celda parametrizada debe ser animada a partir de un cambio de posición.
@@ -35,16 +88,15 @@ public class CentralAnimator implements AnimatorDriver {
      * referenciada por c.
      */
     public void animateChangePosition(Drawable c) {
-        Animator animador = new AnimatorMovement(this, 1,5, c);
-        gui.notifyAnimationInProgress();
-        
-        if (hasAnimationInProgress(c) ) {
-            map_drawable_animations.get(c).add(animador);
-        }else {
-            map_drawable_animations.put(c, new LinkedList<Animator>());
-            map_drawable_animations.get(c).add(animador);
-            animador.startAnimation();
-        }
+        //Animator animador = new AnimatorMovement(this, 1,5, c);
+        //startAnimation(c, animador);
+        Object data[] = new Object[4];
+        data[0] = (Drawable)c;
+        data[1] = (Integer)1;
+        data[2] = c.getLogicalEntity().getRow();
+        data[3] = c.getLogicalEntity().getColumn();
+        queue.add(data);
+        if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
     }
     
     /**
@@ -55,12 +107,20 @@ public class CentralAnimator implements AnimatorDriver {
      * @param c Celda que debe animarse, en relación a la imagen actual que la representa.
      */
     public void animateChangeState(Drawable c) {
-        Animator animador = new AnimatorStateChange(this, c);
+        //Animator animador = new AnimatorStateChange(this, c);
+        //startAnimation(c, animador);
+        Object data[] = new Object[2];
+        data[0] = (Drawable)c;
+        data[1] = (Integer)2;
+        queue.add(data);
+        if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
+    }
+
+    public void startAnimation(Drawable c, Animator animador) {
         gui.notifyAnimationInProgress();
-        
-        if (hasAnimationInProgress (c) ) {
+        if (hasAnimationInProgress(c) ) {
             map_drawable_animations.get(c).add(animador);
-        }else {
+        } else {
             map_drawable_animations.put(c, new LinkedList<Animator>());
             map_drawable_animations.get(c).add(animador);
             animador.startAnimation();

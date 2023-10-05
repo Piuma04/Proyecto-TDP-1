@@ -66,13 +66,6 @@ public class Block implements Focusable, LogicEntity {
 	}
 
 	/**
-	 * Creates a wrapped block
-	 */
-	public void createWrapped() {
-		myModifiers.push(new Jelly()); // TODO
-	}
-
-	/**
 	 * Swaps the entity of this block with the entity of another block.
 	 *
 	 * @param block The block to swap entities with.

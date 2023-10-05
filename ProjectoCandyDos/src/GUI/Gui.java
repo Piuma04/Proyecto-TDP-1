@@ -89,41 +89,41 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         contentPane.add(cantMoves);
         
        
-		
-		amountToGo = new JLabel();
-		amountToGo.setBounds(643, 223, 46, 29);
-		getContentPane().add(amountToGo);
-		
-		typeOfCandy = new JLabel();
-		typeOfCandy.setBounds(540, 195, 80, 80);
-		getContentPane().add(typeOfCandy);
-		
-		levelShower = new JLabel();
-		levelShower.setBounds(194, 20, 80,20);
-		levelShower.setFont(new Font("Stencil", Font.PLAIN, 20));
-		getContentPane().add(levelShower);
-		
-		watch = new JLabel("Aca iria el reloj");
-		watch.setBounds(560, 85, 200, 14);
-		getContentPane().add(watch);
+        
+        amountToGo = new JLabel();
+        amountToGo.setBounds(643, 223, 46, 29);
+        getContentPane().add(amountToGo);
+        
+        typeOfCandy = new JLabel();
+        typeOfCandy.setBounds(540, 195, 80, 80);
+        getContentPane().add(typeOfCandy);
+        
+        levelShower = new JLabel();
+        levelShower.setBounds(194, 20, 80,20);
+        levelShower.setFont(new Font("Stencil", Font.PLAIN, 20));
+        getContentPane().add(levelShower);
+        
+        watch = new JLabel("Aca iria el reloj");
+        watch.setBounds(560, 85, 200, 14);
+        getContentPane().add(watch);
     }
 
     
     public void updateLives(int lives) {
-		
-    	if (lives < 1) live1.setVisible(false);
-    	else live1.setVisible(true);
-    		
-    	if (lives < 2) live2.setVisible(false); 
-    	else live2.setVisible(true);
-    		
-    	if (lives < 3) live3.setVisible(false);
-    	else live3.setVisible(true);
+        
+        if (lives < 1) live1.setVisible(false);
+        else live1.setVisible(true);
+            
+        if (lives < 2) live2.setVisible(false); 
+        else live2.setVisible(true);
+            
+        if (lives < 3) live3.setVisible(false);
+        else live3.setVisible(true);
 
-	}
+    }
     
     private void setUpLives() {
-    	ImageIcon imageIcon = new ImageIcon("src/imagenes/heart-gif-1.gif"); 
+        ImageIcon imageIcon = new ImageIcon("src/imagenes/heart-gif-1.gif"); 
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
        
         ImageIcon imageIcon2 = new ImageIcon("src/imagenes/heart-gif-1.gif"); 
@@ -147,7 +147,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
     
     public void updateMoves(int i) {
-    	cantMoves.setText("movimientos restantes: "+i);
+        cantMoves.setText("movimientos restantes: "+i);
     }
     
     public GraphicalEntity addEntity(LogicEntity e) {
@@ -164,40 +164,40 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     
     public int chooseLevel() {
-		int h = Integer.valueOf(JOptionPane.showInputDialog(contentPane, "Ingrese el nivel"));
-		return h;
-	}
+        int h = Integer.valueOf(JOptionPane.showInputDialog(contentPane, "Ingrese el nivel"));
+        return h;
+    }
 
-	public void gameOver() {
-		JOptionPane.showMessageDialog(contentPane, "Perdio el juego");
-		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-		
-	}
+    public void gameOver() {
+        JOptionPane.showMessageDialog(contentPane, "Perdio el juego");
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        
+    }
 
-	public void ending() {
-		JOptionPane.showMessageDialog(contentPane, "Felicitaciones! Ha ganado el juego");
-		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-		
-	}
+    public void ending() {
+        JOptionPane.showMessageDialog(contentPane, "Felicitaciones! Ha ganado el juego");
+        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+        
+    }
 
-	public void showObjective(String typeOfEntity, int amountMissing) {
-		ImageIcon imageIconAux = new ImageIcon("src/imagenes/"+typeOfEntity); 
-		System.out.println("src/imagenes/"+typeOfEntity);
-		imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-	    typeOfCandy.setIcon(imageIconAux);
-	  
-		amountToGo.setText(amountMissing+"");
-		
-		
-	}
-	public void updateGraphicObjective(int amountMissing) {
-		
-		int i = amountMissing <0 ? 0 : amountMissing;
-		amountToGo.setText(i+"");
-	}
-	public void setCurrentLevel(String level) {
-		levelShower.setText(level);
-	}
+    public void showObjective(String typeOfEntity, int amountMissing) {
+        ImageIcon imageIconAux = new ImageIcon("src/imagenes/"+typeOfEntity); 
+        System.out.println("src/imagenes/"+typeOfEntity);
+        imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        typeOfCandy.setIcon(imageIconAux);
+      
+        amountToGo.setText(amountMissing+"");
+        
+        
+    }
+    public void updateGraphicObjective(int amountMissing) {
+        
+        int i = amountMissing <0 ? 0 : amountMissing;
+        amountToGo.setText(i+"");
+    }
+    public void setCurrentLevel(String level) {
+        levelShower.setText(level);
+    }
     
     @Override
     public void notifyAnimationInProgress() {
@@ -213,6 +213,10 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
             pendingAnimations--;
             stopInterchanges = pendingAnimations > 0;
         }
+    }
+
+    public int getPendingAnimations() {
+        return pendingAnimations;
     }
 
     @Override

@@ -212,7 +212,7 @@ public class Board {
 						remaining = checkRemainingCombinations(columnsToCheck);
 					}
 					System.out.println("Total: "+destroyed);
-				} //else b1.swapEntity(b2);
+				} else b1.swapEntity(b2);
 			}	
 		}
 		return destroyed;
@@ -272,6 +272,7 @@ public class Board {
 						{
 							Entity e = new Candy(i, j, randomColour());
 							setEntity(i, j, e);
+							//e.changePosition(0, j);
 						}
 					found = false;
 				}

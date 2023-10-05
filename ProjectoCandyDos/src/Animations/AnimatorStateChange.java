@@ -38,8 +38,8 @@ public class AnimatorStateChange implements Animator {
     @Override
     public void startAnimation() {
         drawableAnimated.setImage("src/imagenes/" + path_img);
-        manager.notifyEndAnimation(this);
         drawableAnimated.repaint();
+        manager.notifyEndAnimation(this);
     }
 
 }

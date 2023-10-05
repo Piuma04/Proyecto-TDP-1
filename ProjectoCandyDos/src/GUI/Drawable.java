@@ -6,6 +6,8 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
+import Entities.Empty;
+import Entities.Entity;
 import Interfaces.LogicEntity;
 
 @SuppressWarnings("serial")
@@ -57,5 +59,4 @@ public class Drawable extends JComponent implements GraphicalEntity {
     public void notifyChangePosition() {
         agui.animateMovement(this);
     }
-
 }
