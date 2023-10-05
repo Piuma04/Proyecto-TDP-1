@@ -37,6 +37,12 @@ public class Level {
     public boolean update(List<Equivalent> l) {
     	if(!l.isEmpty()) {
     		remainingMoves--;
+    		try {
+   	         AudioInputStream a = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
+   	         Clip clip = AudioSystem.getClip();
+   	         clip.open(a);
+   	         clip.start();
+   	     }catch(LineUnavailableException | IOException | UnsupportedAudioFileException e) {System.out.println(e.getMessage());}
     		 
     	}
         return myGoal.updateCounter(l);
