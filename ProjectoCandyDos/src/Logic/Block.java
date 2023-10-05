@@ -33,6 +33,7 @@ public class Block implements Focusable, LogicEntity {
 		focused = false;
 		row = r;
 		column = c;
+		myModifiers = new Stack<Modifiers>();
 		// typeOfBlock = "empty"; // deberia podes ser varios ( con gelatina, etc) tal
 		// vez se lo pueda pasar el
 		// modifier
@@ -65,6 +66,17 @@ public class Block implements Focusable, LogicEntity {
 		return myEntity.equals(empty);
 	}
 
+	/**
+	 * Creates a wrapped block
+	 */
+	public void createWrapped() {
+		myModifiers.push(new Jelly()); // TODO
+	}
+
+	public boolean hasModifiers()
+	{
+		return !myModifiers.isEmpty();
+	}
 	/**
 	 * Swaps the entity of this block with the entity of another block.
 	 *

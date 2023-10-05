@@ -1,7 +1,14 @@
 package Logic;
 
 import java.awt.EventQueue;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.List;
+import javax.sound.sampled.*;
+import javax.imageio.stream.FileImageInputStream;
 
 import Entities.Entity;
 import GUI.Gui;
@@ -23,14 +30,17 @@ public class Game {
     public Game() {
     	 myGui = new Gui(this, Board.getRows(), Board.getColumns());
          myBoard = new Board(this, myGui);
-         int l = 1;//myGui.chooseLevel();
-         loadLevel(l);
+         int i = myGui.chooseLevel();
+         loadLevel(i);
          myGui.setVisible(true);
          myBoard.setPlayerPosition(3, 3);
          lives = 3; 
          myGui.updateLives(lives);
          myGui.showObjective(myLevel.getObjective(), myLevel.getRemainingObjectives());
          myGui.setCurrentLevel("Nivel "+myLevel.getCurrentLevel());
+         
+        
+    
     }
 
     public void loadLevel(int level) {

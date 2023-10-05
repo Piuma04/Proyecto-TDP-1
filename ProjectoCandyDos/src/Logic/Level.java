@@ -1,6 +1,14 @@
 package Logic;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Entities.Entity;
 import Interfaces.Equivalent;
@@ -27,8 +35,10 @@ public class Level {
      * @return {@code true} if goal reached.
      */
     public boolean update(List<Equivalent> l) {
-    	if(!l.isEmpty())
+    	if(!l.isEmpty()) {
     		remainingMoves--;
+    		 
+    	}
         return myGoal.updateCounter(l);
         
     }

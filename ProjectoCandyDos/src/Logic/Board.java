@@ -5,6 +5,12 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Set;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import Entities.Candy;
 import Entities.Colour;
 import Entities.Entity;
@@ -14,6 +20,8 @@ import GUI.Gui;
 import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -224,20 +232,31 @@ public class Board {
      */
     private List<Equivalent> destroyEntities(List<Block> toDestroy)
     {
+    	
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
 		List<Block> destroyables = new LinkedList<Block>();
 		for (Block b : toDestroy) 
 		{
-			for(Block bb: b.getEntity().getDestroyables(this))//raro
+			for(Block bb : b.getEntity().getDestroyables(this))
 				if(!destroyables.contains(bb))
-					destroyables.add(bb);
+					destroyables.add(bb);//raro
 		}
 		for (Block b : destroyables) 
 		{
-			destroyed.add(b.getEntity());
+			if(b.hasModifiers())
+				destroyed.add(b.popModifier());
+			else
+				destroyed.add(b.getEntity());
 			destroyEntity(b.getRow(), b.getColumn());
+			 
 		}
 		System.out.println("destroyed" +destroyed);
+		try {
+	         AudioInputStream a = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
+	         Clip clip = AudioSystem.getClip();
+	         clip.open(a);
+	         clip.start();
+	     }catch(LineUnavailableException | IOException | UnsupportedAudioFileException e) {System.out.println(e.getMessage());}
 		return destroyed;
 	}
     /**
@@ -330,7 +349,6 @@ public class Board {
  			combination.clear();
  		if(!combination.isEmpty())
  			System.out.println("combination: "+combination);
- 		System.out.println("Combination found"+combination);
  		return combination;
  	}
  	/**
