@@ -5,6 +5,12 @@ import java.util.List;
 import java.util.LinkedList;
 import java.util.Set;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import Entities.Candy;
 import Entities.Colour;
 import Entities.Entity;
@@ -14,6 +20,8 @@ import GUI.Gui;
 import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -239,6 +247,12 @@ public class Board {
 			else
 				destroyed.add(b.getEntity());
 			destroyEntity(b.getRow(), b.getColumn());
+			 try {
+    	         AudioInputStream a = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
+    	         Clip clip = AudioSystem.getClip();
+    	         clip.open(a);
+    	         clip.start();
+    	     }catch(LineUnavailableException | IOException | UnsupportedAudioFileException e) {System.out.println(e.getMessage());}
 		}
 		System.out.println("destroyed" +destroyed);
 		return destroyed;
