@@ -232,6 +232,7 @@ public class Board {
      */
     private List<Equivalent> destroyEntities(List<Block> toDestroy)
     {
+    	
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
 		List<Block> destroyables = new LinkedList<Block>();
 		for (Block b : toDestroy) 
@@ -247,14 +248,15 @@ public class Board {
 			else
 				destroyed.add(b.getEntity());
 			destroyEntity(b.getRow(), b.getColumn());
-			 try {
-    	         AudioInputStream a = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
-    	         Clip clip = AudioSystem.getClip();
-    	         clip.open(a);
-    	         clip.start();
-    	     }catch(LineUnavailableException | IOException | UnsupportedAudioFileException e) {System.out.println(e.getMessage());}
+			 
 		}
 		System.out.println("destroyed" +destroyed);
+		try {
+	         AudioInputStream a = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
+	         Clip clip = AudioSystem.getClip();
+	         clip.open(a);
+	         clip.start();
+	     }catch(LineUnavailableException | IOException | UnsupportedAudioFileException e) {System.out.println(e.getMessage());}
 		return destroyed;
 	}
     /**
