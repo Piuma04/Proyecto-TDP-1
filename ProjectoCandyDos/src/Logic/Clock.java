@@ -1,17 +1,33 @@
 package Logic;
 
-public class Clock {
-    private long startTime;
+import java.util.concurrent.TimeUnit;
 
-    public Clock() {
-        startTime = System.currentTimeMillis();
-    }
+import GUI.Gui;
 
-    public void start() {
-        startTime = System.currentTimeMillis();
+public class Clock extends Thread{
+    
+	
+	private long startTime;
+	private Gui myGui;
+	private Game myGame;
+    
+    
+    
+    public Clock(Gui mG, long timeStart, Game mGa) {
+    	super();
+    	myGui = mG;
+    	myGame = mGa;
+    	startTime = timeStart;
     }
-
-    public long getTime() {
-        return System.currentTimeMillis() - startTime;
-    }
+    
+   public void run() {
+	   myGui.setTime(startTime);
+	   while(startTime>0) {
+	   		try {sleep(1000);} catch (InterruptedException e) {System.out.println(e.getMessage());}
+	   		startTime--;
+	   		myGui.setTime(startTime);
+	   }
+	   myGame.lost();
+	  
+   }
 }
