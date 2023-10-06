@@ -11,11 +11,10 @@ import GUI.Drawable;
  * @author FJoaquin (federico.joaquin@cs.uns.edu.ar)
  *
  */
-public class AnimatorStateChange implements Animator {
+public class AnimatorStateChange extends Thread implements Animator {
 
     protected AnimatorDriver manager;
     protected Drawable drawableAnimated;
-    
     protected String path_img;
     
     /**
@@ -23,10 +22,10 @@ public class AnimatorStateChange implements Animator {
      * @param m El manejador de animaciones al que le notificará el fin de la animación, cuando corresponda.
      * @param c La celda animada.
      */
-    public AnimatorStateChange(AnimatorDriver m, Drawable c) {
+    public AnimatorStateChange(AnimatorDriver m, Drawable c, String animationPath) {
         manager = m;
         drawableAnimated = c;
-        path_img = c.getLogicalEntity().getImage();
+        path_img = animationPath;
     }
     
     
@@ -36,10 +35,29 @@ public class AnimatorStateChange implements Animator {
     }
 
     @Override
-    public void startAnimation() {
+    public void run() {
         drawableAnimated.setImage("src/imagenes/" + path_img);
+        if (path_img != null && path_img.contains(".gif")) {
+            long startTime =  System.currentTimeMillis();
+            long elapsedTime =  startTime;
+            final double timer = 1.2; // seconds
+            while (elapsedTime < startTime + timer * 1000) {
+                try {
+                    sleep(5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                elapsedTime = System.currentTimeMillis();
+                drawableAnimated.repaint();
+            }
+        }
         drawableAnimated.repaint();
         manager.notifyEndAnimation(this);
+    }
+
+    @Override
+    public void startAnimation() {
+        this.start();
     }
 
 }

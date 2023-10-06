@@ -38,6 +38,7 @@ public class CentralAnimator implements AnimatorDriver {
         myTask = () -> {
             Object[] head = queue.poll();
             while (head != null) {
+                
                 Drawable c = (Drawable)head[0];
                 Integer i = (Integer)head[1];
                 if (i != currentAnimatorType) {
@@ -57,7 +58,8 @@ public class CentralAnimator implements AnimatorDriver {
                     startAnimation(c, animador);
                 }
                 else if (i == 2) {
-                    Animator animador = new AnimatorStateChange(this, c);
+                    String animationPath = (String)head[2];
+                    Animator animador = new AnimatorStateChange(this, c, animationPath);
                     startAnimation(c, animador);
                 }
                 head = queue.poll();
@@ -109,9 +111,10 @@ public class CentralAnimator implements AnimatorDriver {
     public void animateChangeState(Drawable c) {
         //Animator animador = new AnimatorStateChange(this, c);
         //startAnimation(c, animador);
-        Object data[] = new Object[2];
+        Object data[] = new Object[3];
         data[0] = (Drawable)c;
         data[1] = (Integer)2;
+        data[2] = c.getLogicalEntity().getImage();
         queue.add(data);
         if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
     }

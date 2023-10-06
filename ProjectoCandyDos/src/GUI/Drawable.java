@@ -6,15 +6,13 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
-import Entities.Empty;
-import Entities.Entity;
 import Interfaces.LogicEntity;
 
 @SuppressWarnings("serial")
 
 public class Drawable extends JComponent implements GraphicalEntity {
 
-    protected Image image;
+    protected ImageIcon image;
     protected GuiAnimable agui;
     protected LogicEntity myLogicBlock;
     protected int sizeImage;
@@ -25,6 +23,7 @@ public class Drawable extends JComponent implements GraphicalEntity {
         agui = GUIAnimable;
         sizeImage = si; // NOT HARDCODED!
         myLogicBlock = logicBlock;
+        setImage(logicBlock.getImage());
         notifyChangeState();
         setLocation(myLogicBlock.getColumn() * sizeImage, myLogicBlock.getRow() * sizeImage);
         setSize(sizeImage, sizeImage);
@@ -37,7 +36,8 @@ public class Drawable extends JComponent implements GraphicalEntity {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         // Draw your shapes here using the Graphics object
-        g.drawImage(image, 0, 0, null);
+        image.paintIcon(this, g, 0, 0);
+        //g.drawImage(image, 0, 0, this);
         // Draw other shapes as needed
     }
 
@@ -46,9 +46,8 @@ public class Drawable extends JComponent implements GraphicalEntity {
     }
 
     public void setImage(String path) {
-        Image scaledImage = new ImageIcon(path).getImage().getScaledInstance(sizeImage, sizeImage, Image.SCALE_SMOOTH);
-        ImageIcon scaledIcon = new ImageIcon(scaledImage);
-        image = scaledIcon.getImage();
+        Image scaledImage = new ImageIcon(path).getImage().getScaledInstance(sizeImage, sizeImage, Image.SCALE_DEFAULT);
+        image = new ImageIcon(scaledImage);
     }
 
     @Override

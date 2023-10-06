@@ -92,6 +92,9 @@ public class Empty extends Entity {
 	}
 
 	@Override
+	public void destroy() { }
+	
+	@Override
 	// TODO
 	public List<Block> getDestroyables(Board b) {
 		return new LinkedList<Block>(); // TODO seria una lista vacia

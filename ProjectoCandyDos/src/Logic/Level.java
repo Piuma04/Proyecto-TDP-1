@@ -26,7 +26,7 @@ public class Level {
         myClock = new Clock();
         this.remainingMoves = remainingMoves;
         currentLevel = cR;
-        System.out.println(currentLevel);
+        //DEBUG System.out.println(currentLevel);
     }
 
     /**

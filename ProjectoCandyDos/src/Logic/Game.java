@@ -30,7 +30,7 @@ public class Game {
     public Game() {
     	 myGui = new Gui(this, Board.getRows(), Board.getColumns());
          myBoard = new Board(this, myGui);
-         int i = myGui.chooseLevel();
+         int i = 1; //myGui.chooseLevel(); MUST CHECK IF USER INSERTED INTEGER.
          loadLevel(i);
          myGui.setVisible(true);
          myBoard.setPlayerPosition(3, 3);
@@ -38,9 +38,6 @@ public class Game {
          myGui.updateLives(lives);
          myGui.showObjective(myLevel.getObjective(), myLevel.getRemainingObjectives());
          myGui.setCurrentLevel("Nivel "+myLevel.getCurrentLevel());
-         
-        
-    
     }
 
     public void loadLevel(int level) {

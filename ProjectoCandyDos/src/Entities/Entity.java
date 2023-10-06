@@ -45,10 +45,10 @@ public abstract class Entity implements Equivalent, Swappable, LogicEntity {
     public abstract List<Block> getDestroyables(Board b);
     
     public void destroy() {
-        if (gEntity != null) {
-            image = null;
-            gEntity.notifyChangeState();
-        }
+        image = "explosion.gif";
+        gEntity.notifyChangeState();
+        image = null;
+        gEntity.notifyChangeState();
     }
 
     public String getImage() { return image; }
