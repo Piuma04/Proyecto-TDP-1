@@ -199,8 +199,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public void setCurrentLevel(String level) {
         levelShower.setText(level);
     }
-    public void setTime(long l) {
-    	watch.setText("Tiempo restante: "+l);
+    public void setTime(String string) {
+    	watch.setText("Tiempo restante: "+string);
     }
     
     @Override
