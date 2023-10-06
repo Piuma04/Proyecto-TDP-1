@@ -66,7 +66,7 @@ public class AnimatorMovement extends Thread implements Animator {
             paso_en_y = (pos_y_actual < pos_y_destination ? 1 : -1);
         }
         
-        while( (pos_x_actual != pos_x_destination) || (pos_y_actual != pos_y_destination) ) {
+        while( (pos_x_actual != pos_x_destination) || (pos_y_actual != pos_y_destination)) {
             pos_x_actual += paso_en_x * step;
             pos_y_actual += paso_en_y * step;
             

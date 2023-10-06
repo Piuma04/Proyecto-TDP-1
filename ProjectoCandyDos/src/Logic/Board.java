@@ -1,15 +1,12 @@
 package Logic;
 
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import java.util.LinkedList;
 import java.util.Set;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Entities.Candy;
 import Entities.Colour;
@@ -20,9 +17,6 @@ import GUI.Gui;
 import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -169,9 +163,10 @@ public class Board {
     public void setEntity(int row, int column, Entity entity) 
     {
         Block block = getBlock(row, column);
-        if (block.getEntity() != null) destroyEntity(row, column);
+        //if (block.getEntity() != null) destroyEntity(row, column);
         block.setEntity(entity);
         entity.setGraphicEntity(myGui.addEntity(entity));
+        //entity.changePosition(row, column);
     }
 
     /**
@@ -260,39 +255,63 @@ public class Board {
      */
     private Set<Integer> fillBoard() 
     {
-		Set<Integer> s = new HashSet<Integer>();
+        /*Map<Integer, List<Block>> emptyBlocks = new HashMap<Integer, List<Block>>();
+        int emptyBlockCounter = 0;
+        
+        for (int column = COLUMNS-1; column >= 0; column--) {
+            emptyBlocks.put(column, new LinkedList<Block>());
+            for (int row = ROWS-1; row >= 0; row--) {
+                Block block = getBlock(row, column);
+                if (block.isEmpty()) {
+                    emptyBlocks.get(column).add(block);
+                    emptyBlockCounter++;
+                }
+            }
+        }
+        
+        List<Entity> candys = new LinkedList<Entity>();
+        for (int i = 0; i < ROWS; i++) {
+            int col = emptyBlocks.get(i).size();
+            for (int j = 0; j < col; j++) {
+                Entity e = new Candy(0, col, randomColour());
+            }
+        }*/
+        
+        for (int col = 0; col < COLUMNS-1; col++) {
+            
+        }
+        
+		Set<Integer> lowerColumnEmptyBlocks = new HashSet<Integer>();
 		boolean found = false;
-		for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--)
-			for (int i = ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--)
-				if (matrix[i][j].isEmpty())
-					s.add(j);
+		for (int col = COLUMNS - 1; col >= 0 && lowerColumnEmptyBlocks.size() < COLUMNS; col--)
+			for (int row = ROWS - 1; row >= 0 && lowerColumnEmptyBlocks.size() < COLUMNS && !lowerColumnEmptyBlocks.contains(col); row--)
+				if (matrix[row][col].isEmpty())
+				    lowerColumnEmptyBlocks.add(col);
 
-		for (Integer j : s) {
-			for (int i = ROWS - 1; i >= 0; i--) 
+		for (Integer col : lowerColumnEmptyBlocks) {
+			for (int row = ROWS - 1; row >= 0; row--) 
 			{
-				if (matrix[i][j].isEmpty()) 
+				if (matrix[row][col].isEmpty()) 
 				{
-					int nextEntity = i-1;
+					int nextEntity = row-1;
 					while (nextEntity >= 0 && !found) 
 					{
-						found = !matrix[nextEntity][j].isEmpty();
+						found = !matrix[nextEntity][col].isEmpty();
 						if(!found) 
 							nextEntity--;
 					}
 					if (found)
-						matrix[i][j].swapEntity(matrix[nextEntity][j]);
-					else
-						for (int cont = i; cont >= 0; cont--) 
-						{
-							Entity e = new Candy(i, j, randomColour());
-							setEntity(i, j, e);
-							//e.changePosition(0, j);
+						matrix[row][col].swapEntity(matrix[nextEntity][col]);
+					else {
+							Entity e = new Candy(0, col, randomColour());
+							setEntity(row, col, e);
+							e.changePosition(row, col);
 						}
 					found = false;
 				}
 			}
 		}
-		return s;
+		return lowerColumnEmptyBlocks;
 	}
     /**
      * checks the combinations of the {@code columns} specified
@@ -328,14 +347,17 @@ public class Board {
  		
  		if (cantHorizontal >= 2 && cantVertical >= 2) 
  		{
+ 		    destroyEntity(row, column);
  			setEntity(row, column, new Wrapped(row, column, color));
  		} 
  		else if (cantHorizontal == 3 && cantVertical < 2) 
  		{
+ 		   destroyEntity(row, column);
  		    setEntity(row, column, new Stripped(row, column, color, false));
  		} 
  		else if (cantHorizontal < 2 && cantVertical == 3) 
  		{
+ 		    destroyEntity(row, column);
  			setEntity(row, column, new Stripped(row, column, color, true));
  		}
  		else

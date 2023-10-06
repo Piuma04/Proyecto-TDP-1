@@ -60,7 +60,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         boardPanel.setLocation(0, 50);
-        boardPanel.setSize(486, 435);
+        //boardPanel.setSize(486, 435);/
+        boardPanel.setSize(500, 600);
         boardPanel.setLayout(null);
         boardPanel.addKeyListener(new KeyAdapter() {
             @Override
@@ -81,9 +82,9 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         contentPane.setLayout(null);
         contentPane.add(boardPanel);
         boardPanel.setFocusable(true);
-        
+
         setUpLives();
-        
+
         cantMoves = new JLabel();
         cantMoves.setBounds(530, 125, 183, 38);
         contentPane.add(cantMoves);
