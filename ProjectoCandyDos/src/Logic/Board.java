@@ -309,7 +309,6 @@ public class Board {
                     q.add(current.getEntity());
                 setEntity(i, col, q.poll());
             }
-            System.out.println(q);
         }
         
         /*Set<Integer> lowerColumnEmptyBlocks = new HashSet<Integer>();
