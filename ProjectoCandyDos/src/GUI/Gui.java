@@ -66,10 +66,10 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch(e.getKeyCode()) {
-                    case KeyEvent.VK_LEFT:  { if (!stopInterchanges) myGame.move(Game.LEFT); break; }
-                    case KeyEvent.VK_RIGHT: { if (!stopInterchanges) myGame.move(Game.RIGHT); break; }
-                    case KeyEvent.VK_UP:    { if (!stopInterchanges) myGame.move(Game.UP); break; }
-                    case KeyEvent.VK_DOWN:  { if (!stopInterchanges) myGame.move(Game.DOWN); break; }
+                    case KeyEvent.VK_LEFT:  { myGame.move(Game.LEFT); break; }
+                    case KeyEvent.VK_RIGHT: { myGame.move(Game.RIGHT); break; }
+                    case KeyEvent.VK_UP:    { myGame.move(Game.UP); break; }
+                    case KeyEvent.VK_DOWN:  { myGame.move(Game.DOWN); break; }
                     case KeyEvent.VK_W:     { if (!stopInterchanges) myGame.swap(Game.UP); break; }
                     case KeyEvent.VK_S:     { if (!stopInterchanges) myGame.swap(Game.DOWN); break; }
                     case KeyEvent.VK_A:     { if (!stopInterchanges) myGame.swap(Game.LEFT); break; }
