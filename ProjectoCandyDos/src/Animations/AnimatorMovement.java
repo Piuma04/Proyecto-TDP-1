@@ -69,7 +69,7 @@ public class AnimatorMovement extends Thread implements Animator {
         while( (pos_x_actual != pos_x_destination) || (pos_y_actual != pos_y_destination)) {
             pos_x_actual += paso_en_x * step;
             pos_y_actual += paso_en_y * step;
-            
+
             drawableAnimated.setLocation(pos_x_actual, pos_y_actual);
             drawableAnimated.repaint();
             try {
@@ -78,6 +78,6 @@ public class AnimatorMovement extends Thread implements Animator {
                 e.printStackTrace();
             }
         }
-        manager.notifyEndAnimation(this);
+        manager.notifyEndAnimation(this, false);
     }
 }

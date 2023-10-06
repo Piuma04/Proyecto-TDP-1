@@ -1,6 +1,7 @@
 package Animations;
 
 import GUI.Drawable;
+import Interfaces.LogicEntity;
 
 /**
  * Modela el comportamiento de un animador que permite visualizar el cambio de estado de una entidad.
@@ -37,6 +38,14 @@ public class AnimatorStateChange extends Thread implements Animator {
     @Override
     public void run() {
         drawableAnimated.setImage("src/imagenes/" + path_img);
+        // DEBUG
+        LogicEntity ent = drawableAnimated.getLogicalEntity();
+        if (ent != null) {
+            //System.out.println(drawableAnimated.getLogicalEntity().toString() + "path: " + path_img);
+            //System.out.println("{" + ent.getRow() + ", " + ent.getColumn()  + "}");
+            //System.out.println("{" + drawableAnimated.getY() + ", " + drawableAnimated.getX()  + "}");
+        }
+        // END DEBUG.
         if (path_img != null && path_img.contains(".gif")) {
             long startTime =  System.currentTimeMillis();
             long elapsedTime =  startTime;
@@ -52,7 +61,7 @@ public class AnimatorStateChange extends Thread implements Animator {
             }
         }
         drawableAnimated.repaint();
-        manager.notifyEndAnimation(this);
+        manager.notifyEndAnimation(this, path_img == null);
     }
 
     @Override

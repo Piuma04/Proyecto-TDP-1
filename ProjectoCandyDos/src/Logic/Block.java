@@ -174,6 +174,7 @@ public class Block implements Focusable, LogicEntity {
 	}
 
 	public String toString() {
-		return getEntity().toString();
+	    String s = getEntity() != null ? getEntity().toString() : "";
+		return "{" + s + "}";
 	}
 }

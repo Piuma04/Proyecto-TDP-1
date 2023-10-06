@@ -61,7 +61,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         
         boardPanel.setLocation(0, 50);
         //boardPanel.setSize(486, 435);/
-        boardPanel.setSize(500, 600);
+        boardPanel.setSize(486, 435);
         boardPanel.setLayout(null);
         boardPanel.addKeyListener(new KeyAdapter() {
             @Override

@@ -12,5 +12,5 @@ public interface AnimatorDriver {
      * Notifica a la ventana asociada al manejador que se finalizó con una de las animaciones pendientes.
      * @param a Animador que se encontraba en progreso y finalizó su actividad
      */
-    public void notifyEndAnimation(Animator a);
+    public void notifyEndAnimation(Animator a, boolean destroyEntity);
 }

@@ -227,6 +227,7 @@ public class Board {
                         destroyed.addAll(destroyEntities(remaining));
                         columnsToCheck = fillBoard();
                         remaining = checkRemainingCombinations(columnsToCheck);
+                        remaining.clear();
                     }
                     //DEBUG System.out.println("Total: "+destroyed);
                 } else b1.swapEntity(b2);
@@ -244,17 +245,19 @@ public class Board {
         
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         List<Block> destroyables = new LinkedList<Block>();
+
         for (Block b : toDestroy) 
         {
             for(Block bb : b.getEntity().getDestroyables(this))
                 if(!destroyables.contains(bb))
-                    destroyables.add(bb);//raro
+                    destroyables.add(bb);
         }
         for (Block b : destroyables) 
         {
+            //System.out.println("Destroy: " + b.getEntity().toString());
             if(b.hasModifiers())
                 destroyed.add(b.popModifier());
-            else
+            else // ELSE ?? TODO
                 destroyed.add(b.getEntity());
             destroyEntity(b.getRow(), b.getColumn());
              

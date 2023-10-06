@@ -38,7 +38,6 @@ public class CentralAnimator implements AnimatorDriver {
         myTask = () -> {
             Object[] head = queue.poll();
             while (head != null) {
-                
                 Drawable c = (Drawable)head[0];
                 Integer i = (Integer)head[1];
                 if (i != currentAnimatorType) {
@@ -141,7 +140,7 @@ public class CentralAnimator implements AnimatorDriver {
     }
 
     @Override
-    public void notifyEndAnimation(Animator a) {
+    public void notifyEndAnimation(Animator a, boolean bDestroy) {
         Animator animator;
         List<Animator> drawableAnimations;
 
@@ -155,7 +154,7 @@ public class CentralAnimator implements AnimatorDriver {
             animator.startAnimation();
         }
         // CHECK IF NULL IMAGE && FINISHED ANIMATION, REMOVE IT FROM GUI.
-        else if (a.getDrawable().getLogicalEntity().getImage() == null) {
+        else if (bDestroy) {
             gui.removeEntity(a.getDrawable());
         }
     }
