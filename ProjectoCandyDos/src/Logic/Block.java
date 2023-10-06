@@ -36,7 +36,7 @@ public class Block extends VisualEntityDummy implements Focusable {
     public void createWrapped() { }; //myModifiers.push(new Jelly()); }
 
     public void       pushModifier(Modifier modifier) { myModifiers.add(modifier); }
-    public Equivalent popModifier() { return myModifiers.pop(); }
+    public Equivalent popModifier() { Modifier m = myModifiers.pop(); m.destroy(); return m; }
     public boolean    hasModifiers() { return !myModifiers.isEmpty(); }
 
     public void swapEntity(Block block) {

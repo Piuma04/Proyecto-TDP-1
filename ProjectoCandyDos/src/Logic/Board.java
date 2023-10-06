@@ -239,7 +239,6 @@ public class Board {
      */
     private List<Equivalent> destroyEntities(List<Block> toDestroy)
     {
-        
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         List<Block> destroyables = new LinkedList<Block>();
 

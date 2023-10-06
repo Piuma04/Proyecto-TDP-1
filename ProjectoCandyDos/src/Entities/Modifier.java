@@ -13,6 +13,7 @@ public abstract class Modifier extends VisualEntityDummy implements Equivalent, 
 
     protected GraphicalEntity gEntity;
 
+    public abstract void destroy();
     @Override public boolean isEquivalent(Entity e) { return false; }
     @Override public boolean equals(Candy c) { return false; }
     @Override public boolean equals(Glazed g) { return false; }

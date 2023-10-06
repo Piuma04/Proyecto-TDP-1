@@ -7,6 +7,12 @@ public class Jelly extends Modifier {
         column = columnPosition;
         imagePath = "a.png";
     }
+    
+    @Override
+    public void destroy() {
+        imagePath = null;
+        getGraphicalEntity().notifyChangeState();
+    }
 
     public boolean equals(Jelly j) { return true; }
 }
