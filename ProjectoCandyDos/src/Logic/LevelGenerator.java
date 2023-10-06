@@ -60,7 +60,7 @@ public class LevelGenerator {
                     for (int i = 1; i < id.length(); i++)
                         if (id.charAt(i) == 'J')
                             block.pushModifier(new Jelly());
-                    board.setEntity(r, c, entity);
+                    board.associateEntity(r, c, entity);
                 }
             }
         }
