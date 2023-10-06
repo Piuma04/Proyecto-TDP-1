@@ -16,17 +16,17 @@ import Interfaces.Equivalent;
 public class Level {
     private int remainingMoves;
     private Goal myGoal;
-    private Clock myClock;
+    
     private long timeLimit;
     private int currentLevel;
     private static final int lastLevel = 5;
 
     public Level(Entity toDestroyEntityType, int amount, int remainingMoves, int timeLimit, int cR) {
         myGoal = new Goal(amount, toDestroyEntityType);
-        myClock = new Clock();
         this.remainingMoves = remainingMoves;
         currentLevel = cR;
         //DEBUG System.out.println(currentLevel);
+        this.timeLimit = timeLimit;
     }
 
     /**
@@ -55,9 +55,12 @@ public class Level {
     public int getMoves() {
     	return remainingMoves;
     }
+    public long getTimeLimit() {
+    	return timeLimit;
+    }
 
     public boolean lost() {
-        return !hasMove(); //|| !(myClock.getTime() < timeLimit * 1000l);
+        return !hasMove();
     }
 
 	public boolean lastLevel() {

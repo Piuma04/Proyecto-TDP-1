@@ -85,13 +85,13 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         setUpLives();
         
         cantMoves = new JLabel();
-        cantMoves.setBounds(527, 125, 183, 38);
+        cantMoves.setBounds(530, 125, 183, 38);
         contentPane.add(cantMoves);
         
        
         
         amountToGo = new JLabel();
-        amountToGo.setBounds(643, 223, 46, 29);
+        amountToGo.setBounds(645, 223, 46, 29);
         getContentPane().add(amountToGo);
         
         typeOfCandy = new JLabel();
@@ -104,7 +104,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         getContentPane().add(levelShower);
         
         watch = new JLabel("Aca iria el reloj");
-        watch.setBounds(560, 85, 200, 14);
+        watch.setBounds(548, 95, 200, 14);
         getContentPane().add(watch);
     }
 
@@ -147,7 +147,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
     
     public void updateMoves(int i) {
-        cantMoves.setText("movimientos restantes: "+i);
+        cantMoves.setText("Movimientos Restantes: "+i);
     }
     
     public GraphicalEntity addEntity(LogicEntity e) {
@@ -197,6 +197,9 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
     public void setCurrentLevel(String level) {
         levelShower.setText(level);
+    }
+    public void setTime(long l) {
+    	watch.setText("Tiempo restante: "+l);
     }
     
     @Override
