@@ -21,7 +21,7 @@ public class Game {
     private int lives;
 
     public Game() {
-    	 myGui = new Gui(this, Board.getRows(), Board.getColumns());
+    	 myGui = new Gui(this);
          myBoard = new Board(myGui);
          int i = 1; //myGui.chooseLevel(); MUST CHECK IF USER INSERTED INTEGER.
          loadLevel(i);

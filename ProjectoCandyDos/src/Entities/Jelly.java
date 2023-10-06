@@ -1,10 +1,12 @@
 package Entities;
 
-/**
- * Represents a type of jelly modifier.
- */
-public class Jelly extends Modifiers {
-	public boolean equals(Jelly j) {
-		return true;
-	}
+public class Jelly extends Modifier {
+
+    public Jelly(int rowPosition, int columnPosition) {
+        row = rowPosition;
+        column = columnPosition;
+        imagePath = "a.png";
+    }
+
+    public boolean equals(Jelly j) { return true; }
 }

@@ -13,11 +13,14 @@ import java.util.Set;
 import Entities.Candy;
 import Entities.Colour;
 import Entities.Entity;
+import Entities.Modifier;
 import Entities.Stripped;
 import Entities.Wrapped;
 import GUI.Gui;
 import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
+import Interfaces.LogicEntity;
+import Interfaces.VisualEntity;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -32,16 +35,14 @@ public class Board {
     public Board(Gui gui) 
     {
         matrix = new Block[ROWS][COLUMNS];
-        playerRow = 3;
-        playerColumn = 3;
+        playerRow = ROWS/2;
+        playerColumn = COLUMNS/2;
         myGui = gui;
-        GraphicalEntity gEntity = null;
         for (int row = 0; row < ROWS; row++)
             for (int column = 0; column < COLUMNS; column++) 
             {
                 Block block =  new Block(row, column);
-                gEntity = myGui.addEntity(block);
-                block.setGraphicEntity(gEntity);
+                addVisualEntity(block);
                 matrix[row][column] = block;
             }
     }
@@ -156,16 +157,16 @@ public class Board {
     
     public Entity createEntity(int row, int column) {
         Entity entity = new Candy(row, column, randomColour());
-        entity.setGraphicEntity(myGui.addEntity(entity));
+        addVisualEntity(entity);
         return entity;
     }
+
+    
     
     public void associateEntity(int row, int column, Entity entity) {
-        Block block = getBlock(row, column);
-        block.setEntity(entity);
-        entity.setGraphicEntity(myGui.addEntity(entity));
+        getBlock(row, column).setEntity(entity);
+        addVisualEntity(entity);
     }
-    
     
     /**
      * Sets a new entity in the block specified with row and column
@@ -175,12 +176,13 @@ public class Board {
      */
     public void setEntity(int row, int column, Entity entity) 
     {
-        Block block = getBlock(row, column);
-        //if (block.getEntity() != null) destroyEntity(row, column);
-        block.setEntity(entity);
+        getBlock(row, column).setEntity(entity);
         entity.changePosition(row, column);
     }
 
+    public void addVisualEntity(VisualEntity entity) {
+        entity.setGraphicalEntity(myGui.addLogicEntity(entity));
+    }
     /**
      * Destroys the entity inside the block specified with {@code row} and {@code column}
      * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})

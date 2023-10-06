@@ -58,8 +58,11 @@ public class LevelGenerator {
                     Block block = board.getBlock(r, c);
                     Entity entity = createEntity(id, r, c);
                     for (int i = 1; i < id.length(); i++)
-                        if (id.charAt(i) == 'J')
-                            block.pushModifier(new Jelly());
+                        if (id.charAt(i) == 'J') {
+                            Jelly jelly = new Jelly(r, c);
+                            board.addVisualEntity(jelly);
+                            block.pushModifier(jelly);
+                        }
                     board.associateEntity(r, c, entity);
                 }
             }

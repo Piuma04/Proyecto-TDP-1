@@ -2,57 +2,34 @@ package Entities;
 
 import java.util.List;
 
-import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
-
-import Interfaces.LogicEntity;
 import Interfaces.Swappable;
 import Logic.Block;
 import Logic.Board;
+import Logic.VisualEntityDummy;
 
-public abstract class Entity implements Equivalent, Swappable, LogicEntity {
+public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable {
 
-	protected static final int picSize = 70;
+    protected static final int picSize = 70;
     protected Colour colour;
-    protected int row;
-    protected int column;
-    protected String image;
-
-    private GraphicalEntity gEntity;
-
-    public Colour getColour() { return colour; }
-    public int getRow() { return row; }
-    public int getColumn() { return column; }
     
     Entity(int rowPosition, int columnPosition, Colour colour) {
         row = rowPosition;
         column = columnPosition;
         this.colour = colour;
-        image = colour.toString() + ".png";
+        imagePath = colour.toString() + ".png";
     }
     
-    public void changePosition(int newRow, int newColumn) {
-        row = newRow;
-        column = newColumn;
-        if (gEntity != null)
-            gEntity.notifyChangePosition();
-    }
-
-    public void setGraphicEntity(GraphicalEntity gEntity) { this.gEntity = gEntity; }
-
-    public GraphicalEntity getGraphicEntity() { return gEntity; }
+    public Colour getColour() { return colour; }
 
     public abstract List<Block> getDestroyables(Board b);
     
     public void destroy() {
-        image = "explosion.gif";
+        imagePath = "explosion.gif";
         gEntity.notifyChangeState();
-        image = null;
+        imagePath = null;
         gEntity.notifyChangeState();
     }
-
-    public String getImage() { return image; }
-    public int getPicSize() { return picSize; }
 
     protected String setStringColor(String str) {
         final String ANSI_RESET = "\u001B[0m";
