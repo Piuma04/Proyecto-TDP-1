@@ -25,7 +25,6 @@ public class Level {
         myGoal = new Goal(amount, toDestroyEntityType);
         this.remainingMoves = remainingMoves;
         currentLevel = cR;
-        //DEBUG System.out.println(currentLevel);
         this.timeLimit = timeLimit;
     }
 

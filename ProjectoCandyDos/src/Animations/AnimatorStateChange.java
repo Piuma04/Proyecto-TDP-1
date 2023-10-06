@@ -38,14 +38,6 @@ public class AnimatorStateChange extends Thread implements Animator {
     @Override
     public void run() {
         drawableAnimated.setImage("src/imagenes/" + path_img);
-        // DEBUG
-        LogicEntity ent = drawableAnimated.getLogicalEntity();
-        if (ent != null) {
-            //System.out.println(drawableAnimated.getLogicalEntity().toString() + "path: " + path_img);
-            //System.out.println("{" + ent.getRow() + ", " + ent.getColumn()  + "}");
-            //System.out.println("{" + drawableAnimated.getY() + ", " + drawableAnimated.getX()  + "}");
-        }
-        // END DEBUG.
         if (path_img != null && path_img.contains(".gif")) {
             long startTime =  System.currentTimeMillis();
             long elapsedTime =  startTime;

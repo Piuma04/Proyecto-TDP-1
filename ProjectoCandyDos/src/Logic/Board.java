@@ -213,7 +213,6 @@ public class Board {
             e1 = b1.getEntity();
             e2 = b2.getEntity();
             canExchange = e1.isSwappable(e2);
-            //DEBUG System.out.println("canExchange: "+canExchange);
             if (canExchange) 
             {
                 b1.swapEntity(b2);
@@ -227,9 +226,7 @@ public class Board {
                         destroyed.addAll(destroyEntities(remaining));
                         columnsToCheck = fillBoard();
                         remaining = checkRemainingCombinations(columnsToCheck);
-                        remaining.clear();
                     }
-                    //DEBUG System.out.println("Total: "+destroyed);
                 } else b1.swapEntity(b2);
             }   
         }
@@ -254,7 +251,6 @@ public class Board {
         }
         for (Block b : destroyables) 
         {
-            //System.out.println("Destroy: " + b.getEntity().toString());
             if(b.hasModifiers())
                 destroyed.add(b.popModifier());
             else // ELSE ?? TODO
@@ -262,7 +258,6 @@ public class Board {
             destroyEntity(b.getRow(), b.getColumn());
              
         }
-        // DEBUG System.out.println("destroyed" +destroyed);
         
         return destroyed;
     }
@@ -397,7 +392,6 @@ public class Board {
         if(combination.size()<3)
             combination.clear();
         if(!combination.isEmpty()) {}
-            // DEBUG System.out.println("combination: "+combination);
         return combination;
     }
     /**
