@@ -1,7 +1,5 @@
 package Logic;
 
-import java.util.concurrent.TimeUnit;
-
 import GUI.Gui;
 
 public class Clock extends Thread{

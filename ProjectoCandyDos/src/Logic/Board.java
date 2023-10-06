@@ -27,15 +27,13 @@ public class Board {
     private static final int COLUMNS = 6;
     private int playerRow, playerColumn;
     private Block[][] matrix;
-    private Game myGame;
     private Gui myGui;
 
-    public Board(Game g, Gui gui) 
+    public Board(Gui gui) 
     {
         matrix = new Block[ROWS][COLUMNS];
         playerRow = 3;
         playerColumn = 3;
-        myGame = g;
         myGui = gui;
         GraphicalEntity gEntity = null;
         for (int row = 0; row < ROWS; row++)

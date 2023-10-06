@@ -1,7 +1,6 @@
 package Animations;
 
 import GUI.Drawable;
-import Interfaces.LogicEntity;
 
 /**
  * Modela el comportamiento de un animador que permite visualizar el cambio de estado de una entidad.

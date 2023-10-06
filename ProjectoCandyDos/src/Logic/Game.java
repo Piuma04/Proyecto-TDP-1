@@ -1,19 +1,11 @@
 package Logic;
 
 import java.awt.EventQueue;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.List;
-import javax.sound.sampled.*;
-import javax.imageio.stream.FileImageInputStream;
 
-import Entities.Entity;
 import GUI.Gui;
 import Interfaces.Equivalent;
-import GUI.GraphicalEntity;
+
 
 public class Game {
 
@@ -30,7 +22,7 @@ public class Game {
 
     public Game() {
     	 myGui = new Gui(this, Board.getRows(), Board.getColumns());
-         myBoard = new Board(this, myGui);
+         myBoard = new Board(myGui);
          int i = 1; //myGui.chooseLevel(); MUST CHECK IF USER INSERTED INTEGER.
          loadLevel(i);
         
