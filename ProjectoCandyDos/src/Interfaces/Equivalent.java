@@ -13,7 +13,7 @@ import Entities.Wrapped;
 /**
  * Represents objects that can be compared for equivalence.
  */
-public interface Equivalent extends LogicEntity {
+public interface Equivalent {
 
 	/**
 	 * Checks wether this object is equivlent to another Entity

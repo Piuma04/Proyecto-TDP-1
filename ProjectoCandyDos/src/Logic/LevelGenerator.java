@@ -47,7 +47,7 @@ public class LevelGenerator {
 
         if (lines != null) {
             candys = lines.get(0).split(",");
-            level = new Level(createEquivalent(candys[0], -1, -1), // Entity to compare.
+            level = new Level(createEntity(candys[0], -1, -1), // Entity to compare.
                     Integer.valueOf(candys[1]), // Amount of entities to win. (GOAL)
                     Integer.valueOf(candys[2]), // Amount of Moves.
                     Integer.valueOf(candys[3]), Integer.valueOf(filename.charAt(filename.length()-5))-'0'); // max time in SECONDS.
@@ -89,46 +89,7 @@ public class LevelGenerator {
      * @param c
      * @return
      */
-    private static Equivalent createEquivalent(String id, int r, int c) {
-    	Equivalent e = null;
-        Colour colour = null;
-        char type = id.charAt(0);
-
-        switch (type) {
-        case 'R':
-        case 'Y':
-        case 'G':
-        case 'P':
-        case 'B':
-
-            colour = type == 'R' ? Colour.RED
-                    : type == 'Y' ? Colour.YELLOW
-                            : type == 'G' ? Colour.GREEN : type == 'P' ? Colour.PURPLE : Colour.BLUE;
-
-            if (id.length() > 1) {
-                if (id.charAt(1) == 'V')
-                    e = new Stripped(r, c, colour, false);
-                else if (id.charAt(1) == 'H')
-                    e = new Stripped(r, c, colour, true);
-                else if (id.charAt(1) == 'W')
-                    e = new Wrapped(r, c, colour);
-            }
-            if (e == null)
-                e = new Candy(r, c, colour);
-            break;
-        case 'T':
-            e = new Empty(r, c);
-            break;
-        case 'M':
-            e = new Glazed(r, c);
-            break;
-        case 'J':
-            e = new Jelly(r, c);
-            break;
-        }
-        return e;
-	}
-
+    
 	/**
      * given an {@code id} which represents an Entity in plain text, a row {@code r} and a column {@code c}</br>
      * creates an entity with position {@code (r, c)}.
