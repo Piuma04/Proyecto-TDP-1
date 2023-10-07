@@ -12,7 +12,6 @@ import Entities.Colour;
 import Entities.Candy;
 import Entities.Stripped;
 import Entities.Wrapped;
-import Interfaces.Equivalent;
 import Entities.Glazed;
 import Entities.Jelly;
 

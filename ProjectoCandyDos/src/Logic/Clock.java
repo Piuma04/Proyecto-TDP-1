@@ -2,14 +2,12 @@ package Logic;
 
 import GUI.Gui;
 
-public class Clock extends Thread{
+public class Clock extends Thread {
     
 	
 	private long seconds, minutes;
 	private Gui myGui;
 	private Game myGame;
-    
-    
     
     public Clock(Gui mG, long timeStart, Game mGa) {
     	super();

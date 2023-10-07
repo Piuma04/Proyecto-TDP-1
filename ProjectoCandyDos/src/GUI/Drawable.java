@@ -26,8 +26,6 @@ public class Drawable extends JComponent implements GraphicalEntity {
         setLocation(myLogicEntity.getColumn() * sizeIcon, myLogicEntity.getRow() * sizeIcon);
         setSize(sizeIcon, sizeIcon);
         notifyChangeState();
-        
-        // setBounds(logicBlock.getColumn() * size, logicBlock.getRow() * size, size, size);
     }
 
     public int getImageSize() { return sizeIcon; }
@@ -38,7 +36,6 @@ public class Drawable extends JComponent implements GraphicalEntity {
         myIcon = new ImageIcon(scaledImage);
     }
     public void setImage(Image im) {
-        //Image scaledImage = new ImageIcon(im).getImage().getScaledInstance(sizeIcon, sizeIcon, Image.SCALE_SMOOTH);
         myIcon = new ImageIcon(im);
     }
 
@@ -49,9 +46,6 @@ public class Drawable extends JComponent implements GraphicalEntity {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        // Draw your shapes here using the Graphics object
         myIcon.paintIcon(this, g, 0, 0);
-        // g.drawImage(image, 0, 0, this);
-        // Draw other shapes as needed
     }
 }

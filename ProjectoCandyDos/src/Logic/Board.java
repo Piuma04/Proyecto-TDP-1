@@ -305,36 +305,7 @@ public class Board {
                 setEntity(i, col, q.poll());
             }
         }
-        
-        /*Set<Integer> lowerColumnEmptyBlocks = new HashSet<Integer>();
-        boolean found = false;
-        for (int col = COLUMNS - 1; col >= 0 && lowerColumnEmptyBlocks.size() < COLUMNS; col--)
-            for (int row = ROWS - 1; row >= 0 && lowerColumnEmptyBlocks.size() < COLUMNS && !lowerColumnEmptyBlocks.contains(col); row--)
-                if (matrix[row][col].isEmpty())
-                    lowerColumnEmptyBlocks.add(col);
 
-        for (Integer col : lowerColumnEmptyBlocks) {
-            for (int row = ROWS - 1; row >= 0; row--) 
-            {
-                if (matrix[row][col].isEmpty()) 
-                {
-                    int nextEntity = row-1;
-                    while (nextEntity >= 0 && !found) 
-                    {
-                        found = !matrix[nextEntity][col].isEmpty();
-                        if(!found) 
-                            nextEntity--;
-                    }
-                    if (found)
-                        matrix[row][col].swapEntity(matrix[nextEntity][col]);
-                    else {
-                            Entity e = createEntity(-1, col);
-                            setEntity(row, col, e);
-                        }
-                    found = false;
-                }
-            }
-        }*/
         return emptyColumnsIndexes;
     }
     /**

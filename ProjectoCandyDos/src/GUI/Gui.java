@@ -56,7 +56,6 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         boardPanel.setLocation(0, 50);
-        //boardPanel.setSize(486, 435);/
         boardPanel.setSize(LABEL_SIZE*Board.getRows(), LABEL_SIZE*Board.getColumns());
         boardPanel.setLayout(null);
         boardPanel.addKeyListener(new KeyAdapter() {

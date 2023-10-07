@@ -70,19 +70,6 @@ public class CentralAnimator implements AnimatorDriver {
         myThread = new Thread(myTask);
     }
 
-    /*        Thread myThread = new Thread(() -> {
-            while (currentAmountAnimating == 0 && lastAnimatorType != 1) {
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            startAnimation(c, animador);
-            lastAnimatorType = 1;
-        });
-        myThread.start();*/
-    
     /**
      * Indica que la celda parametrizada debe ser animada a partir de un cambio de posición.
      * La animación será lanzada de inmediato, siempre que no existan animaciones en progreso sobre c.
@@ -92,8 +79,6 @@ public class CentralAnimator implements AnimatorDriver {
      * referenciada por c.
      */
     public void animateChangePosition(Drawable c) {
-        //Animator animador = new AnimatorMovement(this, 1,5, c);
-        //startAnimation(c, animador);
         Object data[] = new Object[4];
         data[0] = (Drawable)c;
         data[1] = (Integer)1;
@@ -111,8 +96,6 @@ public class CentralAnimator implements AnimatorDriver {
      * @param c Celda que debe animarse, en relación a la imagen actual que la representa.
      */
     public void animateChangeState(Drawable c) {
-        //Animator animador = new AnimatorStateChange(this, c);
-        //startAnimation(c, animador);
         String imagePath = c.getLogicalEntity().getImage();
         int gifFrameCount = c.getLogicalEntity().getGifFrameCount(); 
         Object data[] = new Object[4];

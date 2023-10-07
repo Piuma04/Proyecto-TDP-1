@@ -12,6 +12,7 @@ import javax.imageio.ImageReader;
 import javax.swing.Timer;
 
 import GUI.Drawable;
+
 /**
  * Modela el comportamiento de un animador que permite visualizar el cambio de estado de una entidad.
  * Cuando el animador comienza su animación, modifica la imagen asociada a la celda animada.
@@ -45,7 +46,6 @@ public class AnimatorStateChange extends Thread implements Animator {
         gifFrames = gifFrameCount;
         currentFrame = 0;
         
-        //int gifFrameAmount = path.endsWith(".gif") ? 12 : 0;
         if (gifFrames > 0) {
             if (!gifImages.containsKey(animationPath)) {
                 BufferedImage gifFrameImages[] = new BufferedImage[gifFrames];
@@ -73,42 +73,12 @@ public class AnimatorStateChange extends Thread implements Animator {
     public void run() {
         drawableAnimated.setImage("src/imagenes/" + path_img);
         if (gifFrames > 0) {
-            /*long startTime =  System.currentTimeMillis();
-            long elapsedTime =  startTime;
-            final double timer = 1.2; // seconds
-            while (elapsedTime < startTime + timer * 1000) {
-                try {
-                    sleep(5);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                elapsedTime = System.currentTimeMillis();
-                drawableAnimated.repaint();
-            }*/
             while (currentFrame < gifFrames) {
                     drawableAnimated.setImage(gifImages.get(path_img)[currentFrame]);
                     drawableAnimated.repaint();
                     currentFrame++;
                     try { sleep(gifDelayMillis); } catch (InterruptedException e) {  e.printStackTrace(); }
                 }
-            /*for (Image im : gifImages.get(path_img)) {
-                drawableAnimated.setImage(im);
-                drawableAnimated.repaint();
-            }
-            try { Thread.sleep(gifDelayMillis * gifFrames); } catch (InterruptedException e) { }
-            */
-            /*try {
-                SwingUtilities.invokeAndWait(() -> { drawableAnimated.startFrameCount(); });
-            } catch (InvocationTargetException | InterruptedException e) {
-                e.printStackTrace();
-            }
-            
-            while ( drawableAnimated.getFrameCount() <= gifFrames ) {
-                try { Thread.sleep(gifDelayMillis); } catch (InterruptedException e) { }
-                //drawableAnimated.repaint();
-            }*/
-
-            // SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); });
         }
         drawableAnimated.repaint();
         manager.notifyEndAnimation(this, path_img == null);
