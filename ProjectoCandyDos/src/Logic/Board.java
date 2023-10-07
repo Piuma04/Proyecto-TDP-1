@@ -13,13 +13,10 @@ import java.util.Set;
 import Entities.Candy;
 import Entities.Colour;
 import Entities.Entity;
-import Entities.Modifier;
 import Entities.Stripped;
 import Entities.Wrapped;
 import GUI.Gui;
-import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
-import Interfaces.LogicEntity;
 import Interfaces.VisualEntity;
 
 import java.util.HashSet;
@@ -188,9 +185,7 @@ public class Board {
      * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
      * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
      */
-    public void destroyEntity(int row, int column) {
-        getBlock(row, column).destroyEntity();
-    }
+    public void destroyEntity(int row, int column) { getBlock(row, column).destroyEntity(); }
     
     /**
      * Swaps the entity the player is on with the one specified with {@code row} and {@code column}.

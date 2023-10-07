@@ -143,7 +143,7 @@ public class CentralAnimator implements AnimatorDriver {
         Animator animator;
         List<Animator> drawableAnimations;
 
-        gui.notifyAnimationEnd();
+        gui.notifyAnimationEnd(bDestroy ? a.getDrawable() : null);
 
         drawableAnimations = map_drawable_animations.get(a.getDrawable());
         drawableAnimations.remove(a);
@@ -151,12 +151,6 @@ public class CentralAnimator implements AnimatorDriver {
         if (!drawableAnimations.isEmpty()) {
             animator = drawableAnimations.get(0);
             animator.startAnimation();
-        }
-        // CHECK IF NULL IMAGE && FINISHED ANIMATION, REMOVE IT FROM GUI.
-        else if (bDestroy) {
-            synchronized (this) {
-                gui.removeEntity(a.getDrawable());
-            }
         }
     }
     

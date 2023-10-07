@@ -15,5 +15,5 @@ public interface GuiNotifiable {
     /**
      * Notifica que una animación en progreso, ha finalizado.
      */
-    public void notifyAnimationEnd();
+    public void notifyAnimationEnd(Drawable d);
 }

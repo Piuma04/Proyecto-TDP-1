@@ -142,8 +142,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
 
     
-    public void removeEntity(GraphicalEntity gentity) {
-        boardPanel.remove((Drawable)gentity);
+    public void removeEntity(Drawable gentity) {
+        boardPanel.remove(gentity);
         boardPanel.repaint();
     }
 
@@ -184,10 +184,11 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
     
     @Override
-    public void notifyAnimationEnd() {
+    public void notifyAnimationEnd(Drawable toDestroy) {
         synchronized(this){
             pendingAnimations--;
             stopInterchanges = pendingAnimations > 0;
+            if (toDestroy != null) removeEntity(toDestroy);
         }
     }
 
