@@ -154,7 +154,9 @@ public class CentralAnimator implements AnimatorDriver {
         }
         // CHECK IF NULL IMAGE && FINISHED ANIMATION, REMOVE IT FROM GUI.
         else if (bDestroy) {
-            gui.removeEntity(a.getDrawable());
+            synchronized (this) {
+                gui.removeEntity(a.getDrawable());
+            }
         }
     }
     
