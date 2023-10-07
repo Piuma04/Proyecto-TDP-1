@@ -52,7 +52,7 @@ public class CentralAnimator implements AnimatorDriver {
                 {
                     int finalRow = (Integer)head[2];
                     int finalColumn = (Integer)head[3];
-                    Animator animador = new AnimatorMovement(this, 1,5, c, finalRow, finalColumn);
+                    Animator animador = new AnimatorMovement(this, 1, 2, c, finalRow, finalColumn);
                     startAnimation(c, animador);
                 }
                 else if (i == 2) {
