@@ -1,8 +1,6 @@
 package Entities;
 
-import GUI.GraphicalEntity;
 import Interfaces.Equivalent;
-import Interfaces.LogicEntity;
 import Interfaces.VisualEntity;
 import Logic.VisualEntityDummy;
 
@@ -10,8 +8,6 @@ import Logic.VisualEntityDummy;
  * Abstract class representing modifiers
  */
 public abstract class Modifier extends VisualEntityDummy implements Equivalent, VisualEntity {
-
-    protected GraphicalEntity gEntity;
 
     public abstract void destroy();
     @Override public boolean isEquivalent(Entity e) { return false; }

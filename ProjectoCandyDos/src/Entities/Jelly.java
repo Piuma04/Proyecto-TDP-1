@@ -11,7 +11,7 @@ public class Jelly extends Modifier {
     @Override
     public void destroy() {
         imagePath = null;
-        getGraphicalEntity().notifyChangeState();
+        gEntity.notifyChangeState();
     }
 
     public boolean equals(Jelly j) { return true; }
