@@ -23,17 +23,19 @@ public class Combination {
      * @param columns {@code columns} to be checked
      * @return blocks that make combinations on the {@code columns} specified
      */
-    public Set<Block> checkRemainingCombinations(Set<Integer> columns) 
-    {
-        Set<Block> combinations = new HashSet<Block>();
-        for (Integer j : columns) 
-        {
-            for (int i = 0; i < Board.getRows(); i++) 
-            {
-                    combinations.addAll(checkCombinations(i, j));
+    public List<Entity> checkRemainingCombinations(Set<Integer> columns, Set<Block> combinations) 
+    {   
+        List<Entity> powerCandys = new LinkedList<Entity>();
+        Entity powerCandy = null;
+        for (Integer j : columns) {
+            for (int i = 0; i < Board.getRows(); i++) {
+                powerCandy = checkCombinations(i, j, combinations);
+                if (powerCandy != null)
+                    powerCandys.add(powerCandy);
             }
         }
-        return combinations;
+        
+        return powerCandys;
     }
 
     /**
@@ -42,7 +44,7 @@ public class Combination {
      * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
      * @return blocks that contain the elements that combined
      */
-    public Set<Block> checkCombinations(int row, int column) 
+    public Entity checkCombinations(int row, int column, Set<Block> remaining) 
     {
     	Set<Block> combination = new HashSet<Block>();
         Set<Block> consecutiveH = new HashSet<Block>();
@@ -50,35 +52,20 @@ public class Combination {
         Colour color = board.getBlock(row, column).getEntity().getColour();
         consecutiveH = consecutiveH(row, column);
         consecutiveV = consecutiveV(row, column);
+        combination.add(board.getBlock(row, column));
         combination.addAll(consecutiveV);
         combination.addAll(consecutiveH);
+        Entity entity = null; 
         if (consecutiveH.size() == 2 && consecutiveV.size() == 2) 
-        {
-            board.destroyEntity(row, column);
-            if(board.getBlock(row, column).hasModifiers())
-            	board.getBlock(row, column).popModifier();
-            board.associateEntity(row, column, new Wrapped(row, column, color));
-        } 
+            entity = new Wrapped(row, column, color);
         else if (consecutiveH.size() == 3) 
-        {
-           board.destroyEntity(row, column);
-           if(board.getBlock(row, column).hasModifiers())
-           	board.getBlock(row, column).popModifier();
-           board.associateEntity(row, column, new Stripped(row, column, color, true));
-        } 
+           entity = new Stripped(row, column, color, true);
         else if (consecutiveV.size() == 3) 
-        {
-            board.destroyEntity(row, column);
-            if(board.getBlock(row, column).hasModifiers())
-            	board.getBlock(row, column).popModifier();
-            board.associateEntity(row, column, new Stripped(row, column, color, false));
-        }
-        else
-            combination.add(board.getBlock(row, column));
-        
+            entity = new Stripped(row, column, color, false);
         if(combination.size()<3)
-        	combination.clear();
-        return combination;
+            combination.clear();
+        remaining.addAll(combination);
+        return entity;
     }
     /**
      * Checks the horizontal combinations an element specified with row and column makes

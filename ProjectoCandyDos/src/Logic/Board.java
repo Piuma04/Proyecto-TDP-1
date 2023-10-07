@@ -13,8 +13,6 @@ import java.util.Set;
 import Entities.Candy;
 import Entities.Colour;
 import Entities.Entity;
-import Entities.Stripped;
-import Entities.Wrapped;
 import GUI.Gui;
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
@@ -199,7 +197,11 @@ public class Board {
     {
         Entity e1, e2;
         Set<Integer> columnsToCheck;
-        Set<Block> remaining;
+        Set<Block> remaining = new HashSet<Block>();
+        
+        List<Entity> powerCandys = new LinkedList<Entity>();
+        Entity powerCandy = null;
+        
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         boolean canExchange = false;
 
@@ -213,16 +215,23 @@ public class Board {
             if (canExchange) 
             {
                 b1.swapEntity(b2);
-                remaining = combinations.checkCombinations(playerRow, playerColumn); //Get combinations for the first entity
+                powerCandy = combinations.checkCombinations(playerRow, playerColumn, remaining);
+                if (powerCandy != null) powerCandys.add(powerCandy);
                 if(!remaining.contains(matrix[newRow][newColumn]))      //Checks whether the second entity's combination is already checked
-                    remaining.addAll(combinations.checkCombinations(newRow, newColumn));
+                {
+                    powerCandy = combinations.checkCombinations(newRow, newColumn, remaining);
+                    if (powerCandy != null) powerCandys.add(powerCandy); 
+                }
                 if (!remaining.isEmpty()) 
                 {
                     while (!remaining.isEmpty()) //While there are remaining combinations, destroy them,fill the board, and check again
                     {
                         destroyed.addAll(destroyEntities(remaining));
+                        for (Entity entity : powerCandys)
+                            associateEntity(entity.getRow(), entity.getColumn(), entity);
+                        powerCandys.clear();
                         columnsToCheck = fillBoard();
-                        remaining = combinations.checkRemainingCombinations(columnsToCheck);
+                        powerCandys.addAll(combinations.checkRemainingCombinations(columnsToCheck, remaining));
                     }
                 } //else b1.swapEntity(b2);
             }   
@@ -251,7 +260,7 @@ public class Board {
             destroyEntity(b.getRow(), b.getColumn());
              
         }
-        
+        remaining.clear();
         return destroyed;
     }
     /**
