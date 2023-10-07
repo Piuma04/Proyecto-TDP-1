@@ -114,17 +114,18 @@ public class CentralAnimator implements AnimatorDriver {
         //Animator animador = new AnimatorStateChange(this, c);
         //startAnimation(c, animador);
         String imagePath = c.getLogicalEntity().getImage();
+        int gifFrameCount = c.getLogicalEntity().getGifFrameCount(); 
         Object data[] = new Object[4];
         data[0] = (Drawable)c;
         data[1] = (Integer)2;
         data[2] = imagePath;
-        data[3] = c.getLogicalEntity().getGifFrameCount();
+        data[3] = gifFrameCount;
         
         boolean isBlock = imagePath != null && imagePath.contains("vacio");
         if (!isBlock)
             queue.add(data);
         else {
-            Animator animador = new AnimatorStateChange(this, c, imagePath, 0);
+            Animator animador = new AnimatorStateChange(this, c, imagePath, gifFrameCount);
             startAnimation(c, animador);
         }
         
