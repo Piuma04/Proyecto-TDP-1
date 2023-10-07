@@ -12,28 +12,34 @@ import Interfaces.LogicEntity;
 public class Drawable extends JComponent implements GraphicalEntity {
 
     protected GuiAnimable agui;
-    protected LogicEntity myLogicBlock;
+    protected LogicEntity myLogicEntity;
     protected int sizeIcon;
     protected ImageIcon myIcon;
 
     public Drawable(GuiAnimable GUIAnimable, LogicEntity logicBlock, int sizeImg) {
         super();
         agui = GUIAnimable;
-        myLogicBlock = logicBlock;
+        myLogicEntity = logicBlock;
         sizeIcon = sizeImg;
+        
         setImage(logicBlock.getImage());
-        setLocation(myLogicBlock.getColumn() * sizeIcon, myLogicBlock.getRow() * sizeIcon);
+        setLocation(myLogicEntity.getColumn() * sizeIcon, myLogicEntity.getRow() * sizeIcon);
         setSize(sizeIcon, sizeIcon);
         notifyChangeState();
+        
         // setBounds(logicBlock.getColumn() * size, logicBlock.getRow() * size, size, size);
     }
 
     public int getImageSize() { return sizeIcon; }
-    public LogicEntity getLogicalEntity() { return myLogicBlock; }
+    public LogicEntity getLogicalEntity() { return myLogicEntity; }
 
     public void setImage(String path) {
-        Image scaledImage = new ImageIcon(path).getImage().getScaledInstance(sizeIcon, sizeIcon, Image.SCALE_DEFAULT);
+        Image scaledImage = new ImageIcon(path).getImage().getScaledInstance(sizeIcon, sizeIcon, Image.SCALE_SMOOTH);
         myIcon = new ImageIcon(scaledImage);
+    }
+    public void setImage(Image im) {
+        //Image scaledImage = new ImageIcon(im).getImage().getScaledInstance(sizeIcon, sizeIcon, Image.SCALE_SMOOTH);
+        myIcon = new ImageIcon(im);
     }
 
     @Override

@@ -48,19 +48,13 @@ public class Board {
      * returns the amount of {@code rows} the board has.
      * @return {@code rows}
      */
-    public static int getRows() 
-    {
-        return ROWS;
-    }
+    public static int getRows() { return ROWS; }
 
     /**
      * returns the amount of {@code columns} the board has.
      * @return {@code columns}
      */
-    public static int getColumns() 
-    {
-        return COLUMNS;
-    }
+    public static int getColumns()  { return COLUMNS; }
 
     /*
      * private Set<Integer> columnsToFill() { Set<Integer> s = new

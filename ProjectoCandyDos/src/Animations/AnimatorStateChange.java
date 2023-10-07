@@ -1,5 +1,16 @@
 package Animations;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.Map;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.swing.Timer;
+
 import GUI.Drawable;
 /**
  * Modela el comportamiento de un animador que permite visualizar el cambio de estado de una entidad.
@@ -12,11 +23,15 @@ import GUI.Drawable;
  */
 public class AnimatorStateChange extends Thread implements Animator {
 
+    private static Map<String, Image[]> gifImages = new HashMap<String, Image[]>();
+    private static final int gifDelayMillis = 80;
+
     protected AnimatorDriver manager;
     protected Drawable drawableAnimated;
     protected String path_img;
     protected int gifFrames;
-    private static final int gifDelayMillis = 50; 
+    private int currentFrame;
+    protected Timer timer;
     
     /**
      * Inicializa el estado interno del animador, considerando:
@@ -28,6 +43,26 @@ public class AnimatorStateChange extends Thread implements Animator {
         drawableAnimated = c;
         path_img = animationPath;
         gifFrames = gifFrameCount;
+        currentFrame = 0;
+        
+        //int gifFrameAmount = path.endsWith(".gif") ? 12 : 0;
+        if (gifFrames > 0) {
+            if (!gifImages.containsKey(animationPath)) {
+                BufferedImage gifFrameImages[] = new BufferedImage[gifFrames];
+                try {
+                    File gifFile = new File("src/imagenes/" + animationPath);
+                    ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
+                    reader.setInput(ImageIO.createImageInputStream(gifFile));
+                    for (int i = 0; i < gifFrames; i++)
+                        gifFrameImages[i] = reader.read(i);
+                    reader.dispose();
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                gifImages.put(animationPath, resizeGifImages(gifFrameImages, drawableAnimated.getImageSize()));
+            }
+        }
     }
     
     
@@ -50,11 +85,30 @@ public class AnimatorStateChange extends Thread implements Animator {
                 elapsedTime = System.currentTimeMillis();
                 drawableAnimated.repaint();
             }*/
-            int totalFrames = gifFrames;
-            for (int frame = 0; frame < totalFrames; frame++) {
-                try { Thread.sleep(gifDelayMillis); } catch (InterruptedException e) { }
+            while (currentFrame < gifFrames) {
+                    drawableAnimated.setImage(gifImages.get(path_img)[currentFrame]);
+                    drawableAnimated.repaint();
+                    currentFrame++;
+                    try { sleep(gifDelayMillis); } catch (InterruptedException e) {  e.printStackTrace(); }
+                }
+            /*for (Image im : gifImages.get(path_img)) {
+                drawableAnimated.setImage(im);
                 drawableAnimated.repaint();
             }
+            try { Thread.sleep(gifDelayMillis * gifFrames); } catch (InterruptedException e) { }
+            */
+            /*try {
+                SwingUtilities.invokeAndWait(() -> { drawableAnimated.startFrameCount(); });
+            } catch (InvocationTargetException | InterruptedException e) {
+                e.printStackTrace();
+            }
+            
+            while ( drawableAnimated.getFrameCount() <= gifFrames ) {
+                try { Thread.sleep(gifDelayMillis); } catch (InterruptedException e) { }
+                //drawableAnimated.repaint();
+            }*/
+
+            // SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); });
         }
         drawableAnimated.repaint();
         manager.notifyEndAnimation(this, path_img == null);
@@ -64,5 +118,42 @@ public class AnimatorStateChange extends Thread implements Animator {
     public void startAnimation() {
         this.start();
     }
+    
+    /**
+     * function NOT checked.
+     * @author ChatGPT3
+     */
+    public static Image[] resizeGifImages(BufferedImage[] frames, int targetSize) {
+        // Find the largest frame
+        BufferedImage largestFrame = frames[0];
+        for (BufferedImage frame : frames) {
+            if (frame.getWidth() * frame.getHeight() > largestFrame.getWidth() * largestFrame.getHeight()) {
+                largestFrame = frame;
+            }
+        }
 
+        // Calculate the scaling factor based on the largest frame to maintain proportions
+        double scaleFactor = (double) targetSize / Math.max(largestFrame.getWidth(), largestFrame.getHeight());
+
+        // Resize all frames proportionally and center them with padding
+        Image[] resizedFrames = new Image[frames.length];
+        for (int i = 0; i < frames.length; i++) {
+            int width = (int) (frames[i].getWidth() * scaleFactor);
+            int height = (int) (frames[i].getHeight() * scaleFactor);
+
+            BufferedImage resizedImage = new BufferedImage(targetSize, targetSize, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = resizedImage.createGraphics();
+
+            // Calculate padding to center the image
+            int xOffset = (targetSize - width) / 2;
+            int yOffset = (targetSize - height) / 2;
+
+            g2d.drawImage(frames[i], xOffset, yOffset, width, height, null);
+            g2d.dispose();
+
+            resizedFrames[i] = resizedImage;
+        }
+
+        return resizedFrames;
+    }
 }
