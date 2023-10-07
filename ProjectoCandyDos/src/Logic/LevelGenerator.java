@@ -51,18 +51,29 @@ public class LevelGenerator {
                     Integer.valueOf(candys[2]), // Amount of Moves.
                     Integer.valueOf(candys[3]), Integer.valueOf(filename.charAt(filename.length()-5))-'0'); // max time in SECONDS.
 
+            // Must add first what will be drawn from back to front!. Same for.
+            
+            // ADD MODIFIERS TO BLOCKS.
             for (int r = 0; r < Board.getRows(); r++) {
                 candys = lines.get(r + 1).split(",");
                 for (int c = 0; c < Board.getColumns(); c++) {
                     String id = candys[c];
                     Block block = board.getBlock(r, c);
-                    Entity entity = createEntity(id, r, c);
                     for (int i = 1; i < id.length(); i++)
                         if (id.charAt(i) == 'J') {
                             Jelly jelly = new Jelly(r, c);
                             board.addVisualEntity(jelly);
                             block.pushModifier(jelly);
                         }
+                }
+            }
+
+            // ADD CANDYS TO BLOCKS.
+            for (int r = 0; r < Board.getRows(); r++) {
+                candys = lines.get(r + 1).split(",");
+                for (int c = 0; c < Board.getColumns(); c++) {
+                    String id = candys[c];
+                    Entity entity = createEntity(id, r, c);
                     board.associateEntity(r, c, entity);
                 }
             }

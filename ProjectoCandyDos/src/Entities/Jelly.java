@@ -7,12 +7,13 @@ public class Jelly extends Modifier {
         column = columnPosition;
         imagePath = "a.png";
     }
-    
+
     @Override
-    public void destroy() {
-        imagePath = null;
-        gEntity.notifyChangeState();
-    }
+    public void destroy() { setImage(null); }
 
     public boolean equals(Jelly j) { return true; }
+
+    public String toString() {
+        return "J";
+    }
 }

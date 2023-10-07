@@ -60,7 +60,8 @@ public class CentralAnimator implements AnimatorDriver {
                 }
                 else if (i == 2) {
                     String animationPath = (String)head[2];
-                    Animator animador = new AnimatorStateChange(this, c, animationPath);
+                    int gifFrames = (Integer)head[3];
+                    Animator animador = new AnimatorStateChange(this, c, animationPath, gifFrames);
                     startAnimation(c, animador);
                 }
                 head = queue.poll();
@@ -113,17 +114,17 @@ public class CentralAnimator implements AnimatorDriver {
         //Animator animador = new AnimatorStateChange(this, c);
         //startAnimation(c, animador);
         String imagePath = c.getLogicalEntity().getImage();
-        Object data[] = new Object[3];
+        Object data[] = new Object[4];
         data[0] = (Drawable)c;
         data[1] = (Integer)2;
         data[2] = imagePath;
-        
+        data[3] = c.getLogicalEntity().getGifFrameCount();
         
         boolean isBlock = imagePath != null && imagePath.contains("vacio");
         if (!isBlock)
             queue.add(data);
         else {
-            Animator animador = new AnimatorStateChange(this, c, imagePath);
+            Animator animador = new AnimatorStateChange(this, c, imagePath, 0);
             startAnimation(c, animador);
         }
         

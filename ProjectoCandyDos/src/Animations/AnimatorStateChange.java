@@ -1,7 +1,6 @@
 package Animations;
 
 import GUI.Drawable;
-
 /**
  * Modela el comportamiento de un animador que permite visualizar el cambio de estado de una entidad.
  * Cuando el animador comienza su animación, modifica la imagen asociada a la celda animada.
@@ -16,29 +15,30 @@ public class AnimatorStateChange extends Thread implements Animator {
     protected AnimatorDriver manager;
     protected Drawable drawableAnimated;
     protected String path_img;
+    protected int gifFrames;
+    private static final int gifDelayMillis = 50; 
     
     /**
      * Inicializa el estado interno del animador, considerando:
      * @param m El manejador de animaciones al que le notificará el fin de la animación, cuando corresponda.
      * @param c La celda animada.
      */
-    public AnimatorStateChange(AnimatorDriver m, Drawable c, String animationPath) {
+    public AnimatorStateChange(AnimatorDriver m, Drawable c, String animationPath, int gifFrameCount) {
         manager = m;
         drawableAnimated = c;
         path_img = animationPath;
+        gifFrames = gifFrameCount;
     }
     
     
     @Override
-    public Drawable getDrawable() {
-        return drawableAnimated;
-    }
+    public Drawable getDrawable() { return drawableAnimated; }
 
     @Override
     public void run() {
         drawableAnimated.setImage("src/imagenes/" + path_img);
-        if (path_img != null && path_img.contains(".gif")) {
-            long startTime =  System.currentTimeMillis();
+        if (gifFrames > 0) {
+            /*long startTime =  System.currentTimeMillis();
             long elapsedTime =  startTime;
             final double timer = 1.2; // seconds
             while (elapsedTime < startTime + timer * 1000) {
@@ -48,6 +48,11 @@ public class AnimatorStateChange extends Thread implements Animator {
                     e.printStackTrace();
                 }
                 elapsedTime = System.currentTimeMillis();
+                drawableAnimated.repaint();
+            }*/
+            int totalFrames = gifFrames;
+            for (int frame = 0; frame < totalFrames; frame++) {
+                try { Thread.sleep(gifDelayMillis); } catch (InterruptedException e) { }
                 drawableAnimated.repaint();
             }
         }

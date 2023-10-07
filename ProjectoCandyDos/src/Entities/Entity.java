@@ -25,10 +25,8 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     public abstract List<Block> getDestroyables(Board b);
     
     public void destroy() {
-        imagePath = "explosion.gif";
-        gEntity.notifyChangeState();
-        imagePath = null;
-        gEntity.notifyChangeState();
+        setGif("explosion.gif", 12);
+        setImage(null);
     }
 
     protected String setStringColor(String str) {

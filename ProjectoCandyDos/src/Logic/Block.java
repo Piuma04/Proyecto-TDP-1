@@ -56,8 +56,8 @@ public class Block extends VisualEntityDummy implements Focusable {
         return e;
     }
 
-    @Override public boolean         focus() { focused = true; imagePath = images[1]; gEntity.notifyChangeState(); return true; }
-    @Override public void            defocus() { focused = false; imagePath = images[0]; gEntity.notifyChangeState(); }
+    @Override public boolean         focus() { focused = true; setImage(images[1]); return true; }
+    @Override public void            defocus() { focused = false; setImage(images[0]); }
     @Override public String          getImage() { return images[focused ? 1 : 0]; }
     
     public String toString() {
