@@ -21,7 +21,7 @@ public class Level {
     private int currentLevel;
     private static final int lastLevel = 5;
 
-    public Level(Entity toDestroyEntityType, int amount, int remainingMoves, int timeLimit, int cR) {
+    public Level(Equivalent toDestroyEntityType, int amount, int remainingMoves, int timeLimit, int cR) {
         myGoal = new Goal(amount, toDestroyEntityType);
         this.remainingMoves = remainingMoves;
         currentLevel = cR;
@@ -62,7 +62,7 @@ public class Level {
         return !hasMove();
     }
 
-	public boolean lastLevel() {
+	public boolean isLastLevel() {
 		return currentLevel == lastLevel;
 	}
 	public int getCurrentLevel() {

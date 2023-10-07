@@ -47,7 +47,7 @@ public class Game {
         myGui.updateMoves(myLevel.getMoves());
         myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
         if(finished) {
-        	if(myLevel.lastLevel())
+        	if(myLevel.isLastLevel())
         		myGui.ending();
         	else {
         		myGui.ending(); //deberia pasar de lvl
