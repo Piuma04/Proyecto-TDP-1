@@ -28,6 +28,7 @@ public class Board {
     private int playerRow, playerColumn;
     private Block[][] matrix;
     private Gui myGui;
+    private Combination combinations;
 
     public Board(Gui gui) 
     {
@@ -35,6 +36,7 @@ public class Board {
         playerRow = ROWS/2;
         playerColumn = COLUMNS/2;
         myGui = gui;
+        combinations = new Combination(this);
         for (int row = 0; row < ROWS; row++)
             for (int column = 0; column < COLUMNS; column++) 
             {
@@ -185,7 +187,7 @@ public class Board {
      * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
      * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
      */
-    public void destroyEntity(int row, int column) { getBlock(row, column).destroyEntity(); }
+    public Entity destroyEntity(int row, int column) { return getBlock(row, column).destroyEntity(); }
     
     /**
      * Swaps the entity the player is on with the one specified with {@code row} and {@code column}.
@@ -197,7 +199,7 @@ public class Board {
     {
         Entity e1, e2;
         Set<Integer> columnsToCheck;
-        List<Block> remaining;
+        Set<Block> remaining;
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         boolean canExchange = false;
 
@@ -211,44 +213,41 @@ public class Board {
             if (canExchange) 
             {
                 b1.swapEntity(b2);
-                remaining = checkCombinations(playerRow, playerColumn); //Get combinations for the first entity
+                remaining = combinations.checkCombinations(playerRow, playerColumn); //Get combinations for the first entity
                 if(!remaining.contains(matrix[newRow][newColumn]))      //Checks whether the second entity's combination is already checked
-                    remaining.addAll(checkCombinations(newRow, newColumn));
+                    remaining.addAll(combinations.checkCombinations(newRow, newColumn));
                 if (!remaining.isEmpty()) 
                 {
                     while (!remaining.isEmpty()) //While there are remaining combinations, destroy them,fill the board, and check again
                     {
                         destroyed.addAll(destroyEntities(remaining));
                         columnsToCheck = fillBoard();
-                        remaining = checkRemainingCombinations(columnsToCheck);
+                        remaining = combinations.checkRemainingCombinations(columnsToCheck);
                     }
-                } else b1.swapEntity(b2);
+                } //else b1.swapEntity(b2);
             }   
         }
         return destroyed;
     }
     /**
      * Destroys the entities inside the blocks specified.
-     * @param toDestroy list of blocks set to be destroyed
+     * @param remaining list of blocks set to be destroyed
      * @return entities destroyed
      */
-    private List<Equivalent> destroyEntities(List<Block> toDestroy)
+    private List<Equivalent> destroyEntities(Set<Block> remaining)
     {
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         List<Block> destroyables = new LinkedList<Block>();
 
-        for (Block b : toDestroy) 
+        for (Block b : remaining) 
         {
-            for(Block bb : b.getEntity().getDestroyables(this))
-                if(!destroyables.contains(bb))
-                    destroyables.add(bb);
+            destroyables.addAll(b.getEntity().getDestroyables(this));
         }
         for (Block b : destroyables) 
         {
             if(b.hasModifiers())
                 destroyed.add(b.popModifier());
-            else // ELSE ?? TODO
-                destroyed.add(b.getEntity());
+            destroyed.add(b.getEntity());
             destroyEntity(b.getRow(), b.getColumn());
              
         }
@@ -333,120 +332,6 @@ public class Board {
             }
         }*/
         return emptyColumnsIndexes;
-    }
-    /**
-     * checks the combinations of the {@code columns} specified
-     * @param columns {@code columns} to be checked
-     * @return blocks that make combinations on the {@code columns} specified
-     */
-    private List<Block> checkRemainingCombinations(Set<Integer> columns) 
-    {
-        List<Block> combinations = new LinkedList<Block>();
-        for (Integer j : columns) 
-        {
-            for (int i = 0; i < ROWS; i++) 
-            {
-                if(!combinations.contains(matrix[i][j]))
-                    combinations.addAll(checkCombinations(i, j));
-            }
-        }
-        return combinations;
-    }
-
-    /**
-     * Checks the combinations an element specified with {@code row} and {@code column} makes with the surrounding elements
-     * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
-     * @return blocks that contain the elements that combined
-     */
-    private List<Block> checkCombinations(int row, int column) 
-    {
-        List<Block> combination = new LinkedList<Block>();
-        Colour color = matrix[row][column].getEntity().getColour();
-        int cantHorizontal = checkSeguidosH(row, column, combination);
-        int cantVertical = checkSeguidosV(row, column, combination);
-        
-        if (cantHorizontal >= 2 && cantVertical >= 2) 
-        {
-            destroyEntity(row, column);
-            associateEntity(row, column, new Wrapped(row, column, color));
-        } 
-        else if (cantHorizontal == 3 && cantVertical < 2) 
-        {
-           destroyEntity(row, column);
-            associateEntity(row, column, new Stripped(row, column, color, false));
-        } 
-        else if (cantHorizontal < 2 && cantVertical == 3) 
-        {
-            destroyEntity(row, column);
-            associateEntity(row, column, new Stripped(row, column, color, true));
-        }
-        else
-            combination.add(matrix[row][column]);
-        if(combination.size()<3)
-            combination.clear();
-        if(!combination.isEmpty()) {}
-        return combination;
-    }
-    /**
-     * Checks the horizontal combinations an element specified with row and column makes
-     * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
-     * @param combination blocks that make combinations
-     * @return amount of horizontal combinations
-     */
-    private int checkSeguidosH(int row, int column, List<Block> combination) 
-    {
-        List<Block> toAdd = new LinkedList<Block>();
-        Entity comparable = matrix[row][column].getEntity();
-        boolean cumple = true;
-        for (int i = row + 1; i >= 0 && i < ROWS && cumple; i++) 
-        {
-            cumple = matrix[i][column].getEntity().getColour() == comparable.getColour();
-            if (cumple)
-                toAdd.add(matrix[i][column]);
-        }
-        cumple = true;
-        for (int i = row - 1; i >= 0 && i < ROWS && cumple; i--) 
-        {
-            cumple = matrix[i][column].getEntity().getColour() == comparable.getColour();
-            if (cumple) 
-            {
-                toAdd.add(matrix[i][column]);
-            }
-        }
-        if (toAdd.size() >= 2)
-            combination.addAll(toAdd);
-        return toAdd.size();
-    }
-    /**
-     * Checks the vertical combinations an element specified with row and column makes
-     * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
-     * @param combination blocks that make combinations
-     * @return amount of vertical combinations
-     */
-    private int checkSeguidosV(int row, int column, List<Block> combination) 
-    {
-        List<Block> toAdd = new LinkedList<Block>();
-        Entity comparable = matrix[row][column].getEntity();
-        boolean cumple = true;
-        for (int j = column + 1; j >= 0 && j < COLUMNS && cumple; j++) 
-        {
-            cumple = matrix[row][j].getEntity().getColour() == comparable.getColour();
-            if (cumple)
-                toAdd.add(matrix[row][j]);
-        }
-        cumple = true;
-        for (int j = column - 1; j >= 0 && j < COLUMNS && cumple; j--) 
-        {
-            cumple = matrix[row][j].getEntity().getColour() == comparable.getColour();
-            if (cumple) 
-                toAdd.add(matrix[row][j]);
-        }
-        if (toAdd.size() >= 2)
-            combination.addAll(toAdd);
-        return toAdd.size();
     }
     /**
      * 
