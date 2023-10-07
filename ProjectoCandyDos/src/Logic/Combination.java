@@ -29,9 +29,12 @@ public class Combination {
         Entity powerCandy = null;
         for (Integer j : columns) {
             for (int i = 0; i < Board.getRows(); i++) {
-                powerCandy = checkCombinations(i, j, combinations);
-                if (powerCandy != null)
-                    powerCandys.add(powerCandy);
+                if (!combinations.contains(board.getBlock(i, j)))
+                {
+                    powerCandy = checkCombinations(i, j, combinations);
+                    if (powerCandy != null)
+                        powerCandys.add(powerCandy);
+                }
             }
         }
         
