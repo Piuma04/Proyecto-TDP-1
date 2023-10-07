@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import Animations.CentralAnimator;
 import Interfaces.LogicEntity;
@@ -184,11 +185,10 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
     
     @Override
-    public void notifyAnimationEnd(Drawable toDestroy) {
+    public void notifyAnimationEnd() {
         synchronized(this){
             pendingAnimations--;
             stopInterchanges = pendingAnimations > 0;
-            if (toDestroy != null) removeEntity(toDestroy);
         }
     }
 

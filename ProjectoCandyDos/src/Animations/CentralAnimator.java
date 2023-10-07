@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+
+import javax.swing.SwingUtilities;
+
 import java.util.ArrayDeque;
 
 import GUI.Drawable;
@@ -143,7 +146,7 @@ public class CentralAnimator implements AnimatorDriver {
         Animator animator;
         List<Animator> drawableAnimations;
 
-        gui.notifyAnimationEnd(bDestroy ? a.getDrawable() : null);
+        gui.notifyAnimationEnd();
 
         drawableAnimations = map_drawable_animations.get(a.getDrawable());
         drawableAnimations.remove(a);
@@ -152,6 +155,8 @@ public class CentralAnimator implements AnimatorDriver {
             animator = drawableAnimations.get(0);
             animator.startAnimation();
         }
+        if (bDestroy)
+            SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); });
     }
     
     /**
