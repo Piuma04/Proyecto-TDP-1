@@ -147,9 +147,7 @@ public class LevelGenerator {
         case 'M':
             e = new Glazed(r, c);
             break;
-        case 'J':
-            e = new Glazed(r, c);
-            break;
+        
         }
         return e;
     }
