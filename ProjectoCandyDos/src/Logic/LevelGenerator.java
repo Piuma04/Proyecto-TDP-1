@@ -12,6 +12,7 @@ import Entities.Colour;
 import Entities.Candy;
 import Entities.Stripped;
 import Entities.Wrapped;
+import Interfaces.Equivalent;
 import Entities.Glazed;
 import Entities.Jelly;
 
@@ -82,6 +83,14 @@ public class LevelGenerator {
     }
 
     /**
+     * Creates the Equivalent to destroy, that is, the objective
+     * @param id
+     * @param r
+     * @param c
+     * @return
+     */
+    
+	/**
      * given an {@code id} which represents an Entity in plain text, a row {@code r} and a column {@code c}</br>
      * creates an entity with position {@code (r, c)}.
      * 
@@ -138,6 +147,7 @@ public class LevelGenerator {
         case 'M':
             e = new Glazed(r, c);
             break;
+        
         }
         return e;
     }

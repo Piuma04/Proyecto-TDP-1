@@ -62,7 +62,7 @@ public class Level {
         return !hasMove();
     }
 
-	public boolean lastLevel() {
+	public boolean isLastLevel() {
 		return currentLevel == lastLevel;
 	}
 	public int getCurrentLevel() {

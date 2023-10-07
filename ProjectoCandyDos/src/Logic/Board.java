@@ -227,9 +227,10 @@ public class Board {
                         columnsToCheck = fillBoard();
                         powerCandys.addAll(combinations.checkRemainingCombinations(columnsToCheck, remaining));
                     }
-                } //else b1.swapEntity(b2);
+                } else b1.swapEntity(b2);
             }   
         }
+        System.out.println(destroyed.toString());
         return destroyed;
     }
     /**
