@@ -49,7 +49,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
 
     protected void inicializar() {
-        setTitle("CandyCrush Villero");
+        setTitle("CandyCrush Humilde");
         final int width = LABEL_SIZE*Board.getRows() + 350;
         final int height = LABEL_SIZE*Board.getColumns() + 175;
         setSize(new Dimension(width, height));
