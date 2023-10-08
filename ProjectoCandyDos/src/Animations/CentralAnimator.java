@@ -62,8 +62,7 @@ public class CentralAnimator implements AnimatorDriver {
                 else if (i == 2) {
                     Drawable c = (Drawable)head[1];
                     String animationPath = (String)head[2];
-                    int gifFrames = (Integer)head[3];
-                    Animator animador = new AnimatorStateChange(this, c, animationPath, gifFrames);
+                    Animator animador = new AnimatorStateChange(this, c, animationPath);
                     startAnimation(c, animador);
                 } else if (i == 3) {
                     Clip sound = (Clip)head[1];
@@ -106,18 +105,16 @@ public class CentralAnimator implements AnimatorDriver {
      */
     public void animateChangeState(Drawable c) {
         String imagePath = c.getLogicalEntity().getImage();
-        int gifFrameCount = c.getLogicalEntity().getGifFrameCount(); 
         Object data[] = new Object[4];
         data[0] = 2;
         data[1] = c;
         data[2] = imagePath;
-        data[3] = gifFrameCount;
         
         boolean isBlock = imagePath != null && imagePath.contains("vacio");
         if (!isBlock)
             queue.add(data);
         else {
-            Animator animador = new AnimatorStateChange(this, c, imagePath, gifFrameCount);
+            Animator animador = new AnimatorStateChange(this, c, imagePath);
             startAnimation(c, animador);
         }
         

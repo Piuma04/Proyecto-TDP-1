@@ -334,7 +334,7 @@ public class Board {
      * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
      * @return {@code true} if it is a valid position inside the board.
      */
-    private boolean isValidBlock(int row, int column) {
+    public static boolean isValidBlock(int row, int column) {
         return row >= 0 && row < ROWS && column >= 0 && column < COLUMNS;
     }
     /**

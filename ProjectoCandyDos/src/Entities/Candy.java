@@ -37,8 +37,7 @@ public class Candy extends Entity {
             int newRow = row + adyacentRows[i];
             int newColumn = column + adyacentColumns[i];
 
-            // isVAlidPosition. TODO
-            if (newRow >= 0 && newRow < Board.getRows() && newColumn >= 0 && newColumn < Board.getColumns()
+            if (Board.isValidBlock(newRow, newColumn)
                     && b.getBlock(newRow, newColumn).getEntity().getColour() == Colour.GLAZED) {
                 // pregunta si hay algun glaseado alrededor
                 // *podria ser b.getBlock(newRow,newColumn).getEntity()==Colour.GLAZED
@@ -47,6 +46,10 @@ public class Candy extends Entity {
         }
         return toDestroy;
     }
-
+    @Override public void destroy() {
+        if (colour != Colour.GREEN) playGif("explosion.gif");
+        else playGif("GREENG.gif");
+        setImage(null);
+    }
     public String toString() { return super.setStringColor("C"); }
 }

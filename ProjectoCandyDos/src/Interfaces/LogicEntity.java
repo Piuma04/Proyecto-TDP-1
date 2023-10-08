@@ -24,10 +24,6 @@ public interface LogicEntity {
      * @return The image path
      */
 	public String getImage();
-
-	/**
-	 */
-	public int getGifFrameCount();
 	
 	/**
      * Gets the size of the entity's picture.

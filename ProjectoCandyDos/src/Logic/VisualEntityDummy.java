@@ -9,35 +9,40 @@ public abstract class VisualEntityDummy implements VisualEntity {
     protected int row;
     protected int column;
     protected String imagePath;
-    protected int gifFrames;
 
     protected GraphicalEntity gEntity;
 
-    public void setGif(String gifPath, int gifFrameCount) {
-        imagePath = gifPath;
-        gifFrames = gifFrameCount;
+    /**
+     * Must not be called if there is no {@link GraphicalEntity} initialized
+     * 
+     * @param newRow
+     * @param newColumn
+     * @see {@link #setGraphicalEntity(GraphicalEntity)}
+     */
+    public void setImage(String imageName) {
+        imagePath = imageName;
         gEntity.notifyChangeState();
     }
-    public void setImage(String imagePath) {
-        this.imagePath = imagePath;
-        gifFrames = 0;
-        gEntity.notifyChangeState();
-    }
+
+    public void playGif(String gifPath) { setImage(gifPath); }
+
     @Override public int getRow() { return row; }
     @Override public int getColumn() { return column; }
     @Override public String getImage() { return imagePath; }
     @Override public int getPicSize() { return picSize; }
-    @Override public int getGifFrameCount() { return gifFrames; }
 
-    @Override public void setGraphicalEntity(GraphicalEntity gEntity) { this.gEntity = gEntity; }
+    @Override public void setGraphicalEntity(GraphicalEntity graphicalEntity) { gEntity = graphicalEntity; }
     @Override public GraphicalEntity getGraphicalEntity() { return gEntity; }
     
-    public void notifyChangeState() {  }
-    
+    /**
+     * Must not be called if there is no {@link GraphicalEntity} initialized
+     * @param newRow
+     * @param newColumn
+     * @see {@link #setGraphicalEntity(GraphicalEntity)}
+     */
     public void changePosition(int newRow, int newColumn) {
         row = newRow;
         column = newColumn;
-        if (gEntity != null)
-            gEntity.notifyChangePosition();
+        gEntity.notifyChangePosition();
     }
 }

@@ -25,7 +25,7 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     public abstract List<Block> getDestroyables(Board b);
     
     public void destroy() {
-        setGif("explosion.gif", 12);
+        playGif("explosion.gif");
         setImage(null);
     }
 
