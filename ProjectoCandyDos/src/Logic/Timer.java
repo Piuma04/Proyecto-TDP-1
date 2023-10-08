@@ -1,5 +1,7 @@
 package Logic;
 
+import javax.swing.SwingUtilities;
+
 import GUI.Gui;
 
 public class Timer {
@@ -31,8 +33,9 @@ public class Timer {
                 myGui.setTime(String.format("%02d", minutes) + ":" + String.format("%02d", seconds));
             }
             if (!stopped)
-                myGame.timerEnded();
+                SwingUtilities.invokeLater(() -> { myGame.timerEnded(); });
         };
+
         myThread = new Thread(myTask);
     }
 

@@ -68,10 +68,8 @@ public class Game {
 
     public void move(int direction) { myBoard.movePlayerDirection(direction); }
 
-    public void timerEnded() {
-        if (myLevel.getRemainingObjectives() > 0) { lost(); }
-    }
-    
+    public void timerEnded() { if (myLevel.getRemainingObjectives() > 0) { lost(); } }
+
     public void lost() {
         lives--;
         myGui.updateLives(lives);
