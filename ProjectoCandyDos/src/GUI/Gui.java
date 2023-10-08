@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
+import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -198,6 +199,11 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     @Override
     public void animateChangeState(Drawable c) {
         animator.animateChangeState(c);
+    }
+    
+    @Override
+    public void playSound(Clip sound) {
+        animator.playSound(sound);
     }
     
     public int getPendingAnimations() { return pendingAnimations; }

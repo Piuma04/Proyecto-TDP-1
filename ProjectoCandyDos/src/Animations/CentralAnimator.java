@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import javax.sound.sampled.Clip;
 import javax.swing.SwingUtilities;
 
 import java.util.ArrayDeque;
@@ -40,9 +41,8 @@ public class CentralAnimator implements AnimatorDriver {
         myTask = () -> {
             Object[] head = queue.poll();
             while (head != null) {
-                Drawable c = (Drawable)head[0];
-                Integer i = (Integer)head[1];
-                if (i != currentAnimatorType) {
+                Integer i = (Integer)head[0];
+                if (currentAnimatorType != i) {
                     while (gui.getPendingAnimations() > 0) {
                         try {
                             Thread.sleep(10);
@@ -53,16 +53,25 @@ public class CentralAnimator implements AnimatorDriver {
                 }
                 if (i == 1)
                 {
+                    Drawable c = (Drawable)head[1];
                     int finalRow = (Integer)head[2];
                     int finalColumn = (Integer)head[3];
                     Animator animador = new AnimatorMovement(this, 1, 2, c, finalRow, finalColumn);
                     startAnimation(c, animador);
                 }
                 else if (i == 2) {
+                    Drawable c = (Drawable)head[1];
                     String animationPath = (String)head[2];
                     int gifFrames = (Integer)head[3];
                     Animator animador = new AnimatorStateChange(this, c, animationPath, gifFrames);
                     startAnimation(c, animador);
+                } else if (i == 3) {
+                    Clip sound = (Clip)head[1];
+                    sound.stop();
+                    sound.flush();
+                    sound.setFramePosition(0);
+                    try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
+                    sound.start();
                 }
                 head = queue.poll();
             }
@@ -80,8 +89,8 @@ public class CentralAnimator implements AnimatorDriver {
      */
     public void animateChangePosition(Drawable c) {
         Object data[] = new Object[4];
-        data[0] = (Drawable)c;
-        data[1] = (Integer)1;
+        data[0] = 1;
+        data[1] = c;
         data[2] = c.getLogicalEntity().getRow();
         data[3] = c.getLogicalEntity().getColumn();
         queue.add(data);
@@ -99,8 +108,8 @@ public class CentralAnimator implements AnimatorDriver {
         String imagePath = c.getLogicalEntity().getImage();
         int gifFrameCount = c.getLogicalEntity().getGifFrameCount(); 
         Object data[] = new Object[4];
-        data[0] = (Drawable)c;
-        data[1] = (Integer)2;
+        data[0] = 2;
+        data[1] = c;
         data[2] = imagePath;
         data[3] = gifFrameCount;
         
@@ -113,6 +122,13 @@ public class CentralAnimator implements AnimatorDriver {
         }
         
         if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
+    }
+
+    public void playSound(Clip sound) {
+        Object data[] = new Object[2];
+        data[0] = 3;
+        data[1] = (Clip)sound;
+        queue.add(data);
     }
 
     public void startAnimation(Drawable c, Animator animador) {

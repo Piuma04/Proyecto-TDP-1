@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
-import javax.swing.Timer;
 
 import GUI.Drawable;
 
@@ -25,14 +24,13 @@ import GUI.Drawable;
 public class AnimatorStateChange extends Thread implements Animator {
 
     private static Map<String, Image[]> gifImages = new HashMap<String, Image[]>();
-    private static final int gifDelayMillis = 80;
+    private static final int gifFrameDelayMillis = 80;
 
     protected AnimatorDriver manager;
     protected Drawable drawableAnimated;
     protected String path_img;
     protected int gifFrames;
     private int currentFrame;
-    protected Timer timer;
     
     /**
      * Inicializa el estado interno del animador, considerando:
@@ -77,7 +75,7 @@ public class AnimatorStateChange extends Thread implements Animator {
                     drawableAnimated.setImage(gifImages.get(path_img)[currentFrame]);
                     drawableAnimated.repaint();
                     currentFrame++;
-                    try { sleep(gifDelayMillis); } catch (InterruptedException e) {  e.printStackTrace(); }
+                    try { sleep(gifFrameDelayMillis); } catch (InterruptedException e) {  e.printStackTrace(); }
                 }
         }
         drawableAnimated.repaint();
@@ -90,17 +88,14 @@ public class AnimatorStateChange extends Thread implements Animator {
     }
     
     /**
-     * function NOT checked.
-     * @author ChatGPT3
+     * @author @SantinoDF - ChatGPT3 
      */
     public static Image[] resizeGifImages(BufferedImage[] frames, int targetSize) {
         // Find the largest frame
         BufferedImage largestFrame = frames[0];
-        for (BufferedImage frame : frames) {
-            if (frame.getWidth() * frame.getHeight() > largestFrame.getWidth() * largestFrame.getHeight()) {
+        for (BufferedImage frame : frames)
+            if (frame.getWidth() * frame.getHeight() > largestFrame.getWidth() * largestFrame.getHeight())
                 largestFrame = frame;
-            }
-        }
 
         // Calculate the scaling factor based on the largest frame to maintain proportions
         double scaleFactor = (double) targetSize / Math.max(largestFrame.getWidth(), largestFrame.getHeight());

@@ -1,5 +1,7 @@
 package GUI;
 
+import javax.sound.sampled.Clip;
+
 /**
  * Define las operaciones esperables por sobre una ventana que permite animar los cambios de sus entidades.
  * Un ventana animable podrá llevar adelante la animación de movimiento o de cambio de estado, de una entidad.
@@ -21,4 +23,7 @@ public interface GuiAnimable {
      * @param c La celda que debe modificar su imagen asociada, de forma animada.
      */
     public void animateChangeState(Drawable c);
+
+    
+    public void playSound(Clip sound);
 }

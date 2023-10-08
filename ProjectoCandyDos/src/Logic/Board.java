@@ -4,11 +4,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Queue;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayDeque;
 
 import java.util.LinkedList;
 import java.util.Set;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import Entities.Candy;
 import Entities.Colour;
@@ -27,6 +34,8 @@ public class Board {
     private Block[][] matrix;
     private Gui myGui;
     private Combination combinations;
+    private static final int CLIP_AMOUNT = 10;
+    private Clip explosionSound;
 
     public Board(Gui gui) 
     {
@@ -42,6 +51,16 @@ public class Board {
                 addVisualEntity(block);
                 matrix[row][column] = block;
             }
+        
+        try {
+            for (int i = 0; i < CLIP_AMOUNT; i++) {
+                //AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/nam.wav"));
+                explosionSound = AudioSystem.getClip();
+                explosionSound.open(audioStream);
+
+            }
+        } catch( IOException | UnsupportedAudioFileException | LineUnavailableException e) {System.out.println(e.getMessage());}
     }
     
     /**
@@ -220,6 +239,7 @@ public class Board {
                 {
                     while (!remaining.isEmpty()) //While there are remaining combinations, destroy them,fill the board, and check again
                     {
+                        myGui.playSound(explosionSound); 
                         destroyed.addAll(destroyEntities(remaining));
                         for (Entity entity : powerCandys)
                             associateEntity(entity.getRow(), entity.getColumn(), entity);
@@ -227,10 +247,10 @@ public class Board {
                         columnsToCheck = fillBoard();
                         powerCandys.addAll(combinations.checkRemainingCombinations(columnsToCheck, remaining));
                     }
-                } else b1.swapEntity(b2);
+                }// else b1.swapEntity(b2);
             }   
         }
-        System.out.println(destroyed.toString());
+        //System.out.println(destroyed.toString());
         return destroyed;
     }
     /**
