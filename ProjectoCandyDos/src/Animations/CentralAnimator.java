@@ -157,6 +157,7 @@ public class CentralAnimator implements AnimatorDriver {
             SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); });
     }
     
+    public boolean isActive() { return !queue.isEmpty() || gui.getPendingAnimations() > 0; } 
     /**
      * Estima si la celda parametrizada actualmente cuenta con animaciones en progreso. 
      * @param c Celda que se desea considerar para el chequeo de animaciones en progreso.

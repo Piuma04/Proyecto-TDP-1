@@ -48,14 +48,14 @@ public class Board {
             for (int column = 0; column < COLUMNS; column++) 
             {
                 Block block =  new Block(row, column);
-                addVisualEntity(block);
                 matrix[row][column] = block;
+                addVisualEntity(block);
             }
-        
+
         try {
             for (int i = 0; i < CLIP_AMOUNT; i++) {
-                //AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/nam.wav"));
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
+                //AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/nam.wav"));
                 explosionSound = AudioSystem.getClip();
                 explosionSound.open(audioStream);
 
@@ -165,13 +165,11 @@ public class Board {
         matrix[newRow][newColumn].focus();
     }
     
-    public Entity createEntity(int row, int column) {
-        Entity entity = new Candy(row, column, randomColour());
+    public Candy createRandomCandy(int row, int column) {
+        Candy entity = new Candy(row, column, randomColour());
         addVisualEntity(entity);
         return entity;
     }
-
-    
     
     public void associateEntity(int row, int column, Entity entity) {
         getBlock(row, column).setEntity(entity);
@@ -247,7 +245,7 @@ public class Board {
                         columnsToCheck = fillBoard();
                         powerCandys.addAll(combinations.checkRemainingCombinations(columnsToCheck, remaining));
                     }
-                }// else b1.swapEntity(b2);
+                } else b1.swapEntity(b2);
             }   
         }
         //System.out.println(destroyed.toString());
@@ -299,7 +297,7 @@ public class Board {
 
             int amountEmptyBlocks =  emptyColumns.get(column).size();
             for (int i = 0; i < amountEmptyBlocks; i++) {
-                candys.add(createEntity(i - amountEmptyBlocks, column));
+                candys.add(createRandomCandy(i - amountEmptyBlocks, column));
             }
         }
 

@@ -113,24 +113,18 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     private void setUpLives() {
         ImageIcon imageIcon = new ImageIcon("src/imagenes/heart-gif-1.gif"); 
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        
-        ImageIcon imageIcon2 = new ImageIcon("src/imagenes/heart-gif-1.gif"); 
-        imageIcon2.setImage(imageIcon2.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        
-        ImageIcon imageIcon3 = new ImageIcon("src/imagenes/heart-gif-1.gif");
-        imageIcon3.setImage(imageIcon3.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 
         live1 = new JLabel(imageIcon);
         live1.setBounds(540, 24, 46, 38);
         contentPane.add(live1);
         
-        live3 = new JLabel(imageIcon3);
-        live3.setBounds(584, 24, 46, 38);
-        contentPane.add(live3);
-        
-        live2 = new JLabel(imageIcon2);
-        live2.setBounds(629, 24, 46, 38);
+        live2 = new JLabel(imageIcon);
+        live2.setBounds(584, 24, 46, 38);
         contentPane.add(live2);
+        
+        live3 = new JLabel(imageIcon);
+        live3.setBounds(629, 24, 46, 38);
+        contentPane.add(live3);
     }
 
     public void updateMoves(int i) { cantMoves.setText("Movimientos Restantes: " + i); }
@@ -150,30 +144,31 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     
     public int chooseLevel() { return Integer.valueOf(JOptionPane.showInputDialog(contentPane, "Ingrese el nivel")); }
 
-    public void gameOver() {
-        JOptionPane.showMessageDialog(contentPane, "Perdio el juego");
-        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+    public void showMessage(String message) {
+        JOptionPane.showMessageDialog(contentPane, message);
     }
 
-    public void ending() {
-        JOptionPane.showMessageDialog(contentPane, "Felicitaciones! Ha ganado el juego");
-        this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
-        
+    public void executeAfterAnimation(Runnable r) {
+
+        new Thread(() -> {
+                    while (animator.isActive()) { try { Thread.sleep(5); } catch (InterruptedException e) { e.printStackTrace(); } }
+                    new Thread(r).start();
+                    }).start();
     }
 
     public void showObjective(String typeOfEntity, int amountMissing) {
-        ImageIcon imageIconAux = new ImageIcon("src/imagenes/"+typeOfEntity);
+        ImageIcon imageIconAux = new ImageIcon("src/imagenes/" + typeOfEntity);
         imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
         typeOfCandy.setIcon(imageIconAux);
 
-        amountToGo.setText(amountMissing+"");
+        amountToGo.setText(amountMissing + "");
     }
 
     public void updateGraphicObjective(int amountMissing) {
         amountToGo.setText((amountMissing <0 ? 0 : amountMissing) + "");
     }
     public void setCurrentLevel(String level) { levelShower.setText(level); }
-    public void setTime(String string) { watch.setText("Tiempo restante: " + string); }
+    public void setTime(String timeString) { watch.setText("Tiempo restante: " + timeString); }
     
     @Override
     public void notifyAnimationInProgress() {
@@ -207,4 +202,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
     
     public int getPendingAnimations() { return pendingAnimations; }
+
+    public void reset() {
+        boardPanel.removeAll();
+    }
 }

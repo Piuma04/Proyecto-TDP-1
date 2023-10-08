@@ -62,9 +62,9 @@ public class Combination {
         if (consecutiveH.size() == 2 && consecutiveV.size() == 2) 
             entity = new Wrapped(row, column, color);
         else if (consecutiveH.size() == 3) 
-           entity = new Stripped(row, column, color, true);
+           entity = new Stripped(row, column, color, false);
         else if (consecutiveV.size() == 3) 
-            entity = new Stripped(row, column, color, false);
+            entity = new Stripped(row, column, color, true);
         if(combination.size()<3)
             combination.clear();
         remaining.addAll(combination);
