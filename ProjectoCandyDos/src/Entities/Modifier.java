@@ -10,11 +10,11 @@ import Logic.VisualEntityDummy;
 public abstract class Modifier extends VisualEntityDummy implements Equivalent, VisualEntity {
 
     public abstract void destroy();
-    @Override public boolean isEquivalent(Entity e) { return false; }
-    @Override public boolean equals(Candy c) { return false; }
-    @Override public boolean equals(Glazed g) { return false; }
-    @Override public boolean equals(Wrapped w) { return false; }
-    @Override public boolean equals(Stripped s) { return false; }
-    @Override public boolean equals(Empty e) { return false; }
-
+    @Override public boolean isEquivalent(Equivalent e) { return false; }
+    @Override public boolean isEqual(Candy c) { return false; }
+    @Override public boolean isEqual(Glazed g) { return false; }
+    @Override public boolean isEqual(Wrapped w) { return false; }
+    @Override public boolean isEqual(Stripped s) { return false; }
+    @Override public boolean isEqual(Empty e) { return false; }
+    @Override public boolean isEqual(Jelly j) { return false; }
 }

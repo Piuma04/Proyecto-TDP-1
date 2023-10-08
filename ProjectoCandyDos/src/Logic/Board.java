@@ -54,10 +54,10 @@ public class Board {
 
         try {
             for (int i = 0; i < CLIP_AMOUNT; i++) {
-                //AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/nam.wav"));
+                AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
+                //AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/nam.wav"));
                 explosionSound = AudioSystem.getClip();
-                explosionSound.open(audioStream);
+                //explosionSound.open(audioStream);
 
             }
         } catch( IOException | UnsupportedAudioFileException | LineUnavailableException e) {System.out.println(e.getMessage());}

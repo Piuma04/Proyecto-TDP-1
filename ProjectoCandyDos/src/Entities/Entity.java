@@ -23,7 +23,21 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     public Colour getColour() { return colour; }
 
     public abstract List<Block> getDestroyables(Board b);
-    
+
+    @Override public boolean isEquivalent(Equivalent e) { return false; } 
+    @Override public boolean isEqual(Candy c)    { return false; }
+    @Override public boolean isEqual(Glazed g)   { return false; }
+    @Override public boolean isEqual(Wrapped w)  { return false; }
+    @Override public boolean isEqual(Stripped s) { return false; }
+    @Override public boolean isEqual(Empty e)    { return false; }
+    @Override public boolean isEqual(Jelly j)    { return false; }
+
+    @Override public boolean isSwappable(Swappable e) { return false; }
+    @Override public boolean canReceive(Candy c) { return false; }
+    @Override public boolean canReceive(Stripped s) { return false; }
+    @Override public boolean canReceive(Wrapped w) { return false; }
+    @Override public boolean canReceive(Glazed g) { return false; }
+
     public void destroy() {
         playGif("explosion.gif");
         setImage(null);

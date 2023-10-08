@@ -1,6 +1,10 @@
 package Entities;
 
 import java.util.List;
+
+import Interfaces.Equivalent;
+import Interfaces.Swappable;
+
 import java.util.LinkedList;
 import Logic.Block;
 import Logic.Board;
@@ -12,17 +16,11 @@ public class Wrapped extends Entity {
         imagePath = "W" + imagePath;
     }
 
-    @Override public boolean isEquivalent(Entity e) { return e.equals(this); }
-    @Override public boolean equals(Candy c) { return false; }
-    @Override public boolean equals(Glazed g) { return false; }
-    @Override public boolean equals(Wrapped w) { return w.getColour() == colour; }
-    @Override public boolean equals(Stripped s) { return false; }
-    @Override public boolean equals(Jelly j) { return false; }
-    @Override public boolean equals(Empty e) { return false; }
+    @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); } 
+    @Override public boolean isEqual(Wrapped w) { return w.getColour() == colour; }
     
-    @Override public boolean isSwappable(Entity e) { return e.canReceive(this); }
+    @Override public boolean isSwappable(Swappable e) { return e.canReceive(this); }
     @Override public boolean canReceive(Candy c) { return true; }
-    @Override public boolean canReceive(Glazed g) { return false; }
     @Override public boolean canReceive(Stripped s) { return true; }
     @Override public boolean canReceive(Wrapped w) { return true; }
 

@@ -1,6 +1,10 @@
 package Entities;
 
 import java.util.List;
+
+import Interfaces.Equivalent;
+import Interfaces.Swappable;
+
 import java.util.LinkedList;
 
 import Logic.Block;
@@ -12,17 +16,14 @@ public class Candy extends Entity {
         super(rowPosition, columnPosition, colour);
     }
 
-    @Override public boolean isEquivalent(Entity e) { return e.equals(this); }
-    @Override public boolean equals(Candy c) { return c.getColour() == this.colour; }
-    @Override public boolean equals(Glazed g) { return false; }
-    @Override public boolean equals(Wrapped w) { return w.getColour() == this.colour;}
-    @Override public boolean equals(Stripped s) { return s.getColour() == this.colour; }
-    @Override public boolean equals(Jelly j) { return false; }
-    @Override public boolean equals(Empty e) { return false; }
+    
+    @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); } 
+    @Override public boolean isEqual(Candy c) { return this.colour == c.getColour(); }
+    @Override public boolean isEqual(Wrapped w) { return this.colour == w.getColour(); }
+    @Override public boolean isEqual(Stripped s) { return this.colour == s.getColour(); }
 
-    @Override public boolean isSwappable(Entity e) { return e.canReceive(this);}
+    @Override public boolean isSwappable(Swappable e) { return e.canReceive(this); }
     @Override public boolean canReceive(Candy c) { return true; }
-    @Override public boolean canReceive(Glazed g) { return false;}
     @Override public boolean canReceive(Stripped s) { return true; }
     @Override public boolean canReceive(Wrapped w) { return true; }
 

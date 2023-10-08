@@ -18,7 +18,7 @@ public interface Swappable {
 	 * @param e The entity to swap with.
 	 * @return true if swappable, false otherwise.
 	 */
-	public boolean isSwappable(Entity e);
+	public boolean isSwappable(Swappable e);
 
 	/**
 	 * Checks if this object can receive a general candy.

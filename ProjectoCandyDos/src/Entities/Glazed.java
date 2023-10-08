@@ -1,6 +1,9 @@
 package Entities;
 
 import java.util.List;
+
+import Interfaces.Equivalent;
+
 import java.util.LinkedList;
 import Logic.Block;
 import Logic.Board;
@@ -11,21 +14,8 @@ public class Glazed extends Entity {
         super(rowPosition, columnPosition, Colour.GLAZED);
     }
 
-    @Override public boolean isEquivalent(Entity e) { return e.equals(this); }
-    @Override public boolean equals(Candy c) { return false; }
-    @Override public boolean equals(Glazed g) { return true; }
-    @Override public boolean equals(Wrapped w) { return false; }
-    @Override public boolean equals(Stripped s) { return false; }
-    @Override public boolean equals(Jelly j) { return false; }
-    @Override public boolean equals(Empty e) { return false; }
-
-
-    // TODO No seria siempre false??
-    @Override public boolean isSwappable(Entity e) { return e.canReceive(this); }
-    @Override public boolean canReceive(Candy c) { return false; }
-    @Override public boolean canReceive(Glazed g) { return false; }
-    @Override public boolean canReceive(Stripped s) { return false; }
-    @Override public boolean canReceive(Wrapped w) { return false; }
+    @Override public boolean isEquivalent(Equivalent e) { return e.equals(this); }
+    @Override public boolean isEqual(Glazed g) { return true; }
 
     // TODO
     @Override

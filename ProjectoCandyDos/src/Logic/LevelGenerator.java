@@ -12,6 +12,7 @@ import Entities.Colour;
 import Entities.Candy;
 import Entities.Stripped;
 import Entities.Wrapped;
+import Interfaces.Equivalent;
 import Entities.Glazed;
 import Entities.Jelly;
 
@@ -46,7 +47,7 @@ public class LevelGenerator {
 
         if (lines != null) {
             candys = lines.get(0).split(",");
-            level = new Level(createEntity(candys[0], -1, -1), // Entity to compare.
+            level = new Level(createEquivalent(candys[0]), // Entity to compare.
                     Integer.valueOf(candys[1]), // Amount of entities to win. (GOAL)
                     Integer.valueOf(candys[2]), // Amount of Moves.
                     Integer.valueOf(candys[3]), Integer.valueOf(filename.charAt(filename.length()-5))-'0'); // max time in SECONDS.
@@ -146,9 +147,21 @@ public class LevelGenerator {
         case 'M':
             e = new Glazed(r, c);
             break;
-        
         }
         return e;
+    }
+
+    private static Equivalent createEquivalent(String id) {
+        Equivalent equivalent = null;
+        equivalent = createEntity(id, -1, -1);
+        if (equivalent == null) {
+            switch (id.charAt(0)) {
+                case 'J':
+                    equivalent = new Jelly(-1, -1);
+                    break;
+            }
+        }
+        return equivalent;
     }
 
     /**

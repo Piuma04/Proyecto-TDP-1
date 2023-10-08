@@ -7,9 +7,9 @@ import Entities.Entity;
 
 public class Goal {
     private int counter;
-    private Entity type;
+    private Equivalent type;
 
-    public Goal(int amount, Entity toDestroyEntityType) {
+    public Goal(int amount, Equivalent toDestroyEntityType) {
         counter = amount;
         type = toDestroyEntityType;
     }
@@ -20,9 +20,11 @@ public class Goal {
      * @return {@code true} if goal is reached.
      */
     public boolean updateCounter(List<Equivalent> equivalentList) {
-        for (Equivalent entity : equivalentList)
+        for (Equivalent entity : equivalentList) {
             if (entity.isEquivalent(type))
                 counter--;
+            
+        }
         return counter <= 0;
     }
     public int amountMissing() { return counter; }
