@@ -5,7 +5,7 @@ public class Jelly extends Modifier {
     public Jelly(int rowPosition, int columnPosition) {
         row = rowPosition;
         column = columnPosition;
-        imagePath = "a.png";
+        imagePath = "JELLY.png";
     }
 
     @Override
