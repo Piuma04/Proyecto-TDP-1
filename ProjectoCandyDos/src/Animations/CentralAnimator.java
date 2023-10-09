@@ -43,12 +43,9 @@ public class CentralAnimator implements AnimatorDriver {
                 Integer i = (Integer)head[0];
                 if (currentAnimatorType != i) {
                     while (gui.getPendingAnimations() > 0) {
-                        try {
-                            Thread.sleep(10);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    } currentAnimatorType = i;
+                        try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace();}
+                    }
+                    currentAnimatorType = i;
                 }
                 if (i == 1)
                 {
@@ -152,7 +149,13 @@ public class CentralAnimator implements AnimatorDriver {
             SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); });
     }
     
-    public boolean isActive() { return !queue.isEmpty() || gui.getPendingAnimations() > 0; } 
+    public boolean isActive() { return !queue.isEmpty() || gui.getPendingAnimations() > 0; }
+    
+    @SuppressWarnings("deprecation")
+    public void reset() {
+        myThread.stop();
+        queue.clear();
+    }
     /**
      * Estima si la celda parametrizada actualmente cuenta con animaciones en progreso. 
      * @param c Celda que se desea considerar para el chequeo de animaciones en progreso.

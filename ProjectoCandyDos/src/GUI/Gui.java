@@ -208,5 +208,6 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     public void reset() {
         boardPanel.removeAll();
+        animator.reset();
     }
 }

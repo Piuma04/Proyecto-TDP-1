@@ -6,6 +6,8 @@ import java.util.List;
 
 import GUI.Gui;
 
+import Animations.SoundPlayer;
+
 import Interfaces.Equivalent;
 
 public class Game {
@@ -20,13 +22,16 @@ public class Game {
     private Level myLevel;
     private Timer myTimer;
     private int lives;
+    
+    private SoundPlayer lostSound;
 
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
-        
+        lostSound = new SoundPlayer("ps2error16b.wav");
+        //lostSound = new SoundPlayer("ps2error32b.wav");
         int level = 1; // myGui.chooseLevel(); MUST CHECK IF USER INSERTED INTEGER.
-        lives = 2;
+        lives = 3;
         loadLevel(level);
     }
 
@@ -74,6 +79,7 @@ public class Game {
     public void lost() {
         lives--;
         myGui.updateLives(lives);
+        lostSound.play();
         if (lives == 0)
             myGui.showMessage("Perdio el juego");
         else {
