@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import javax.sound.sampled.Clip;
 import javax.swing.SwingUtilities;
 
 import java.util.ArrayDeque;
@@ -65,12 +64,8 @@ public class CentralAnimator implements AnimatorDriver {
                     Animator animador = new AnimatorStateChange(this, c, animationPath);
                     startAnimation(c, animador);
                 } else if (i == 3) {
-                    Clip sound = (Clip)head[1];
-                    sound.stop();
-                    sound.flush();
-                    sound.setFramePosition(0);
-                    try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
-                    sound.start();
+                    SoundPlayer sound = (SoundPlayer)head[1];
+                    sound.play();
                 }
                 head = queue.poll();
             }
@@ -121,10 +116,10 @@ public class CentralAnimator implements AnimatorDriver {
         if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
     }
 
-    public void playSound(Clip sound) {
+    public void playSound(SoundPlayer sound) {
         Object data[] = new Object[2];
         data[0] = 3;
-        data[1] = (Clip)sound;
+        data[1] = sound;
         queue.add(data);
     }
 

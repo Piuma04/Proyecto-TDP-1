@@ -2,30 +2,25 @@ package Logic;
 
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.Queue;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayDeque;
-
-import java.util.LinkedList;
 import java.util.Set;
+import java.util.LinkedList;
+import java.util.HashMap;
+import java.util.ArrayDeque;
+import java.util.HashSet;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import java.util.Random;
+
+import Animations.SoundPlayer;
+import GUI.Gui;
 
 import Entities.Candy;
 import Entities.Colour;
 import Entities.Entity;
-import GUI.Gui;
+
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
 
-import java.util.HashSet;
-import java.util.Random;
 
 public class Board {
     private static final int ROWS = 6;
@@ -34,8 +29,7 @@ public class Board {
     private Block[][] matrix;
     private Gui myGui;
     private Combination combinations;
-    private static final int CLIP_AMOUNT = 10;
-    private Clip explosionSound;
+    private SoundPlayer explosionSound;
 
     public Board(Gui gui) 
     {
@@ -51,16 +45,8 @@ public class Board {
                 matrix[row][column] = block;
                 addVisualEntity(block);
             }
-
-        try {
-            for (int i = 0; i < CLIP_AMOUNT; i++) {
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/expsound.wav"));
-                //AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("src/music/nam.wav"));
-                explosionSound = AudioSystem.getClip();
-                //explosionSound.open(audioStream);
-
-            }
-        } catch( IOException | UnsupportedAudioFileException | LineUnavailableException e) {System.out.println(e.getMessage());}
+        explosionSound = new SoundPlayer("expsound.wav");
+        //explosionSound = new SoundPlayer("nam.wav");
     }
     
     /**

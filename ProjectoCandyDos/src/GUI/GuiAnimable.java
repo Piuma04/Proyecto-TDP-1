@@ -1,6 +1,6 @@
 package GUI;
 
-import javax.sound.sampled.Clip;
+import Animations.SoundPlayer;
 
 /**
  * Define las operaciones esperables por sobre una ventana que permite animar los cambios de sus entidades.
@@ -25,5 +25,5 @@ public interface GuiAnimable {
     public void animateChangeState(Drawable c);
 
     
-    public void playSound(Clip sound);
+    public void playSound(SoundPlayer sound);
 }

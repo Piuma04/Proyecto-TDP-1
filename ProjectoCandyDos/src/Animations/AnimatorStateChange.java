@@ -3,16 +3,18 @@ package Animations;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.List;
-import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
+
+import java.io.File;
+
+import java.util.List;
+import java.util.Map;
+import java.util.LinkedList;
+import java.util.HashMap;
 
 import GUI.Drawable;
 

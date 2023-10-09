@@ -1,7 +1,6 @@
 package Interfaces;
 
 import Entities.Candy;
-import Entities.Entity;
 import Entities.Glazed;
 import Entities.Stripped;
 import Entities.Wrapped;

@@ -3,7 +3,6 @@ package Logic;
 import java.util.List;
 
 import Interfaces.Equivalent;
-import Entities.Entity;
 
 public class Goal {
     private int counter;

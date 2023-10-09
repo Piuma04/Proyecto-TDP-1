@@ -1,9 +1,11 @@
 package Logic;
 
 import java.io.IOException;
+
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+
 import java.util.List;
 
 import Entities.Entity;
@@ -12,9 +14,11 @@ import Entities.Colour;
 import Entities.Candy;
 import Entities.Stripped;
 import Entities.Wrapped;
-import Interfaces.Equivalent;
 import Entities.Glazed;
 import Entities.Jelly;
+
+import Interfaces.Equivalent;
+
 
 public class LevelGenerator {
     /**

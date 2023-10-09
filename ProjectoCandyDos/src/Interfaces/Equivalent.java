@@ -1,9 +1,7 @@
 package Interfaces;
 
 import Entities.Candy;
-
 import Entities.Empty;
-import Entities.Entity;
 import Entities.Glazed;
 import Entities.Jelly;
 import Entities.Stripped;

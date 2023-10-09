@@ -2,7 +2,6 @@ package Logic;
 
 import java.util.List;
 
-import Entities.Entity;
 import Interfaces.Equivalent;
 
 public class Level {

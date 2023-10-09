@@ -1,6 +1,7 @@
 package Logic;
 
 import GUI.GraphicalEntity;
+
 import Interfaces.VisualEntity;
 
 public abstract class VisualEntityDummy implements VisualEntity {

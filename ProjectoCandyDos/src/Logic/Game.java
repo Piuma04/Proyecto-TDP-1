@@ -1,10 +1,11 @@
 package Logic;
 
 import java.awt.EventQueue;
+
 import java.util.List;
 
-
 import GUI.Gui;
+
 import Interfaces.Equivalent;
 
 public class Game {
