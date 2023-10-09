@@ -24,7 +24,7 @@ public class SoundPlayer {
             audioStream = AudioSystem.getAudioInputStream(new File("src/music/" + filename));
             mySound = AudioSystem.getClip();
             mySound.open(audioStream);
-
+            mySound.setFramePosition(0);
             mySound.addLineListener(event -> { if(event.getType() == LineEvent.Type.STOP) { stopped = true; } });
         } catch( IOException | UnsupportedAudioFileException | LineUnavailableException e) {System.out.println(e.getMessage());}
     }
@@ -37,6 +37,16 @@ public class SoundPlayer {
                 try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }
         }
         mySound.setFramePosition(0);
+        mySound.start();
+    }
+    
+    public void loop() { mySound.loop(Clip.LOOP_CONTINUOUSLY); }
+    
+    public void stop() {
+        mySound.stop();
+    }
+    
+    public void start() {
         mySound.start();
     }
 }

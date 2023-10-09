@@ -24,15 +24,18 @@ public class Game {
     private int lives;
     
     private SoundPlayer lostSound;
+    private SoundPlayer backgroundMusic;
 
     public Game() {
+        backgroundMusic = new SoundPlayer("PS4Intro.wav");
+        lostSound = new SoundPlayer("ps2error.wav");
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
-        lostSound = new SoundPlayer("ps2error16b.wav");
-        //lostSound = new SoundPlayer("ps2error32b.wav");
         int level = 1; // myGui.chooseLevel(); MUST CHECK IF USER INSERTED INTEGER.
         lives = 3;
         loadLevel(level);
+        
+        backgroundMusic.loop();
     }
 
     public void loadLevel(int level) {
@@ -79,6 +82,7 @@ public class Game {
     public void lost() {
         lives--;
         myGui.updateLives(lives);
+        backgroundMusic.stop();
         lostSound.play();
         if (lives == 0)
             myGui.showMessage("Perdio el juego");
@@ -86,7 +90,7 @@ public class Game {
             myGui.showMessage("Perdio una vida, reintente!");
             loadLevel(myLevel.getCurrentLevel());
         }
-
+        backgroundMusic.start();
     }
 
     public static void main(String[] args) {
