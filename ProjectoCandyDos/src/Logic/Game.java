@@ -23,12 +23,10 @@ public class Game {
     private Timer myTimer;
     private int lives;
     
-    private SoundPlayer lostSound;
-    private SoundPlayer backgroundMusic;
+    private SoundPlayer lostSound = new SoundPlayer("ps/ps2error.wav");
+    private SoundPlayer backgroundMusic = new SoundPlayer("ps/introMusic.wav");
 
     public Game() {
-        backgroundMusic = new SoundPlayer("ps/introMusic.wav");
-        lostSound = new SoundPlayer("ps/ps2error.wav");
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
         int level = 1; // myGui.chooseLevel(); MUST CHECK IF USER INSERTED INTEGER.

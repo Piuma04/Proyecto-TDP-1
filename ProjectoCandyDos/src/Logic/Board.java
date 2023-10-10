@@ -30,9 +30,9 @@ public class Board {
     private Gui myGui;
     private Combination combinations;
     
-    private static SoundPlayer explosion = new SoundPlayer("expsound.wav"); // new SoundPlayer("nam.wav");
+    private static SoundPlayer explosion = new SoundPlayer("ps/move2.wav"); // new SoundPlayer("nam.wav");
     private static SoundPlayer blockMove = new SoundPlayer("ps/move020.wav");
-    private static SoundPlayer entityMove = new SoundPlayer("ps/move2.wav");
+    private static SoundPlayer entityMove = new SoundPlayer("ps/click.wav");
 
     public Board(Gui gui) 
     {
@@ -109,7 +109,6 @@ public class Board {
      */
     public List<Equivalent> swap(int direction) 
     {
-        entityMove.play();
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         switch (direction) 
         {
@@ -207,6 +206,7 @@ public class Board {
 
         if (isValidBlock(newRow, newColumn)) 
         {
+            entityMove.play();
             Block b1 = matrix[playerRow][playerColumn];
             Block b2 = matrix[newRow][newColumn];
             e1 = b1.getEntity();
