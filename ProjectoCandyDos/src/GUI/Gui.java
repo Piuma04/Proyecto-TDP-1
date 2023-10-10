@@ -207,7 +207,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public int getPendingAnimations() { return pendingAnimations; }
 
     public void reset() {
-        boardPanel.removeAll();
         animator.reset();
+        boardPanel.removeAll();
     }
 }

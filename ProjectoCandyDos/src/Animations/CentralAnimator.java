@@ -150,13 +150,11 @@ public class CentralAnimator implements AnimatorDriver {
     }
     
     public boolean isActive() { return !queue.isEmpty() || gui.getPendingAnimations() > 0; }
-    
+
     @SuppressWarnings("deprecation")
     public void reset() {
-        synchronized (gui) {
-            myThread.stop();
-            queue.clear();
-        }
+        myThread.stop();
+        queue.clear();
     }
     /**
      * Estima si la celda parametrizada actualmente cuenta con animaciones en progreso. 
