@@ -153,8 +153,10 @@ public class CentralAnimator implements AnimatorDriver {
     
     @SuppressWarnings("deprecation")
     public void reset() {
-        myThread.stop();
-        queue.clear();
+        synchronized (gui) {
+            myThread.stop();
+            queue.clear();
+        }
     }
     /**
      * Estima si la celda parametrizada actualmente cuenta con animaciones en progreso. 

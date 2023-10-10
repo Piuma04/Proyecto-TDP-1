@@ -331,7 +331,7 @@ public class Board {
      */
     private void movePlayerPosition(int newRow, int newColumn) {
         if ((0 <= newRow) && (newRow < ROWS) && (0 <= newColumn) && (newColumn < COLUMNS)) {
-            blockMove.play();
+            blockMove.playNew();
             if (matrix[newRow][newColumn].focus()) {
                 matrix[playerRow][playerColumn].defocus();
                 playerRow = newRow;

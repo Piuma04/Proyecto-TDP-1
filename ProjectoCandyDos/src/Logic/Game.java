@@ -23,8 +23,8 @@ public class Game {
     private Timer myTimer;
     private int lives;
     
-    private SoundPlayer lostSound = new SoundPlayer("ps/ps2error.wav");
-    private SoundPlayer backgroundMusic = new SoundPlayer("ps/introMusic.wav");
+    private static SoundPlayer backgroundMusic = new SoundPlayer("ps/introMusic.wav");
+    private static SoundPlayer lostSound = new SoundPlayer("ps/ps2error.wav");
 
     public Game() {
         myGui = new Gui(this);
@@ -80,7 +80,7 @@ public class Game {
     public void lost() {
         lives--;
         myGui.updateLives(lives);
-        //backgroundMusic.stop();
+        backgroundMusic.stop();
         lostSound.play();
         if (lives == 0)
             myGui.showMessage("Perdio el juego");
@@ -88,7 +88,7 @@ public class Game {
             myGui.showMessage("Perdio una vida, reintente!");
             loadLevel(myLevel.getCurrentLevel());
         }
-        //backgroundMusic.start();
+        backgroundMusic.start();
     }
 
     public static void main(String[] args) {
