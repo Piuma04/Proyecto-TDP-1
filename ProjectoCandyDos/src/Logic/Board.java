@@ -235,12 +235,13 @@ public class Board {
 			e2 = b2.getEntity();
 			canExchange = e1.isSwappable(e2);
 			if (canExchange) {
+				b1.swapEntity(b2);
 				if (e1.isBooster() && e2.isBooster()) {
-					b1.swapEntity(b2);
+					
 					remaining.addAll(e1.getDestroyables(this));
 					remaining.addAll(e2.getDestroyables(this));
 				} else {
-					b1.swapEntity(b2);
+					
 					powerCandy = combinations.checkCombinations(playerRow, playerColumn, remaining);
 					if (powerCandy != null)
 						powerCandys.add(powerCandy);
@@ -267,8 +268,9 @@ public class Board {
 						powerCandys.addAll(combinations.checkRemainingCombinations(columnsToCheck, remaining));
 					}
 				}
-			} else
+			 else
 				b1.swapEntity(b2);
+			}
 		}
 		// System.out.println(destroyed.toString());
 		return destroyed;
