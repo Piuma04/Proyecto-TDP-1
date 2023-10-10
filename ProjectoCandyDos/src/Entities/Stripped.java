@@ -35,12 +35,19 @@ public class Stripped extends Entity {
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
+        visited = true;
+        toDestroy.add(b.getBlock(row, column));
+        
         if (isHorizontal)
-            for (int c = 0; c < Board.getColumns(); c++)
-                toDestroy.add(b.getBlock(row, c));
+            for (int c = 0; c < Board.getColumns(); c++) {
+            	if(!(c==column) && !b.getBlock(row, c).getEntity().isVisited())
+                toDestroy.addAll(b.getBlock(row, c).getEntity().getDestroyables(b));
+            }
         else
-            for (int r = 0; r < Board.getRows(); r++)
-                toDestroy.add(b.getBlock(r, column));
+            for (int r = 0; r < Board.getRows(); r++) {
+            	if(!(r==row) && !b.getBlock(r, column).getEntity().isVisited() )
+                toDestroy.addAll(b.getBlock(r, column).getEntity().getDestroyables(b));
+            }
         return toDestroy;
     }
 

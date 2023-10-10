@@ -31,6 +31,7 @@ public class Candy extends Entity {
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
         toDestroy.add(b.getBlock(row, column));
+        visited = true;
         int[] adyacentRows = { -1, 0, 1, 0 };
         int[] adyacentColumns = { 0, -1, 0, 1 };
 

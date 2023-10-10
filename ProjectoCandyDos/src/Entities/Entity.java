@@ -11,6 +11,7 @@ import Logic.VisualEntityDummy;
 public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable {
 
     protected Colour colour;
+    protected boolean visited = false;
     
     Entity(int rowPosition, int columnPosition, Colour colour) {
         this.setPicSize(this.getPicSize()-10);
@@ -41,6 +42,12 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     public void destroy() {
         playGif("explosion.gif");
         setImage(null);
+    }
+    public void visited() {
+    	visited = true;
+    }
+    public boolean isVisited() {
+    	return visited;
     }
 
     protected String setStringColor(String str) {
