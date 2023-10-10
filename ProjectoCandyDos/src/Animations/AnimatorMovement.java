@@ -34,10 +34,10 @@ public class AnimatorMovement extends Thread implements Animator {
         
         this.step = step;
         delay = d;
-        
-        int size_label = drawableAnimated.getImageSize();
-        pos_x_destination = finalColumn * size_label;
-        pos_y_destination = finalRow * size_label;     
+
+        int pos[] = c.getVisualLocation(finalRow, finalColumn);
+        pos_x_destination = pos[0];
+        pos_y_destination = pos[1];
     }
     
     @Override

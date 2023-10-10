@@ -14,7 +14,9 @@ public class Stripped extends Entity {
     public Stripped(int rowPosition, int columnPosition, Colour colour, boolean isHorizontal) {
         super(rowPosition, columnPosition, colour);
         this.isHorizontal = isHorizontal;
-        imagePath = (isHorizontal ? "H" : "V") + imagePath;
+        String[] p = imagePath.split("/");
+        imagePath = p[0] + "/" +  (isHorizontal ? "H" : "V") + p[1];
+        //imagePath = (isHorizontal ? "H" : "V") + imagePath;
     }
 
     public Stripped(int rowPosition, int columnPosition, Colour colour) {

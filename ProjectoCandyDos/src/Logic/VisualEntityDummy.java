@@ -6,7 +6,7 @@ import Interfaces.VisualEntity;
 
 public abstract class VisualEntityDummy implements VisualEntity {
 
-    protected static final int picSize = 70;
+    protected int picSize = Board.getBoardLabelSize();
     protected int row;
     protected int column;
     protected String imagePath;
@@ -31,6 +31,7 @@ public abstract class VisualEntityDummy implements VisualEntity {
     @Override public int getColumn() { return column; }
     @Override public String getImage() { return imagePath; }
     @Override public int getPicSize() { return picSize; }
+    public void setPicSize(int pictureSize) { picSize = pictureSize; };
 
     @Override public void setGraphicalEntity(GraphicalEntity graphicalEntity) { gEntity = graphicalEntity; }
     @Override public GraphicalEntity getGraphicalEntity() { return gEntity; }

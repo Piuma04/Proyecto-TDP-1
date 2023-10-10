@@ -10,14 +10,14 @@ import Logic.VisualEntityDummy;
 
 public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable {
 
-    protected static final int picSize = 70;
     protected Colour colour;
     
     Entity(int rowPosition, int columnPosition, Colour colour) {
+        this.setPicSize(this.getPicSize()-10);
         row = rowPosition;
         column = columnPosition;
         this.colour = colour;
-        imagePath = colour.toString() + ".png";
+        imagePath = colour.toString() + "/" + colour.toString() + ".png";
     }
     
     public Colour getColour() { return colour; }

@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import Interfaces.LogicEntity;
+import Logic.Board;
 
 @SuppressWarnings("serial")
 public class Drawable extends JComponent implements GraphicalEntity {
@@ -22,8 +23,9 @@ public class Drawable extends JComponent implements GraphicalEntity {
         myLogicEntity = logicBlock;
         sizeIcon = sizeImg;
         
+        int pos[] = getVisualLocation(logicBlock.getRow(), logicBlock.getColumn());
+        setLocation(pos[0], pos[1]);
         setImage(logicBlock.getImage());
-        setLocation(myLogicEntity.getColumn() * sizeIcon, myLogicEntity.getRow() * sizeIcon);
         setSize(sizeIcon, sizeIcon);
         notifyChangeState();
     }
@@ -41,11 +43,21 @@ public class Drawable extends JComponent implements GraphicalEntity {
 
     @Override
     public void notifyChangeState() { agui.animateChangeState(this); }
+    @Override
     public void notifyChangePosition() { agui.animateMovement(this); }
-    
+
+    public static int getBoardLabelSize() { return Board.getBoardLabelSize(); }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         myIcon.paintIcon(this, g, 0, 0);
+    }
+    
+    public int[] getVisualLocation(int row, int column) {
+        int boardLabelSize = Board.getBoardLabelSize();
+        int x = column * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
+        int y = row * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
+        return new int[]{x, y};
     }
 }

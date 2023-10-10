@@ -7,7 +7,7 @@ public class Jelly extends Modifier {
     public Jelly(int rowPosition, int columnPosition) {
         row = rowPosition;
         column = columnPosition;
-        imagePath = "JELLY.png";
+        imagePath = "JELLY/JELLY.png";
     }
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); } 

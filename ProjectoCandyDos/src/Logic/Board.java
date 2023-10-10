@@ -25,6 +25,8 @@ import Interfaces.VisualEntity;
 public class Board {
     private static final int ROWS = 6;
     private static final int COLUMNS = 6;
+    private static final int blockSize = 70;
+
     private int playerRow, playerColumn;
     private Block[][] matrix;
     private Gui myGui;
@@ -46,6 +48,7 @@ public class Board {
             {
                 Block block =  new Block(row, column);
                 matrix[row][column] = block;
+                block.setPicSize(blockSize);
                 addVisualEntity(block);
             }
     }
@@ -62,6 +65,7 @@ public class Board {
      */
     public static int getColumns()  { return COLUMNS; }
 
+    public static int getBoardLabelSize() { return blockSize; }
     /*
      * private Set<Integer> columnsToFill() { Set<Integer> s = new
      * HashSet<Integer>();

@@ -62,7 +62,7 @@ public class Block extends VisualEntityDummy implements Focusable {
         setImage(images[1]);
         return true; }
     @Override public void            defocus() { focused = false; setImage(images[0]); }
-    @Override public String          getImage() { return images[focused ? 1 : 0]; }
+    @Override public String          getImage() { return "BLOCK/" + images[focused ? 1 : 0]; }
     
     public String toString() {
         String s = getEntity() != null ? getEntity().toString() : "";
