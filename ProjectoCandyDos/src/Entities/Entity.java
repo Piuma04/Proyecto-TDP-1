@@ -12,6 +12,7 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
 
     protected static final int picSize = 70;
     protected Colour colour;
+    protected boolean visited = false;
     
     Entity(int rowPosition, int columnPosition, Colour colour) {
         row = rowPosition;
@@ -41,6 +42,12 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     public void destroy() {
         playGif("explosion.gif");
         setImage(null);
+    }
+    public void visited() {
+    	visited = true;
+    }
+    public boolean isVisited() {
+    	return visited;
     }
 
     protected String setStringColor(String str) {
