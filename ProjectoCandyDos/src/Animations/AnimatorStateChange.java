@@ -99,9 +99,7 @@ public class AnimatorStateChange extends Thread implements Animator {
     }
 
     @Override
-    public void startAnimation() {
-        this.start();
-    }
+    public void startAnimation() { this.start(); }
     
     /**
      * @author @SantinoDF - ChatGPT3 
@@ -149,4 +147,6 @@ public class AnimatorStateChange extends Thread implements Animator {
         rootNode.appendChild(node);
         return(node);
   }
+
+    @Override public int id() { return 2; }
 }

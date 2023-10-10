@@ -19,4 +19,6 @@ public interface Animator {
      * Inicia el comportamiento asociado con la animación.
      */
     public void startAnimation();
+    
+    public int id();
 }

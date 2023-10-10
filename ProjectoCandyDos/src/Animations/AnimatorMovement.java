@@ -80,4 +80,6 @@ public class AnimatorMovement extends Thread implements Animator {
         }
         manager.notifyEndAnimation(this, false);
     }
+
+    @Override public int id() { return 1; }
 }

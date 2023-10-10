@@ -13,9 +13,8 @@ public class Wrapped extends Entity {
 
     public Wrapped(int rowPosition, int columnPosition, Colour colour) {
         super(rowPosition, columnPosition, colour);
-        String p[] = imagePath.split(",");
+        String p[] = imagePath.split("/");
         imagePath = p[0] + "/w" + p[1];
-        imagePath = "W" + imagePath;
     }
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); } 

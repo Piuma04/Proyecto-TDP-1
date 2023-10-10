@@ -7,6 +7,7 @@ import java.util.Queue;
 
 import javax.swing.SwingUtilities;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayDeque;
 
 import GUI.Drawable;
@@ -24,46 +25,31 @@ import GUI.Gui;
 public class CentralAnimator implements AnimatorDriver {
     protected Gui gui;
     protected HashMap<Drawable, List<Animator>> map_drawable_animations;
-    protected int size_label;
     
-    protected Queue<Object[]> queue;
-    protected int currentAnimatorType;
+    protected Queue<Animator> queue;
     protected Runnable myTask;
     protected Thread myThread;
-    
+
+    protected boolean bReset = false;
+
     public CentralAnimator(Gui v) {
         gui = v;
         map_drawable_animations = new HashMap<Drawable, List<Animator>>();
-        queue = new ArrayDeque<Object[]>();
-        currentAnimatorType = 2;
-        
+        queue = new ArrayDeque<Animator>();
+
         myTask = () -> {
-            Object[] head = queue.poll();
+            int currentAnimatorType = 0;
+            bReset = false;
+            Animator head = queue.poll();
             while (head != null) {
-                Integer i = (Integer)head[0];
-                if (currentAnimatorType != i) {
-                    while (gui.getPendingAnimations() > 0) {
+                Integer id = head.id();
+                if (currentAnimatorType != id) {
+                    while (gui.getPendingAnimations() > 0 && !bReset) {
                         try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace();}
                     }
-                    currentAnimatorType = i;
+                    currentAnimatorType = id;
                 }
-                if (i == 1)
-                {
-                    Drawable c = (Drawable)head[1];
-                    int finalRow = (Integer)head[2];
-                    int finalColumn = (Integer)head[3];
-                    Animator animador = new AnimatorMovement(this, 1, 2, c, finalRow, finalColumn);
-                    startAnimation(c, animador);
-                }
-                else if (i == 2) {
-                    Drawable c = (Drawable)head[1];
-                    String animationPath = (String)head[2];
-                    Animator animador = new AnimatorStateChange(this, c, animationPath);
-                    startAnimation(c, animador);
-                } else if (i == 3) {
-                    SoundPlayer sound = (SoundPlayer)head[1];
-                    sound.play();
-                }
+                startAnimation(head);
                 head = queue.poll();
             }
         };
@@ -79,12 +65,11 @@ public class CentralAnimator implements AnimatorDriver {
      * referenciada por c.
      */
     public void animateChangePosition(Drawable c) {
-        Object data[] = new Object[4];
-        data[0] = 1;
-        data[1] = c;
-        data[2] = c.getLogicalEntity().getRow();
-        data[3] = c.getLogicalEntity().getColumn();
-        queue.add(data);
+        int finalRow = c.getLogicalEntity().getRow();
+        int finalColumn = c.getLogicalEntity().getColumn();
+        Animator animador = new AnimatorMovement(this, 1, 2, c, finalRow, finalColumn);
+        queue.add(animador);
+
         if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
     }
     
@@ -97,31 +82,24 @@ public class CentralAnimator implements AnimatorDriver {
      */
     public void animateChangeState(Drawable c) {
         String imagePath = c.getLogicalEntity().getImage();
-        Object data[] = new Object[4];
-        data[0] = 2;
-        data[1] = c;
-        data[2] = imagePath;
-        
+        Animator animador = new AnimatorStateChange(this, c, imagePath);
+
         boolean isBlock = imagePath != null && imagePath.contains("vacio");
-        if (!isBlock)
-            queue.add(data);
-        else {
-            Animator animador = new AnimatorStateChange(this, c, imagePath);
-            startAnimation(c, animador);
+        if (!isBlock) {
+            queue.add(animador);
+            if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
         }
-        
-        if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
+        else startAnimation(animador);
     }
 
     public void playSound(SoundPlayer sound) {
-        Object data[] = new Object[2];
-        data[0] = 3;
-        data[1] = sound;
-        queue.add(data);
+        Animator animador = new AnimatorSound(this, sound);
+        queue.add(animador);
     }
 
-    public void startAnimation(Drawable c, Animator animador) {
+    public void startAnimation(Animator animador) {
         gui.notifyAnimationInProgress();
+        Drawable c = animador.getDrawable();
         if (hasAnimationInProgress(c) ) {
             map_drawable_animations.get(c).add(animador);
         } else {
@@ -151,10 +129,12 @@ public class CentralAnimator implements AnimatorDriver {
     
     public boolean isActive() { return !queue.isEmpty() || gui.getPendingAnimations() > 0; }
 
-    @SuppressWarnings("deprecation")
     public void reset() {
         myThread.stop();
         queue.clear();
+        /*SwingUtilities.invokeLater(() -> {
+            try { myThread.join(); } catch (InterruptedException e) { e.printStackTrace(); };
+        });*/
     }
     /**
      * Estima si la celda parametrizada actualmente cuenta con animaciones en progreso. 
