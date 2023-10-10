@@ -2,6 +2,7 @@ package Logic;
 
 import java.util.Stack;
 
+import Animations.SoundPlayer;
 import Entities.Empty;
 import Entities.Entity;
 import Entities.Modifier;
@@ -21,7 +22,7 @@ public class Block extends VisualEntityDummy implements Focusable {
 
     protected static String[] images = { "vacio.png", "vacio-resaltado.png" };
     protected static Empty empty = new Empty();
-
+    
     public Block(int r, int c) {
         focused = false;
         row = r;
@@ -56,7 +57,10 @@ public class Block extends VisualEntityDummy implements Focusable {
         return e;
     }
 
-    @Override public boolean         focus() { focused = true; setImage(images[1]); return true; }
+    @Override public boolean         focus() {
+        focused = true;
+        setImage(images[1]);
+        return true; }
     @Override public void            defocus() { focused = false; setImage(images[0]); }
     @Override public String          getImage() { return images[focused ? 1 : 0]; }
     

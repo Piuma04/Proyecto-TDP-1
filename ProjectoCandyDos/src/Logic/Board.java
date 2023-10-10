@@ -29,7 +29,10 @@ public class Board {
     private Block[][] matrix;
     private Gui myGui;
     private Combination combinations;
-    private SoundPlayer explosionSound;
+    
+    private static SoundPlayer explosion = new SoundPlayer("expsound.wav"); // new SoundPlayer("nam.wav");
+    private static SoundPlayer blockMove = new SoundPlayer("ps/move020.wav");
+    private static SoundPlayer entityMove = new SoundPlayer("ps/move2.wav");
 
     public Board(Gui gui) 
     {
@@ -45,8 +48,6 @@ public class Board {
                 matrix[row][column] = block;
                 addVisualEntity(block);
             }
-        explosionSound = new SoundPlayer("expsound.wav");
-        //explosionSound = new SoundPlayer("nam.wav");
     }
     
     /**
@@ -75,6 +76,7 @@ public class Board {
      */
     public void movePlayerDirection(int direction) 
     {
+        
         switch (direction) 
         {
             case Game.DOWN: 
@@ -107,6 +109,7 @@ public class Board {
      */
     public List<Equivalent> swap(int direction) 
     {
+        entityMove.play();
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         switch (direction) 
         {
@@ -223,7 +226,7 @@ public class Board {
                 {
                     while (!remaining.isEmpty()) //While there are remaining combinations, destroy them,fill the board, and check again
                     {
-                        myGui.playSound(explosionSound); 
+                        myGui.playSound(explosion); 
                         destroyed.addAll(destroyEntities(remaining));
                         for (Entity entity : powerCandys)
                             associateEntity(entity.getRow(), entity.getColumn(), entity);
@@ -328,6 +331,7 @@ public class Board {
      */
     private void movePlayerPosition(int newRow, int newColumn) {
         if ((0 <= newRow) && (newRow < ROWS) && (0 <= newColumn) && (newColumn < COLUMNS)) {
+            blockMove.play();
             if (matrix[newRow][newColumn].focus()) {
                 matrix[playerRow][playerColumn].defocus();
                 playerRow = newRow;
