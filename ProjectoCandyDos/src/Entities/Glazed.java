@@ -21,7 +21,7 @@ public class Glazed extends Entity {
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
-        toDestroy.add(b.getBlock(row, column));
+        
         return toDestroy;
     }
 
