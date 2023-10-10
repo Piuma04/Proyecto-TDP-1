@@ -14,8 +14,9 @@ public class Glazed extends Entity {
         super(rowPosition, columnPosition, Colour.GLAZED);
     }
 
-    @Override public boolean isEquivalent(Equivalent e) { return e.equals(this); }
-    @Override public boolean isEqual(Glazed g) { return true; }
+    @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
+    @Override public boolean isEqual(Glazed g) { System.out.println("e"); return true;
+    }
 
     // TODO
     @Override
@@ -25,5 +26,5 @@ public class Glazed extends Entity {
         return toDestroy;
     }
 
-    public String toString() { return super.setStringColor("G"); }
+    public String toString() { return super.setStringColor("M"); }
 }
