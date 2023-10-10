@@ -210,7 +210,7 @@ public class Board {
 
         if (isValidBlock(newRow, newColumn)) 
         {
-            entityMove.play();
+            entityMove.playNew();
             Block b1 = matrix[playerRow][playerColumn];
             Block b2 = matrix[newRow][newColumn];
             e1 = b1.getEntity();

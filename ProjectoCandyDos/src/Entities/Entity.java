@@ -43,12 +43,8 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
         playGif("explosion.gif");
         setImage(null);
     }
-    public void visited() {
-    	visited = true;
-    }
-    public boolean isVisited() {
-    	return visited;
-    }
+    public void visited() { visited = true; }
+    public boolean isVisited() { return visited; }
 
     protected String setStringColor(String str) {
         final String ANSI_RESET = "\u001B[0m";
