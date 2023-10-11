@@ -45,7 +45,7 @@ public class SoundPlayer {
                 try { Thread.sleep(5); } catch (InterruptedException e) { e.printStackTrace(); }
         }
         mySound.setFramePosition(0);
-        //mySound.start();
+        mySound.start();
     }
 
     public void playNew() {
@@ -57,12 +57,12 @@ public class SoundPlayer {
                 try { audioStream.close(); } catch (IOException e) { e.printStackTrace();}
             }
         });
-        //clip.start();
+        clip.start();
     }
 
-    public void loop() {} //{ mySound.loop(Clip.LOOP_CONTINUOUSLY); }
+    public void loop() { mySound.loop(Clip.LOOP_CONTINUOUSLY); }
     public void stop() { mySound.stop(); }
-    public void start() {} // { mySound.start(); }
+    public void start() { mySound.start(); }
     public boolean isActive() { return mySound.isActive(); }
     
     private AudioInputStream getAudioStream() {

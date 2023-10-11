@@ -37,15 +37,11 @@ public class Drawable extends JComponent implements GraphicalEntity {
         Image scaledImage = new ImageIcon(path).getImage().getScaledInstance(sizeIcon, sizeIcon, Image.SCALE_SMOOTH);
         myIcon = new ImageIcon(scaledImage);
     }
-    public void setImage(Image im) {
-        myIcon = new ImageIcon(im);
-    }
 
-    @Override
-    public void notifyChangeState() { agui.animateChangeState(this); }
-    @Override
-    public void notifyChangePosition() { agui.animateMovement(this); }
-
+    public void setImage(Image im) { myIcon = new ImageIcon(im); }
+    
+    @Override public void notifyChangeState() { agui.animateChangeState(this); }
+    @Override public void notifyChangePosition() { agui.animateMovement(this); }
     public static int getBoardLabelSize() { return Board.getBoardLabelSize(); }
 
     @Override

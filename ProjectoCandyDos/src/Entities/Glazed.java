@@ -15,14 +15,12 @@ public class Glazed extends Entity {
     }
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
-    @Override public boolean isEqual(Glazed g) { System.out.println("glazed is equal"); return true;
-    }
+    @Override public boolean isEqual(Glazed g) { return true; }
 
     // TODO
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
-        
         return toDestroy;
     }
 

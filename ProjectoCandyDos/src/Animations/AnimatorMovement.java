@@ -41,16 +41,6 @@ public class AnimatorMovement extends Thread implements Animator {
     }
     
     @Override
-    public Drawable getDrawable() {
-        return drawableAnimated;
-    }
-    
-    @Override
-    public void startAnimation() {
-        this.start();
-    }
-    
-    @Override
     public void run() {
         int pos_x_actual = drawableAnimated.getX();
         int pos_y_actual = drawableAnimated.getY();
@@ -58,13 +48,12 @@ public class AnimatorMovement extends Thread implements Animator {
         int paso_en_x = 0;
         int paso_en_y = 0;
         
-        if (pos_x_actual != pos_x_destination) {
+        if (pos_x_actual != pos_x_destination)
             paso_en_x = (pos_x_actual < pos_x_destination ? 1 : -1);
-        }
         
-        if (pos_y_actual != pos_y_destination) {
+        if (pos_y_actual != pos_y_destination)
             paso_en_y = (pos_y_actual < pos_y_destination ? 1 : -1);
-        }
+
         
         while( (pos_x_actual != pos_x_destination) || (pos_y_actual != pos_y_destination)) {
             pos_x_actual += paso_en_x * step;
@@ -72,14 +61,12 @@ public class AnimatorMovement extends Thread implements Animator {
 
             drawableAnimated.setLocation(pos_x_actual, pos_y_actual);
             drawableAnimated.repaint();
-            try {
-                sleep(delay);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            try { sleep(delay); } catch (InterruptedException e) { e.printStackTrace(); }
         }
         manager.notifyEndAnimation(this, false);
     }
 
+    @Override public Drawable getDrawable() { return drawableAnimated; }
+    @Override public void startAnimation() { this.start(); }
     @Override public int id() { return 1; }
 }
