@@ -177,7 +177,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
 
     public void showObjective(String typeOfEntity, int amountMissing) {
-        ImageIcon imageIconAux = new ImageIcon("src/imagenes/" + typeOfEntity);
+        ImageIcon imageIconAux = new ImageIcon(imagesPath + typeOfEntity);
         imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
         typeOfCandy.setIcon(imageIconAux);
         amountToGo.setText(amountMissing + "");
