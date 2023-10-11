@@ -2,11 +2,9 @@ package Logic;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Set;
 import java.util.LinkedList;
 import java.util.HashMap;
-import java.util.ArrayDeque;
 import java.util.HashSet;
 
 import java.util.Random;
@@ -246,7 +244,6 @@ public class Board {
                     b1.swapEntity(b2);
             }
         }
-        // System.out.println(destroyed.toString());
         return destroyed;
     }
 
@@ -306,15 +303,12 @@ public class Board {
             int amountExtraCandys = newCandys.get(col);
             boolean bFall = false;
             if (!emptyBlocks.isEmpty()) {
-                System.out.println("Column : " + col);
                 Block lower = emptyBlocks.get(0);
                 for (int i = lower.getRow(); i >= amountExtraCandys; i--) {
                     Block current = getBlock(i, col);
-                    System.out.println("Current: " + current);
                     if (!current.isEmpty())
                         continue;
                     Block toSwap = upperNotEmpty(current);
-                    System.out.println(toSwap);
                     if (toSwap != null) {
                         bFall = true;
                         setEntity(current.getRow(), current.getColumn(), toSwap.getEntity());
@@ -341,14 +335,12 @@ public class Board {
         
         for (int i = block.getRow()-1; i >= 0 && nextNotEmpty == null; i--) {
             Block current = getBlock(i, col);
-            System.out.println(current);
             if (current.isEmpty())
                 continue;
             if (!dummy.isSwappable(current.getEntity()))
                 break;
             nextNotEmpty = current;
         }
-        System.out.println("EndUpperNotEmpty: ");
         return nextNotEmpty;
     }
 
