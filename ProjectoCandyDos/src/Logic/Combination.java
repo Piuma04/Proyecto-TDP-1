@@ -93,28 +93,31 @@ public class Combination {
      * @param combination blocks that make combinations
      * @return amount of horizontal combinations
      */
-    private Set<Block> consecutiveH(int row, int column) 
+    private Set<Block> consecutiveV(int row, int column) 
     {
     	Set<Block> toAdd = new HashSet<Block>();
         Entity comparable = board.getBlock(row, column).getEntity();
         boolean cumple = true;
-        for (int i = row + 1; i >= 0 && i < Board.getRows() && cumple; i++) 
-        {
-            cumple = board.getBlock(i, column).getEntity().getColour() == comparable.getColour();
-            if (cumple)
-                toAdd.add(board.getBlock(i, column));
-        }
-        cumple = true;
-        for (int i = row - 1; i >= 0 && i < Board.getRows() && cumple; i--) 
-        {
-            cumple = board.getBlock(i, column).getEntity().getColour() == comparable.getColour();
-            if (cumple) 
+        
+        if (Board.getDummy().isSwappable(comparable)) {
+            for (int i = row + 1; i >= 0 && i < Board.getRows() && cumple; i++) 
             {
-                toAdd.add(board.getBlock(i, column));
+                cumple = board.getBlock(i, column).getEntity().getColour() == comparable.getColour();
+                if (cumple)
+                    toAdd.add(board.getBlock(i, column));
             }
+            cumple = true;
+            for (int i = row - 1; i >= 0 && i < Board.getRows() && cumple; i--) 
+            {
+                cumple = board.getBlock(i, column).getEntity().getColour() == comparable.getColour();
+                if (cumple) 
+                {
+                    toAdd.add(board.getBlock(i, column));
+                }
+            }
+            if (toAdd.size() < 2)
+                toAdd.clear();
         }
-        if (toAdd.size() < 2)
-            toAdd.clear();
         return toAdd;
     }
     /**
@@ -124,26 +127,29 @@ public class Combination {
      * @param combination blocks that make combinations
      * @return amount of vertical combinations
      */
-    private Set<Block> consecutiveV(int row, int column) 
+    private Set<Block> consecutiveH(int row, int column) 
     {
         Set<Block> blocks = new HashSet<Block>();
         Entity comparable = board.getBlock(row, column).getEntity();
         boolean cumple = true;
-        for (int j = column + 1; j >= 0 && j < Board.getColumns() && cumple; j++) 
-        {
-            cumple = board.getBlock(row, j).getEntity().getColour() == comparable.getColour();
-            if (cumple)
-            	blocks.add(board.getBlock(row, j));
+
+        if (Board.getDummy().isSwappable(comparable)) {
+            for (int j = column + 1; j >= 0 && j < Board.getColumns() && cumple; j++) 
+            {
+                cumple = board.getBlock(row, j).getEntity().getColour() == comparable.getColour();
+                if (cumple)
+                	blocks.add(board.getBlock(row, j));
+            }
+            cumple = true;
+            for (int j = column - 1; j >= 0 && j < Board.getColumns() && cumple; j--) 
+            {
+                cumple = board.getBlock(row, j).getEntity().getColour() == comparable.getColour();
+                if (cumple) 
+                	blocks.add(board.getBlock(row, j));
+            }
+            if (blocks.size() < 2)
+            	blocks.clear();
         }
-        cumple = true;
-        for (int j = column - 1; j >= 0 && j < Board.getColumns() && cumple; j--) 
-        {
-            cumple = board.getBlock(row, j).getEntity().getColour() == comparable.getColour();
-            if (cumple) 
-            	blocks.add(board.getBlock(row, j));
-        }
-        if (blocks.size() < 2)
-        	blocks.clear();
         return blocks;
     }
 }

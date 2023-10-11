@@ -288,7 +288,7 @@ public class Board {
                     emptyBlocks.add(block);
                     extraCandys++;
                 }
-                else if (!dummy.isSwappable(e)) {
+                else if (!getDummy().isSwappable(e)) {
                     extraCandys = 0;
                 }
             }
@@ -337,7 +337,7 @@ public class Board {
             Block current = getBlock(i, col);
             if (current.isEmpty())
                 continue;
-            if (!dummy.isSwappable(current.getEntity()))
+            if (!getDummy().isSwappable(current.getEntity()))
                 break;
             nextNotEmpty = current;
         }
@@ -385,8 +385,10 @@ public class Board {
         Random r = new Random();
         return colores[Math.abs(r.nextInt()) % 5];
     }
+
+    public static Entity getDummy() { return dummy; }
 }
-    
+
     /*
     Queue<Entity> q = new ArrayDeque<Entity>();
     for (int candyIdx = 0; candyIdx < amountExtraCandys; candyIdx++) q.add(candys.remove(0));
