@@ -82,13 +82,15 @@ public class CentralAnimator implements AnimatorDriver {
     public void animateChangeState(Drawable c) {
         String imagePath = c.getLogicalEntity().getImage();
         Animator animador = new AnimatorStateChange(this, c, imagePath);
+        
+        //boolean isBlock = imagePath != null && imagePath.contains("vacio");
 
-        boolean isBlock = imagePath != null && imagePath.contains("vacio");
-        if (!isBlock) {
+        if (c.getSkipQueue())
+            startAnimation(animador);
+        else {
             queue.add(animador);
             if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
         }
-        else startAnimation(animador);
     }
 
     public void playSound(SoundPlayer sound) {

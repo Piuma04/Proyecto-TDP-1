@@ -22,9 +22,6 @@ import Animations.CentralAnimator;
 import Animations.SoundPlayer;
 
 
-
-
-@SuppressWarnings("serial")
 public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     private static final String imagePath = "src/resources/images/";
@@ -173,7 +170,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     
     @Override
     public void notifyAnimationInProgress() {
-        synchronized(this){
+        synchronized(this) {
             pendingAnimations++;
             stopInterchanges = true;
         }
@@ -181,28 +178,16 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     
     @Override
     public void notifyAnimationEnd() {
-        synchronized(this){
+        synchronized(this) {
             pendingAnimations--;
             stopInterchanges = pendingAnimations > 0;
         }
     }
 
-    @Override
-    public void animateMovement(Drawable c) {
-        animator.animateChangePosition(c);
-    }
-    
-    @Override
-    public void animateChangeState(Drawable c) {
-        animator.animateChangeState(c);
-    }
-    
-    @Override
-    public void playSound(SoundPlayer sound) {
-        animator.playSound(sound);
-    }
-    
-    public int getPendingAnimations() { return pendingAnimations; }
+    @Override public void animateMovement(Drawable c) { animator.animateChangePosition(c); }
+    @Override public void animateChangeState(Drawable c) { animator.animateChangeState(c); }
+    @Override public void playSound(SoundPlayer sound) { animator.playSound(sound); }
 
+    public int getPendingAnimations() { return pendingAnimations; }
     public void reset() { boardPanel.removeAll(); }
 }

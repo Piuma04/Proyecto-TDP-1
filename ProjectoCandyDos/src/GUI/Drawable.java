@@ -16,12 +16,15 @@ public class Drawable extends JComponent implements GraphicalEntity {
     protected LogicEntity myLogicEntity;
     protected int sizeIcon;
     protected ImageIcon myIcon;
+    
+    protected boolean bSkipQueue;
 
     public Drawable(GuiAnimable GUIAnimable, LogicEntity logicBlock, int sizeImg) {
         super();
         agui = GUIAnimable;
         myLogicEntity = logicBlock;
         sizeIcon = sizeImg;
+        bSkipQueue = false;
         
         int pos[] = getVisualLocation(logicBlock.getRow(), logicBlock.getColumn());
         setLocation(pos[0], pos[1]);
@@ -42,6 +45,9 @@ public class Drawable extends JComponent implements GraphicalEntity {
     
     @Override public void notifyChangeState() { agui.animateChangeState(this); }
     @Override public void notifyChangePosition() { agui.animateMovement(this); }
+    @Override public void setSkipQueue(boolean skipQueue) { bSkipQueue = skipQueue; }
+    public boolean getSkipQueue() { return bSkipQueue; }
+
     public static int getBoardLabelSize() { return Board.getBoardLabelSize(); }
 
     @Override

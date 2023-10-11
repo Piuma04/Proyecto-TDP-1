@@ -47,6 +47,7 @@ public class Board {
 				matrix[row][column] = block;
 				block.setPicSize(blockSize);
 				addVisualEntity(block);
+				block.getGraphicalEntity().setSkipQueue(true);
 			}
 	}
 

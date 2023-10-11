@@ -36,7 +36,7 @@ public class Game {
         lostLive = false;
         loadLevel(level);
 
-        //backgroundMusic.loop();
+        backgroundMusic.loop();
     }
 
     public void loadLevel(int level) {
@@ -44,10 +44,10 @@ public class Game {
         myBoard = new Board(myGui);
         myLevel = LevelGenerator.generateLevel( levelPath + "level" + String.valueOf(level) + ".txt", myBoard);
         myGui.updateMoves(myLevel.getMoves());
-        myBoard.setPlayerPosition(3, 3);
         myGui.updateLives(lives);
         myGui.showObjective(myLevel.getObjective(), myLevel.getRemainingObjectives());
         myGui.setCurrentLevel("Nivel " + myLevel.getCurrentLevel());
+        myGui.executeAfterAnimation( () -> { myBoard.setPlayerPosition(3, 3); });
         myGui.setVisible(true);
         myTimer.startTimer(myLevel.getTimeLimit());
     }
