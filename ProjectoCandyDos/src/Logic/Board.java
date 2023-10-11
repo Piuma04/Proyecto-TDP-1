@@ -17,7 +17,6 @@ import GUI.Gui;
 import Entities.Candy;
 import Entities.Colour;
 import Entities.Entity;
-import Entities.Glazed;
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
 

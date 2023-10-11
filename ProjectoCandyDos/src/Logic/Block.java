@@ -2,7 +2,6 @@ package Logic;
 
 import java.util.Stack;
 
-import Animations.SoundPlayer;
 import Entities.Empty;
 import Entities.Entity;
 import Entities.Modifier;
@@ -55,7 +54,7 @@ public class Block extends VisualEntityDummy implements Focusable {
     }
 
     @Override public void         focus() { setImage(images[1]); }
-    @Override public void            defocus() { setImage(images[0]); }
+    @Override public void          defocus() { setImage(images[0]); }
     
     public String toString() {
         String s = getEntity() != null ? getEntity().toString() : "";

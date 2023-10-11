@@ -1,8 +1,10 @@
 package GUI;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Image;
 
 import java.awt.event.KeyAdapter;
@@ -22,9 +24,10 @@ import Animations.CentralAnimator;
 import Animations.SoundPlayer;
 
 
+@SuppressWarnings("serial")
 public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
-    private static final String imagePath = "src/resources/images/";
+    private static final String imagesPath = "src/resources/images/";
 
     protected Game myGame;
     private Container contentPane;
@@ -39,10 +42,19 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     private JLabel live1, live2, live3;
     private JLabel cantMoves, typeOfCandy, amountToGo, levelShower, watch;
 
+    private ImageIcon backgroundGif = new ImageIcon(imagesPath + "stars.gif");
+
     public Gui(Game game) {
         myGame = game;
         contentPane = getContentPane();
-        boardPanel = new JPanel();
+        boardPanel =  new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                backgroundGif.paintIcon(this, g, 0, 0);
+            }
+        };
+
         animator = new CentralAnimator(this);
         pendingAnimations = 0;
         stopInterchanges = false;
@@ -57,7 +69,9 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         setSize(new Dimension(width, height));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
+
+        contentPane.setLayout(null);
+
         boardPanel.setLocation(0, 50);
         boardPanel.setSize(LABEL_SIZE*Board.getRows(), LABEL_SIZE*Board.getColumns());
         boardPanel.setLayout(null);
@@ -77,8 +91,15 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
                 }
             }
         });
-        contentPane.setLayout(null);
+
+
         contentPane.add(boardPanel);
+
+        /*JLabel backgroundLabel = new JLabel();
+        backgroundLabel.setIcon(backgroundGif);
+        backgroundLabel.setBounds(0, 0, getWidth(), getHeight());
+        contentPane.add(backgroundLabel);*/
+
         boardPanel.setFocusable(true);
 
         setUpLives();
@@ -103,6 +124,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         watch = new JLabel("Aca iria el reloj");
         watch.setBounds(548, 95, 200, 14);
         contentPane.add(watch);
+
     }
 
     
@@ -113,7 +135,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
     
     private void setUpLives() {
-        ImageIcon imageIcon = new ImageIcon(imagePath + "heart-gif-1.gif"); 
+        ImageIcon imageIcon = new ImageIcon(imagesPath + "heart-gif-1.gif"); 
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 
         live1 = new JLabel(imageIcon);
