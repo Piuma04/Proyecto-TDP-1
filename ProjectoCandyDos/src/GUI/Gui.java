@@ -70,10 +70,10 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
                     case KeyEvent.VK_RIGHT: { myGame.move(Game.RIGHT); break; }
                     case KeyEvent.VK_UP:    { myGame.move(Game.UP); break; }
                     case KeyEvent.VK_DOWN:  { myGame.move(Game.DOWN); break; }
-                    case KeyEvent.VK_W:     { if (!stopInterchanges) myGame.swap(Game.UP); break; }
-                    case KeyEvent.VK_S:     { if (!stopInterchanges) myGame.swap(Game.DOWN); break; }
-                    case KeyEvent.VK_A:     { if (!stopInterchanges) myGame.swap(Game.LEFT); break; }
-                    case KeyEvent.VK_D:     { if (!stopInterchanges) myGame.swap(Game.RIGHT); break; }
+                    case KeyEvent.VK_W:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.UP); break; }
+                    case KeyEvent.VK_S:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.DOWN); break; }
+                    case KeyEvent.VK_A:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.LEFT); break; }
+                    case KeyEvent.VK_D:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.RIGHT); break; }
                     case KeyEvent.VK_J:     { System.out.println(boardPanel.getComponents().length); }
                 }
             }
@@ -147,23 +147,19 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     
     public int chooseLevel() { return Integer.valueOf(JOptionPane.showInputDialog(contentPane, "Ingrese el nivel")); }
 
-    public void showMessage(String message) {
-        JOptionPane.showMessageDialog(contentPane, message);
-    }
+    public void showMessage(String message) { JOptionPane.showMessageDialog(contentPane, message); }
 
     public void executeAfterAnimation(Runnable r) {
-
         new Thread(() -> {
                     while (animator.isActive()) { try { Thread.sleep(5); } catch (InterruptedException e) { e.printStackTrace(); } }
                     new Thread(r).start();
-                    }).start();
+        }).start();
     }
 
     public void showObjective(String typeOfEntity, int amountMissing) {
         ImageIcon imageIconAux = new ImageIcon("src/imagenes/" + typeOfEntity);
         imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
         typeOfCandy.setIcon(imageIconAux);
-
         amountToGo.setText(amountMissing + "");
     }
 
@@ -206,8 +202,5 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     
     public int getPendingAnimations() { return pendingAnimations; }
 
-    public void reset() {
-        animator.reset();
-        boardPanel.removeAll();
-    }
+    public void reset() { boardPanel.removeAll(); }
 }

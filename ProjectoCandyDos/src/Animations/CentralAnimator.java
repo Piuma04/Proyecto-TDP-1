@@ -7,7 +7,6 @@ import java.util.Queue;
 
 import javax.swing.SwingUtilities;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayDeque;
 
 import GUI.Drawable;
@@ -129,13 +128,6 @@ public class CentralAnimator implements AnimatorDriver {
     
     public boolean isActive() { return !queue.isEmpty() || gui.getPendingAnimations() > 0; }
 
-    public void reset() {
-        myThread.stop();
-        queue.clear();
-        /*SwingUtilities.invokeLater(() -> {
-            try { myThread.join(); } catch (InterruptedException e) { e.printStackTrace(); };
-        });*/
-    }
     /**
      * Estima si la celda parametrizada actualmente cuenta con animaciones en progreso. 
      * @param c Celda que se desea considerar para el chequeo de animaciones en progreso.

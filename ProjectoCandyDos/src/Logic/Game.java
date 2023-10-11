@@ -22,6 +22,7 @@ public class Game {
     private Level myLevel;
     private Timer myTimer;
     private int lives;
+    private boolean lostLive;
     
     private static SoundPlayer backgroundMusic = new SoundPlayer("ps/introMusic.wav");
     private static SoundPlayer lostSound = new SoundPlayer("ps/ps2error.wav");
@@ -31,8 +32,9 @@ public class Game {
         myTimer = new Timer(this, myGui);
         int level = 1; // myGui.chooseLevel(); MUST CHECK IF USER INSERTED INTEGER.
         lives = 3;
+        lostLive = false;
         loadLevel(level);
-        
+
         backgroundMusic.loop();
     }
 
@@ -78,18 +80,25 @@ public class Game {
     public void timerEnded() { if (myLevel.getRemainingObjectives() > 0) { lost(); } }
 
     public void lost() {
-        lives--;
-        myGui.updateLives(lives);
-        backgroundMusic.stop();
-        lostSound.play();
-        if (lives == 0)
-            myGui.showMessage("Perdio el juego");
-        else {
-            myGui.showMessage("Perdio una vida, reintente!");
-            loadLevel(myLevel.getCurrentLevel());
-        }
-        backgroundMusic.start();
+        lostLive = true;
+        myGui.executeAfterAnimation(() -> {
+            lives--;
+            myTimer.stopTimer();
+            myGui.updateLives(lives);
+            backgroundMusic.stop();
+            lostSound.play();
+            if (lives == 0)
+                myGui.showMessage("Perdio el juego");
+            else {
+                myGui.showMessage("Perdio una vida, reintente!");
+                loadLevel(myLevel.getCurrentLevel());
+            }
+            backgroundMusic.start();
+            lostLive = false;
+        });
     }
+
+    public boolean isLost() { return lostLive; }
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {
