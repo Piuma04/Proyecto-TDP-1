@@ -1,7 +1,7 @@
-R,10,20,90
-R,R,G,R,Y,R
-Y,R,G,P,B,P
-P,Y,Y,R,R,P
-P,P,B,B,Y,R
-Y,B,G,G,B,G
-Y,G,Y,Y,P,R
+P,25,40,180
+B,Y,P,G,G,R
+P,G,B,R,Y,P
+R,P,G,B,Y,G
+Y,G,P,R,B,Y
+B,R,Y,G,P,B
+G,B,R,Y,P,Y

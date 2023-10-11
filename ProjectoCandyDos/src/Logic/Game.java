@@ -35,8 +35,7 @@ public class Game {
         lives = 3;
         lostLive = false;
         loadLevel(level);
-
-        //backgroundMusic.loop();
+        backgroundMusic.loop();
     }
 
     public void loadLevel(int level) {

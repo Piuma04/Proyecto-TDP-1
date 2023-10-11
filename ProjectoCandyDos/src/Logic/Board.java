@@ -24,7 +24,7 @@ public class Board {
     private static final int COLUMNS = 6;
     private static final int blockSize = 70;
     private static final SoundPlayer explosion = new SoundPlayer("ps/move2.wav"); // new SoundPlayer("nam.wav");
-    private static final SoundPlayer blockMove = new SoundPlayer("ps/move020.wav");
+    private static final SoundPlayer blockMove = new SoundPlayer("ps/move100.wav");
     private static final SoundPlayer entityMove = new SoundPlayer("ps/click.wav");
     private static final Entity dummy = new Candy(0, 0, Colour.NONE);
 
