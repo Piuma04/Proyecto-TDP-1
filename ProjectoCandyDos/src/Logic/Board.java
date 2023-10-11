@@ -17,7 +17,7 @@ import GUI.Gui;
 import Entities.Candy;
 import Entities.Colour;
 import Entities.Entity;
-
+import Entities.Glazed;
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
 
@@ -227,7 +227,6 @@ public class Board {
 		boolean canExchange = false;
 
 		if (isValidBlock(newRow, newColumn)) {
-
 			entityMove.playNew();
 			Block b1 = matrix[playerRow][playerColumn];
 			Block b2 = matrix[newRow][newColumn];
@@ -266,9 +265,9 @@ public class Board {
 						columnsToCheck = fillBoard();
 						powerCandys.addAll(combinations.checkRemainingCombinations(columnsToCheck, remaining));
 					}
-				}
-			} else
-				b1.swapEntity(b2);
+				} else
+					b1.swapEntity(b2);
+			}
 		}
 		// System.out.println(destroyed.toString());
 		return destroyed;
@@ -314,7 +313,7 @@ public class Board {
 
 			for (int row = ROWS - 1; row >= 0; row--) {
 				Block block = getBlock(row, column);
-				if (block.isEmpty())
+				if (block.isEmpty() && !(block.getEntity() instanceof Glazed))
 					emptyColumns.get(column).add(block);
 			}
 
