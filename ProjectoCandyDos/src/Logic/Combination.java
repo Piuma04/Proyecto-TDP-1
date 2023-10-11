@@ -1,6 +1,7 @@
 package Logic;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.LinkedList;
 import java.util.HashSet;
@@ -23,9 +24,9 @@ public class Combination {
      * @param columns {@code columns} to be checked
      * @return blocks that make combinations on the {@code columns} specified
      */
-    public List<Entity> checkRemainingCombinations(Set<Integer> columns, Set<Block> combinations) 
+    public List<Entity> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocksAboveNotMovables, Set<Block> combinations) 
     {   
-        List<Entity> powerCandys = new LinkedList<Entity>();
+/*        List<Entity> powerCandys = new LinkedList<Entity>();
         Entity powerCandy = null;
         for (Integer j : columns) {
             for (int i = 0; i < Board.getRows(); i++) {
@@ -36,8 +37,23 @@ public class Combination {
                         powerCandys.add(powerCandy);
                 }
             }
+        }*/
+        List<Entity> powerCandys = new LinkedList<Entity>();
+        Entity powerCandy = null;
+        for (int col = 0; col < Board.getColumns(); col++) {
+            List<Block> oldEmptyBlocks = emptyColumnBlocksAboveNotMovables.get(col);
+            if (oldEmptyBlocks != null && oldEmptyBlocks.size() > 0) {
+                Block lower = oldEmptyBlocks.get(0);
+                for (int row = lower.getRow(); row >= 0; row--) {
+                    if (!combinations.contains(board.getBlock(row, col)))
+                    {
+                        powerCandy = checkCombinations(row, col, combinations);
+                        if (powerCandy != null)
+                            powerCandys.add(powerCandy);
+                    }
+                }
+            }
         }
-        
         return powerCandys;
     }
 

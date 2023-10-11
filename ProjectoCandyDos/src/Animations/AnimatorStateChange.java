@@ -46,4 +46,6 @@ public class AnimatorStateChange extends Thread implements Animator {
     @Override public void startAnimation() { this.start(); }
     @Override public int id() { return 2; }
     private static boolean isGif(String imagePath) { return imagePath != null && imagePath.endsWith(".gif"); }
+    
+    public String toString() { return "State(" + drawableAnimated.getLogicalEntity().toString() + ")"; }
 }

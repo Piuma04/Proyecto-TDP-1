@@ -18,4 +18,5 @@ public class AnimatorSound implements Animator {
         manager.notifyEndAnimation(this, false);
     }
     @Override public int id() { return 3; }
+    public String toString() { return "Sound"; }
 }

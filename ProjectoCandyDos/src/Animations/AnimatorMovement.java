@@ -69,4 +69,6 @@ public class AnimatorMovement extends Thread implements Animator {
     @Override public Drawable getDrawable() { return drawableAnimated; }
     @Override public void startAnimation() { this.start(); }
     @Override public int id() { return 1; }
+    
+    public String toString() { return "Movement(" + drawableAnimated.getLogicalEntity().toString() + ")"; }
 }

@@ -200,7 +200,6 @@ public class Board {
      */
     private List<Equivalent> swapEntities(int newRow, int newColumn) {
         Entity e1, e2;
-        Set<Integer> columnsToCheck;
         Set<Block> remaining = new HashSet<Block>();
         List<Entity> powerCandys = new LinkedList<Entity>();
         Entity powerCandy = null;
@@ -235,14 +234,11 @@ public class Board {
                                                  // board,
                                                  // and check again
                     {
-                        myGui.playSound(explosion);
-                        System.out.print("Board.swapEntities??: ");
-                        System.out.println(remaining);
                         destroyed.addAll(destroyEntities(remaining));
                         for (Entity entity : powerCandys) associateEntity(entity.getRow(), entity.getColumn(), entity);
                         powerCandys.clear();
-                        columnsToCheck = fillBoard();
-                        powerCandys.addAll(combinations.checkRemainingCombinations(columnsToCheck, remaining));
+                        Map<Integer, List<Block>> emptyBlocks = fillBoard();
+                        powerCandys.addAll(combinations.checkRemainingCombinations(emptyBlocks, remaining));
                     }
                 }
                 else
@@ -263,6 +259,7 @@ public class Board {
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         List<Block> destroyables = new LinkedList<Block>();
         for (Block b : remaining) { destroyables.addAll(b.getEntity().getDestroyables(this)); }
+        if (!destroyables.isEmpty()) { myGui.playSound(explosion); }
         for (Block b : destroyables) {
             if (b.hasModifiers()) destroyed.add(b.popModifier());
             destroyed.add(b.getEntity());
@@ -278,10 +275,10 @@ public class Board {
      * 
      * @return {@code columns} that were filled
      */
-    private Set<Integer> fillBoard() {
+    private Map<Integer, List<Block>> fillBoard() {
         Map<Integer, List<Block>> emptyColumnsAboveNotMovables = new HashMap<Integer, List<Block>>();
         List<Entity> candys = new LinkedList<Entity>();
-        Set<Integer> emptyColumnsIndexes = new HashSet<Integer>();
+
         for (int column = 0; column < COLUMNS; column++) {
             List<Block> emptyBlocksAboveNotMovables = new LinkedList<Block>();
             List<Block> notMovables = new LinkedList<Block>();
@@ -305,7 +302,6 @@ public class Board {
             List<Block> emptyBlocks = emptyColumnsAboveNotMovables.get(col);
             int amountExtraCandys = emptyBlocks.size();
             if (amountExtraCandys <= 0) continue;
-            emptyColumnsIndexes.add(col);
             Block lower = emptyBlocks.get(0);
             Queue<Entity> q = new ArrayDeque<Entity>();
             for (int candyIdx = 0; candyIdx < amountExtraCandys; candyIdx++) q.add(candys.remove(0));
@@ -316,7 +312,7 @@ public class Board {
                 setEntity(i, col, q.poll());
             }
         }
-        return emptyColumnsIndexes;
+        return emptyColumnsAboveNotMovables;
     }
 
     /**
