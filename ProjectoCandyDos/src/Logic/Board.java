@@ -227,13 +227,13 @@ public class Board {
 		boolean canExchange = false;
 
 		if (isValidBlock(newRow, newColumn)) {
-			entityMove.playNew();
 			Block b1 = matrix[playerRow][playerColumn];
 			Block b2 = matrix[newRow][newColumn];
 			e1 = b1.getEntity();
 			e2 = b2.getEntity();
 			canExchange = e1.isSwappable(e2);
 			if (canExchange) {
+			    entityMove.playNew();
 				b1.swapEntity(b2);
 				if (e1.isBooster() && e2.isBooster()) {
 
