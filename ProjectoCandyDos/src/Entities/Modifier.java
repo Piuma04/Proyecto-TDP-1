@@ -4,9 +4,6 @@ import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
 import Logic.VisualEntityDummy;
 
-/**
- * Abstract class representing modifiers
- */
 public abstract class Modifier extends VisualEntityDummy implements Equivalent, VisualEntity {
 
     public abstract void destroy();

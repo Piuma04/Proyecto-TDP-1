@@ -7,9 +7,7 @@ import Interfaces.Equivalent;
 import Logic.Block;
 import Logic.Board;
 
-/**
- * Represents an empty entity.
- */
+
 public class Empty extends Entity {
 
     public Empty(int rowPosition, int columnPosition) {
@@ -23,7 +21,6 @@ public class Empty extends Entity {
 
     @Override public void destroy() {}
     
-    // TODO seria una lista vacia
     @Override public List<Block> getDestroyables(Board b) { return new LinkedList<Block>(); }
 
     @Override public String getImage() { return null; }
