@@ -88,22 +88,22 @@ public class Board {
 	public void movePlayerDirection(int direction) {
 
 		switch (direction) {
-		case Game.DOWN: {
-			movePlayerPosition(playerRow + 1, playerColumn);
-			break;
-		}
-		case Game.UP: {
-			movePlayerPosition(playerRow - 1, playerColumn);
-			break;
-		}
-		case Game.LEFT: {
-			movePlayerPosition(playerRow, playerColumn - 1);
-			break;
-		}
-		case Game.RIGHT: {
-			movePlayerPosition(playerRow, playerColumn + 1);
-			break;
-		}
+			case Game.DOWN: {
+				movePlayerPosition(playerRow + 1, playerColumn);
+				break;
+			}
+			case Game.UP: {
+				movePlayerPosition(playerRow - 1, playerColumn);
+				break;
+			}
+			case Game.LEFT: {
+				movePlayerPosition(playerRow, playerColumn - 1);
+				break;
+			}
+			case Game.RIGHT: {
+				movePlayerPosition(playerRow, playerColumn + 1);
+				break;
+			}
 		}
 	}
 
@@ -117,22 +117,22 @@ public class Board {
 	public List<Equivalent> swap(int direction) {
 		List<Equivalent> destroyed = new LinkedList<Equivalent>();
 		switch (direction) {
-		case Game.DOWN: {
-			destroyed = swapEntities(playerRow + 1, playerColumn);
-			break;
-		}
-		case Game.UP: {
-			destroyed = swapEntities(playerRow - 1, playerColumn);
-			break;
-		}
-		case Game.LEFT: {
-			destroyed = swapEntities(playerRow, playerColumn - 1);
-			break;
-		}
-		case Game.RIGHT: {
-			destroyed = swapEntities(playerRow, playerColumn + 1);
-			break;
-		}
+			case Game.DOWN: {
+				destroyed = swapEntities(playerRow + 1, playerColumn);
+				break;
+			}
+			case Game.UP: {
+				destroyed = swapEntities(playerRow - 1, playerColumn);
+				break;
+			}
+			case Game.LEFT: {
+				destroyed = swapEntities(playerRow, playerColumn - 1);
+				break;
+			}
+			case Game.RIGHT: {
+				destroyed = swapEntities(playerRow, playerColumn + 1);
+				break;
+			}
 		}
 		return destroyed;
 	}
@@ -234,12 +234,13 @@ public class Board {
 			e2 = b2.getEntity();
 			canExchange = e1.isSwappable(e2);
 			if (canExchange) {
+				b1.swapEntity(b2);
 				if (e1.isBooster() && e2.isBooster()) {
-					b1.swapEntity(b2);
+
 					remaining.addAll(e1.getDestroyables(this));
 					remaining.addAll(e2.getDestroyables(this));
 				} else {
-					b1.swapEntity(b2);
+
 					powerCandy = combinations.checkCombinations(playerRow, playerColumn, remaining);
 					if (powerCandy != null)
 						powerCandys.add(powerCandy);
@@ -265,12 +266,15 @@ public class Board {
 						columnsToCheck = fillBoard();
 						powerCandys.addAll(combinations.checkRemainingCombinations(columnsToCheck, remaining));
 					}
+
 				} else
 					b1.swapEntity(b2);
-			}
+			} else
+				b1.swapEntity(b2);
 		}
 		// System.out.println(destroyed.toString());
 		return destroyed;
+
 	}
 
 	/**
