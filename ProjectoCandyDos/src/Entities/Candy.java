@@ -15,7 +15,6 @@ public class Candy extends Entity {
     public Candy(int rowPosition, int columnPosition, Colour colour) {
         super(rowPosition, columnPosition, colour);
     }
-
     
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); } 
     @Override public boolean isEqual(Candy c) { return this.colour == c.getColour(); }
@@ -41,8 +40,6 @@ public class Candy extends Entity {
 
             if (Board.isValidBlock(newRow, newColumn)
                     && b.getBlock(newRow, newColumn).getEntity().getColour() == Colour.GLAZED) {
-                // pregunta si hay algun glaseado alrededor
-                // *podria ser b.getBlock(newRow,newColumn).getEntity()==Colour.GLAZED
                 toDestroy.add(b.getBlock(newRow, newColumn));
             }
         }
