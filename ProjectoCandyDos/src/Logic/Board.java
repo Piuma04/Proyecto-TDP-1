@@ -269,8 +269,7 @@ public class Board {
 
 				} else
 					b1.swapEntity(b2);
-			} else
-				b1.swapEntity(b2);
+			}
 		}
 		// System.out.println(destroyed.toString());
 		return destroyed;
