@@ -22,7 +22,7 @@ public class Glazed extends Entity {
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
        
-        toDestroy.add(b.getBlock(row, column));
+        toDestroy.add(b.getBlock(row, column));//TODO Puede fallar
         return toDestroy;
     }
 
