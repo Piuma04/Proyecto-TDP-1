@@ -24,7 +24,7 @@ public class Combination {
      * @param columns {@code columns} to be checked
      * @return blocks that make combinations on the {@code columns} specified
      */
-    public List<Entity> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocksAboveNotMovables, Set<Block> combinations) 
+    public List<Entity> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, Set<Block> combinations) 
     {   
 /*        List<Entity> powerCandys = new LinkedList<Entity>();
         Entity powerCandy = null;
@@ -41,8 +41,8 @@ public class Combination {
         List<Entity> powerCandys = new LinkedList<Entity>();
         Entity powerCandy = null;
         for (int col = 0; col < Board.getColumns(); col++) {
-            List<Block> oldEmptyBlocks = emptyColumnBlocksAboveNotMovables.get(col);
-            if (oldEmptyBlocks != null && oldEmptyBlocks.size() > 0) {
+            List<Block> oldEmptyBlocks = emptyColumnBlocks.get(col);
+            if (oldEmptyBlocks.size() > 0) {
                 Block lower = oldEmptyBlocks.get(0);
                 for (int row = lower.getRow(); row >= 0; row--) {
                     if (!combinations.contains(board.getBlock(row, col)))

@@ -30,7 +30,7 @@ public class Block extends VisualEntityDummy implements Focusable {
     public Entity getEntity() { return myEntity; }
     public void   setEntity(Entity e) { myEntity = e; }
 
-    public boolean isEmpty() { return myEntity.equals(empty); }
+    public boolean isEmpty() { return myEntity.isEqual(empty); }
 
     public void       pushModifier(Modifier modifier) { myModifiers.add(modifier); }
     public Equivalent popModifier() { Modifier m = myModifiers.pop(); m.destroy(); return m; }

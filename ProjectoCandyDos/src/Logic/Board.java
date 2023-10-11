@@ -16,6 +16,7 @@ import GUI.Gui;
 
 import Entities.Candy;
 import Entities.Colour;
+import Entities.Empty;
 import Entities.Entity;
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
@@ -276,43 +277,79 @@ public class Board {
      * @return {@code columns} that were filled
      */
     private Map<Integer, List<Block>> fillBoard() {
-        Map<Integer, List<Block>> emptyColumnsAboveNotMovables = new HashMap<Integer, List<Block>>();
+        Map<Integer, List<Block>> emptyColumns = new HashMap<Integer, List<Block>>();
+        Map<Integer, Integer> newCandys = new HashMap<Integer, Integer>();
         List<Entity> candys = new LinkedList<Entity>();
 
         for (int column = 0; column < COLUMNS; column++) {
-            List<Block> emptyBlocksAboveNotMovables = new LinkedList<Block>();
-            List<Block> notMovables = new LinkedList<Block>();
+            List<Block> emptyBlocks = new LinkedList<Block>();
+            int extraCandys = 0;
             for (int row = ROWS - 1; row >= 0; row--) {
                 Block block = getBlock(row, column);
                 Entity e = block.getEntity();
-                if (block.isEmpty())
-                    emptyBlocksAboveNotMovables.add(block);
+                if (block.isEmpty()) {
+                    emptyBlocks.add(block);
+                    extraCandys++;
+                }
                 else if (!dummy.isSwappable(e)) {
-                    notMovables.add(block);
-                    emptyBlocksAboveNotMovables.clear();
+                    extraCandys = 0;
                 }
             }
-            int amountEmptyBlocksAboveNotMovables = emptyBlocksAboveNotMovables.size();
-            for (int i = 0; i < amountEmptyBlocksAboveNotMovables; i++) {
-                candys.add(createRandomCandy(i - amountEmptyBlocksAboveNotMovables, column));
-            }
-            emptyColumnsAboveNotMovables.put(column, emptyBlocksAboveNotMovables);
+            newCandys.put(column, extraCandys);
+            for (int i = 0; i < extraCandys; i++)
+                candys.add(createRandomCandy(-1-i, column));
+            emptyColumns.put(column, emptyBlocks);
         }
+
         for (int col = 0; col < COLUMNS; col++) {
-            List<Block> emptyBlocks = emptyColumnsAboveNotMovables.get(col);
-            int amountExtraCandys = emptyBlocks.size();
-            if (amountExtraCandys <= 0) continue;
-            Block lower = emptyBlocks.get(0);
-            Queue<Entity> q = new ArrayDeque<Entity>();
-            for (int candyIdx = 0; candyIdx < amountExtraCandys; candyIdx++) q.add(candys.remove(0));
-            Block current = null;
-            for (int i = 0; i <= lower.getRow(); i++) {
-                current = getBlock(i, col);
-                if (!current.isEmpty()) q.add(current.getEntity());
-                setEntity(i, col, q.poll());
+            List<Block> emptyBlocks = emptyColumns.get(col);
+            int amountExtraCandys = newCandys.get(col);
+            boolean bFall = false;
+            if (!emptyBlocks.isEmpty()) {
+                System.out.println("Column : " + col);
+                Block lower = emptyBlocks.get(0);
+                for (int i = lower.getRow(); i >= amountExtraCandys; i--) {
+                    Block current = getBlock(i, col);
+                    System.out.println("Current: " + current);
+                    if (!current.isEmpty())
+                        continue;
+                    Block toSwap = upperNotEmpty(current);
+                    System.out.println(toSwap);
+                    if (toSwap != null) {
+                        bFall = true;
+                        setEntity(current.getRow(), current.getColumn(), toSwap.getEntity());
+                        toSwap.setEntity(new Empty(toSwap.getRow(), toSwap.getColumn()));
+                    }
+                }
+                for (int i = amountExtraCandys-1; i >= 0; i--) {
+                    bFall = true;
+                    Block current = getBlock(i, col);
+                    setEntity(current.getRow(), current.getColumn(), candys.remove(0));
+                }
+                if (!bFall)
+                    emptyBlocks.clear();
             }
         }
-        return emptyColumnsAboveNotMovables;
+        return emptyColumns;
+    }
+
+    public Block upperNotEmpty(Block block) {
+        
+        Block nextNotEmpty = null;
+
+        int col = block.getColumn();
+        
+        for (int i = block.getRow()-1; i >= 0 && nextNotEmpty == null; i--) {
+            Block current = getBlock(i, col);
+            System.out.println(current);
+            if (current.isEmpty())
+                continue;
+            if (!dummy.isSwappable(current.getEntity()))
+                break;
+            nextNotEmpty = current;
+        }
+        System.out.println("EndUpperNotEmpty: ");
+        return nextNotEmpty;
     }
 
     /**
@@ -357,3 +394,24 @@ public class Board {
         return colores[Math.abs(r.nextInt()) % 5];
     }
 }
+    
+    /*
+    Queue<Entity> q = new ArrayDeque<Entity>();
+    for (int candyIdx = 0; candyIdx < amountExtraCandys; candyIdx++) q.add(candys.remove(0));
+    Block current = null;
+    boolean bMovable = true;
+    for (int i = 0; i <= lower.getRow() && bMovable; i++) {
+        current = getBlock(i, col);
+        Entity cEntity = current.getEntity();
+        if (!dummy.isSwappable(cEntity))
+            {}
+        else {
+            somethingFelt = true;
+            if (!current.isEmpty()) { q.add(cEntity); }
+            Entity oldEntity = q.poll();
+            if (oldEntity != null)
+                setEntity(i, col, oldEntity);
+        }
+    }
+}
+if (!somethingFelt) { emptyBlocks.clear(); }*/

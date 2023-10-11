@@ -64,7 +64,6 @@ public class Game {
                     myGui.showMessage("Felicitaciones! Ha ganado el juego");
                     //myGui.reset();
                     // MUST ADD WIN WINDOW!
-                    
                 }
                 else {
                     myGui.showMessage("Siguiente nivel?");
