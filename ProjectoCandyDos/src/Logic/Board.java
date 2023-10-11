@@ -316,7 +316,7 @@ public class Board {
 
 			for (int row = ROWS - 1; row >= 0; row--) {
 				Block block = getBlock(row, column);
-				if (block.isEmpty() && !(block.getEntity() instanceof Glazed))
+				if (block.isEmpty())
 					emptyColumns.get(column).add(block);
 			}
 
