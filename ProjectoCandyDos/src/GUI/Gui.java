@@ -27,6 +27,8 @@ import Animations.SoundPlayer;
 @SuppressWarnings("serial")
 public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
+    private static final String imagePath = "src/resources/images/";
+
     protected Game myGame;
     private Container contentPane;
     protected JPanel boardPanel;
@@ -114,7 +116,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
     
     private void setUpLives() {
-        ImageIcon imageIcon = new ImageIcon("src/imagenes/heart-gif-1.gif"); 
+        ImageIcon imageIcon = new ImageIcon(imagePath + "heart-gif-1.gif"); 
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 
         live1 = new JLabel(imageIcon);

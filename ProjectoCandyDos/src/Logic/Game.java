@@ -12,6 +12,7 @@ import Interfaces.Equivalent;
 
 public class Game {
 
+    private static final String levelPath = "src/resources/levels/";
     public static final int UP = 15000;
     public static final int DOWN = 15001;
     public static final int LEFT = 15002;
@@ -41,7 +42,7 @@ public class Game {
     public void loadLevel(int level) {
         myGui.reset();
         myBoard = new Board(myGui);
-        myLevel = LevelGenerator.generateLevel("src/Levels/Level" + String.valueOf(level) + ".txt", myBoard);
+        myLevel = LevelGenerator.generateLevel( levelPath + "level" + String.valueOf(level) + ".txt", myBoard);
         myGui.updateMoves(myLevel.getMoves());
         myBoard.setPlayerPosition(3, 3);
         myGui.updateLives(lives);

@@ -29,6 +29,8 @@ import GUI.Drawable;
  */
 public class AnimatorStateChange extends Thread implements Animator {
 
+    private static final String imagePath = "src/Resources/images/";
+
     private static Map<String, List<Image>> gifImages = new HashMap<String, List<Image>>();
     private static Map<String, List<Integer>> gifDelay = new HashMap<String, List<Integer>>();
     protected AnimatorDriver manager;
@@ -50,7 +52,7 @@ public class AnimatorStateChange extends Thread implements Animator {
                 List<BufferedImage> gifFrameImages = new LinkedList<BufferedImage>();
                 List<Integer> gifDelayFrames = new LinkedList<Integer>();
                 try {
-                    File gifFile = new File("src/imagenes/" + animationPath);
+                    File gifFile = new File(imagePath + animationPath);
                     ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
                     reader.setInput(ImageIO.createImageInputStream(gifFile));
                     int i = reader.getMinIndex();
@@ -82,7 +84,7 @@ public class AnimatorStateChange extends Thread implements Animator {
 
     @Override
     public void run() {
-        drawableAnimated.setImage("src/imagenes/" + path_img);
+        drawableAnimated.setImage(imagePath + path_img);
         if (path_img != null && path_img.endsWith(".gif")) {
             List<Image> gifImageFrames = gifImages.get(path_img);
             List<Integer> gifDelayFrames = gifDelay.get(path_img);

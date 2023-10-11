@@ -15,11 +15,14 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class SoundPlayer {
 
+    private static final String musicPath = "src/resources/music/";
+
     private boolean stopped;
     private Clip mySound;
     private AudioFormat audioFormat;
     private int audioBytes;
     private byte[] audioData;
+    
 
     public SoundPlayer(String filename) {
         mySound = null;
@@ -81,9 +84,9 @@ public class SoundPlayer {
     
     private void loadAudioData(String filePath) {
         try {
-            File audioFile = new File("src/music/" + filePath);
+            File audioFile = new File(musicPath + filePath);
             if (!audioFile.exists() || !audioFile.isFile()) {
-                throw new IllegalArgumentException("Invalid audio file path: " + filePath);
+                throw new IllegalArgumentException("Invalid audio file path: " + musicPath + filePath);
             }
 
             try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile)) {

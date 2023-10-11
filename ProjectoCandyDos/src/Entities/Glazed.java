@@ -15,7 +15,7 @@ public class Glazed extends Entity {
     }
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
-    @Override public boolean isEqual(Glazed g) { System.out.println("e"); return true;
+    @Override public boolean isEqual(Glazed g) { System.out.println("glazed is equal"); return true;
     }
 
     // TODO
