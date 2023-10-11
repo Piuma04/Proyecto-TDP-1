@@ -259,6 +259,8 @@ public class Board {
 													// and check again
 					{
 						myGui.playSound(explosion);
+						System.out.print("Board.swapEntities??: ");
+						System.out.println(remaining);
 						destroyed.addAll(destroyEntities(remaining));
 						for (Entity entity : powerCandys)
 							associateEntity(entity.getRow(), entity.getColumn(), entity);
@@ -372,13 +374,12 @@ public class Board {
 	 *                  ({@code column < }{@link Board#COLUMNS}}
 	 */
 	private void movePlayerPosition(int newRow, int newColumn) {
-		if ((0 <= newRow) && (newRow < ROWS) && (0 <= newColumn) && (newColumn < COLUMNS)) {
+		if (isValidBlock(newRow, newColumn)) {
 			blockMove.playNew();
-			if (matrix[newRow][newColumn].focus()) {
-				matrix[playerRow][playerColumn].defocus();
-				playerRow = newRow;
-				playerColumn = newColumn;
-			}
+			matrix[newRow][newColumn].focus();
+			matrix[playerRow][playerColumn].defocus();
+			playerRow = newRow;
+			playerColumn = newColumn;
 		}
 	}
 

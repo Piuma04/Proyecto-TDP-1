@@ -18,16 +18,14 @@ public class Block extends VisualEntityDummy implements Focusable {
     protected Entity myEntity;
     protected Stack<Modifier> myModifiers;
 
-    protected boolean focused;
-
-    protected static String[] images = { "vacio.png", "vacio-resaltado.png" };
+    protected static String[] images = { "BLOCK/vacio.png", "BLOCK/vacio-resaltado.png" };
     protected static Empty empty = new Empty();
     
     public Block(int r, int c) {
-        focused = false;
         row = r;
         column = c;
         myModifiers = new Stack<Modifier>();
+        imagePath = images[0];
     }
 
     public Entity getEntity() { return myEntity; }
@@ -56,12 +54,8 @@ public class Block extends VisualEntityDummy implements Focusable {
         return e;
     }
 
-    @Override public boolean         focus() {
-        focused = true;
-        setImage(images[1]);
-        return true; }
-    @Override public void            defocus() { focused = false; setImage(images[0]); }
-    @Override public String          getImage() { return "BLOCK/" + images[focused ? 1 : 0]; }
+    @Override public void         focus() { setImage(images[1]); }
+    @Override public void            defocus() { setImage(images[0]); }
     
     public String toString() {
         String s = getEntity() != null ? getEntity().toString() : "";
