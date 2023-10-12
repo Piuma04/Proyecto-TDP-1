@@ -27,12 +27,13 @@ import Animations.SoundPlayer;
 public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     private static final String imagesPath = "src/resources/images/";
+    private static final String gameName = "PlayCrush";
+
+    private int LABEL_SIZE = Board.getBoardLabelSize();
 
     protected Game myGame;
     private Container contentPane;
     protected JPanel boardPanel;
-    
-    private int LABEL_SIZE = Board.getBoardLabelSize();
 
     protected CentralAnimator animator;
     protected int pendingAnimations;
@@ -62,7 +63,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
 
     protected void inicializar() {
-        setTitle("CandyCrush Humilde");
+        setTitle(gameName);
         final int width = LABEL_SIZE*Board.getRows() + 350;
         final int height = LABEL_SIZE*Board.getColumns() + 175;
         setSize(new Dimension(width, height));

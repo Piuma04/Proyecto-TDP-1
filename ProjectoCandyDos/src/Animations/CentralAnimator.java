@@ -29,8 +29,6 @@ public class CentralAnimator implements AnimatorDriver {
     protected Runnable myTask;
     protected Thread myThread;
 
-    protected boolean bReset = false;
-
     public CentralAnimator(Gui v) {
         gui = v;
         map_drawable_animations = new HashMap<Drawable, List<Animator>>();
@@ -38,12 +36,11 @@ public class CentralAnimator implements AnimatorDriver {
 
         myTask = () -> {
             int currentAnimatorType = 0;
-            bReset = false;
             Animator head = queue.poll();
             while (head != null) {
                 Integer id = head.id();
                 if (currentAnimatorType != id) {
-                    while (gui.getPendingAnimations() > 0 && !bReset) {
+                    while (gui.getPendingAnimations() > 0) {
                         try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace();}
                     }
                     currentAnimatorType = id;

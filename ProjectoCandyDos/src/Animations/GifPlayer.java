@@ -18,10 +18,12 @@ import GUI.Drawable;
 
 public class GifPlayer {
 
-    private static final String imagePath = "src/Resources/images/";
-
     private static Map<String, List<Image>> gifImages = new HashMap<String, List<Image>>();
     private static Map<String, List<Integer>> gifDelay = new HashMap<String, List<Integer>>();
+
+    private String path;
+
+    GifPlayer(String basePath) { path = basePath; }
 
     public void play(String animationPath, Drawable drawableAnimated) {
         List<Image> gifImageFrames = gifImages.get(animationPath);
@@ -39,7 +41,7 @@ public class GifPlayer {
             List<BufferedImage> gifFrameImages = new LinkedList<BufferedImage>();
             List<Integer> gifDelayFrames = new LinkedList<Integer>();
             try {
-                File gifFile = new File(imagePath + animationPath);
+                File gifFile = new File(path + animationPath);
                 ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
                 reader.setInput(ImageIO.createImageInputStream(gifFile));
                 int i = reader.getMinIndex();

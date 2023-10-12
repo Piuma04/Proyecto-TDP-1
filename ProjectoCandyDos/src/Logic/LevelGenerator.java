@@ -21,6 +21,9 @@ import Interfaces.Equivalent;
 
 
 public class LevelGenerator {
+
+    private static final String levelPath = "src/resources/levels/";
+
     /**
      * reads filename, which is comma separated with the following format</br></br>
      * 
@@ -47,7 +50,7 @@ public class LevelGenerator {
         Level level = null;
         String[] candys = null;
 
-        lines = readFileLines(filename);
+        lines = readFileLines(levelPath + filename);
 
         if (lines != null) {
             candys = lines.get(0).split(",");

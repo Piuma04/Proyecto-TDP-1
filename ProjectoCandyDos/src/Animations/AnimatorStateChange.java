@@ -14,7 +14,7 @@ import GUI.Drawable;
 public class AnimatorStateChange extends Thread implements Animator {
 
     private static final String imagesPath = "src/Resources/images/";
-    private static GifPlayer gifPlayer = new GifPlayer();
+    private static GifPlayer gifPlayer = new GifPlayer(imagesPath);
 
     protected AnimatorDriver manager;
     protected Drawable drawableAnimated;

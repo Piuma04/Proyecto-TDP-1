@@ -12,13 +12,14 @@ import Interfaces.Focusable;
  * Represents a block with an Entity
  */
 public class Block extends VisualEntityDummy implements Focusable {
+
     protected static final int picSize = Board.getBoardLabelSize();
+    protected static final Empty empty = new Empty();
+    protected static final String[] images = { "BLOCK/vacio.png", "BLOCK/vacio-resaltado.png" };
 
     protected Entity myEntity;
     protected Stack<Modifier> myModifiers;
 
-    protected static String[] images = { "BLOCK/vacio.png", "BLOCK/vacio-resaltado.png" };
-    protected static Empty empty = new Empty();
     
     public Block(int r, int c) {
         row = r;
