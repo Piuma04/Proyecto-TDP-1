@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import GUI.Gui;
 
 import Animations.SoundPlayer;
@@ -81,19 +83,21 @@ public class Game {
     public void lost() {
         lostLive = true;
         myGui.executeAfterAnimation(() -> {
-            lives--;
-            myTimer.stopTimer();
-            myGui.updateLives(lives);
-            backgroundMusic.stop();
-            lostSound.play();
-            if (lives == 0)
-                myGui.showMessage("Perdio el juego");
-            else {
-                myGui.showMessage("Perdio una vida, reintente!");
-                loadLevel(myLevel.getCurrentLevel());
-            }
-            backgroundMusic.start();
-            lostLive = false;
+            SwingUtilities.invokeLater( () -> {
+                lives--;
+                myTimer.stopTimer();
+                myGui.updateLives(lives);
+                backgroundMusic.stop();
+                lostSound.play();
+                if (lives == 0)
+                    myGui.showMessage("Perdio el juego");
+                else {
+                    myGui.showMessage("Perdio una vida, reintente!");
+                    loadLevel(myLevel.getCurrentLevel());
+                }
+                backgroundMusic.start();
+                lostLive = false;
+            });
         });
     }
 
