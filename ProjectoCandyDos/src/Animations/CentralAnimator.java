@@ -79,8 +79,7 @@ public class CentralAnimator implements AnimatorDriver {
     public void animateChangeState(Drawable c) {
         String imagePath = c.getLogicalEntity().getImage();
         Animator animador = new AnimatorStateChange(this, c, imagePath);
-        
-        //boolean isBlock = imagePath != null && imagePath.contains("vacio");
+
         if (c.getSkipQueue())
             startAnimation(animador);
         else {

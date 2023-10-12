@@ -25,6 +25,10 @@ public class Empty extends Entity {
 
     @Override public String getImage() { return null; }
 
+    // DO NOT UNCOMMENT NEXT 2 LINES.
+    //@Override public void setImage(String imageName) { }
+    //@Override public void changePosition(int newRow, int newColumn) { row = newRow; column = newColumn; }
+
     public String toString() { return super.setStringColor("*"); }
 
 }

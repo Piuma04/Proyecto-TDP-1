@@ -37,6 +37,7 @@ public class Game {
         lives = 3;
         animationNextLevel = false;
         loadLevel(level);
+        myGui.setVisible(true);
         backgroundMusic.loop();
     }
 
@@ -44,13 +45,14 @@ public class Game {
         myGui.reset();
         myBoard = new Board(myGui);
         myLevel = LevelGenerator.generateLevel("level" + String.valueOf(level) + ".txt", myBoard);
+        myGui.executeAfterAnimation( () -> { myBoard.setPlayerPosition(Board.getRows()/2, Board.getColumns()/2); });
+
         myGui.updateMoves(myLevel.getMoves());
         myGui.updateLives(lives);
         myGui.showObjective(myLevel.getObjective(), myLevel.getRemainingObjectives());
         myGui.setCurrentLevel("Nivel " + myLevel.getCurrentLevel());
-        myGui.executeAfterAnimation( () -> { myBoard.setPlayerPosition(Board.getRows()/2, Board.getColumns()/2); });
-        myGui.setVisible(true);
         myTimer.startTimer(myLevel.getTimeLimit());
+        
     }
 
     public void swap(int direction) {
