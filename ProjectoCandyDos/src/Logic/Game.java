@@ -25,7 +25,7 @@ public class Game {
     private Level myLevel;
     private Timer myTimer;
     private int lives;
-    private boolean lostLive;
+    private boolean animationNextLevel;
     
     private static SoundPlayer backgroundMusic = new SoundPlayer("ps/introMusic.wav");
     private static SoundPlayer lostSound = new SoundPlayer("ps/ps2error.wav");
@@ -35,7 +35,7 @@ public class Game {
         myTimer = new Timer(this, myGui);
         int level = 1; // myGui.chooseLevel(); MUST CHECK IF USER INSERTED INTEGER.
         lives = 3;
-        lostLive = false;
+        animationNextLevel = false;
         loadLevel(level);
         //backgroundMusic.loop();
     }
@@ -55,24 +55,26 @@ public class Game {
 
     public void swap(int direction) {
         List<Equivalent> list = myBoard.swap(direction);
-        boolean finished = myLevel.update(list);
         myGui.updateMoves(myLevel.getMoves());
         myGui.executeAfterAnimation(() -> {
-            myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
-            if (finished) {
-                myTimer.stopTimer();
-                if (myLevel.isLastLevel()) {
-                    myGui.showMessage("Felicitaciones! Ha ganado el juego");
-                    //myGui.reset();
-                    // MUST ADD WIN WINDOW!
+            SwingUtilities.invokeLater( () -> {
+                boolean finished = myLevel.update(list);
+                myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
+                if (finished) {
+                    myTimer.stopTimer();
+                    if (myLevel.isLastLevel()) {
+                        myGui.showMessage("Felicitaciones! Ha ganado el juego");
+                        //myGui.reset();
+                        // MUST ADD WIN WINDOW!
+                    }
+                    else {
+                        myGui.showMessage("Siguiente nivel?");
+                        loadLevel(myLevel.getCurrentLevel()+1);
+                    }
+                } else if (myLevel.lost()) {
+                    lost();
                 }
-                else {
-                    myGui.showMessage("Siguiente nivel?");
-                    loadLevel(myLevel.getCurrentLevel()+1);
-                }
-            } else if (myLevel.lost()) {
-                lost();
-            }
+            });
         });
     }
 
@@ -81,7 +83,7 @@ public class Game {
     public void timerEnded() { if (myLevel.getRemainingObjectives() > 0) { lost(); } }
 
     public void lost() {
-        lostLive = true;
+        animationNextLevel = true;
         myGui.executeAfterAnimation(() -> {
             SwingUtilities.invokeLater( () -> {
                 lives--;
@@ -96,12 +98,12 @@ public class Game {
                     loadLevel(myLevel.getCurrentLevel());
                 }
                 backgroundMusic.start();
-                lostLive = false;
+                animationNextLevel = false;
             });
         });
     }
 
-    public boolean isLost() { return lostLive; }
+    public boolean isAnimating() { return animationNextLevel; }
 
     public static void main(String[] args) {
         EventQueue.invokeLater(new Runnable() {

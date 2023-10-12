@@ -82,11 +82,11 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
                     case KeyEvent.VK_RIGHT: { myGame.move(Game.RIGHT); break; }
                     case KeyEvent.VK_UP:    { myGame.move(Game.UP); break; }
                     case KeyEvent.VK_DOWN:  { myGame.move(Game.DOWN); break; }
-                    case KeyEvent.VK_W:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.UP); break; }
-                    case KeyEvent.VK_S:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.DOWN); break; }
-                    case KeyEvent.VK_A:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.LEFT); break; }
-                    case KeyEvent.VK_D:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.RIGHT); break; }
-                    case KeyEvent.VK_O:     { if (!animator.isActive() && !myGame.isLost()) myGame.lost(); break; }
+                    case KeyEvent.VK_W:     { if (!animator.isActive() && !myGame.isAnimating()) myGame.swap(Game.UP); break; }
+                    case KeyEvent.VK_S:     { if (!animator.isActive() && !myGame.isAnimating()) myGame.swap(Game.DOWN); break; }
+                    case KeyEvent.VK_A:     { if (!animator.isActive() && !myGame.isAnimating()) myGame.swap(Game.LEFT); break; }
+                    case KeyEvent.VK_D:     { if (!animator.isActive() && !myGame.isAnimating()) myGame.swap(Game.RIGHT); break; }
+                    case KeyEvent.VK_O:     { if (!animator.isActive() && !myGame.isAnimating()) myGame.lost(); break; }
                     case KeyEvent.VK_J:     { System.out.println(boardPanel.getComponents().length); }
                 }
             }
