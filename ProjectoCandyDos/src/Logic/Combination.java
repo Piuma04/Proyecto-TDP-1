@@ -44,13 +44,11 @@ public class Combination {
             List<Block> oldEmptyBlocks = emptyColumnBlocks.get(col);
             if (oldEmptyBlocks.size() > 0) {
                 Block lower = oldEmptyBlocks.get(0);
-                for (int row = lower.getRow(); row >= 0; row--) {
-                    if (!combinations.contains(board.getBlock(row, col)))
-                    {
-                        powerCandy = checkCombinations(row, col, combinations);
-                        if (powerCandy != null)
-                            powerCandys.add(powerCandy);
-                    }
+                int row = lower.getRow()+2 > Board.getRows()-1 ? Board.getRows()-1 : lower.getRow() + 2;
+                for (; row >= 0; row--) {
+                    powerCandy = checkCombinations(row, col, combinations);
+                    if (powerCandy != null)
+                        powerCandys.add(powerCandy);
                 }
             }
         }
@@ -75,7 +73,10 @@ public class Combination {
         combination.addAll(consecutiveV);
         combination.addAll(consecutiveH);
         Entity entity = null; 
-        if (consecutiveH.size() == 2 && consecutiveV.size() == 2) 
+        int hSize = consecutiveH.size();
+        int vSize = consecutiveV.size();
+        
+        if ((hSize + vSize < 6) && (hSize + vSize > 3) && (hSize >= 2) && (vSize >= 2))
             entity = new Wrapped(row, column, color);
         else if (consecutiveH.size() == 3) 
            entity = new Stripped(row, column, color, false);

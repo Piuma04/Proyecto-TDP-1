@@ -22,7 +22,7 @@ import Interfaces.VisualEntity;
 public class Board {
     private static final int ROWS = 6;
     private static final int COLUMNS = 6;
-    private static final int blockSize = 70;
+    private static final int blockSize = 80;
     private static final SoundPlayer explosion = new SoundPlayer("ps/move2.wav"); // new SoundPlayer("nam.wav");
     private static final SoundPlayer blockMove = new SoundPlayer("ps/move100.wav");
     private static final SoundPlayer entityMove = new SoundPlayer("ps/click.wav");
@@ -220,13 +220,8 @@ public class Board {
                 else {
                     powerCandy = combinations.checkCombinations(playerRow, playerColumn, remaining);
                     if (powerCandy != null) powerCandys.add(powerCandy);
-                    if (!remaining.contains(matrix[newRow][newColumn])) // Checks whether the second entity's
-                                                                        // combination is
-                                                                        // already checked
-                    {
-                        powerCandy = combinations.checkCombinations(newRow, newColumn, remaining);
-                        if (powerCandy != null) powerCandys.add(powerCandy);
-                    }
+                    powerCandy = combinations.checkCombinations(newRow, newColumn, remaining);
+                    if (powerCandy != null) powerCandys.add(powerCandy);
                 }
                 if (!remaining.isEmpty()) {
                     while (!remaining.isEmpty()) // While there are remaining combinations, destroy them,fill the

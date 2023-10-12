@@ -32,7 +32,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     private Container contentPane;
     protected JPanel boardPanel;
     
-    private int LABEL_SIZE = 80;
+    private int LABEL_SIZE = Board.getBoardLabelSize();
 
     protected CentralAnimator animator;
     protected int pendingAnimations;
@@ -172,7 +172,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     public void executeAfterAnimation(Runnable r) {
         new Thread(() -> {
-                    while (animator.isActive()) { try { Thread.sleep(5); } catch (InterruptedException e) { e.printStackTrace(); } }
+                    while (animator.isActive()) { try { Thread.sleep(1); } catch (InterruptedException e) { e.printStackTrace(); } }
                     new Thread(r).start();
         }).start();
     }

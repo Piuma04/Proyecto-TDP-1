@@ -12,7 +12,7 @@ import Interfaces.Focusable;
  * Represents a block with an Entity
  */
 public class Block extends VisualEntityDummy implements Focusable {
-    protected static final int picSize = 70;
+    protected static final int picSize = Board.getBoardLabelSize();
 
     protected Entity myEntity;
     protected Stack<Modifier> myModifiers;
