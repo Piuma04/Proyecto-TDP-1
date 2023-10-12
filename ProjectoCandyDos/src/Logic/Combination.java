@@ -72,15 +72,15 @@ public class Combination {
         combination.add(board.getBlock(row, column));
         combination.addAll(consecutiveV);
         combination.addAll(consecutiveH);
-        Entity entity = null; 
         int hSize = consecutiveH.size();
         int vSize = consecutiveV.size();
         
+        Entity entity = null; 
         if ((hSize + vSize < 6) && (hSize + vSize > 3) && (hSize >= 2) && (vSize >= 2))
             entity = new Wrapped(row, column, color);
-        else if (consecutiveH.size() == 3) 
+        else if (hSize == 3) 
            entity = new Stripped(row, column, color, false);
-        else if (consecutiveV.size() == 3) 
+        else if (vSize == 3) 
             entity = new Stripped(row, column, color, true);
         if(combination.size()<3)
             combination.clear();
@@ -96,30 +96,31 @@ public class Combination {
      */
     private Set<Block> consecutiveV(int row, int column) 
     {
-    	Set<Block> toAdd = new HashSet<Block>();
-        Entity comparable = board.getBlock(row, column).getEntity();
-        boolean cumple = true;
+    	Set<Block> blocks = new HashSet<Block>();
+    	Block comparable = board.getBlock(row, column);
         
-        if (Board.getDummy().isSwappable(comparable)) {
-            for (int i = row + 1; i >= 0 && i < Board.getRows() && cumple; i++) 
-            {
-                cumple = board.getBlock(i, column).getEntity().getColour() == comparable.getColour();
-                if (cumple)
-                    toAdd.add(board.getBlock(i, column));
-            }
-            cumple = true;
-            for (int i = row - 1; i >= 0 && i < Board.getRows() && cumple; i--) 
-            {
-                cumple = board.getBlock(i, column).getEntity().getColour() == comparable.getColour();
-                if (cumple) 
-                {
-                    toAdd.add(board.getBlock(i, column));
-                }
-            }
-            if (toAdd.size() < 2)
-                toAdd.clear();
+        if (!Board.hasMovableEntity(comparable))
+            return blocks;
+
+        boolean cumple = true;
+        for (int r = row + 1; Board.isValidBlock(r, column) && cumple; r++) 
+        {
+            Block current = board.getBlock(r, column);
+            cumple = board.compareColors(comparable, current);
+            if (cumple)
+                blocks.add(current);
         }
-        return toAdd;
+        cumple = true;
+        for (int r = row - 1; r >= 0 && r < Board.getRows() && cumple; r--) 
+        {
+            Block current = board.getBlock(r, column);
+            cumple = board.compareColors(comparable, current);
+            if (cumple) 
+                blocks.add(current);
+        }
+        if (blocks.size() < 2)
+            blocks.clear();
+        return blocks;
     }
     /**
      * Checks the vertical combinations an element specified with row and column makes
@@ -131,26 +132,29 @@ public class Combination {
     private Set<Block> consecutiveH(int row, int column) 
     {
         Set<Block> blocks = new HashSet<Block>();
-        Entity comparable = board.getBlock(row, column).getEntity();
-        boolean cumple = true;
+        Block comparable = board.getBlock(row, column);
 
-        if (Board.getDummy().isSwappable(comparable)) {
-            for (int j = column + 1; j >= 0 && j < Board.getColumns() && cumple; j++) 
-            {
-                cumple = board.getBlock(row, j).getEntity().getColour() == comparable.getColour();
-                if (cumple)
-                	blocks.add(board.getBlock(row, j));
-            }
-            cumple = true;
-            for (int j = column - 1; j >= 0 && j < Board.getColumns() && cumple; j--) 
-            {
-                cumple = board.getBlock(row, j).getEntity().getColour() == comparable.getColour();
-                if (cumple) 
-                	blocks.add(board.getBlock(row, j));
-            }
-            if (blocks.size() < 2)
-            	blocks.clear();
+        if (!Board.hasMovableEntity(comparable))
+            return blocks;
+        
+        boolean cumple = true;
+        for (int c = column + 1; Board.isValidBlock(row, c) && cumple; c++) 
+        {
+            Block current = board.getBlock(row, c);
+            cumple = board.compareColors(comparable, current);
+            if (cumple)
+            	blocks.add(current);
         }
+        cumple = true;
+        for (int c = column - 1; Board.isValidBlock(row, c) && cumple; c--) 
+        {
+            Block current = board.getBlock(row, c);
+            cumple = board.compareColors(comparable, current);
+            if (cumple) 
+            	blocks.add(current);
+        }
+        if (blocks.size() < 2)
+        	blocks.clear();
         return blocks;
     }
 }

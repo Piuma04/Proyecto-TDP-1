@@ -108,12 +108,12 @@ public class Board {
     public List<Equivalent> swap(int direction) {
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         switch (direction) {
-        case Game.DOWN: {
-            destroyed = swapEntities(playerRow + 1, playerColumn);
-            break;
-        }
         case Game.UP: {
             destroyed = swapEntities(playerRow - 1, playerColumn);
+            break;
+        }
+        case Game.DOWN: {
+            destroyed = swapEntities(playerRow + 1, playerColumn);
             break;
         }
         case Game.LEFT: {
@@ -198,24 +198,20 @@ public class Board {
      * @return Elements destroyed by potential combinations
      */
     private List<Equivalent> swapEntities(int newRow, int newColumn) {
-        Entity e1, e2;
         Set<Block> remaining = new HashSet<Block>();
         List<Entity> powerCandys = new LinkedList<Entity>();
-        Entity powerCandy = null;
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
-        boolean canExchange = false;
+        Entity powerCandy = null;
         if (isValidBlock(newRow, newColumn)) {
             Block b1 = matrix[playerRow][playerColumn];
             Block b2 = matrix[newRow][newColumn];
-            e1 = b1.getEntity();
-            e2 = b2.getEntity();
-            canExchange = e1.isSwappable(e2);
-            if (canExchange) {
+            if (canSwap(b1, b2)) {
                 entityMove.playNew();
                 b1.swapEntity(b2);
-                if (e1.isBooster() && e2.isBooster()) {
-                    remaining.addAll(e1.getDestroyables(this));
-                    remaining.addAll(e2.getDestroyables(this));
+
+                if (hasBooster(b1) && hasBooster(b2)) {
+                    remaining.addAll(b1.getEntity().getDestroyables(this));
+                    remaining.addAll(b2.getEntity().getDestroyables(this));
                 }
                 else {
                     powerCandy = combinations.checkCombinations(playerRow, playerColumn, remaining);
@@ -224,18 +220,15 @@ public class Board {
                     if (powerCandy != null) powerCandys.add(powerCandy);
                 }
                 if (!remaining.isEmpty()) {
-                    while (!remaining.isEmpty()) // While there are remaining combinations, destroy them,fill the
-                                                 // board,
-                                                 // and check again
+                    do // While there are remaining combinations, destroy them,fill the board, and check again
                     {
                         destroyed.addAll(destroyEntities(remaining));
                         for (Entity entity : powerCandys) associateEntity(entity.getRow(), entity.getColumn(), entity);
                         powerCandys.clear();
                         Map<Integer, List<Block>> emptyBlocks = fillBoard();
                         powerCandys.addAll(combinations.checkRemainingCombinations(emptyBlocks, remaining));
-                    }
-                }
-                else
+                    } while (!remaining.isEmpty());
+                } else
                     b1.swapEntity(b2);
             }
         }
@@ -278,14 +271,12 @@ public class Board {
             int extraCandys = 0;
             for (int row = ROWS - 1; row >= 0; row--) {
                 Block block = getBlock(row, column);
-                Entity e = block.getEntity();
                 if (block.isEmpty()) {
                     emptyBlocks.add(block);
                     extraCandys++;
                 }
-                else if (!getDummy().isSwappable(e)) {
+                else if (!hasMovableEntity(block))
                     extraCandys = 0;
-                }
             }
             newCandys.put(column, extraCandys);
             for (int i = 0; i < extraCandys; i++)
@@ -332,7 +323,7 @@ public class Board {
             Block current = getBlock(i, col);
             if (current.isEmpty())
                 continue;
-            if (!getDummy().isSwappable(current.getEntity()))
+            if (!hasMovableEntity(current))
                 break;
             nextNotEmpty = current;
         }
@@ -381,26 +372,17 @@ public class Board {
         return colores[Math.abs(r.nextInt()) % 5];
     }
 
-    public static Entity getDummy() { return dummy; }
-}
+    private boolean canSwap(Block block1, Block block2) {
+        final Entity e1 = block1.getEntity(); 
+        final Entity e2 = block2.getEntity(); 
+        return e1.isSwappable(e2);
+    }
 
-    /*
-    Queue<Entity> q = new ArrayDeque<Entity>();
-    for (int candyIdx = 0; candyIdx < amountExtraCandys; candyIdx++) q.add(candys.remove(0));
-    Block current = null;
-    boolean bMovable = true;
-    for (int i = 0; i <= lower.getRow() && bMovable; i++) {
-        current = getBlock(i, col);
-        Entity cEntity = current.getEntity();
-        if (!dummy.isSwappable(cEntity))
-            {}
-        else {
-            somethingFelt = true;
-            if (!current.isEmpty()) { q.add(cEntity); }
-            Entity oldEntity = q.poll();
-            if (oldEntity != null)
-                setEntity(i, col, oldEntity);
-        }
+    private boolean hasBooster(Block block) { return block.getEntity().isBooster(); }
+
+    public static boolean hasMovableEntity(Block block) { return dummy.isSwappable(block.getEntity()); }
+
+    public boolean compareColors(Block block1, Block block2) {
+        return block1.getEntity().getColour() == block2.getEntity().getColour();
     }
 }
-if (!somethingFelt) { emptyBlocks.clear(); }*/
