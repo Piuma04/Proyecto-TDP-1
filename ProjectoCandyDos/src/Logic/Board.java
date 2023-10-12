@@ -20,364 +20,386 @@ import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
 
 public class Board {
-    private static final int ROWS = 6;
-    private static final int COLUMNS = 6;
-    private static final int blockSize = 80;
-    private static final SoundPlayer explosion = new SoundPlayer("ps/move2.wav"); // new SoundPlayer("nam.wav");
-    private static final SoundPlayer blockMove = new SoundPlayer("ps/move100.wav");
-    private static final SoundPlayer entityMove = new SoundPlayer("ps/click.wav");
-    private static final Entity dummy = new Candy(0, 0, Colour.NONE);
+	private static final int ROWS = 6;
+	private static final int COLUMNS = 6;
+	private static final int blockSize = 80;
+	private static final SoundPlayer explosion = new SoundPlayer("ps/move2.wav"); // new SoundPlayer("nam.wav");
+	private static final SoundPlayer blockMove = new SoundPlayer("ps/move100.wav");
+	private static final SoundPlayer entityMove = new SoundPlayer("ps/click.wav");
+	private static final Entity dummy = new Candy(0, 0, Colour.NONE);
 
-    private int playerRow, playerColumn;
-    private Block[][] matrix;
-    private Gui myGui;
-    private Combination combinations;
+	private int playerRow, playerColumn;
+	private Block[][] matrix;
+	private Gui myGui;
+	private Combination combinations;
 
-    public Board(Gui gui) {
-        matrix = new Block[ROWS][COLUMNS];
-        playerRow = ROWS / 2;
-        playerColumn = COLUMNS / 2;
-        myGui = gui;
-        combinations = new Combination(this);
-        for (int row = 0; row < ROWS; row++) for (int column = 0; column < COLUMNS; column++) {
-            Block block = new Block(row, column);
-            matrix[row][column] = block;
-            addVisualEntity(block);
-            block.getGraphicalEntity().setSkipQueue(true);
-        }
-        setPlayerPosition(playerRow, playerColumn);
-    }
+	public Board(Gui gui) {
+		matrix = new Block[ROWS][COLUMNS];
+		playerRow = ROWS / 2;
+		playerColumn = COLUMNS / 2;
+		myGui = gui;
+		combinations = new Combination(this);
+		for (int row = 0; row < ROWS; row++)
+			for (int column = 0; column < COLUMNS; column++) {
+				Block block = new Block(row, column);
+				matrix[row][column] = block;
+				addVisualEntity(block);
+				block.getGraphicalEntity().setSkipQueue(true);
+			}
+		setPlayerPosition(playerRow, playerColumn);
+	}
 
-    /**
-     * returns the amount of {@code rows} the board has.
-     * 
-     * @return {@code rows}
-     */
-    public static int getRows() { return ROWS; }
+	/**
+	 * returns the amount of {@code rows} the board has.
+	 * 
+	 * @return {@code rows}
+	 */
+	public static int getRows() {
+		return ROWS;
+	}
 
-    /**
-     * returns the amount of {@code columns} the board has.
-     * 
-     * @return {@code columns}
-     */
-    public static int getColumns() { return COLUMNS; }
+	/**
+	 * returns the amount of {@code columns} the board has.
+	 * 
+	 * @return {@code columns}
+	 */
+	public static int getColumns() {
+		return COLUMNS;
+	}
 
-    public static int getBoardLabelSize() { return blockSize; }
+	public static int getBoardLabelSize() {
+		return blockSize;
+	}
 
-    /*
-     * private Set<Integer> columnsToFill() { Set<Integer> s = new
-     * HashSet<Integer>();
-     * 
-     * for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) { for (int i =
-     * ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) { if
-     * (matrix[i][j].isEmpty()) { s.add(j); } } } }
-     */
-    /**
-     * Moves the player towards a specific direction.
-     * 
-     * @param direction the direction the player will move towards to
-     */
-    public void movePlayerDirection(int direction) {
-        switch (direction) {
-        case Game.DOWN: {
-            movePlayerPosition(playerRow + 1, playerColumn);
-            break;
-        }
-        case Game.UP: {
-            movePlayerPosition(playerRow - 1, playerColumn);
-            break;
-        }
-        case Game.LEFT: {
-            movePlayerPosition(playerRow, playerColumn - 1);
-            break;
-        }
-        case Game.RIGHT: {
-            movePlayerPosition(playerRow, playerColumn + 1);
-            break;
-        }
-        }
-    }
+	/*
+	 * private Set<Integer> columnsToFill() { Set<Integer> s = new
+	 * HashSet<Integer>();
+	 * 
+	 * for (int j = COLUMNS - 1; j >= 0 && s.size() < COLUMNS; j--) { for (int i =
+	 * ROWS - 1; i >= 0 && s.size() < COLUMNS && !s.contains(j); i--) { if
+	 * (matrix[i][j].isEmpty()) { s.add(j); } } } }
+	 */
+	/**
+	 * Moves the player towards a specific direction.
+	 * 
+	 * @param direction the direction the player will move towards to
+	 */
+	public void movePlayerDirection(int direction) {
+		switch (direction) {
+		case Game.DOWN: {
+			movePlayerPosition(playerRow + 1, playerColumn);
+			break;
+		}
+		case Game.UP: {
+			movePlayerPosition(playerRow - 1, playerColumn);
+			break;
+		}
+		case Game.LEFT: {
+			movePlayerPosition(playerRow, playerColumn - 1);
+			break;
+		}
+		case Game.RIGHT: {
+			movePlayerPosition(playerRow, playerColumn + 1);
+			break;
+		}
+		}
+	}
 
-    /**
-     * Swaps the element the player is on with one that is relative to a specific
-     * direction
-     * 
-     * @param direction in which the element will be swapped
-     * @return a list of the elements destroyed
-     */
-    public List<Equivalent> swap(int direction) {
-        List<Equivalent> destroyed = new LinkedList<Equivalent>();
-        switch (direction) {
-        case Game.UP: {
-            destroyed = swapEntities(playerRow - 1, playerColumn);
-            break;
-        }
-        case Game.DOWN: {
-            destroyed = swapEntities(playerRow + 1, playerColumn);
-            break;
-        }
-        case Game.LEFT: {
-            destroyed = swapEntities(playerRow, playerColumn - 1);
-            break;
-        }
-        case Game.RIGHT: {
-            destroyed = swapEntities(playerRow, playerColumn + 1);
-            break;
-        }
-        }
-        return destroyed;
-    }
+	/**
+	 * Swaps the element the player is on with one that is relative to a specific
+	 * direction
+	 * 
+	 * @param direction in which the element will be swapped
+	 * @return a list of the elements destroyed
+	 */
+	public List<Equivalent> swap(int direction) {
+		List<Equivalent> destroyed = new LinkedList<Equivalent>();
+		switch (direction) {
+		case Game.UP: {
+			destroyed = swapEntities(playerRow - 1, playerColumn);
+			break;
+		}
+		case Game.DOWN: {
+			destroyed = swapEntities(playerRow + 1, playerColumn);
+			break;
+		}
+		case Game.LEFT: {
+			destroyed = swapEntities(playerRow, playerColumn - 1);
+			break;
+		}
+		case Game.RIGHT: {
+			destroyed = swapEntities(playerRow, playerColumn + 1);
+			break;
+		}
+		}
+		return destroyed;
+	}
 
-    /**
-     * returns a specific block from the board
-     * 
-     * @param row valid {@code row} values are ({@code row >= 0}) &&
-     * ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) &&
-     * ({@code column < }{@link Board#COLUMNS}}
-     * @return Block from the board,in the row and column specified
-     */
-    public Block getBlock(int row, int column) { return matrix[row][column]; }
+	/**
+	 * returns a specific block from the board
+	 * 
+	 * @param row    valid {@code row} values are ({@code row >= 0}) &&
+	 *               ({@code row < }{@link Board#ROWS})
+	 * @param column valid {@code column} values are ({@code column >= 0}) &&
+	 *               ({@code column < }{@link Board#COLUMNS}}
+	 * @return Block from the board,in the row and column specified
+	 */
+	public Block getBlock(int row, int column) {
+		return matrix[row][column];
+	}
 
-    /**
-     * Sets the player's position
-     * 
-     * @param newRow valid {@code row} values are ({@code row >= 0}) &&
-     * ({@code row < }{@link Board#ROWS})
-     * @param newColumn valid {@code column} values are ({@code column >= 0}) &&
-     * ({@code column < }{@link Board#COLUMNS}}
-     */
-    public void setPlayerPosition(int newRow, int newColumn) { matrix[newRow][newColumn].focus(); }
+	/**
+	 * Sets the player's position
+	 * 
+	 * @param newRow    valid {@code row} values are ({@code row >= 0}) &&
+	 *                  ({@code row < }{@link Board#ROWS})
+	 * @param newColumn valid {@code column} values are ({@code column >= 0}) &&
+	 *                  ({@code column < }{@link Board#COLUMNS}}
+	 */
+	public void setPlayerPosition(int newRow, int newColumn) {
+		matrix[newRow][newColumn].focus();
+	}
 
-    public Candy createRandomCandy(int row, int column) {
-        Candy entity = new Candy(row, column, randomColour());
-        addVisualEntity(entity);
-        return entity;
-    }
+	public Candy createRandomCandy(int row, int column) {
+		Candy entity = new Candy(row, column, randomColour());
+		addVisualEntity(entity);
+		return entity;
+	}
 
-    public void associateEntity(int row, int column, Entity entity) {
-        getBlock(row, column).setEntity(entity);
-        addVisualEntity(entity);
-    }
+	public void associateEntity(int row, int column, Entity entity) {
+		getBlock(row, column).setEntity(entity);
+		addVisualEntity(entity);
+	}
 
-    /**
-     * Sets a new entity in the block specified with row and column
-     * 
-     * @param row valid {@code row} values are ({@code row >= 0}) &&
-     * ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) &&
-     * ({@code column < }{@link Board#COLUMNS}}
-     * @param entity to be set on the block
-     */
-    public void setEntity(int row, int column, Entity entity) {
-        getBlock(row, column).setEntity(entity);
-        entity.changePosition(row, column);
-    }
+	/**
+	 * Sets a new entity in the block specified with row and column
+	 * 
+	 * @param row    valid {@code row} values are ({@code row >= 0}) &&
+	 *               ({@code row < }{@link Board#ROWS})
+	 * @param column valid {@code column} values are ({@code column >= 0}) &&
+	 *               ({@code column < }{@link Board#COLUMNS}}
+	 * @param entity to be set on the block
+	 */
+	public void setEntity(int row, int column, Entity entity) {
+		getBlock(row, column).setEntity(entity);
+		entity.changePosition(row, column);
+	}
 
-    public void addVisualEntity(VisualEntity entity) { entity.setGraphicalEntity(myGui.addLogicEntity(entity)); }
+	public void addVisualEntity(VisualEntity entity) {
+		entity.setGraphicalEntity(myGui.addLogicEntity(entity));
+	}
 
-    /**
-     * Destroys the entity inside the block specified with {@code row} and
-     * {@code column}
-     * 
-     * @param row valid {@code row} values are ({@code row >= 0}) &&
-     * ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) &&
-     * ({@code column < }{@link Board#COLUMNS}}
-     */
-    public Entity destroyEntity(int row, int column) { return getBlock(row, column).destroyEntity(); }
+	/**
+	 * Destroys the entity inside the block specified with {@code row} and
+	 * {@code column}
+	 * 
+	 * @param row    valid {@code row} values are ({@code row >= 0}) &&
+	 *               ({@code row < }{@link Board#ROWS})
+	 * @param column valid {@code column} values are ({@code column >= 0}) &&
+	 *               ({@code column < }{@link Board#COLUMNS}}
+	 */
+	public Entity destroyEntity(int row, int column) {
+		return getBlock(row, column).destroyEntity();
+	}
 
-    /**
-     * Swaps the entity the player is on with the one specified with {@code row} and
-     * {@code column}.
-     * 
-     * @param newRow valid {@code row} values are ({@code row >= 0}) &&
-     * ({@code row < }{@link Board#ROWS})
-     * @param newColumn valid {@code column} values are ({@code column >= 0}) &&
-     * ({@code column < }{@link Board#COLUMNS}}
-     * @return Elements destroyed by potential combinations
-     */
-    private List<Equivalent> swapEntities(int newRow, int newColumn) {
-        Set<Block> remaining = new HashSet<Block>();
-        List<Entity> powerCandys = new LinkedList<Entity>();
-        List<Equivalent> destroyed = new LinkedList<Equivalent>();
-        Entity powerCandy = null;
-        if (isValidBlock(newRow, newColumn)) {
-            Block b1 = matrix[playerRow][playerColumn];
-            Block b2 = matrix[newRow][newColumn];
-            if (canSwap(b1, b2)) {
-                entityMove.playNew();
-                b1.swapEntity(b2);
+	/**
+	 * Swaps the entity the player is on with the one specified with {@code row} and
+	 * {@code column}.
+	 * 
+	 * @param newRow    valid {@code row} values are ({@code row >= 0}) &&
+	 *                  ({@code row < }{@link Board#ROWS})
+	 * @param newColumn valid {@code column} values are ({@code column >= 0}) &&
+	 *                  ({@code column < }{@link Board#COLUMNS}}
+	 * @return Elements destroyed by potential combinations
+	 */
+	private List<Equivalent> swapEntities(int newRow, int newColumn) {
+		Set<Block> remaining = new HashSet<Block>();
+		List<Entity> powerCandys = new LinkedList<Entity>();
+		List<Equivalent> destroyed = new LinkedList<Equivalent>();
+		Entity powerCandy = null;
+		if (isValidBlock(newRow, newColumn)) {
+			Block b1 = matrix[playerRow][playerColumn];
+			Block b2 = matrix[newRow][newColumn];
+			if (canSwap(b1, b2)) {
+				entityMove.playNew();
+				b1.swapEntity(b2);
 
-                if (hasBooster(b1) && hasBooster(b2)) {
-                    remaining.addAll(b1.getEntity().getDestroyables(this));
-                    remaining.addAll(b2.getEntity().getDestroyables(this));
-                }
-                else {
-                    powerCandy = combinations.checkCombinations(playerRow, playerColumn, remaining);
-                    if (powerCandy != null) powerCandys.add(powerCandy);
-                    powerCandy = combinations.checkCombinations(newRow, newColumn, remaining);
-                    if (powerCandy != null) powerCandys.add(powerCandy);
-                }
-                if (!remaining.isEmpty()) {
-                    do // While there are remaining combinations, destroy them,fill the board, and check again
-                    {
-                        destroyed.addAll(destroyEntities(remaining));
-                        for (Entity entity : powerCandys) associateEntity(entity.getRow(), entity.getColumn(), entity);
-                        powerCandys.clear();
-                        Map<Integer, List<Block>> emptyBlocks = fillBoard();
-                        powerCandys.addAll(combinations.checkRemainingCombinations(emptyBlocks, remaining));
-                    } while (!remaining.isEmpty());
-                } else
-                    b1.swapEntity(b2);
-            }
-        }
-        return destroyed;
-    }
+				if (b1.getEntity().bothBooster(b2.getEntity())) {
+					remaining.addAll(b1.getEntity().getDestroyables(this));
+					remaining.addAll(b2.getEntity().getDestroyables(this));
+				} else {
+					powerCandy = combinations.checkCombinations(playerRow, playerColumn, remaining);
+					if (powerCandy != null)
+						powerCandys.add(powerCandy);
+					powerCandy = combinations.checkCombinations(newRow, newColumn, remaining);
+					if (powerCandy != null)
+						powerCandys.add(powerCandy);
+				}
+				if (!remaining.isEmpty()) {
+					do // While there are remaining combinations, destroy them,fill the board, and
+						// check again
+					{
+						destroyed.addAll(destroyEntities(remaining));
+						for (Entity entity : powerCandys)
+							associateEntity(entity.getRow(), entity.getColumn(), entity);
+						powerCandys.clear();
+						Map<Integer, List<Block>> emptyBlocks = fillBoard();
+						powerCandys.addAll(combinations.checkRemainingCombinations(emptyBlocks, remaining));
+					} while (!remaining.isEmpty());
+				} else
+					b1.swapEntity(b2);
+			}
+		}
+		return destroyed;
+	}
 
-    /**
-     * Destroys the entities inside the blocks specified.
-     * 
-     * @param remaining list of blocks set to be destroyed
-     * @return entities destroyed
-     */
-    private List<Equivalent> destroyEntities(Set<Block> remaining) {
-        List<Equivalent> destroyed = new LinkedList<Equivalent>();
-        List<Block> destroyables = new LinkedList<Block>();
-        for (Block b : remaining) { destroyables.addAll(b.getEntity().getDestroyables(this)); }
-        if (!destroyables.isEmpty()) { myGui.playSound(explosion); }
-        for (Block b : destroyables) {
-            if (b.hasModifiers()) destroyed.add(b.popModifier());
-            destroyed.add(b.getEntity());
-            destroyEntity(b.getRow(), b.getColumn());
-        }
-        remaining.clear();
-        return destroyed;
-    }
+	/**
+	 * Destroys the entities inside the blocks specified.
+	 * 
+	 * @param remaining list of blocks set to be destroyed
+	 * @return entities destroyed
+	 */
+	private List<Equivalent> destroyEntities(Set<Block> remaining) {
+		List<Equivalent> destroyed = new LinkedList<Equivalent>();
+		List<Block> destroyables = new LinkedList<Block>();
+		for (Block b : remaining) {
+			destroyables.addAll(b.getEntity().getDestroyables(this));
+		}
+		if (!destroyables.isEmpty()) {
+			myGui.playSound(explosion);
+		}
+		for (Block b : destroyables) {
+			if (b.hasModifiers())
+				destroyed.add(b.popModifier());
+			destroyed.add(b.getEntity());
+			destroyEntity(b.getRow(), b.getColumn());
+		}
+		remaining.clear();
+		return destroyed;
+	}
 
-    /**
-     * Fills the board pulling down the elements and putting random elements on the
-     * empty blocks
-     * 
-     * @return {@code columns} that were filled
-     */
-    private Map<Integer, List<Block>> fillBoard() {
-        Map<Integer, List<Block>> emptyColumns = new HashMap<Integer, List<Block>>();
-        Map<Integer, Integer> newCandys = new HashMap<Integer, Integer>();
-        List<Entity> candys = new LinkedList<Entity>();
+	/**
+	 * Fills the board pulling down the elements and putting random elements on the
+	 * empty blocks
+	 * 
+	 * @return {@code columns} that were filled
+	 */
+	private Map<Integer, List<Block>> fillBoard() {
+		Map<Integer, List<Block>> emptyColumns = new HashMap<Integer, List<Block>>();
+		Map<Integer, Integer> newCandys = new HashMap<Integer, Integer>();
+		List<Entity> candys = new LinkedList<Entity>();
 
-        for (int column = 0; column < COLUMNS; column++) {
-            List<Block> emptyBlocks = new LinkedList<Block>();
-            int extraCandys = 0;
-            for (int row = ROWS - 1; row >= 0; row--) {
-                Block block = getBlock(row, column);
-                if (block.isEmpty()) {
-                    emptyBlocks.add(block);
-                    extraCandys++;
-                }
-                else if (!hasMovableEntity(block))
-                    extraCandys = 0;
-            }
-            newCandys.put(column, extraCandys);
-            for (int i = 1; i <= extraCandys; i++)
-                candys.add(createRandomCandy(-i, column));
-            emptyColumns.put(column, emptyBlocks);
-        }
+		for (int column = 0; column < COLUMNS; column++) {
+			List<Block> emptyBlocks = new LinkedList<Block>();
+			int extraCandys = 0;
+			for (int row = ROWS - 1; row >= 0; row--) {
+				Block block = getBlock(row, column);
+				if (block.isEmpty()) {
+					emptyBlocks.add(block);
+					extraCandys++;
+				} else if (!hasMovableEntity(block))
+					extraCandys = 0;
+			}
+			newCandys.put(column, extraCandys);
+			for (int i = 1; i <= extraCandys; i++)
+				candys.add(createRandomCandy(-i, column));
+			emptyColumns.put(column, emptyBlocks);
+		}
 
-        for (int col = 0; col < COLUMNS; col++) {
-            List<Block> emptyBlocks = emptyColumns.get(col);
-            int amountExtraCandys = newCandys.get(col);
-            if (!emptyBlocks.isEmpty()) {
-                Block lower = emptyBlocks.get(0);
-                for (int i = lower.getRow(); i >= amountExtraCandys; i--) {
-                    Block current = getBlock(i, col);
-                    if (!current.isEmpty())
-                        continue;
-                    Block toSwap = upperNotEmpty(current);
-                    if (toSwap != null) {
-                        setEntity(current.getRow(), current.getColumn(), toSwap.getEntity());
-                        toSwap.setEntity(new Empty(toSwap.getRow(), toSwap.getColumn()));
-                    }
-                }
-                for (int i = amountExtraCandys-1; i >= 0; i--) {
-                    Block current = getBlock(i, col);
-                    setEntity(current.getRow(), current.getColumn(), candys.remove(0));
-                }
-            }
-        }
-        return emptyColumns;
-    }
+		for (int col = 0; col < COLUMNS; col++) {
+			List<Block> emptyBlocks = emptyColumns.get(col);
+			int amountExtraCandys = newCandys.get(col);
+			if (!emptyBlocks.isEmpty()) {
+				Block lower = emptyBlocks.get(0);
+				for (int i = lower.getRow(); i >= amountExtraCandys; i--) {
+					Block current = getBlock(i, col);
+					if (!current.isEmpty())
+						continue;
+					Block toSwap = upperNotEmpty(current);
+					if (toSwap != null) {
+						setEntity(current.getRow(), current.getColumn(), toSwap.getEntity());
+						toSwap.setEntity(new Empty(toSwap.getRow(), toSwap.getColumn()));
+					}
+				}
+				for (int i = amountExtraCandys - 1; i >= 0; i--) {
+					Block current = getBlock(i, col);
+					setEntity(current.getRow(), current.getColumn(), candys.remove(0));
+				}
+			}
+		}
+		return emptyColumns;
+	}
 
-    public Block upperNotEmpty(Block block) {
-        
-        Block nextNotEmpty = null;
+	public Block upperNotEmpty(Block block) {
 
-        int col = block.getColumn();
-        
-        for (int i = block.getRow()-1; i >= 0 && nextNotEmpty == null; i--) {
-            Block current = getBlock(i, col);
-            if (current.isEmpty())
-                continue;
-            if (!hasMovableEntity(current))
-                break;
-            nextNotEmpty = current;
-        }
-        return nextNotEmpty;
-    }
+		Block nextNotEmpty = null;
 
-    /**
-     * 
-     * @param row valid {@code row} values are ({@code row >= 0}) &&
-     * ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) &&
-     * ({@code column < }{@link Board#COLUMNS}}
-     * @return {@code true} if it is a valid position inside the board.
-     */
-    public static boolean isValidBlock(int row, int column) {
-        return row >= 0 && row < ROWS && column >= 0 && column < COLUMNS;
-    }
+		int col = block.getColumn();
 
-    /**
-     * Moves player's position to a new {@code row} and new {@code column}
-     * 
-     * @param newRow valid {@code row} values are ({@code row >= 0}) &&
-     * ({@code row < }{@link Board#ROWS})
-     * @param newColumn valid {@code column} values are ({@code column >= 0}) &&
-     * ({@code column < }{@link Board#COLUMNS}}
-     */
-    private void movePlayerPosition(int newRow, int newColumn) {
-        if (isValidBlock(newRow, newColumn)) {
-            blockMove.playNew();
-            matrix[newRow][newColumn].focus();
-            matrix[playerRow][playerColumn].defocus();
-            playerRow = newRow;
-            playerColumn = newColumn;
-        }
-    }
+		for (int i = block.getRow() - 1; i >= 0 && nextNotEmpty == null; i--) {
+			Block current = getBlock(i, col);
+			if (current.isEmpty())
+				continue;
+			if (!hasMovableEntity(current))
+				break;
+			nextNotEmpty = current;
+		}
+		return nextNotEmpty;
+	}
 
-    /**
-     * returns a random {@link Colour}, posibilities are
-     * RED,BLUE,PURPLE,YELLOW,GREEN
-     * 
-     * @return random colour
-     */
-    private Colour randomColour() {
-        Colour[] colores = { Colour.BLUE, Colour.GREEN, Colour.PURPLE, Colour.RED, Colour.YELLOW };
-        Random r = new Random();
-        return colores[Math.abs(r.nextInt()) % 5];
-    }
+	/**
+	 * 
+	 * @param row    valid {@code row} values are ({@code row >= 0}) &&
+	 *               ({@code row < }{@link Board#ROWS})
+	 * @param column valid {@code column} values are ({@code column >= 0}) &&
+	 *               ({@code column < }{@link Board#COLUMNS}}
+	 * @return {@code true} if it is a valid position inside the board.
+	 */
+	public static boolean isValidBlock(int row, int column) {
+		return row >= 0 && row < ROWS && column >= 0 && column < COLUMNS;
+	}
 
-    private boolean canSwap(Block block1, Block block2) {
-        final Entity e1 = block1.getEntity(); 
-        final Entity e2 = block2.getEntity(); 
-        return e1.isSwappable(e2);
-    }
+	/**
+	 * Moves player's position to a new {@code row} and new {@code column}
+	 * 
+	 * @param newRow    valid {@code row} values are ({@code row >= 0}) &&
+	 *                  ({@code row < }{@link Board#ROWS})
+	 * @param newColumn valid {@code column} values are ({@code column >= 0}) &&
+	 *                  ({@code column < }{@link Board#COLUMNS}}
+	 */
+	private void movePlayerPosition(int newRow, int newColumn) {
+		if (isValidBlock(newRow, newColumn)) {
+			blockMove.playNew();
+			matrix[newRow][newColumn].focus();
+			matrix[playerRow][playerColumn].defocus();
+			playerRow = newRow;
+			playerColumn = newColumn;
+		}
+	}
 
-    private boolean hasBooster(Block block) { return block.getEntity().isBooster(); }
+	/**
+	 * returns a random {@link Colour}, posibilities are
+	 * RED,BLUE,PURPLE,YELLOW,GREEN
+	 * 
+	 * @return random colour
+	 */
+	private Colour randomColour() {
+		Colour[] colores = { Colour.BLUE, Colour.GREEN, Colour.PURPLE, Colour.RED, Colour.YELLOW };
+		Random r = new Random();
+		return colores[Math.abs(r.nextInt()) % 5];
+	}
 
-    public static boolean hasMovableEntity(Block block) { return dummy.isSwappable(block.getEntity()); }
+	private boolean canSwap(Block block1, Block block2) {
+		final Entity e1 = block1.getEntity();
+		final Entity e2 = block2.getEntity();
+		return e1.isSwappable(e2);
+	}
 
-    public boolean compareColors(Block block1, Block block2) {
-        return block1.getEntity().getColour() == block2.getEntity().getColour();
-    }
+	public static boolean hasMovableEntity(Block block) {
+		return dummy.isSwappable(block.getEntity());
+	}
+
+	public boolean compareColors(Block block1, Block block2) {
+		return block1.getEntity().getColour() == block2.getEntity().getColour();
+	}
 }
