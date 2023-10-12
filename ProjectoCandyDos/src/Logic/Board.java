@@ -279,15 +279,14 @@ public class Board {
                     extraCandys = 0;
             }
             newCandys.put(column, extraCandys);
-            for (int i = 0; i < extraCandys; i++)
-                candys.add(createRandomCandy(-1-i, column));
+            for (int i = 1; i <= extraCandys; i++)
+                candys.add(createRandomCandy(-i, column));
             emptyColumns.put(column, emptyBlocks);
         }
 
         for (int col = 0; col < COLUMNS; col++) {
             List<Block> emptyBlocks = emptyColumns.get(col);
             int amountExtraCandys = newCandys.get(col);
-            boolean bFall = false;
             if (!emptyBlocks.isEmpty()) {
                 Block lower = emptyBlocks.get(0);
                 for (int i = lower.getRow(); i >= amountExtraCandys; i--) {
@@ -296,18 +295,14 @@ public class Board {
                         continue;
                     Block toSwap = upperNotEmpty(current);
                     if (toSwap != null) {
-                        bFall = true;
                         setEntity(current.getRow(), current.getColumn(), toSwap.getEntity());
                         toSwap.setEntity(new Empty(toSwap.getRow(), toSwap.getColumn()));
                     }
                 }
                 for (int i = amountExtraCandys-1; i >= 0; i--) {
-                    bFall = true;
                     Block current = getBlock(i, col);
                     setEntity(current.getRow(), current.getColumn(), candys.remove(0));
                 }
-                if (!bFall)
-                    emptyBlocks.clear();
             }
         }
         return emptyColumns;

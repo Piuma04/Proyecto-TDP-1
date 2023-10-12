@@ -44,8 +44,7 @@ public class Combination {
             List<Block> oldEmptyBlocks = emptyColumnBlocks.get(col);
             if (oldEmptyBlocks.size() > 0) {
                 Block lower = oldEmptyBlocks.get(0);
-                int row = lower.getRow()+2 > Board.getRows()-1 ? Board.getRows()-1 : lower.getRow() + 2;
-                for (; row >= 0; row--) {
+                for (int row = lower.getRow(); row >= 0; row--) {
                     powerCandy = checkCombinations(row, col, combinations);
                     if (powerCandy != null)
                         powerCandys.add(powerCandy);
