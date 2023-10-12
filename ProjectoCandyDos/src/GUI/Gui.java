@@ -86,6 +86,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
                     case KeyEvent.VK_S:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.DOWN); break; }
                     case KeyEvent.VK_A:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.LEFT); break; }
                     case KeyEvent.VK_D:     { if (!animator.isActive() && !myGame.isLost()) myGame.swap(Game.RIGHT); break; }
+                    case KeyEvent.VK_O:     { if (!animator.isActive() && !myGame.isLost()) myGame.lost(); break; }
                     case KeyEvent.VK_J:     { System.out.println(boardPanel.getComponents().length); }
                 }
             }
