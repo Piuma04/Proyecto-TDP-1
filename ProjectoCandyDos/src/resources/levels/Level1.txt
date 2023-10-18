@@ -2,6 +2,6 @@ B,15,20,120
 Y,R,B,B,P,G
 P,R,G,B,Y,B
 G,P,B,Y,Y,R
-G,B,R,P,R,Y
+G,B,RW,RW,R,Y
 R,G,P,B,B,P
 B,P,Y,G,R,R

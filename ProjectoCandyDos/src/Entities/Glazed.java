@@ -10,21 +10,29 @@ import Logic.Board;
 
 public class Glazed extends Entity {
 
-    public Glazed(int rowPosition, int columnPosition) {
-        super(rowPosition, columnPosition, Colour.GLAZED);
-    }
+	public Glazed(int rowPosition, int columnPosition) {
+		super(rowPosition, columnPosition, Colour.GLAZED);
+	}
 
-    @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
-    @Override public boolean isEqual(Glazed g) { return true; }
+	@Override
+	public boolean isEquivalent(Equivalent e) {
+		return e.isEqual(this);
+	}
 
-    // TODO
-    @Override
-    public List<Block> getDestroyables(Board b) {
-        List<Block> toDestroy = new LinkedList<Block>();
-       
-        toDestroy.add(b.getBlock(row, column));//TODO Puede fallar
-        return toDestroy;
-    }
+	@Override
+	public boolean isEqual(Glazed g) {
+		return true;
+	}
 
-    public String toString() { return super.setStringColor("M"); }
+	@Override
+	public List<Block> getDestroyables(Board b) {
+		List<Block> toDestroy = new LinkedList<Block>();
+		toDestroy.add(b.getBlock(row, column));
+		return toDestroy;
+	}
+
+	public String toString() {
+		return super.setStringColor("M");
+	}
+
 }
