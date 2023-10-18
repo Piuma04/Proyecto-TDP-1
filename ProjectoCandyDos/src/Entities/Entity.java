@@ -13,7 +13,7 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     protected boolean visited = false;
 
     Entity(int rowPosition, int columnPosition, Colour colour) {
-        this.setPicSize(this.getPicSize() - 20);
+        this.setPicSize(this.getPicSize() - 25);
         row = rowPosition;
         column = columnPosition;
         this.colour = colour;

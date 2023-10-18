@@ -214,9 +214,9 @@ public class Board {
                     remaining.addAll(b2.getEntity().getDestroyables(this));
                 }
                 else {
-                    powerCandy = combinations.checkCombinations(playerRow, playerColumn, remaining);
+                    powerCandy = combinations.checkCombinations(b1, remaining);
                     if (powerCandy != null) powerCandys.add(powerCandy);
-                    powerCandy = combinations.checkCombinations(newRow, newColumn, remaining);
+                    powerCandy = combinations.checkCombinations(b2, remaining);
                     if (powerCandy != null) powerCandys.add(powerCandy);
                 }
                 if (!remaining.isEmpty()) {

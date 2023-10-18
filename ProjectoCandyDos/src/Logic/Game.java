@@ -28,7 +28,6 @@ public class Game {
     private Timer myTimer;
     private int lives;
     private boolean animationNextLevel;
-    
 
     public Game() {
         myGui = new Gui(this);
@@ -56,51 +55,60 @@ public class Game {
     }
 
     public void swap(int direction) {
-        List<Equivalent> list = myBoard.swap(direction);
+        List<Equivalent> destroyed = myBoard.swap(direction);
         myGui.updateMoves(myLevel.getMoves());
         myGui.executeAfterAnimation(() -> {
             SwingUtilities.invokeLater( () -> {
-                boolean finished = myLevel.update(list);
-                myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
-                if (finished) {
-                    myTimer.stopTimer();
-                    if (myLevel.isLastLevel()) {
-                        myGui.showMessage("Felicitaciones! Ha ganado el juego");
-                        //myGui.reset();
-                        // MUST ADD WIN WINDOW!
-                    }
-                    else {
-                        myGui.showMessage("Siguiente nivel?");
-                        loadLevel(myLevel.getCurrentLevel()+1);
-                    }
-                } else if (myLevel.lost()) {
-                    lost();
-                }
+                update(destroyed);
             });
         });
     }
 
     public void move(int direction) { myBoard.movePlayerDirection(direction); }
 
-    public void timerEnded() { if (myLevel.getRemainingObjectives() > 0) { lost(); } }
+    public void timerEnded() { if (!isAnimating() && myLevel.getRemainingObjectives() > 0) { lost(); } }
+
+    public void update(List<Equivalent> destroyed) {
+        boolean finished = myLevel.update(destroyed);
+        myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
+        if (finished) 
+            _win();
+        else if (myLevel.lost())
+            _lost();
+    }
+
+    private void _win() {
+        myTimer.stopTimer();
+        if (myLevel.isLastLevel()) {
+            myGui.showMessage("Felicitaciones! Ha ganado el juego");
+            //myGui.reset();
+            // MUST ADD WIN WINDOW!
+        }
+        else {
+            myGui.showMessage("Siguiente nivel?");
+            loadLevel(myLevel.getCurrentLevel()+1);
+        }
+    }
+
+    private void _lost() {
+        lives--;
+        myTimer.stopTimer();
+        myGui.updateLives(lives);
+        backgroundMusic.stop();
+        lostSound.play();
+        if (lives == 0)
+            myGui.showMessage("Perdio el juego");
+        else {
+            myGui.showMessage("Perdio una vida, reintente!");
+            loadLevel(myLevel.getCurrentLevel());
+        }
+        backgroundMusic.start();
+    }
 
     public void lost() {
-        animationNextLevel = true;
         myGui.executeAfterAnimation(() -> {
             SwingUtilities.invokeLater( () -> {
-                lives--;
-                myTimer.stopTimer();
-                myGui.updateLives(lives);
-                backgroundMusic.stop();
-                lostSound.play();
-                if (lives == 0)
-                    myGui.showMessage("Perdio el juego");
-                else {
-                    myGui.showMessage("Perdio una vida, reintente!");
-                    loadLevel(myLevel.getCurrentLevel());
-                }
-                backgroundMusic.start();
-                animationNextLevel = false;
+                _lost();
             });
         });
     }
