@@ -22,14 +22,6 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
 		imagePath = colour.toString() + "/" + colour.toString() + ".png";
 	}
 
-	Entity(int rowPosition, int columnPosition, Colour colour) {
-		this.setPicSize(this.getPicSize() - 20);
-		row = rowPosition;
-		column = columnPosition;
-		this.colour = colour;
-		imagePath = colour.toString() + "/" + colour.toString() + ".png";
-	}
-
 	public Colour getColour() {
 		return colour;
 	}
