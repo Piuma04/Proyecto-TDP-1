@@ -8,6 +8,7 @@ import java.util.HashSet;
 
 import Entities.Colour;
 import Entities.Entity;
+import Entities.PriorityEntity;
 import Entities.Stripped;
 import Entities.Wrapped;
 
@@ -46,8 +47,8 @@ public class Combination {
     }
 
     private Entity checkFullCombination(Block block, Set<Block> combinationsOut) {
-        List<Entity> candys = new LinkedList<Entity>();
-        Entity candy = null;
+        List<PriorityEntity> candys = new LinkedList<PriorityEntity>();
+        PriorityEntity candy = null;
 
         Set<Block> combination = new HashSet<Block>();
         candy = checkBlockCombination(block, combination);
@@ -56,17 +57,24 @@ public class Combination {
         combinationsOut.addAll(combination);
 
         for (Block b : combination) {
-            Set<Block> currentCombs = new HashSet<Block>();
-            candy = checkBlockCombination(b, currentCombs);
+            Set<Block> currentCombinations = new HashSet<Block>();
+            candy = checkBlockCombination(b, currentCombinations);
             if (candy != null)
                 candys.add(candy);
-            combinationsOut.addAll(currentCombs);
+            combinationsOut.addAll(currentCombinations);
         }
+        // Get maximum priority.
         candy = candys.size() > 0 ? candys.get(0) : null;
-        return candy;
+        
+        for (PriorityEntity pe : candys) {
+            if (pe.getPriority() > candy.getPriority())
+                candy = pe;
+        }
+
+        return candy != null ? candy.getEntity() : null;
     }
 
-    private Entity checkBlockCombination(Block block, Set<Block> combinationsOut) {
+    private PriorityEntity checkBlockCombination(Block block, Set<Block> combinationsOut) {
         Set<Block> combination = new HashSet<Block>();
         Set<Block> consecutiveH = new HashSet<Block>();
         Set<Block> consecutiveV = new HashSet<Block>();
@@ -80,13 +88,13 @@ public class Combination {
         int vSize = consecutiveV.size();
         int row = block.getRow();
         int column = block.getColumn();
-        Entity entity = null;
+        PriorityEntity entity = null;
         if ((hSize + vSize < 6) && (hSize + vSize > 3) && (hSize >= 2) && (vSize >= 2))
-            entity = new Wrapped(row, column, color);
+            entity = new PriorityEntity(new Wrapped(row, column, color), 2);
         else if (hSize == 3)
-            entity = new Stripped(row, column, color, false);
+            entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
         else if (vSize == 3)
-            entity = new Stripped(row, column, color, true);
+            entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
         if (combination.size() >= 3)
             combinationsOut.addAll(combination);
         return entity;
