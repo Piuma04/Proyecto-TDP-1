@@ -32,7 +32,7 @@ public class Board {
     private int playerRow, playerColumn;
     private Block[][] matrix;
     private Gui myGui;
-    private Combination combinations;
+    private Combination combinationLogic;
     private boolean playerSetted;
 
     public Board(Gui gui) {
@@ -40,7 +40,7 @@ public class Board {
         playerRow = ROWS / 2;
         playerColumn = COLUMNS / 2;
         myGui = gui;
-        combinations = new Combination(this);
+        combinationLogic = new Combination(this);
         playerSetted = false;
         for (int row = 0; row < ROWS; row++) for (int column = 0; column < COLUMNS; column++) {
             Block block = new Block(row, column);
@@ -160,38 +160,34 @@ public class Board {
     public Entity destroyEntity(int row, int column) { return getBlock(row, column).destroyEntity(); }
 
     private List<Equivalent> swapEntities(int newRow, int newColumn) {
-        Set<Block> remaining = new HashSet<Block>();
+        Set<Block> combinations = new HashSet<Block>();
         List<Entity> powerCandys = new LinkedList<Entity>();
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
-        Entity powerCandy = null;
         if (isValidBlock(newRow, newColumn)) {
             Block b1 = matrix[playerRow][playerColumn];
             Block b2 = matrix[newRow][newColumn];
             if (canSwap(b1, b2)) {
                 entityMove.playNew();
                 b1.swapEntity(b2);
-
+                combinations.add(b1);
+                combinations.add(b2);
                 if (hasBooster(b1) && hasBooster(b2)) {
-                    remaining.addAll(b1.getEntity().getDestroyables(this));
-                    remaining.addAll(b2.getEntity().getDestroyables(this));
+                    combinations.addAll(b1.getEntity().getDestroyables(this));
+                    combinations.addAll(b2.getEntity().getDestroyables(this));
                 }
-                else {
-                    powerCandy = combinations.checkCombinations(b1, remaining);
-                    if (powerCandy != null) powerCandys.add(powerCandy);
-                    powerCandy = combinations.checkCombinations(b2, remaining);
-                    if (powerCandy != null) powerCandys.add(powerCandy);
-                }
-                if (!remaining.isEmpty()) {
+                else
+                    combinations = combinationLogic.checkCombinations(combinations, powerCandys);
+
+                if (!combinations.isEmpty()) {
                     do // While there are remaining combinations, destroy them,fill the board, and check again
                     {
-                        destroyed.addAll(destroyEntities(remaining));
+                        destroyed.addAll(destroyEntities(combinations));
                         for (Entity entity : powerCandys) associateEntity(entity.getRow(), entity.getColumn(), entity);
                         powerCandys.clear();
                         Map<Integer, List<Block>> emptyBlocks = fillBoard();
-                        powerCandys.addAll(combinations.checkRemainingCombinations(emptyBlocks, remaining));
-                    } while (!remaining.isEmpty());
-                } else
-                    b1.swapEntity(b2);
+                        combinations = combinationLogic.checkRemainingCombinations(emptyBlocks, powerCandys);
+                    } while (!combinations.isEmpty());
+                } // else b1.swapEntity(b2);
             }
         }
         return destroyed;

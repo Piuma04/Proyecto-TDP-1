@@ -16,41 +16,57 @@ public class Combination {
 
     public Combination(Board b) { board = b; }
 
-    public List<Entity> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, Set<Block> combinations) {
-        List<Entity> powerCandys = new LinkedList<Entity>();
-        Entity powerCandy = null;
+    public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
+        Set<Block> unchecked = new HashSet<Block>();
         for (int col = 0; col < Board.getColumns(); col++) {
             List<Block> oldEmptyBlocks = emptyColumnBlocks.get(col);
-            if (oldEmptyBlocks.size() > 0) {
+            if (oldEmptyBlocks.size() > 0)
+            {
                 Block lower = oldEmptyBlocks.get(0);
                 for (int row = lower.getRow(); row >= 0; row--) {
                     Block block = board.getBlock(row, col);
-                    powerCandy = checkCombinations(block, combinations);
-                    if (powerCandy != null)
-                        powerCandys.add(powerCandy);
+                    unchecked.add(block);
                 }
             }
         }
-        return powerCandys;
+        return checkCombinations(unchecked, candysOut);
     }
  
-    /*public List<Block> checkCombinations(Set<Block> blocks, Set<Entity> candysOut) {
-
+    public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut) {
+        Set<Block> combinations = new HashSet<Block>();
+        Entity candy = null;
         for (Block block : blocks) {
-
-            Set<Block> combinations = new HashSet<Block>();
-            checkBlockCombinations(block, combinations);
-
-            for (Block b : combinations) {
-                checkBlockCombinations(b, combinations);
+            if (!combinations.contains(block)) {
+                candy = checkFullCombination(block, combinations);
+                if (candy != null)
+                    candysOut.add(candy);
             }
-
         }
+        return combinations;
+    }
 
-        return null;
-    }*/
-    
-    public Entity checkCombinations(Block block, Set<Block> combinations) {
+    private Entity checkFullCombination(Block block, Set<Block> combinationsOut) {
+        List<Entity> candys = new LinkedList<Entity>();
+        Entity candy = null;
+
+        Set<Block> combination = new HashSet<Block>();
+        candy = checkBlockCombination(block, combination);
+        if (candy != null) candys.add(candy);
+
+        combinationsOut.addAll(combination);
+
+        for (Block b : combination) {
+            Set<Block> currentCombs = new HashSet<Block>();
+            candy = checkBlockCombination(b, currentCombs);
+            if (candy != null)
+                candys.add(candy);
+            combinationsOut.addAll(currentCombs);
+        }
+        candy = candys.size() > 0 ? candys.get(0) : null;
+        return candy;
+    }
+
+    private Entity checkBlockCombination(Block block, Set<Block> combinationsOut) {
         Set<Block> combination = new HashSet<Block>();
         Set<Block> consecutiveH = new HashSet<Block>();
         Set<Block> consecutiveV = new HashSet<Block>();
@@ -65,16 +81,14 @@ public class Combination {
         int row = block.getRow();
         int column = block.getColumn();
         Entity entity = null;
-        if ((hSize + vSize < 6) && (hSize + vSize > 3) && (hSize >= 2) && (vSize >= 2)) {
+        if ((hSize + vSize < 6) && (hSize + vSize > 3) && (hSize >= 2) && (vSize >= 2))
             entity = new Wrapped(row, column, color);
-        }
         else if (hSize == 3)
             entity = new Stripped(row, column, color, false);
         else if (vSize == 3)
             entity = new Stripped(row, column, color, true);
-        if (combination.size() < 3)
-            combination.clear();
-        combinations.addAll(combination);
+        if (combination.size() >= 3)
+            combinationsOut.addAll(combination);
         return entity;
     }
 
