@@ -57,24 +57,36 @@ public class Game {
     public void swap(int direction) {
         List<Equivalent> destroyed = myBoard.swap(direction);
         myGui.updateMoves(myLevel.getMoves());
-        myGui.executeAfterAnimation(() -> {
-            SwingUtilities.invokeLater( () -> {
-                update(destroyed);
-            });
-        });
+        update(destroyed);
     }
 
     public void move(int direction) { myBoard.movePlayerDirection(direction); }
 
-    public void timerEnded() { if (!isAnimating() && myLevel.getRemainingObjectives() > 0) { lost(); } }
+    public void timerEnded() { if (!animationNextLevel && myLevel.getRemainingObjectives() > 0) { lost(); } }
 
     public void update(List<Equivalent> destroyed) {
         boolean finished = myLevel.update(destroyed);
-        myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
-        if (finished) 
-            _win();
+
+        myGui.executeAfterAnimation(() -> {
+            SwingUtilities.invokeLater( () -> {
+                myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
+            });
+        });
+
+        if (finished)
+            win();
         else if (myLevel.lost())
-            _lost();
+            lost();
+    }
+
+    public void win() {
+        animationNextLevel = true;
+        myGui.executeAfterAnimation(() -> {
+            SwingUtilities.invokeLater( () -> {
+                _win();
+                animationNextLevel = false;
+            });
+        });
     }
 
     private void _win() {
@@ -90,6 +102,16 @@ public class Game {
         }
     }
 
+    public void lost() {
+        animationNextLevel = true;
+        myGui.executeAfterAnimation(() -> {
+            SwingUtilities.invokeLater( () -> {
+                _lost();
+                animationNextLevel = false;
+            });
+        });
+    }
+
     private void _lost() {
         lives--;
         myTimer.stopTimer();
@@ -103,14 +125,6 @@ public class Game {
             loadLevel(myLevel.getCurrentLevel());
         }
         backgroundMusic.start();
-    }
-
-    public void lost() {
-        myGui.executeAfterAnimation(() -> {
-            SwingUtilities.invokeLater( () -> {
-                _lost();
-            });
-        });
     }
 
     public boolean isAnimating() { return animationNextLevel; }

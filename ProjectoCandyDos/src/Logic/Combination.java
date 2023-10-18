@@ -12,20 +12,11 @@ import Entities.Stripped;
 import Entities.Wrapped;
 
 public class Combination {
+    private Board board;
 
-	private Board board;
-	public Combination(Board b)
-	{
-		board = b;
-	}
-	
-	 /**
-     * checks the combinations of the {@code columns} specified
-     * @param columns {@code columns} to be checked
-     * @return blocks that make combinations on the {@code columns} specified
-     */
-    public List<Entity> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, Set<Block> combinations) 
-    {
+    public Combination(Board b) { board = b; }
+
+    public List<Entity> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, Set<Block> combinations) {
         List<Entity> powerCandys = new LinkedList<Entity>();
         Entity powerCandy = null;
         for (int col = 0; col < Board.getColumns(); col++) {
@@ -42,18 +33,17 @@ public class Combination {
         }
         return powerCandys;
     }
+ 
+    /*public List<Entity> checkCombinations(Set<Block> blocks, Set<Entity> candysOut) {
 
-    /**
-     * Checks the combinations an element specified with {@code row} and {@code column} makes with the surrounding elements
-     * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
-     * @return blocks that contain the elements that combined
-     */
-    public Entity checkCombinations(Block block, Set<Block> remaining) 
-    {
-        /*if (remaining.contains(block))
-            return null;*/
-        
+        for (Block block : blocks) {
+            
+        }
+
+        return null;
+    }*/
+    
+    public Entity checkCombinations(Block block, Set<Block> destroyOut) {
         Set<Block> combination = new HashSet<Block>();
         Set<Block> consecutiveH = new HashSet<Block>();
         Set<Block> consecutiveV = new HashSet<Block>();
@@ -65,92 +55,87 @@ public class Combination {
         combination.addAll(consecutiveH);
         int hSize = consecutiveH.size();
         int vSize = consecutiveV.size();
-
         int row = block.getRow();
         int column = block.getColumn();
-
-        Entity entity = null; 
+        Entity entity = null;
         if ((hSize + vSize < 6) && (hSize + vSize > 3) && (hSize >= 2) && (vSize >= 2)) {
-            //Block central = getCentralBlock(combination);
             entity = new Wrapped(row, column, color);
         }
-        else if (hSize == 3) 
-           entity = new Stripped(row, column, color, false);
-        else if (vSize == 3) 
+        else if (hSize == 3)
+            entity = new Stripped(row, column, color, false);
+        else if (vSize == 3)
             entity = new Stripped(row, column, color, true);
-        if(combination.size()<3)
+        if (combination.size() < 3)
             combination.clear();
-        remaining.addAll(combination);
+        destroyOut.addAll(combination);
         return entity;
     }
+
     /**
-     * Checks the horizontal combinations an element specified with row and column makes
-     * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+     * Checks the horizontal combinations an element specified with row and column
+     * makes
+     * 
+     * @param row valid {@code row} values are ({@code row >= 0}) &&
+     * ({@code row < }{@link Board#ROWS})
+     * @param column valid {@code column} values are ({@code column >= 0}) &&
+     * ({@code column < }{@link Board#COLUMNS}}
      * @param combination blocks that make combinations
      * @return amount of horizontal combinations
      */
-    private Set<Block> consecutiveV(Block block) 
-    {
+    private Set<Block> consecutiveV(Block block) {
         Set<Block> blocks = new HashSet<Block>();
-        
         int row = block.getRow();
         int column = block.getColumn();
-
         if (!Board.hasMovableEntity(block))
             return blocks;
-
         boolean cumple = true;
-        for (int r = row + 1; Board.isValidBlock(r, column) && cumple; r++) 
-        {
+        for (int r = row + 1; Board.isValidBlock(r, column) && cumple; r++) {
             Block current = board.getBlock(r, column);
             cumple = board.compareColors(block, current);
             if (cumple)
                 blocks.add(current);
         }
         cumple = true;
-        for (int r = row - 1; r >= 0 && r < Board.getRows() && cumple; r--) 
-        {
+        for (int r = row - 1; r >= 0 && r < Board.getRows() && cumple; r--) {
             Block current = board.getBlock(r, column);
             cumple = board.compareColors(block, current);
-            if (cumple) 
+            if (cumple)
                 blocks.add(current);
         }
         if (blocks.size() < 2)
             blocks.clear();
         return blocks;
     }
+
     /**
-     * Checks the vertical combinations an element specified with row and column makes
-     * @param row valid {@code row} values are ({@code row >= 0}) && ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) && ({@code column < }{@link Board#COLUMNS}}
+     * Checks the vertical combinations an element specified with row and column
+     * makes
+     * 
+     * @param row valid {@code row} values are ({@code row >= 0}) &&
+     * ({@code row < }{@link Board#ROWS})
+     * @param column valid {@code column} values are ({@code column >= 0}) &&
+     * ({@code column < }{@link Board#COLUMNS}}
      * @param combination blocks that make combinations
      * @return amount of vertical combinations
      */
-    private Set<Block> consecutiveH(Block block) 
-    {
+    private Set<Block> consecutiveH(Block block) {
         Set<Block> blocks = new HashSet<Block>();
-
         int row = block.getRow();
         int column = block.getColumn();
-
         if (!Board.hasMovableEntity(block))
             return blocks;
-        
         boolean cumple = true;
-        for (int c = column + 1; Board.isValidBlock(row, c) && cumple; c++) 
-        {
+        for (int c = column + 1; Board.isValidBlock(row, c) && cumple; c++) {
             Block current = board.getBlock(row, c);
             cumple = board.compareColors(block, current);
             if (cumple)
                 blocks.add(current);
         }
         cumple = true;
-        for (int c = column - 1; Board.isValidBlock(row, c) && cumple; c--) 
-        {
+        for (int c = column - 1; Board.isValidBlock(row, c) && cumple; c--) {
             Block current = board.getBlock(row, c);
             cumple = board.compareColors(block, current);
-            if (cumple) 
+            if (cumple)
                 blocks.add(current);
         }
         if (blocks.size() < 2)
