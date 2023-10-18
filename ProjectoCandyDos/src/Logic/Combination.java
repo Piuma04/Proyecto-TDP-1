@@ -34,16 +34,23 @@ public class Combination {
         return powerCandys;
     }
  
-    /*public List<Entity> checkCombinations(Set<Block> blocks, Set<Entity> candysOut) {
+    /*public List<Block> checkCombinations(Set<Block> blocks, Set<Entity> candysOut) {
 
         for (Block block : blocks) {
-            
+
+            Set<Block> combinations = new HashSet<Block>();
+            checkBlockCombinations(block, combinations);
+
+            for (Block b : combinations) {
+                checkBlockCombinations(b, combinations);
+            }
+
         }
 
         return null;
     }*/
     
-    public Entity checkCombinations(Block block, Set<Block> destroyOut) {
+    public Entity checkCombinations(Block block, Set<Block> combinations) {
         Set<Block> combination = new HashSet<Block>();
         Set<Block> consecutiveH = new HashSet<Block>();
         Set<Block> consecutiveV = new HashSet<Block>();
@@ -67,7 +74,7 @@ public class Combination {
             entity = new Stripped(row, column, color, true);
         if (combination.size() < 3)
             combination.clear();
-        destroyOut.addAll(combination);
+        combinations.addAll(combination);
         return entity;
     }
 
