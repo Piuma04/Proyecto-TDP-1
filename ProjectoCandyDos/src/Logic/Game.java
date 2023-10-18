@@ -34,7 +34,6 @@ public class Game {
         myTimer = new Timer(this, myGui);
         int level = 1; // myGui.chooseLevel(); MUST CHECK IF USER INSERTED INTEGER.
         lives = 3;
-        animationNextLevel = false;
         loadLevel(level);
         myGui.setVisible(true);
         backgroundMusic.loop();
@@ -44,14 +43,11 @@ public class Game {
         myGui.reset();
         myBoard = new Board(myGui);
         myLevel = LevelGenerator.generateLevel("level" + String.valueOf(level) + ".txt", myBoard);
-        myGui.executeAfterAnimation( () -> { myBoard.setPlayerPosition(Board.getRows()/2, Board.getColumns()/2); });
-
         myGui.updateMoves(myLevel.getMoves());
         myGui.updateLives(lives);
         myGui.showObjective(myLevel.getObjective(), myLevel.getRemainingObjectives());
         myGui.setCurrentLevel("Nivel " + myLevel.getCurrentLevel());
         myTimer.startTimer(myLevel.getTimeLimit());
-        
     }
 
     public void swap(int direction) {
@@ -60,7 +56,9 @@ public class Game {
         update(destroyed);
     }
 
-    public void move(int direction) { myBoard.movePlayerDirection(direction); }
+    public void move(int direction) {
+        SwingUtilities.invokeLater(() -> { myBoard.movePlayerDirection(direction); });
+    }
 
     public void timerEnded() { if (!animationNextLevel && myLevel.getRemainingObjectives() > 0) { lost(); } }
 
