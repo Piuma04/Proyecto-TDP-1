@@ -161,12 +161,14 @@ public class Board {
 
     private List<Equivalent> swapEntities(int newRow, int newColumn) {
         Set<Block> remaining = new HashSet<Block>();
-        List<Entity> powerCandys = new LinkedList<Entity>();
+        Set<Block> toCheck = new HashSet<Block>();
+        Set<Entity> powerCandys = new HashSet<Entity>();
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
-        Entity powerCandy = null;
         if (isValidBlock(newRow, newColumn)) {
             Block b1 = matrix[playerRow][playerColumn];
             Block b2 = matrix[newRow][newColumn];
+            remaining.add(b1);
+            remaining.add(b2);
             if (canSwap(b1, b2)) {
                 entityMove.playNew();
                 b1.swapEntity(b2);
@@ -175,12 +177,8 @@ public class Board {
                     remaining.addAll(b1.getEntity().getDestroyables(this));
                     remaining.addAll(b2.getEntity().getDestroyables(this));
                 }
-                else {
-                    powerCandy = combinations.checkCombinations(b1, remaining);
-                    if (powerCandy != null) powerCandys.add(powerCandy);
-                    powerCandy = combinations.checkCombinations(b2, remaining);
-                    if (powerCandy != null) powerCandys.add(powerCandy);
-                }
+                else
+                	remaining = combinations.checkCombinations(remaining,powerCandys);
                 if (!remaining.isEmpty()) {
                     do // While there are remaining combinations, destroy them,fill the board, and check again
                     {

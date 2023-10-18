@@ -16,34 +16,36 @@ public class Combination {
 
     public Combination(Board b) { board = b; }
 
-    public List<Entity> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, Set<Block> combinations) {
-        List<Entity> powerCandys = new LinkedList<Entity>();
-        Entity powerCandy = null;
+    public Set<Entity> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, Set<Block> combinations) {
+        Set<Entity> powerCandys = new HashSet<Entity>();
+        Set<Block> blocksToCheck = new HashSet<Block>();
         for (int col = 0; col < Board.getColumns(); col++) {
             List<Block> oldEmptyBlocks = emptyColumnBlocks.get(col);
-            if (oldEmptyBlocks.size() > 0) {
+            if (oldEmptyBlocks.size() > 0) 
+            {
                 Block lower = oldEmptyBlocks.get(0);
-                for (int row = lower.getRow(); row >= 0; row--) {
-                    Block block = board.getBlock(row, col);
-                    powerCandy = checkCombinations(block, combinations);
-                    if (powerCandy != null)
-                        powerCandys.add(powerCandy);
-                }
+                for (int row = lower.getRow(); row >= 0; row--) 
+                    blocksToCheck.add(board.getBlock(row, col));
             }
         }
+        combinations.addAll(checkCombinations(blocksToCheck,powerCandys));
         return powerCandys;
     }
  
-    /*public List<Entity> checkCombinations(Set<Block> blocks, Set<Entity> candysOut) {
+    public Set<Block> checkCombinations(Set<Block> blocks, Set<Entity> candysOut) {
 
+    	Set<Block> combinations = new HashSet<Block>();
+    	Entity e = null;
         for (Block block : blocks) {
-            
+        	if(!combinations.contains(block))
+        		e = checkBlockCombination(block,combinations);
+        	if(e!=null)
+        		candysOut.add(e);
         }
-
-        return null;
-    }*/
+        return combinations;
+    }
     
-    public Entity checkCombinations(Block block, Set<Block> destroyOut) {
+    private Entity checkBlockCombination(Block block, Set<Block> combinationsOut) {
         Set<Block> combination = new HashSet<Block>();
         Set<Block> consecutiveH = new HashSet<Block>();
         Set<Block> consecutiveV = new HashSet<Block>();
@@ -66,8 +68,8 @@ public class Combination {
         else if (vSize == 3)
             entity = new Stripped(row, column, color, true);
         if (combination.size() < 3)
-            combination.clear();
-        destroyOut.addAll(combination);
+        	combination.clear();
+        combinationsOut.addAll(combination);
         return entity;
     }
 
