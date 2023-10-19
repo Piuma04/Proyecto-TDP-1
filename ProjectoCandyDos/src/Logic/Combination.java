@@ -92,9 +92,9 @@ public class Combination {
         if ((hSize + vSize < 6) && (hSize + vSize > 3) && (hSize >= 2) && (vSize >= 2))
             entity = new PriorityEntity(new Wrapped(row, column, color), 2);
         else if (hSize == 3)
-            entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
-        else if (vSize == 3)
             entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
+        else if (vSize == 3)
+            entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
         if (combination.size() >= 3)
             combinationsOut.addAll(combination);
         return entity;
