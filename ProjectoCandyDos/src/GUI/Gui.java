@@ -8,6 +8,7 @@ import java.awt.Image;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -278,4 +279,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     public int getPendingAnimations() { return pendingAnimations; }
     public void reset() { boardPanel.removeAll(); }
+    public void close() {
+		this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+		
+	}
 }

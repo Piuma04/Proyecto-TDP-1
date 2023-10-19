@@ -91,8 +91,7 @@ public class Game {
         myTimer.stopTimer();
         if (myLevel.isLastLevel()) {
             myGui.showMessage("Felicitaciones! Ha ganado el juego");
-            //myGui.reset();
-            // MUST ADD WIN WINDOW!
+            myGui.close();
         }
         else {
             myGui.showMessage("Siguiente nivel?");
@@ -116,8 +115,10 @@ public class Game {
         myGui.updateLives(lives);
         backgroundMusic.stop();
         lostSound.play();
-        if (lives == 0)
+        if (lives == 0) {
             myGui.showMessage("Perdio el juego");
+            myGui.close();
+        }
         else {
             myGui.showMessage("Perdio una vida, reintente!");
             loadLevel(myLevel.getCurrentLevel());
