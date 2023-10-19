@@ -2,15 +2,16 @@ package Entities;
 
 import java.util.List;
 
+import Interfaces.Booster;
 import Interfaces.Equivalent;
 import Interfaces.Swappable;
 import Logic.Block;
 import Logic.Board;
 import Logic.VisualEntityDummy;
 
-public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable {
-    protected Colour colour;
-    protected boolean visited = false;
+public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable, Booster {
+	protected Colour colour;
+	protected boolean visited = false;
 
     Entity(int rowPosition, int columnPosition, Colour colour) {
         this.setPicSize(this.getPicSize()-35);
@@ -20,67 +21,143 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
         imagePath = colour.toString() + "/" + colour.toString() + ".png";
     }
 
-    public Colour getColour() { return colour; }
-    public abstract List<Block> getDestroyables(Board b);
+	public Colour getColour() {
+		return colour;
+	}
 
-    @Override public boolean isEquivalent(Equivalent e) { return false; }
-    @Override public boolean isEqual(Candy c) { return false; }
-    @Override public boolean isEqual(Stripped s) { return false; }
-    @Override public boolean isEqual(Wrapped w) { return false; }
-    @Override public boolean isEqual(Glazed g) { return false; }
-    @Override public boolean isEqual(Empty e) { return false; }
-    @Override public boolean isEqual(Jelly j) { return false; }
+	public abstract List<Block> getDestroyables(Board b);
 
-    @Override public boolean isSwappable(Swappable e) { return false; }
-    @Override public boolean canReceive(Candy c) { return false; }
-    @Override public boolean canReceive(Stripped s) { return false; }
-    @Override public boolean canReceive(Wrapped w) { return false; }
-    @Override public boolean canReceive(Glazed g) { return false; }
+	@Override
+	public boolean isEquivalent(Equivalent e) {
+		return false;
+	}
 
-    public void destroy() {
-        playGif("explosion.gif");
-        setImage(null);
-    }
+	@Override
+	public boolean isEqual(Candy c) {
+		return false;
+	}
 
-    public void visited() { visited = true; }
-    public boolean isVisited() { return visited; }
+	@Override
+	public boolean isEqual(Stripped s) {
+		return false;
+	}
 
-    protected String setStringColor(String str) {
-        final String ANSI_RESET = "\u001B[0m";
-        final String ANSI_RED = "\u001B[31m";
-        final String ANSI_YELLOW = "\u001B[33m";
-        final String ANSI_GREEN = "\u001B[32m";
-        final String ANSI_PURPLE = "\u001B[35m";
-        final String ANSI_BLUE = "\u001B[34m";
-        final String ANSI_BLACK = "\u001B[30m";
-        final String ANSI_CYAN = "\u001B[36m";
-        // final String ANSI_WHITE = "\u001B[37m";
-        String colourStr = null;
-        switch (this.colour) {
-        case RED:
-            colourStr = ANSI_RED;
-            break;
-        case YELLOW:
-            colourStr = ANSI_YELLOW;
-            break;
-        case GREEN:
-            colourStr = ANSI_GREEN;
-            break;
-        case PURPLE:
-            colourStr = ANSI_PURPLE;
-            break;
-        case BLUE:
-            colourStr = ANSI_BLUE;
-            break;
-        case NONE:
-            colourStr = ANSI_BLACK;
-            break;
-        case GLAZED:
-            colourStr = ANSI_CYAN;
-            break;
-        }
-        return colourStr + str + ANSI_RESET;
-    }
+	@Override
+	public boolean isEqual(Wrapped w) {
+		return false;
+	}
 
-    public boolean isBooster() { return false; }
+	@Override
+	public boolean isEqual(Glazed g) {
+		return false;
+	}
+
+	@Override
+	public boolean isEqual(Empty e) {
+		return false;
+	}
+
+	@Override
+	public boolean isEqual(Jelly j) {
+		return false;
+	}
+
+	@Override
+	public boolean isSwappable(Swappable e) {
+		return false;
+	}
+
+	@Override
+	public boolean canReceive(Candy c) {
+		return false;
+	}
+
+	@Override
+	public boolean canReceive(Stripped s) {
+		return false;
+	}
+
+	@Override
+	public boolean canReceive(Wrapped w) {
+		return false;
+	}
+
+	@Override
+	public boolean canReceive(Glazed g) {
+		return false;
+	}
+
+	public void destroy() {
+		playGif("explosion.gif");
+		setImage(null);
+	}
+
+	public void visited() {
+		visited = true;
+	}
+
+	public boolean isVisited() {
+		return visited;
+	}
+
+	protected String setStringColor(String str) {
+		final String ANSI_RESET = "\u001B[0m";
+		final String ANSI_RED = "\u001B[31m";
+		final String ANSI_YELLOW = "\u001B[33m";
+		final String ANSI_GREEN = "\u001B[32m";
+		final String ANSI_PURPLE = "\u001B[35m";
+		final String ANSI_BLUE = "\u001B[34m";
+		final String ANSI_BLACK = "\u001B[30m";
+		final String ANSI_CYAN = "\u001B[36m";
+		// final String ANSI_WHITE = "\u001B[37m";
+		String colourStr = null;
+		switch (this.colour) {
+			case RED:
+				colourStr = ANSI_RED;
+				break;
+			case YELLOW:
+				colourStr = ANSI_YELLOW;
+				break;
+			case GREEN:
+				colourStr = ANSI_GREEN;
+				break;
+			case PURPLE:
+				colourStr = ANSI_PURPLE;
+				break;
+			case BLUE:
+				colourStr = ANSI_BLUE;
+				break;
+			case NONE:
+				colourStr = ANSI_BLACK;
+				break;
+			case GLAZED:
+				colourStr = ANSI_CYAN;
+				break;
+		}
+		return colourStr + str + ANSI_RESET;
+	}
+
+	public boolean bothBooster(Entity e) {
+		return false;
+	}
+
+	public boolean isBooster(Candy c) {
+		return false;
+	}
+
+	public boolean isBooster(Empty e) {
+		return false;
+	}
+
+	public boolean isBooster(Wrapped w) {
+		return false;
+	}
+
+	public boolean isBooster(Stripped s) {
+		return false;
+	}
+
+	public boolean isBooster(Glazed g) {
+		return false;
+	}
 }

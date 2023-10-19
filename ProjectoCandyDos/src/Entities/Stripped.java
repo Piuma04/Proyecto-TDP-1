@@ -26,7 +26,6 @@ public class Stripped extends Entity {
 	public boolean isEquivalent(Equivalent e) {
 		return e.isEqual(this);
 	}
-	// @Override public boolean equals(Candy c) { return false; }
 
 	@Override
 	public boolean isEqual(Stripped s) {
@@ -50,11 +49,6 @@ public class Stripped extends Entity {
 
 	@Override
 	public boolean canReceive(Wrapped w) {
-		return true;
-	}
-
-	@Override
-	public boolean isBooster() {
 		return true;
 	}
 
@@ -92,5 +86,20 @@ public class Stripped extends Entity {
 
 	public String toString() {
 		return super.setStringColor((isHorizontal ? "H" : "V"));
+	}
+
+	@Override
+	public boolean bothBooster(Entity e) {
+		return e.isBooster(this);
+	}
+
+	@Override
+	public boolean isBooster(Stripped c) {
+		return true;
+	}
+
+	@Override
+	public boolean isBooster(Wrapped c) {
+		return true;
 	}
 }
