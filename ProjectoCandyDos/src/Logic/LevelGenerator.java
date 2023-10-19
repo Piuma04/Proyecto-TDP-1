@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
+import java.util.LinkedList;
 import java.util.List;
 
 import Entities.Entity;
@@ -27,12 +27,14 @@ public class LevelGenerator {
     /**
      * reads filename, which is comma separated with the following format</br></br>
      * 
-     * (entity),(amount of entities),(moves),(time)</br>
+     * (moves),(time)</br>
+     * (entity),(amount of entities),...</br>
      * (entity),(entity),...</br>
      * (entity),(entity),...</br>
      *  ..., ..., ...</br></br>
      * example:</br>
-     * RS,6,40,40</br>
+     * 40,40</br>
+     * RS,6,
      * R,R,Y,R,R,Y</br>
      * B,B,R,B,B,P</br>
      * B,B,Y,B,B,P</br>
@@ -48,22 +50,32 @@ public class LevelGenerator {
 
         List<String> lines = null;
         Level level = null;
-        String[] candys = null;
+        String[] candys = null, obj  = null;
 
         lines = readFileLines(levelPath + filename);
 
         if (lines != null) {
-            candys = lines.get(0).split(",");
-            level = new Level(createEquivalent(candys[0]), // Entity to compare.
-                    Integer.valueOf(candys[1]), // Amount of entities to win. (GOAL)
-                    Integer.valueOf(candys[2]), // Amount of Moves.
-                    Integer.valueOf(candys[3]), Integer.valueOf(filename.charAt(filename.length()-5))-'0'); // max time in SECONDS.
+        	int aux;
+        	Equivalent equiAux;
+        	obj = lines.get(1).split(",");
+        	
+        	candys = lines.get(0).split(",");
+        	List<Goal> goalListAux = new LinkedList<Goal>();
+        	for(int i = 0; i<obj.length; i+=2) {
+        		aux = Integer.valueOf(obj[i+1]);
+        		equiAux = createEquivalent(obj[i]);
+        		goalListAux.add(new Goal(aux,equiAux));
+        	}
+        	
+            level = new Level(goalListAux, // Amount of entities to win. (GOAL)
+                    Integer.valueOf(candys[0]), // Amount of Moves.
+                    Integer.valueOf(candys[1]), Integer.valueOf(filename.charAt(filename.length()-5))-'0'); // max time in SECONDS.
 
             // Must add first what will be drawn from back to front!. Same for.
             
             // ADD MODIFIERS TO BLOCKS.
             for (int r = 0; r < Board.getRows(); r++) {
-                candys = lines.get(r + 1).split(",");
+                candys = lines.get(r + 2).split(",");
                 for (int c = 0; c < Board.getColumns(); c++) {
                     String id = candys[c];
                     Block block = board.getBlock(r, c);
@@ -78,9 +90,10 @@ public class LevelGenerator {
 
             // ADD CANDYS TO BLOCKS.
             for (int r = 0; r < Board.getRows(); r++) {
-                candys = lines.get(r + 1).split(",");
+                candys = lines.get(r + 2).split(",");
                 for (int c = 0; c < Board.getColumns(); c++) {
                     String id = candys[c];
+                    
                     Entity entity = createEntity(id, r, c);
                     board.associateEntity(r, c, entity);
                 }

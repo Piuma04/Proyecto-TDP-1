@@ -1,18 +1,20 @@
 package Logic;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import Interfaces.Equivalent;
 
 public class Level {
     private int remainingMoves;
-    private Goal myGoal;
+   
     private long timeLimit;
     private int currentLevel;
+    private List<Goal> goals;
     private static final int lastLevel = 5;
 
-    public Level(Equivalent toDestroyEntityType, int amount, int remainingMoves, int timeLimit, int cR) {
-        myGoal = new Goal(amount, toDestroyEntityType);
+    public Level(List<Goal> l, int remainingMoves, int timeLimit, int cR) {
+        goals = l;
         this.remainingMoves = remainingMoves;
         currentLevel = cR;
         this.timeLimit = timeLimit;
@@ -25,8 +27,23 @@ public class Level {
      * @return {@code true} if goal reached.
      */
     public boolean update(List<Equivalent> l) {
+        
+        boolean finished = true;
+        int cont = 0;
+        
         if (!l.isEmpty()) remainingMoves--;
-        return myGoal.updateCounter(l);
+        for (Equivalent equivalent : l) {
+            for(Goal g : goals) {
+            	g.updateCounter(equivalent);
+            }
+          
+        }
+        
+        while(finished && cont<goals.size()) {
+        	finished = goals.get(cont).finished();
+        	cont++;
+        }
+        return finished;
     }
 
     public boolean hasMove() { return remainingMoves > 0; }
@@ -35,6 +52,19 @@ public class Level {
     public boolean lost() { return !hasMove(); }
     public boolean isLastLevel() { return currentLevel == lastLevel; }
     public int getCurrentLevel() { return currentLevel; }
-    public int getRemainingObjectives() { return myGoal.amountMissing(); }
-    public String getObjective() { return myGoal.typeOfEntity(); }
+    public List<Integer> getRemainingObjectives() { 
+    	List<Integer> l = new LinkedList<>();
+    	for(Goal g : goals) {
+    		l.add(g.amountMissing());
+    	}
+    	return l;
+    }
+    public List<String> getObjectives() {
+    	
+    	List<String> l = new LinkedList<>();
+    	for(Goal g : goals) {
+    		l.add(g.typeOfEntity());
+    	}
+    	return l;
+    }
 }
