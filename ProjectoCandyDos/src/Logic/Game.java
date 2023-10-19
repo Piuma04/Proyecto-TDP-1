@@ -32,7 +32,7 @@ public class Game {
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
-        int level = 1; // myGui.chooseLevel(); MUST CHECK IF USER INSERTED INTEGER.
+        int level = 1;//= myGui.chooseLevel(); 
         lives = 3;
         loadLevel(level);
         myGui.setVisible(true);
@@ -45,7 +45,7 @@ public class Game {
         myLevel = LevelGenerator.generateLevel("level" + String.valueOf(level) + ".txt", myBoard);
         myGui.updateMoves(myLevel.getMoves());
         myGui.updateLives(lives);
-        myGui.showObjective(myLevel.getObjective(), myLevel.getRemainingObjectives());
+        myGui.showObjective(myLevel.getObjectives(), myLevel.getRemainingObjectives());
         myGui.setCurrentLevel("Nivel " + myLevel.getCurrentLevel());
         myTimer.startTimer(myLevel.getTimeLimit());
     }
@@ -60,7 +60,7 @@ public class Game {
         SwingUtilities.invokeLater(() -> { myBoard.movePlayerDirection(direction); });
     }
 
-    public void timerEnded() { if (!animationNextLevel && myLevel.getRemainingObjectives() > 0) { lost(); } }
+    public void timerEnded() { if (!animationNextLevel && !myLevel.lost()) { lost(); } }
 
     public void update(List<Equivalent> destroyed) {
         boolean finished = myLevel.update(destroyed);
@@ -75,6 +75,9 @@ public class Game {
             win();
         else if (myLevel.lost())
             lost();
+    }
+    public void x() {
+    	
     }
 
     public void win() {
