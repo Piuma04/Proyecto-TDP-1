@@ -183,7 +183,7 @@ public class Board {
                         combinations = combinationLogic.checkRemainingCombinations(emptyBlocks, powerCandys);
                     }
                     while (!combinations.isEmpty());
-                } // else b1.swapEntity(b2);
+                }  else b1.swapEntity(b2);
             }
         }
         return destroyed;
