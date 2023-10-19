@@ -165,12 +165,8 @@ public class Board {
                 b1.swapEntity(b2);
                 combinations.add(b1);
                 combinations.add(b2);
-                if (hasBooster(b1, b2)) {
-                    combinations.addAll(b1.getEntity().getDestroyables(this));
-                    combinations.addAll(b2.getEntity().getDestroyables(this));
-                }
-                else
-                    combinations = combinationLogic.checkCombinations(combinations, powerCandys);
+                combinations = combinationLogic.checkCombinations(combinations, powerCandys);
+                combinations.addAll(b1.getEntity().getSpecialDestroy(b2.getEntity(),this));
                 if (!combinations.isEmpty()) {
                     do // While there are remaining combinations, destroy them,fill the board, and
                        // check again
@@ -309,7 +305,7 @@ public class Board {
         return e1.isSwappable(e2);
     }
 
-    private boolean hasBooster(Block block1, Block block2) { return block1.getEntity().bothBooster(block2.getEntity()); }
+    //private boolean hasBooster(Block block1, Block block2) { return block1.getEntity().bothBooster(block2.getEntity()); }
 
     public static boolean hasMovableEntity(Block block) { return dummy.isSwappable(block.getEntity()); }
 

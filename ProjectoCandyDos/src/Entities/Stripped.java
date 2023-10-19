@@ -1,9 +1,12 @@
 package Entities;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import Interfaces.Equivalent;
+import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
 import Logic.Block;
 import Logic.Board;
@@ -29,9 +32,21 @@ public class Stripped extends Entity {
     @Override public boolean canReceive(Stripped s)     { return true; }
     @Override public boolean canReceive(Wrapped w)      { return true; }
 
-    @Override public boolean bothBooster(Entity e) { return e.isBooster(this); }
-    @Override public boolean isBooster(Stripped c) { return true; }
-    @Override public boolean isBooster(Wrapped c)  { return true; }
+    @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b){return e.getSpecialDestroyables(this, b);}
+    @Override public Set<Block> getSpecialDestroyables(Stripped c, Board b)
+    {
+    	Set<Block> destroyables = new HashSet<Block>();
+    	destroyables.addAll(this.getDestroyables(b));
+    	destroyables.addAll(c.getDestroyables(b));
+    	return destroyables;
+    }
+    @Override public Set<Block> getSpecialDestroyables(Wrapped c, Board b)	
+    {
+    	Set<Block> destroyables = new HashSet<Block>();
+    	destroyables.addAll(this.getDestroyables(b));
+    	destroyables.addAll(c.getDestroyables(b));
+    	return destroyables;
+    }
 
     @Override
     public List<Block> getDestroyables(Board b) {

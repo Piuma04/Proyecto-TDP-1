@@ -1,15 +1,16 @@
 package Entities;
 
 import java.util.List;
-
-import Interfaces.Booster;
+import java.util.Set;
+import java.util.HashSet;
+import Interfaces.SpecialDestroy;
 import Interfaces.Equivalent;
 import Interfaces.Swappable;
 import Logic.Block;
 import Logic.Board;
 import Logic.VisualEntityDummy;
 
-public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable, Booster {
+public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable, SpecialDestroy {
     protected Colour colour;
     protected boolean visited = false;
 
@@ -39,12 +40,12 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     @Override public boolean canReceive(Wrapped w)    { return false; }
     @Override public boolean canReceive(Glazed g)     { return false; }
 
-    @Override public boolean bothBooster(Entity e) { return false; }
-    @Override public boolean isBooster(Candy c)    { return false; }
-    @Override public boolean isBooster(Empty e)    { return false; }
-    @Override public boolean isBooster(Wrapped w)  { return false; }
-    @Override public boolean isBooster(Stripped s) { return false; }
-    @Override public boolean isBooster(Glazed g)  { return false; }
+    @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b) {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Candy c, Board b)	 {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Stripped c, Board b)  {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Wrapped c, Board b)	 {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Glazed g, Board b)	 {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Empty e, Board b)	 {return new HashSet<Block>();}
 
     public void destroy() {
         playGif("explosion.gif");
