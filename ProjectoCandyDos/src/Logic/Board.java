@@ -200,7 +200,8 @@ public class Board {
 						Map<Integer, List<Block>> emptyBlocks = fillBoard();
 						combinations = combinationLogic.checkRemainingCombinations(emptyBlocks, powerCandys);
 					} while (!combinations.isEmpty());
-				} // else b1.swapEntity(b2);
+				} else
+					b1.swapEntity(b2);
 			}
 		}
 		return destroyed;
