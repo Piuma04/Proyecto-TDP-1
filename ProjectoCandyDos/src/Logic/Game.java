@@ -32,7 +32,7 @@ public class Game {
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
-        int level = 1;//= myGui.chooseLevel(); 
+        int level = 1;//= myGui.chooseLevel();
         lives = 3;
         loadLevel(level);
         myGui.setVisible(true);
@@ -75,9 +75,6 @@ public class Game {
             win();
         else if (myLevel.lost())
             lost();
-    }
-    public void x() {
-    	
     }
 
     public void win() {

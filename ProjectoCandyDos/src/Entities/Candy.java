@@ -14,14 +14,14 @@ public class Candy extends Entity {
     public Candy(int rowPosition, int columnPosition, Colour colour) { super(rowPosition, columnPosition, colour); }
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
-    @Override public boolean isEqual(Candy c) { return this.colour == c.getColour(); }
-    @Override public boolean isEqual(Wrapped w) { return this.colour == w.getColour(); }
+    @Override public boolean isEqual(Candy c)    { return this.colour == c.getColour(); }
+    @Override public boolean isEqual(Wrapped w)  { return this.colour == w.getColour(); }
     @Override public boolean isEqual(Stripped s) { return this.colour == s.getColour(); }
 
     @Override public boolean isSwappable(Swappable e) { return e.canReceive(this); }
-    @Override public boolean canReceive(Candy c) { return true; }
-    @Override public boolean canReceive(Stripped s) { return true; }
-    @Override public boolean canReceive(Wrapped w) { return true; }
+    @Override public boolean canReceive(Candy c)      { return true; }
+    @Override public boolean canReceive(Stripped s)   { return true; }
+    @Override public boolean canReceive(Wrapped w)    { return true; }
 
     @Override
     public List<Block> getDestroyables(Board b) {

@@ -11,5 +11,5 @@ public class PriorityEntity {
     }
 
     public Entity getEntity() { return entity; }
-    public int getPriority() { return priority; }
+    public int getPriority()  { return priority; }
 }

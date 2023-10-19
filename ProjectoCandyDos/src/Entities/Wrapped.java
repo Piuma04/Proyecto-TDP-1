@@ -17,12 +17,16 @@ public class Wrapped extends Entity {
     }
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
-    @Override public boolean isEqual(Wrapped w) { return w.getColour() == colour; }
-    @Override public boolean isSwappable(Swappable e) { return e.canReceive(this); }
-    @Override public boolean canReceive(Candy c) { return true; }
-    @Override public boolean canReceive(Stripped s) { return true; }
-    @Override public boolean canReceive(Wrapped w) { return true; }
+    @Override public boolean isEqual(Wrapped w)         { return w.getColour() == colour; }
+    @Override public boolean isSwappable(Swappable e)   { return e.canReceive(this); }
+    @Override public boolean canReceive(Candy c)        { return true; }
+    @Override public boolean canReceive(Stripped s)     { return true; }
+    @Override public boolean canReceive(Wrapped w)      { return true; }
 
+    @Override public boolean bothBooster(Entity e) { return e.isBooster(this); }
+    @Override public boolean isBooster(Stripped c) { return true; }
+    @Override public boolean isBooster(Wrapped c)  { return true; }
+    
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
@@ -36,8 +40,4 @@ public class Wrapped extends Entity {
     }
 
     public String toString() { return super.setStringColor("W"); }
-
-    @Override public boolean bothBooster(Entity e) { return e.isBooster(this); }
-    @Override public boolean isBooster(Stripped c) { return true; }
-    @Override public boolean isBooster(Wrapped c) { return true; }
 }

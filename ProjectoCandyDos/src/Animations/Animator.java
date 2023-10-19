@@ -14,7 +14,7 @@ public interface Animator {
      * @return Retorna la celda obtenida.
      */
     public Drawable getDrawable();
-    
+
     /**
      * Inicia el comportamiento asociado con la animación.
      */

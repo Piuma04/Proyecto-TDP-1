@@ -67,8 +67,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     protected void inicializar() {
         setTitle(gameName);
-        final int width = LABEL_SIZE*Board.getRows() + 350;
-        final int height = LABEL_SIZE*Board.getColumns() + 175;
+        //final int width = LABEL_SIZE*Board.getRows() + 350;
+        //final int height = LABEL_SIZE*Board.getColumns() + 175;
         setSize(new Dimension(833, 592));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);

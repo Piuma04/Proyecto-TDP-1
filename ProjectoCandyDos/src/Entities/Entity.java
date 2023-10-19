@@ -26,25 +26,25 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     public abstract List<Block> getDestroyables(Board b);
 
     @Override public boolean isEquivalent(Equivalent e) { return false; }
-    @Override public boolean isEqual(Candy c) { return false; }
+    @Override public boolean isEqual(Candy c)    { return false; }
     @Override public boolean isEqual(Stripped s) { return false; }
-    @Override public boolean isEqual(Wrapped w) { return false; }
-    @Override public boolean isEqual(Glazed g) { return false; }
-    @Override public boolean isEqual(Empty e) { return false; }
-    @Override public boolean isEqual(Jelly j) { return false; }
+    @Override public boolean isEqual(Wrapped w)  { return false; }
+    @Override public boolean isEqual(Glazed g)   { return false; }
+    @Override public boolean isEqual(Empty e)    { return false; }
+    @Override public boolean isEqual(Jelly j)    { return false; }
 
     @Override public boolean isSwappable(Swappable e) { return false; }
-    @Override public boolean canReceive(Candy c) { return false; }
-    @Override public boolean canReceive(Stripped s) { return false; }
-    @Override public boolean canReceive(Wrapped w) { return false; }
-    @Override public boolean canReceive(Glazed g) { return false; }
+    @Override public boolean canReceive(Candy c)      { return false; }
+    @Override public boolean canReceive(Stripped s)   { return false; }
+    @Override public boolean canReceive(Wrapped w)    { return false; }
+    @Override public boolean canReceive(Glazed g)     { return false; }
 
     @Override public boolean bothBooster(Entity e) { return false; }
-    @Override public boolean isBooster(Candy c) { return false; }
-    @Override public boolean isBooster(Empty e) { return false; }
-    @Override public boolean isBooster(Wrapped w) { return false; }
+    @Override public boolean isBooster(Candy c)    { return false; }
+    @Override public boolean isBooster(Empty e)    { return false; }
+    @Override public boolean isBooster(Wrapped w)  { return false; }
     @Override public boolean isBooster(Stripped s) { return false; }
-    @Override public boolean isBooster(Glazed g) { return false; }
+    @Override public boolean isBooster(Glazed g)  { return false; }
 
     public void destroy() {
         playGif("explosion.gif");

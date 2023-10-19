@@ -27,10 +27,10 @@ public abstract class VisualEntityDummy implements VisualEntity {
 
     public void playGif(String gifPath) { setImage(gifPath); }
 
-    @Override public int getRow() { return row; }
-    @Override public int getColumn() { return column; }
+    @Override public int getRow()      { return row; }
+    @Override public int getColumn()   { return column; }
     @Override public String getImage() { return imagePath; }
-    @Override public int getPicSize() { return picSize; }
+    @Override public int getPicSize()  { return picSize; }
     public void setPicSize(int pictureSize) { picSize = pictureSize; };
 
     @Override public void setGraphicalEntity(GraphicalEntity graphicalEntity) { gEntity = graphicalEntity; }

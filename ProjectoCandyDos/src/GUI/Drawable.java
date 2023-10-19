@@ -43,11 +43,10 @@ public class Drawable extends JComponent implements GraphicalEntity {
 
     public void setImage(Image im) { myIcon = new ImageIcon(im); }
     
-    @Override public void notifyChangeState() { agui.animateChangeState(this); }
+    @Override public void notifyChangeState()    { agui.animateChangeState(this); }
     @Override public void notifyChangePosition() { agui.animateMovement(this); }
     @Override public void setSkipQueue(boolean skipQueue) { bSkipQueue = skipQueue; }
     public boolean getSkipQueue() { return bSkipQueue; }
-
     public static int getBoardLabelSize() { return Board.getBoardLabelSize(); }
 
     @Override

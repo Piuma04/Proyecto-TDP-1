@@ -17,8 +17,6 @@ import Entities.Candy;
 import Entities.Colour;
 import Entities.Empty;
 import Entities.Entity;
-import Entities.Stripped;
-import Entities.Wrapped;
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
 
@@ -30,8 +28,6 @@ public class Board {
     private static final SoundPlayer blockMove = new SoundPlayer("ps/move100.wav");
     private static final SoundPlayer entityMove = new SoundPlayer("ps/click.wav");
     private static final Entity dummy = new Candy(0, 0, Colour.NONE);
-    //private static final Entity dummyStripped = new Stripped(0, 0, Colour.NONE);
-    //private static final Entity dummyWrapped = new Wrapped(0, 0, Colour.NONE);
     private int playerRow, playerColumn;
     private Block[][] matrix;
     private Gui myGui;
@@ -124,7 +120,7 @@ public class Board {
 
     /**
      * Sets the entity of block at (column, row) to new entity. associates to the
-     * GUI, the entity. mostly used for creation.
+     * GUI the entity. mostly used for creation.
      * 
      * @param row
      * @param column
@@ -314,18 +310,6 @@ public class Board {
     }
 
     private boolean hasBooster(Block block1, Block block2) { return block1.getEntity().bothBooster(block2.getEntity()); }
-
-    /*private boolean allBoosters(Set<Block> blocks) {
-        boolean bBoosters = true;
-        for (Block block : blocks) {
-            Entity entity = block.getEntity();
-            bBoosters = dummyStripped.isEquivalent(entity) || dummyWrapped.isEquivalent(entity);
-            System.out.println(entity);
-            System.out.println(dummyWrapped.isEquivalent(entity));
-            if (!bBoosters) break;
-        }
-        return bBoosters;
-    }*/
 
     public static boolean hasMovableEntity(Block block) { return dummy.isSwappable(block.getEntity()); }
 
