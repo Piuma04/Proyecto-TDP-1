@@ -33,19 +33,50 @@ public class Stripped extends Entity {
     @Override public boolean canReceive(Wrapped w)      { return true; }
 
     @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b){return e.getSpecialDestroyables(this, b);}
-    @Override public Set<Block> getSpecialDestroyables(Stripped c, Board b)
+    @Override public Set<Block> getSpecialDestroyables(Stripped car, Board b)
     {
-    	Set<Block> destroyables = new HashSet<Block>();
-    	destroyables.addAll(this.getDestroyables(b));
-    	destroyables.addAll(c.getDestroyables(b));
-    	return destroyables;
+    	 Set<Block> toDestroy = new HashSet<Block>();
+         visited = true;
+         toDestroy.add(b.getBlock(row, column));
+             for (int c = 0; c < Board.getColumns(); c++) {
+                 if (!(c == column) && !b.getBlock(row, c).getEntity().isVisited())
+                     toDestroy.add(b.getBlock(row, c));
+             }
+             
+             for (int r = 0; r < Board.getRows(); r++) {
+                   if (!(r == row) && !b.getBlock(r, column).getEntity().isVisited())
+                     toDestroy.add(b.getBlock(r, column));
+             }
+         // ahora destruye si hay glazed en pos adyacentes
+         int[] adyacentRows = { -1, 0, 1, 0 };
+         int[] adyacentColumns = { 0, -1, 0, 1 };
+         for (int i = 0; i < 4; i++) {
+             int newRow = row + adyacentRows[i];
+             int newColumn = column + adyacentColumns[i];
+             if (Board.isValidBlock(newRow, newColumn) && b.getBlock(newRow, newColumn).getEntity()
+                     .getColour() == Colour.GLAZED) {
+                 toDestroy.add(b.getBlock(newRow, newColumn));
+             }
+         }
+         return toDestroy;
     }
-    @Override public Set<Block> getSpecialDestroyables(Wrapped c, Board b)	
+    @Override public Set<Block> getSpecialDestroyables(Wrapped car, Board b)	
     {
-    	Set<Block> destroyables = new HashSet<Block>();
-    	destroyables.addAll(this.getDestroyables(b));
-    	destroyables.addAll(c.getDestroyables(b));
-    	return destroyables;
+    	 Set<Block> toDestroy = new HashSet<Block>();
+         visited = true;
+         toDestroy.add(b.getBlock(row, column));
+             for (int c = 0; c < Board.getColumns(); c++) {
+            	 for(int widthR = row-1; widthR<=row+1;widthR++)
+            		 if (!(c == column) && widthR>=0 && widthR<Board.getRows() && !b.getBlock(widthR, c).getEntity().isVisited())
+            			 toDestroy.add(b.getBlock(widthR, c));
+             }
+             
+             for (int r = 0; r < Board.getRows(); r++) {
+            	 for(int widthC = column-1; widthC<=column+1;widthC++)
+                   if (!(r == row) && widthC>=0 && widthC<Board.getColumns() && !b.getBlock(r, widthC).getEntity().isVisited())
+                     toDestroy.add(b.getBlock(r, widthC));
+             }
+         return toDestroy;
     }
 
     @Override

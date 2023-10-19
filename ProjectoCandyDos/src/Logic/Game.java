@@ -36,7 +36,7 @@ public class Game {
         lives = 3;
         loadLevel(level);
         myGui.setVisible(true);
-        backgroundMusic.loop();
+        //backgroundMusic.loop();
     }
 
     public void loadLevel(int level) {

@@ -157,16 +157,32 @@ public class Board {
         Set<Block> combinations = new HashSet<Block>();
         List<Entity> powerCandys = new LinkedList<Entity>();
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
+        Map<Integer, List<Block>> emptyBlocks;
         if (isValidBlock(newRow, newColumn)) {
-            Block b1 = matrix[playerRow][playerColumn];
-            Block b2 = matrix[newRow][newColumn];
+            Block b1 = matrix[newRow][newColumn];
+            Block b2 = matrix[playerRow][playerColumn];
             if (canSwap(b1, b2)) {
                 entityMove.playNew();
                 b1.swapEntity(b2);
-                combinations.add(b1);
-                combinations.add(b2);
-                combinations = combinationLogic.checkCombinations(combinations, powerCandys);
-                combinations.addAll(b1.getEntity().getSpecialDestroy(b2.getEntity(),this));
+                combinations.addAll(b2.getEntity().getSpecialDestroy(b1.getEntity(),this));
+                if(!combinations.isEmpty()){
+                	myGui.playSound(explosion);
+                    for (Block b : combinations) 
+                    {
+                        if (b.hasModifiers())
+                            destroyed.add(b.popModifier());
+                        destroyed.add(b.getEntity());
+                        destroyEntity(b.getRow(), b.getColumn());
+                    }
+                    emptyBlocks = fillBoard();
+                    combinations = combinationLogic.checkRemainingCombinations(emptyBlocks, powerCandys);
+                }
+                else 
+                {
+                	combinations.add(b1);
+                    combinations.add(b2);
+                    combinations = combinationLogic.checkCombinations(combinations, powerCandys);
+                }
                 if (!combinations.isEmpty()) {
                     do // While there are remaining combinations, destroy them,fill the board, and
                        // check again
@@ -175,7 +191,7 @@ public class Board {
                         for (Entity entity : powerCandys)
                             associateEntity(entity.getRow(), entity.getColumn(), entity);
                         powerCandys.clear();
-                        Map<Integer, List<Block>> emptyBlocks = fillBoard();
+                        emptyBlocks = fillBoard();
                         combinations = combinationLogic.checkRemainingCombinations(emptyBlocks, powerCandys);
                     }
                     while (!combinations.isEmpty());
