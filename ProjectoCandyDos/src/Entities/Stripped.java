@@ -37,7 +37,6 @@ public class Stripped extends Entity {
     {
     	 Set<Block> toDestroy = new HashSet<Block>();
          visited = true;
-         toDestroy.add(b.getBlock(row, column));
              for (int c = 0; c < Board.getColumns(); c++) {
                  if (!(c == column) && !b.getBlock(row, c).getEntity().isVisited())
                      toDestroy.add(b.getBlock(row, c));
@@ -64,7 +63,6 @@ public class Stripped extends Entity {
     {
     	 Set<Block> toDestroy = new HashSet<Block>();
          visited = true;
-         toDestroy.add(b.getBlock(row, column));
              for (int c = 0; c < Board.getColumns(); c++) {
             	 for(int widthR = row-1; widthR<=row+1;widthR++)
             		 if (!(c == column) && widthR>=0 && widthR<Board.getRows() && !b.getBlock(widthR, c).getEntity().isVisited())

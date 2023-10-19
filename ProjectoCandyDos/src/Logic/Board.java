@@ -165,24 +165,24 @@ public class Board {
                 entityMove.playNew();
                 b1.swapEntity(b2);
                 combinations.addAll(b2.getEntity().getSpecialDestroy(b1.getEntity(),this));
-                if(!combinations.isEmpty()){
-                	myGui.playSound(explosion);
-                    for (Block b : combinations) 
-                    {
-                        if (b.hasModifiers())
-                            destroyed.add(b.popModifier());
-                        destroyed.add(b.getEntity());
-                        destroyEntity(b.getRow(), b.getColumn());
-                    }
-                    emptyBlocks = fillBoard();
-                    combinations = combinationLogic.checkRemainingCombinations(emptyBlocks, powerCandys);
-                }
-                else 
+                if(!combinations.isEmpty())
                 {
+                    if (b1.hasModifiers())
+                    	destroyed.add(b1.popModifier());
+                    destroyed.add(b1.getEntity());
+                    destroyEntity(b1.getRow(), b1.getColumn());
+                	if (b2.hasModifiers())
+                		destroyed.add(b2.popModifier());
+                	destroyed.add(b2.getEntity());
+                	destroyEntity(b2.getRow(), b2.getColumn());
+            		
+                }
+                else {
                 	combinations.add(b1);
                     combinations.add(b2);
                     combinations = combinationLogic.checkCombinations(combinations, powerCandys);
                 }
+                
                 if (!combinations.isEmpty()) {
                     do // While there are remaining combinations, destroy them,fill the board, and
                        // check again

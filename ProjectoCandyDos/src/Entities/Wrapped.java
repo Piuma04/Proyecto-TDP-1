@@ -31,7 +31,6 @@ public class Wrapped extends Entity {
     {
     	Set<Block> toDestroy = new HashSet<Block>();
         visited = true;
-        toDestroy.add(b.getBlock(row, column));
             for (int c = 0; c < Board.getColumns(); c++) {
            	 for(int widthR = row-1; widthR<=row+1;widthR++)
            		 if (!(c == column) && widthR>=0 && widthR<Board.getRows() && !b.getBlock(widthR, c).getEntity().isVisited())
@@ -50,7 +49,6 @@ public class Wrapped extends Entity {
     {
     	Set<Block> toDestroy = new HashSet<Block>();
         visited = true;
-        toDestroy.add(b.getBlock(row, column));
         for (int j = column - 2; j <= column + 2; j++)
             for (int i = row - 2; i <= row + 2; i++) 
                 if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns() && !b.getBlock(i, j).getEntity().isVisited())
