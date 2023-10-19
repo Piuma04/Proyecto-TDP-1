@@ -29,6 +29,10 @@ public class Stripped extends Entity {
     @Override public boolean canReceive(Stripped s) { return true; }
     @Override public boolean canReceive(Wrapped w) { return true; }
 
+    @Override public boolean bothBooster(Entity e) { return e.isBooster(this); }
+    @Override public boolean isBooster(Stripped c) { return true; }
+    @Override public boolean isBooster(Wrapped c) { return true; }
+
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
@@ -59,8 +63,4 @@ public class Stripped extends Entity {
     }
 
     public String toString() { return super.setStringColor((isHorizontal ? "H" : "V")); }
-
-    @Override public boolean bothBooster(Entity e) { return e.isBooster(this); }
-    @Override public boolean isBooster(Stripped c) { return true; }
-    @Override public boolean isBooster(Wrapped c) { return true; }
 }
