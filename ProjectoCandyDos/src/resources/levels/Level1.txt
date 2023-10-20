@@ -1,8 +1,8 @@
-15,120
-B,20
-R,R,R,B,P,G
-P,R,G,B,B,B
+20,100
+B,15
+Y,R,B,B,P,G
+P,R,G,B,Y,B
 G,P,B,Y,Y,R
 G,B,R,P,R,Y
-R,G,B,B,R,B
-B,P,G,P,Y,P
+R,G,P,B,B,P
+B,P,Y,G,R,R

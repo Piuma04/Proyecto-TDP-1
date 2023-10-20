@@ -28,6 +28,8 @@ public class Board {
     private static final SoundPlayer blockMove = new SoundPlayer("ps/move100.wav");
     private static final SoundPlayer entityMove = new SoundPlayer("ps/click.wav");
     private static final Entity dummy = new Candy(0, 0, Colour.NONE);
+    private static final Random candyPicker = new Random();
+    
     private int playerRow, playerColumn;
     private Block[][] matrix;
     private Gui myGui;
@@ -301,8 +303,7 @@ public class Board {
 
     private Colour randomColour() {
         Colour[] colores = { Colour.BLUE, Colour.GREEN, Colour.PURPLE, Colour.RED, Colour.YELLOW };
-        Random r = new Random();
-        return colores[Math.abs(r.nextInt()) % 5];
+        return colores[candyPicker.nextInt(0, colores.length)];
     }
 
     private boolean canSwap(Block block1, Block block2) {
