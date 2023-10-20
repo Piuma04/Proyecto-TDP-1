@@ -43,10 +43,7 @@ public class Candy extends Entity {
 
     @Override
     public void destroy() {
-        if (colour != Colour.GREEN)
-            playGif("explosion.gif");
-        else
-            playGif("GREEN/GREENG.gif");
+        playGif("explosion.gif");
         setImage(null);
     }
 
