@@ -214,26 +214,28 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
 
     public void showObjective(List<String> entities, List<Integer> remaining) {
-        for (int i = 0; i < entities.size(); i++) {
-            setEntity(entities.get(i), i);
-            setRemaining(remaining.get(i), i);
+        for (int i = 0; i < typeOfCandy.length; i++) {
+            typeOfCandy[i].setVisible(false);
+            amountToGo[i].setVisible(false);
         }
-    }
+        for (int i = 0; i < entities.size(); i++) {
+            typeOfCandy[i].setVisible(true);
+            amountToGo[i].setVisible(true);
 
-    private void setRemaining(Integer remaining, int reference) { amountToGo[reference].setText(remaining + ""); }
+            // set entity image.
+            ImageIcon imageIconAux = new ImageIcon(imagesPath + entities.get(i));
+            imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+            typeOfCandy[i].setIcon(imageIconAux);
 
-    private void setEntity(String s, int reference) {
-        ImageIcon imageIconAux = new ImageIcon(imagesPath + s);
-        imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        typeOfCandy[reference].setIcon(imageIconAux);
+            amountToGo[i].setText(remaining.get(i).toString());
+        }
     }
 
     public void updateGraphicObjective(List<Integer> list) {
         for (int i = 0; i < list.size(); i++)
-            setRemaining(list.get(i), i);
+            amountToGo[i].setText(list.get(i).toString());
     }
     public void setCurrentLevel(String level) { levelShower.setText(level); }
-    
     public void setTime(String timeString) { watch.setText("Tiempo restante: " + timeString); }
     
     @Override
