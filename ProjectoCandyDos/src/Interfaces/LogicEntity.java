@@ -29,7 +29,6 @@ public interface LogicEntity {
      * Gets the size of the entity's picture.
      *
      * @return The picture size.
-     */ 
-	//TODO
+     */
 	public int getPicSize();
 }

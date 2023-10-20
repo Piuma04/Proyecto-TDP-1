@@ -227,10 +227,12 @@ public class Board {
                 candys.add(createRandomCandy(-i, column));
             emptyColumns.put(column, emptyBlocks);
         }
-        // for every column which has empty blocks,
-        // get lower empty block and try to fill it obtaining the entity above.
-        // for all non movable blocks, stop.
-        // if above all non movables, get candys above.
+        /* *
+         * for every column which has empty blocks,
+         * get lower empty block and try to fill it obtaining the entity above.
+         * for all non movable blocks, stop.
+         * if above all non movables, get candys above. 
+         * */
         for (int col = 0; col < COLUMNS; col++) {
             List<Block> emptyBlocks = emptyColumns.get(col);
             int amountExtraCandys = newCandys.get(col);

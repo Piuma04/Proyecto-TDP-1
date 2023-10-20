@@ -63,7 +63,6 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
         final String ANSI_BLUE = "\u001B[34m";
         final String ANSI_BLACK = "\u001B[30m";
         final String ANSI_CYAN = "\u001B[36m";
-        // final String ANSI_WHITE = "\u001B[37m";
         String colourStr = null;
         switch (this.colour) {
         case RED:
