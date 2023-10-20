@@ -31,8 +31,6 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     private static final String imagesPath = "src/resources/images/";
     private static final String gameName = "PlayCrush";
 
-    private int LABEL_SIZE = Board.getBoardLabelSize();
-
     protected Game myGame;
     private Container contentPane;
     protected JPanel boardPanel;
@@ -68,22 +66,29 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
         typeOfCandy = new JLabel[3];
         amountToGo = new JLabel[3];
+        cantMoves = new JLabel();
+        levelShower = new JLabel();
+        watch = new JLabel();
 
         inicializar();
     }
 
     protected void inicializar() {
+
+        final int width = 833;
+        final int height = 650;
+
+        Game.setLabelSize(86);
+
         setTitle(gameName);
-        //final int width = LABEL_SIZE*Board.getRows() + 350;
-        //final int height = LABEL_SIZE*Board.getColumns() + 175;
-        setSize(new Dimension(833, 592));
+        setSize(new Dimension(width, height));
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         contentPane.setLayout(null);
 
         boardPanel.setLocation(0, 50);
-        boardPanel.setSize(LABEL_SIZE*Board.getRows(), LABEL_SIZE*Board.getColumns());
+        boardPanel.setSize(Game.getLabelSize()*Board.getRows(), Game.getLabelSize()*Board.getColumns());
         boardPanel.setLayout(null);
         boardPanel.addKeyListener(new KeyAdapter() {
             @Override
@@ -103,45 +108,61 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
             }
         });
 
-
         contentPane.add(boardPanel);
-
-        /*JLabel backgroundLabel = new JLabel();
-        backgroundLabel.setIcon(backgroundGif);
-        backgroundLabel.setBounds(0, 0, getWidth(), getHeight());
-        contentPane.add(backgroundLabel);*/
-
         boardPanel.setFocusable(true);
 
         setUpLives();
+        setUpGoals();
 
-        cantMoves = new JLabel();
         cantMoves.setBounds(530, 125, 183, 38);
         contentPane.add(cantMoves);
-        
-        JLabel amountToGoLabel = new JLabel();
-        JLabel typeOfCandyLabel = new JLabel();
-        
-        levelShower = new JLabel();
+
         levelShower.setBounds(194, 20, 80,20);
         levelShower.setFont(new Font("Stencil", Font.PLAIN, 20));
         contentPane.add(levelShower);
-        
-        watch = new JLabel("Aca iria el reloj");
-        watch.setBounds(548, 95, 200, 14);
-        contentPane.add(watch);        
 
+        watch.setBounds(548, 95, 200, 14);
+        contentPane.add(watch);
+    }
+
+    public void updateLives(int lives) {
+        live1.setVisible(!(lives < 1));
+        live2.setVisible(!(lives < 2));
+        live3.setVisible(!(lives < 3));
+    }
+    
+    private void setUpLives() {
+        ImageIcon imageIcon = new ImageIcon(imagesPath + "heart-gif-1.gif"); 
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+
+        live1 = new JLabel(imageIcon);
+        live2 = new JLabel(imageIcon);
+        live3 = new JLabel(imageIcon);
+
+        live1.setBounds(540, 24, 46, 38);
+        contentPane.add(live1);
+        
+        live2.setBounds(584, 24, 46, 38);
+        contentPane.add(live2);
+        
+        live3.setBounds(629, 24, 46, 38);
+        contentPane.add(live3);
+    }
+
+    private void setUpGoals() {
+        JLabel amountToGoLabel = new JLabel();
+        JLabel typeOfCandyLabel = new JLabel();
 
         amountToGoLabel.setBounds(645, 223, 46, 29);
         contentPane.add(amountToGoLabel);
         amountToGo[0] = amountToGoLabel;
 
-        amountToGoLabel = new JLabel("\r\n");
+        amountToGoLabel = new JLabel();
         amountToGoLabel.setBounds(667, 306, 68, 38);
         getContentPane().add(amountToGoLabel);
         amountToGo[1] = amountToGoLabel;
 
-        amountToGoLabel = new JLabel("\r\n");
+        amountToGoLabel = new JLabel();
         amountToGoLabel.setBounds(667, 397, 60, 38);
         getContentPane().add(amountToGoLabel);
         amountToGo[2] = amountToGoLabel;
@@ -161,30 +182,6 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         typeOfCandyLabel.setBounds(530, 386, 90, 64);
         getContentPane().add(typeOfCandyLabel);
         typeOfCandy[2] = typeOfCandyLabel;
-    }
-
-    
-    public void updateLives(int lives) {
-        live1.setVisible(!(lives < 1));
-        live2.setVisible(!(lives < 2));
-        live3.setVisible(!(lives < 3));
-    }
-    
-    private void setUpLives() {
-        ImageIcon imageIcon = new ImageIcon(imagesPath + "heart-gif-1.gif"); 
-        imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-
-        live1 = new JLabel(imageIcon);
-        live1.setBounds(540, 24, 46, 38);
-        contentPane.add(live1);
-        
-        live2 = new JLabel(imageIcon);
-        live2.setBounds(584, 24, 46, 38);
-        contentPane.add(live2);
-        
-        live3 = new JLabel(imageIcon);
-        live3.setBounds(629, 24, 46, 38);
-        contentPane.add(live3);
     }
 
     public void updateMoves(int i) { cantMoves.setText("Movimientos Restantes: " + i); }

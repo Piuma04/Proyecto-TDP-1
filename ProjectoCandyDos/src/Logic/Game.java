@@ -14,6 +14,7 @@ import Interfaces.Equivalent;
 
 public class Game {
 
+    private static int label_size = 80;
     private static final SoundPlayer backgroundMusic = new SoundPlayer("ps/introMusic.wav");
     private static final SoundPlayer lostSound = new SoundPlayer("ps/ps2error.wav");
 
@@ -137,4 +138,6 @@ public class Game {
         });
     }
 
+    public static int getLabelSize() { return label_size; }
+    public static void setLabelSize(int size) { label_size = size; }
 }

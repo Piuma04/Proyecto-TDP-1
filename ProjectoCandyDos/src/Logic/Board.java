@@ -23,7 +23,6 @@ import Interfaces.VisualEntity;
 public class Board {
     private static final int ROWS = 6;
     private static final int COLUMNS = 6;
-    private static final int blockSize = 80;
     private static final SoundPlayer explosion = new SoundPlayer("ps/move2.wav"); // new SoundPlayer("nam.wav");
     private static final SoundPlayer blockMove = new SoundPlayer("ps/move100.wav");
     private static final SoundPlayer entityMove = new SoundPlayer("ps/click.wav");
@@ -56,8 +55,6 @@ public class Board {
     public static int getRows() { return ROWS; }
 
     public static int getColumns() { return COLUMNS; }
-
-    public static int getBoardLabelSize() { return blockSize; }
 
     /**
      * @see {@link Game#UP} {@link Game#DOWN} {@link Game#LEFT} {@link Game#RIGHT}
