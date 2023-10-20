@@ -36,7 +36,7 @@ public class Game {
         lives = 3;
         loadLevel(level);
         myGui.setVisible(true);
-        backgroundMusic.loop();
+        //backgroundMusic.loop();
     }
 
     public void loadLevel(int level) {
@@ -52,8 +52,9 @@ public class Game {
 
     public void swap(int direction) {
         List<Equivalent> destroyed = myBoard.swap(direction);
-        myGui.updateMoves(myLevel.getMoves());
+
         update(destroyed);
+
     }
 
     public void move(int direction) {
@@ -68,6 +69,7 @@ public class Game {
         myGui.executeAfterAnimation(() -> {
             SwingUtilities.invokeLater( () -> {
                 myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
+                myGui.updateMoves(myLevel.getMoves());
             });
         });
 
