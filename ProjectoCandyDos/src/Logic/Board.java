@@ -164,25 +164,10 @@ public class Board {
             if (canSwap(b1, b2)) {
                 entityMove.playNew();
                 b1.swapEntity(b2);
-                combinations.addAll(b2.getEntity().getSpecialDestroy(b1.getEntity(),this));
-                if(!combinations.isEmpty())
-                {
-                    if (b1.hasModifiers())
-                    	destroyed.add(b1.popModifier());
-                    destroyed.add(b1.getEntity());
-                    destroyEntity(b1.getRow(), b1.getColumn());
-                	if (b2.hasModifiers())
-                		destroyed.add(b2.popModifier());
-                	destroyed.add(b2.getEntity());
-                	destroyEntity(b2.getRow(), b2.getColumn());
-            		
-                }
-                else {
-                	combinations.add(b1);
-                    combinations.add(b2);
-                    combinations = combinationLogic.checkCombinations(combinations, powerCandys);
-                }
-                
+                combinations.add(b1);
+                combinations.add(b2);
+                combinations = combinationLogic.checkCombinations(combinations, powerCandys);
+                combinations.addAll(b2.getEntity().getSpecialDestroy(b1.getEntity(), this));
                 if (!combinations.isEmpty()) {
                     do // While there are remaining combinations, destroy them,fill the board, and
                        // check again

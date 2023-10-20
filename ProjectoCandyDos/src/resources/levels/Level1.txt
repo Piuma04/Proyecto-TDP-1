@@ -3,6 +3,6 @@ B,30
 R,R,B,B,P,G
 P,R,G,B,Y,B
 G,P,B,G,Y,R
-G,B,RV,PV,R,Y
+G,B,RW,PW,R,Y
 R,G,P,G,B,P
 B,P,Y,P,G,P
