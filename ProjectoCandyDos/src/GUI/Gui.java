@@ -175,7 +175,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     
     private void setUpLives() {
         ImageIcon imageIcon = new ImageIcon(imagesPath + "life.gif"); 
-        imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
 
         live1 = new JLabel(imageIcon);
         live1.setBounds(540, 24, 46, 38);
