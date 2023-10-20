@@ -1,4 +1,4 @@
-25,150
+25,100
 J,24
 P,P,R,G,Y,B
 GJ,BJ,RJ,PJ,YJ,GJ
