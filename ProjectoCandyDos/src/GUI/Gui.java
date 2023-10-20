@@ -41,10 +41,13 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     protected int pendingAnimations;
     protected boolean stopInterchanges;
     
-    private JLabel live1, live2, live3;
-    private JLabel cantMoves, typeOfCandy0, amountToGo0, levelShower, watch;
-    private JLabel amountToGo1, typeOfCandy1;
-    private JLabel amountToGo2, typeOfCandy2;
+    private JLabel live1;
+    private JLabel live2;
+    private JLabel live3;
+    private JLabel typeOfCandy[];
+    private JLabel amountToGo[];
+    
+    private JLabel cantMoves, levelShower, watch;
 
     private ImageIcon backgroundGif = new ImageIcon(imagesPath + "stars.gif");
 
@@ -62,6 +65,9 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         animator = new CentralAnimator(this);
         pendingAnimations = 0;
         stopInterchanges = false;
+
+        typeOfCandy = new JLabel[3];
+        amountToGo = new JLabel[3];
 
         inicializar();
     }
@@ -113,13 +119,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         cantMoves.setBounds(530, 125, 183, 38);
         contentPane.add(cantMoves);
         
-        amountToGo0 = new JLabel();
-        amountToGo0.setBounds(645, 223, 46, 29);
-        contentPane.add(amountToGo0);
-        
-        typeOfCandy0 = new JLabel();
-        typeOfCandy0.setBounds(540, 195, 80, 80);
-        contentPane.add(typeOfCandy0);
+        JLabel amountToGoLabel = new JLabel();
+        JLabel typeOfCandyLabel = new JLabel();
         
         levelShower = new JLabel();
         levelShower.setBounds(194, 20, 80,20);
@@ -128,24 +129,38 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         
         watch = new JLabel("Aca iria el reloj");
         watch.setBounds(548, 95, 200, 14);
-        contentPane.add(watch);
-        
-         typeOfCandy1 = new JLabel("");
-        typeOfCandy1.setBounds(539, 286, 91, 63);
-        getContentPane().add(typeOfCandy1);
-        
-         typeOfCandy2 = new JLabel("");
-        typeOfCandy2.setBounds(530, 386, 90, 64);
-        getContentPane().add(typeOfCandy2);
-        
-         amountToGo2 = new JLabel("\r\n");
-        amountToGo2.setBounds(667, 397, 60, 38);
-        getContentPane().add(amountToGo2);
-        
-         amountToGo1 = new JLabel("\r\n");
-        amountToGo1.setBounds(667, 306, 68, 38);
-        getContentPane().add(amountToGo1);
+        contentPane.add(watch);        
 
+
+        amountToGoLabel.setBounds(645, 223, 46, 29);
+        contentPane.add(amountToGoLabel);
+        amountToGo[0] = amountToGoLabel;
+
+        amountToGoLabel = new JLabel("\r\n");
+        amountToGoLabel.setBounds(667, 306, 68, 38);
+        getContentPane().add(amountToGoLabel);
+        amountToGo[1] = amountToGoLabel;
+
+        amountToGoLabel = new JLabel("\r\n");
+        amountToGoLabel.setBounds(667, 397, 60, 38);
+        getContentPane().add(amountToGoLabel);
+        amountToGo[2] = amountToGoLabel;
+
+
+        typeOfCandyLabel = new JLabel();
+        typeOfCandyLabel.setBounds(540, 195, 80, 80);
+        contentPane.add(typeOfCandyLabel);
+        typeOfCandy[0] = typeOfCandyLabel;
+
+        typeOfCandyLabel = new JLabel();
+        typeOfCandyLabel.setBounds(539, 286, 91, 63);
+        getContentPane().add(typeOfCandyLabel);
+        typeOfCandy[1] = typeOfCandyLabel;
+        
+        typeOfCandyLabel = new JLabel();
+        typeOfCandyLabel.setBounds(530, 386, 90, 64);
+        getContentPane().add(typeOfCandyLabel);
+        typeOfCandy[2] = typeOfCandyLabel;
     }
 
     
@@ -199,59 +214,23 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
 
     public void showObjective(List<String> entities, List<Integer> remaining) {
-        int i = 0;
-    	for(String s: entities) {
-    		setEntity(s,i);
-    		setRemaining(remaining.get(i),i);
-    		i++;
-    	}
+        for (int i = 0; i < entities.size(); i++) {
+            setEntity(entities.get(i), i);
+            setRemaining(remaining.get(i), i);
+        }
     }
 
-	private void setRemaining(Integer remaining, int reference) {
-		switch(reference) {
-		case 0:{
-			amountToGo0.setText(remaining+"");
-			break;
-		}
-		case 1:{
-			amountToGo1.setText(remaining+"");
-			break;
-		}
-		case 2:{
-			amountToGo2.setText(remaining+"");
-			break;
-		}
-	}
+    private void setRemaining(Integer remaining, int reference) { amountToGo[reference].setText(remaining + ""); }
 
-		
-	}
+    private void setEntity(String s, int reference) {
+        ImageIcon imageIconAux = new ImageIcon(imagesPath + s);
+        imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        typeOfCandy[reference].setIcon(imageIconAux);
+    }
 
-	private void setEntity(String s, int reference) {
-		ImageIcon imageIconAux = new ImageIcon(imagesPath + s);
-		imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-		switch(reference) {
-			case 0:{
-				typeOfCandy0.setIcon(imageIconAux);
-				break;
-			}
-			case 1:{
-				typeOfCandy1.setIcon(imageIconAux);
-				break;
-			}
-			case 2:{
-				typeOfCandy2.setIcon(imageIconAux);
-				break;
-			}
-		}
-		
-	}
-
-	public void updateGraphicObjective(List<Integer> list) {
-        int i = 0;
-		for(Integer j : list) {
-			setRemaining(j, i);
-			i++;
-		}
+    public void updateGraphicObjective(List<Integer> list) {
+        for (int i = 0; i < list.size(); i++)
+            setRemaining(list.get(i), i);
     }
     public void setCurrentLevel(String level) { levelShower.setText(level); }
     
