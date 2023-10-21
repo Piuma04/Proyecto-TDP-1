@@ -7,7 +7,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import Interfaces.LogicEntity;
-import Logic.Board;
 import Logic.Game;
 
 @SuppressWarnings("serial")
