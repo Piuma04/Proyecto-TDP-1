@@ -23,9 +23,9 @@ public class Wrapped extends Entity {
     @Override public boolean canReceive(Stripped s)     { return true; }
     @Override public boolean canReceive(Wrapped w)      { return true; }
 
-    @Override public boolean bothBooster(Entity e) { return e.isBooster(this); }
-    @Override public boolean isBooster(Stripped c) { return true; }
-    @Override public boolean isBooster(Wrapped c)  { return true; }
+    @Override public boolean isSpecialSwap(Entity e) { return e.hasSpecialExplosion(this); }
+    @Override public boolean hasSpecialExplosion(Stripped c) { return true; }
+    @Override public boolean hasSpecialExplosion(Wrapped c)  { return true; }
     
     @Override
     public List<Block> getDestroyables(Board b) {

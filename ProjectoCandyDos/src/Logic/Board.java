@@ -309,7 +309,7 @@ public class Board {
         return e1.isSwappable(e2);
     }
 
-    private boolean hasBooster(Block block1, Block block2) { return block1.getEntity().bothBooster(block2.getEntity()); }
+    private boolean hasBooster(Block block1, Block block2) { return block1.getEntity().isSpecialSwap(block2.getEntity()); }
 
     public static boolean hasMovableEntity(Block block) { return dummy.isSwappable(block.getEntity()); }
 
