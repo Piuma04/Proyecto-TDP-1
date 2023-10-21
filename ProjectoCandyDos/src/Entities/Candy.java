@@ -15,8 +15,6 @@ public class Candy extends Entity {
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
     @Override public boolean isEqual(Candy c)    { return this.colour == c.getColour(); }
-    @Override public boolean isEqual(Wrapped w)  { return this.colour == w.getColour(); }
-    @Override public boolean isEqual(Stripped s) { return this.colour == s.getColour(); }
 
     @Override public boolean isSwappable(Swappable e) { return e.canReceive(this); }
     @Override public boolean canReceive(Candy c)      { return true; }

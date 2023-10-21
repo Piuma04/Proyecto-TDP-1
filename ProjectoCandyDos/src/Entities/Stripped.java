@@ -24,6 +24,8 @@ public class Stripped extends Entity {
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
     @Override public boolean isEqual(Stripped s)        { return s.getColour() == colour; }
+    @Override public boolean isEqual(Candy c)         { return c.getColour() == colour; }
+
     @Override public boolean isSwappable(Swappable e)   { return e.canReceive(this); }
     @Override public boolean canReceive(Candy c)        { return true; }
     @Override public boolean canReceive(Stripped s)     { return true; }
