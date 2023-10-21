@@ -23,6 +23,7 @@ import Interfaces.LogicEntity;
 
 import Animations.CentralAnimator;
 import Animations.SoundPlayer;
+import java.awt.Color;
 
 
 @SuppressWarnings("serial")
@@ -50,6 +51,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     private ImageIcon backgroundGif = new ImageIcon(imagesPath + "stars.gif");
 
     public Gui(Game game) {
+    	getContentPane().setForeground(Color.BLACK);
         myGame = game;
         contentPane = getContentPane();
         boardPanel =  new JPanel() {
@@ -121,7 +123,9 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         levelShower.setFont(new Font("Stencil", Font.PLAIN, 20));
         contentPane.add(levelShower);
 
-        watch.setBounds(548, 95, 200, 14);
+        watch = new JLabel("Aca iria el reloj");
+        watch.setForeground(new Color(0, 0, 0));
+        watch.setBounds(548, 95, 200, 28);
         contentPane.add(watch);
     }
 
@@ -132,7 +136,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
     
     private void setUpLives() {
-        ImageIcon imageIcon = new ImageIcon(imagesPath + "heart-gif-1.gif"); 
+        ImageIcon imageIcon = new ImageIcon(imagesPath + "life.gif"); 
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 
         live1 = new JLabel(imageIcon);
