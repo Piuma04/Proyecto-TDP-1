@@ -18,12 +18,6 @@ public class Goal {
      * @return {@code true} if goal is reached.
      */
     public void updateCounter(Equivalent equivalent) {
-        // System.out.println(equivalentList.toString());
-        
-        System.out.print("MYTYPE: " + type + " ");
-        System.out.print("Candy: ");
-        System.out.println(equivalent);
-        System.out.println(type.isEquivalent(equivalent));
         if (counter > 0 && type.isEquivalent(equivalent))
             counter--;
     }
