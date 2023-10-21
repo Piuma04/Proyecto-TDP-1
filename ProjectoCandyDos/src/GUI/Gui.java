@@ -143,13 +143,13 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         live2 = new JLabel(imageIcon);
         live3 = new JLabel(imageIcon);
 
-        live1.setBounds(540, 24, 46, 38);
+        live1.setBounds(540, 24, 60, 60);
         contentPane.add(live1);
         
-        live2.setBounds(584, 24, 46, 38);
+        live2.setBounds(600, 24, 60, 60);
         contentPane.add(live2);
         
-        live3.setBounds(629, 24, 46, 38);
+        live3.setBounds(655, 24, 62, 60);
         contentPane.add(live3);
     }
 
