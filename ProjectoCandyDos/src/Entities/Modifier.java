@@ -14,4 +14,5 @@ public abstract class Modifier extends VisualEntityDummy implements Equivalent {
     @Override public boolean isEqual(Stripped s) { return false; }
     @Override public boolean isEqual(Empty e)    { return false; }
     @Override public boolean isEqual(Jelly j)    { return false; }
+    @Override public boolean isEqual(MegaStripped m)    { return false; }
 }

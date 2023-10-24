@@ -4,6 +4,7 @@ import Entities.Candy;
 import Entities.Empty;
 import Entities.Glazed;
 import Entities.Jelly;
+import Entities.MegaStripped;
 import Entities.Stripped;
 import Entities.Wrapped;
 
@@ -68,6 +69,13 @@ public interface Equivalent extends LogicEntity {
 	 * @return true if this Entity is equal to the Empty object, false otherwise.
 	 */
 	public boolean isEqual(Empty e);
+	/**
+	 * Checks if this Entity is equal to an MegaStripped object.
+	 *
+	 * @param e The MegaStripped object to compare with.
+	 * @return true if this Entity is equal to the MegaStripped object, false otherwise.
+	 */
+	public boolean isEqual(MegaStripped e);
 	
 	public int getScore();
 }

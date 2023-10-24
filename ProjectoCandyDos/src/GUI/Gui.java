@@ -60,8 +60,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        //openPanel(menuPanel);
-        openPanel(gamePanel);
+       openPanel(menuPanel);
+        //openPanel(gamePanel);
 
         initializeMenuPanel();
         initializeGamePanel();

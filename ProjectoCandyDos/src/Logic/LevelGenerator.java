@@ -16,7 +16,7 @@ import Entities.Stripped;
 import Entities.Wrapped;
 import Entities.Glazed;
 import Entities.Jelly;
-
+import Entities.MegaStripped;
 import Interfaces.Equivalent;
 
 
@@ -76,6 +76,7 @@ public class LevelGenerator {
             // ADD MODIFIERS TO BLOCKS.
             for (int r = 0; r < Board.getRows(); r++) {
                 candys = lines.get(r + 2).split(",");
+               
                 for (int c = 0; c < Board.getColumns(); c++) {
                     String id = candys[c];
                     Block block = board.getBlock(r, c);
@@ -127,6 +128,7 @@ public class LevelGenerator {
      * 'S' for STRIPPED</br>
      * 'W' for WRAPPED</br>
      * 'J' for JELLY</br></br>
+     * 'Z' for SS for MegaStripped
      * after that, all chars can be 'J' for extra JELLYS
      * 
      * @param r
@@ -157,6 +159,8 @@ public class LevelGenerator {
                     e = new Stripped(r, c, colour, true);
                 else if (id.charAt(1) == 'W')
                     e = new Wrapped(r, c, colour);
+                else if (id.charAt(1) == 'Z')
+                    e = new MegaStripped(r, c, colour);
             }
             if (e == null)
                 e = new Candy(r, c, colour);
@@ -167,6 +171,7 @@ public class LevelGenerator {
         case 'M':
             e = new Glazed(r, c);
             break;
+        
         }
         return e;
     }

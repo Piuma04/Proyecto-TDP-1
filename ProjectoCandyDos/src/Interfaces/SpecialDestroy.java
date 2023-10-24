@@ -4,6 +4,7 @@ import java.util.Set;
 import Entities.Candy;
 import Entities.Empty;
 import Entities.Glazed;
+import Entities.MegaStripped;
 import Entities.Stripped;
 import Entities.Wrapped;
 import Logic.Block;
@@ -16,4 +17,5 @@ public interface SpecialDestroy {
     public Set<Block> getSpecialDestroyables(Wrapped c, Board b);
     public Set<Block> getSpecialDestroyables(Glazed g, Board b);
     public Set<Block> getSpecialDestroyables(Empty e, Board b);
+    public Set<Block> getSpecialDestroyables(MegaStripped m,  Board b) ;
 }
