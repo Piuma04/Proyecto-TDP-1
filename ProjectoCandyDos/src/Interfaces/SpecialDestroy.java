@@ -8,7 +8,7 @@ import Entities.Stripped;
 import Entities.Wrapped;
 
 public interface SpecialDestroy {
-    public boolean isSpecialSwap(Entity e);
+    public boolean isSpecialSwap(SpecialDestroy e);
     public boolean hasSpecialExplosion(Candy c);
     public boolean hasSpecialExplosion(Stripped s);
     public boolean hasSpecialExplosion(Wrapped w);

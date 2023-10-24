@@ -9,7 +9,7 @@ import javax.swing.SwingUtilities;
 import GUI.Gui;
 
 import Animations.SoundPlayer;
-
+import Entities.Entity;
 import Interfaces.Equivalent;
 
 public class Game {
@@ -29,10 +29,12 @@ public class Game {
     private Timer myTimer;
     private int lives;
     private boolean animationNextLevel;
+    private Score score;
 
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
+        score = new Score();
         int level = 1;//= myGui.chooseLevel();
         lives = 3;
         loadLevel(level);
@@ -54,9 +56,7 @@ public class Game {
 
     public void swap(int direction) {
         List<Equivalent> destroyed = myBoard.swap(direction);
-
         update(destroyed);
-
     }
 
     public void move(int direction) {
@@ -67,7 +67,7 @@ public class Game {
 
     public void update(List<Equivalent> destroyed) {
         boolean finished = myLevel.update(destroyed);
-
+        System.out.println(score.update(destroyed)); ///WARNING
         myGui.executeAfterAnimation(() -> {
             SwingUtilities.invokeLater( () -> {
                 myGui.updateGraphicObjective(myLevel.getRemainingObjectives());

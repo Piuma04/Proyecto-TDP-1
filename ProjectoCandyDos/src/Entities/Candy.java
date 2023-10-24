@@ -44,6 +44,27 @@ public class Candy extends Entity {
         playGif("explosion.gif");
         setImage(null);
     }
+    
+    public int getScore()
+    {
+    	int score = 0;
+    	switch(this.colour)
+    	{
+    	case RED:score = 5;
+    	break;
+    	case BLUE:score = 20;
+    	break;
+    	case YELLOW:score = 20;
+    	break;
+    	case PURPLE:score = 25;
+    	break;
+    	case GREEN:score = 10;
+    	break;
+    	//case ORANGE:score = 15;
+    	//break
+    	}
+    	return score;
+    }
 
     public String toString() { return super.setStringColor("C"); }
 }

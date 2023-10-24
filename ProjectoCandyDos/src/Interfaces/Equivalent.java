@@ -68,4 +68,6 @@ public interface Equivalent extends LogicEntity {
 	 * @return true if this Entity is equal to the Empty object, false otherwise.
 	 */
 	public boolean isEqual(Empty e);
+	
+	public int getScore();
 }

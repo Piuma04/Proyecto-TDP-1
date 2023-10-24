@@ -3,6 +3,7 @@ package Entities;
 import java.util.List;
 
 import Interfaces.Equivalent;
+import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
 
 import java.util.LinkedList;
@@ -25,7 +26,7 @@ public class Wrapped extends Entity {
     @Override public boolean canReceive(Stripped s)     { return true; }
     @Override public boolean canReceive(Wrapped w)      { return true; }
 
-    @Override public boolean isSpecialSwap(Entity e) { return e.hasSpecialExplosion(this); }
+    @Override public boolean isSpecialSwap(SpecialDestroy e) { return e.hasSpecialExplosion(this); }
     @Override public boolean hasSpecialExplosion(Stripped c) { return true; }
     @Override public boolean hasSpecialExplosion(Wrapped c)  { return true; }
     
@@ -41,5 +42,9 @@ public class Wrapped extends Entity {
         return toDestroy;
     }
 
+    public int getScore()
+    {
+    	return 50;
+    }
     public String toString() { return super.setStringColor("W"); }
 }

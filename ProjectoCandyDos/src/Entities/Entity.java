@@ -39,12 +39,14 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     @Override public boolean canReceive(Wrapped w)    { return false; }
     @Override public boolean canReceive(Glazed g)     { return false; }
 
-    @Override public boolean isSpecialSwap(Entity e) { return false; }
+    @Override public boolean isSpecialSwap(SpecialDestroy e) { return false; }
     @Override public boolean hasSpecialExplosion(Candy c)    { return false; }
     @Override public boolean hasSpecialExplosion(Empty e)    { return false; }
     @Override public boolean hasSpecialExplosion(Wrapped w)  { return false; }
     @Override public boolean hasSpecialExplosion(Stripped s) { return false; }
     @Override public boolean hasSpecialExplosion(Glazed g)  { return false; }
+    
+    @Override public int getScore() {return 0;}
 
     public void destroy() {
         playGif("explosion.gif");

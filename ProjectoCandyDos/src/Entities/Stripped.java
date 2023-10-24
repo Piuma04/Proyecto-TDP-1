@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Interfaces.Equivalent;
+import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
 import Logic.Block;
 import Logic.Board;
@@ -31,7 +32,7 @@ public class Stripped extends Entity {
     @Override public boolean canReceive(Stripped s)     { return true; }
     @Override public boolean canReceive(Wrapped w)      { return true; }
 
-    @Override public boolean isSpecialSwap(Entity e) { return e.hasSpecialExplosion(this); }
+    @Override public boolean isSpecialSwap(SpecialDestroy e) { return e.hasSpecialExplosion(this); }
     @Override public boolean hasSpecialExplosion(Stripped c) { return true; }
     @Override public boolean hasSpecialExplosion(Wrapped c)  { return true; }
 
@@ -64,5 +65,14 @@ public class Stripped extends Entity {
         return toDestroy;
     }
 
+    public int getScore()
+    {
+    	int score = 0;
+    	if(isHorizontal)
+    		score = 45;
+    	else
+    		score = 35;
+    	return score;
+    }
     public String toString() { return super.setStringColor((isHorizontal ? "H" : "V")); }
 }
