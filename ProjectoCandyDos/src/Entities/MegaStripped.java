@@ -29,6 +29,7 @@ public class MegaStripped extends Entity {
     @Override public boolean canReceive(Candy c)        { return true; }
     @Override public boolean canReceive(Stripped s)     { return true; }
     @Override public boolean canReceive(Wrapped w)      { return true; }
+    @Override public boolean canReceive(MegaStripped m)      { return true; }
 
     
 

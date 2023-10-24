@@ -17,6 +17,7 @@ import Entities.Candy;
 import Entities.Colour;
 import Entities.Empty;
 import Entities.Entity;
+import Entities.MegaStripped;
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
 
@@ -111,8 +112,14 @@ public class Board {
         matrix[newRow][newColumn].focus();
     }
 
-    public Candy createRandomCandy(int row, int column) {
-        Candy entity = new Candy(row, column, randomColour());
+    public Entity createRandomCandy(int row, int column) {
+        double i = Math.random();
+        Entity entity;
+    	if(i>0.001 )
+    		 entity = new Candy(row, column, randomColour());
+    	else
+    		 entity = new MegaStripped(row, column, randomColour());
+    		
         addVisualEntity(entity);
         return entity;
     }

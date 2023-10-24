@@ -20,6 +20,7 @@ public class Candy extends Entity {
     @Override public boolean canReceive(Candy c)      { return true; }
     @Override public boolean canReceive(Stripped s)   { return true; }
     @Override public boolean canReceive(Wrapped w)    { return true; }
+    @Override public boolean canReceive(MegaStripped m)      { return true; }
 
     @Override
     public List<Block> getDestroyables(Board b) {
