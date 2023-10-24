@@ -115,7 +115,7 @@ public class Board {
     public Entity createRandomCandy(int row, int column) {
         double i = Math.random();
         Entity entity;
-    	if(i>0.001 )
+    	if(i>0.02 )
     		 entity = new Candy(row, column, randomColour());
     	else
     		 entity = new MegaStripped(row, column, randomColour());
@@ -164,8 +164,8 @@ public class Board {
         List<Entity> powerCandys = new LinkedList<Entity>();
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         if (isValidBlock(newRow, newColumn)) {
-            Block b1 = matrix[playerRow][playerColumn];
-            Block b2 = matrix[newRow][newColumn];
+            Block b1 = matrix[newRow][newColumn];
+            Block b2 = matrix[playerRow][playerColumn];
             if (canSwap(b1, b2)) {
                 entityMove.playNew();
                 b1.swapEntity(b2);

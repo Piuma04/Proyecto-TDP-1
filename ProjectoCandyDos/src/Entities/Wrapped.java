@@ -66,12 +66,15 @@ public class Wrapped extends Entity {
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
-        visited = true;
         toDestroy.add(b.getBlock(row, column));
-        for (int j = column - 1; j <= column + 1; j++)
-            for (int i = row - 1; i <= row + 1; i++) 
-                if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns() && !b.getBlock(i, j).getEntity().isVisited())
-                    toDestroy.addAll(b.getBlock(i, j).getEntity().getDestroyables(b));
+        if(!visited)
+        {
+        	 for (int j = column - 1; j <= column + 1; j++)
+                 for (int i = row - 1; i <= row + 1; i++) 
+                     if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns() && !b.getBlock(i, j).getEntity().isVisited())
+                         toDestroy.addAll(b.getBlock(i, j).getEntity().getDestroyables(b));	
+        }
+        visited = true;
         return toDestroy;
     }
 

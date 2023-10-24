@@ -27,15 +27,18 @@ public class Candy extends Entity {
         List<Block> toDestroy = new LinkedList<Block>();
         toDestroy.add(b.getBlock(row, column));
         visited = true;
-        int[] adyacentRows = { -1, 0, 1, 0 };
-        int[] adyacentColumns = { 0, -1, 0, 1 };
-        for (int i = 0; i < 4; i++) {
-            int newRow = row + adyacentRows[i];
-            int newColumn = column + adyacentColumns[i];
-            if (Board.isValidBlock(newRow, newColumn) && b.getBlock(newRow, newColumn).getEntity()
-                    .getColour() == Colour.GLAZED) {
-                toDestroy.add(b.getBlock(newRow, newColumn));
-            }
+        if(!visited)
+        {
+        	 int[] adyacentRows = { -1, 0, 1, 0 };
+             int[] adyacentColumns = { 0, -1, 0, 1 };
+             for (int i = 0; i < 4; i++) {
+                 int newRow = row + adyacentRows[i];
+                 int newColumn = column + adyacentColumns[i];
+                 if (Board.isValidBlock(newRow, newColumn) && b.getBlock(newRow, newColumn).getEntity()
+                         .getColour() == Colour.GLAZED) {
+                     toDestroy.add(b.getBlock(newRow, newColumn));
+                 }
+             }
         }
         return toDestroy;
     }

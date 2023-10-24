@@ -77,29 +77,32 @@ public class Stripped extends Entity {
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
-        visited = true;
         toDestroy.add(b.getBlock(row, column));
-        if (isHorizontal)
-            for (int c = 0; c < Board.getColumns(); c++) {
-                if (!(c == column) && !b.getBlock(row, c).getEntity().isVisited())
-                    toDestroy.addAll(b.getBlock(row, c).getEntity().getDestroyables(b));
-            }
-        else
-            for (int r = 0; r < Board.getRows(); r++) {
-                if (!(r == row) && !b.getBlock(r, column).getEntity().isVisited())
-                    toDestroy.addAll(b.getBlock(r, column).getEntity().getDestroyables(b));
-            }
-        // ahora destruye si hay glazed en pos adyacentes
-        int[] adyacentRows = { -1, 0, 1, 0 };
-        int[] adyacentColumns = { 0, -1, 0, 1 };
-        for (int i = 0; i < 4; i++) {
-            int newRow = row + adyacentRows[i];
-            int newColumn = column + adyacentColumns[i];
-            if (Board.isValidBlock(newRow, newColumn) && b.getBlock(newRow, newColumn).getEntity()
-                    .getColour() == Colour.GLAZED) {
-                toDestroy.add(b.getBlock(newRow, newColumn));
+        if(!visited)
+        {
+        	if (isHorizontal)
+                for (int c = 0; c < Board.getColumns(); c++) {
+                    if (!(c == column) && !b.getBlock(row, c).getEntity().isVisited())
+                        toDestroy.addAll(b.getBlock(row, c).getEntity().getDestroyables(b));
+                }
+            else
+                for (int r = 0; r < Board.getRows(); r++) {
+                    if (!(r == row) && !b.getBlock(r, column).getEntity().isVisited())
+                        toDestroy.addAll(b.getBlock(r, column).getEntity().getDestroyables(b));
+                }
+        	// ahora destruye si hay glazed en pos adyacentes
+            int[] adyacentRows = { -1, 0, 1, 0 };
+            int[] adyacentColumns = { 0, -1, 0, 1 };
+            for (int i = 0; i < 4; i++) {
+                int newRow = row + adyacentRows[i];
+                int newColumn = column + adyacentColumns[i];
+                if (Board.isValidBlock(newRow, newColumn) && b.getBlock(newRow, newColumn).getEntity()
+                        .getColour() == Colour.GLAZED) {
+                    toDestroy.add(b.getBlock(newRow, newColumn));
+                }
             }
         }
+        visited = true;
         return toDestroy;
     }
 
