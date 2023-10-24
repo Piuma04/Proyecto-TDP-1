@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
+import java.util.HashSet;
 import Interfaces.Equivalent;
 import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
@@ -27,6 +27,8 @@ public class Stripped extends Entity {
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
     @Override public boolean isEqual(Stripped s)        { return s.getColour() == colour; }
+    @Override public boolean isEqual(Candy c)         { return c.getColour() == colour; }
+
     @Override public boolean isSwappable(Swappable e)   { return e.canReceive(this); }
     @Override public boolean canReceive(Candy c)        { return true; }
     @Override public boolean canReceive(Stripped s)     { return true; }
@@ -104,5 +106,14 @@ public class Stripped extends Entity {
         return toDestroy;
     }
 
+    public int getScore()
+    {
+    	int score = 0;
+    	if(isHorizontal)
+    		score = 45;
+    	else
+    		score = 35;
+    	return score;
+    }
     public String toString() { return super.setStringColor((isHorizontal ? "H" : "V")); }
 }

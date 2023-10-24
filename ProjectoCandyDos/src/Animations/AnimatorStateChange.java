@@ -18,7 +18,7 @@ public class AnimatorStateChange extends Thread implements Animator {
 
     protected AnimatorDriver manager;
     protected Drawable drawableAnimated;
-    protected String imagePat;
+    protected String imagePath;
     protected boolean bGif;
     
     /**
@@ -29,17 +29,17 @@ public class AnimatorStateChange extends Thread implements Animator {
     public AnimatorStateChange(AnimatorDriver m, Drawable c, String animationPath) {
         manager = m;
         drawableAnimated = c;
-        imagePat = animationPath;
+        imagePath = animationPath;
         bGif = isGif(animationPath);
         if (bGif) gifPlayer.add(animationPath, drawableAnimated.getImageSize());
     }
 
     @Override
     public void run() {
-        drawableAnimated.setImage(imagesPath + imagePat);
-        if (bGif) gifPlayer.play(imagePat, drawableAnimated);
+        drawableAnimated.setImage(imagesPath + imagePath);
+        if (bGif) gifPlayer.play(imagePath, drawableAnimated);
         drawableAnimated.repaint();
-        manager.notifyEndAnimation(this, imagePat == null);
+        manager.notifyEndAnimation(this, imagePath == null);
     }
 
     @Override public Drawable getDrawable() { return drawableAnimated; }

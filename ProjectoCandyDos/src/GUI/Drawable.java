@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 import Interfaces.LogicEntity;
-import Logic.Board;
+import Logic.Game;
 
 @SuppressWarnings("serial")
 public class Drawable extends JComponent implements GraphicalEntity {
@@ -47,7 +47,6 @@ public class Drawable extends JComponent implements GraphicalEntity {
     @Override public void notifyChangePosition() { agui.animateMovement(this); }
     @Override public void setSkipQueue(boolean skipQueue) { bSkipQueue = skipQueue; }
     public boolean getSkipQueue() { return bSkipQueue; }
-    public static int getBoardLabelSize() { return Board.getBoardLabelSize(); }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -56,7 +55,7 @@ public class Drawable extends JComponent implements GraphicalEntity {
     }
     
     public int[] getVisualLocation(int row, int column) {
-        int boardLabelSize = Board.getBoardLabelSize();
+        int boardLabelSize = Game.getLabelSize();
         int x = column * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
         int y = row * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
         return new int[]{x, y};

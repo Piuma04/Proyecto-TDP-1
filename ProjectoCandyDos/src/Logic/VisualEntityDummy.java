@@ -6,7 +6,7 @@ import Interfaces.VisualEntity;
 
 public abstract class VisualEntityDummy implements VisualEntity {
 
-    protected int picSize = Board.getBoardLabelSize();
+    protected int picSize = Game.getLabelSize();
     protected int row;
     protected int column;
     protected String imagePath;

@@ -1,10 +1,8 @@
 package Interfaces;
-
 import java.util.Set;
 
 import Entities.Candy;
 import Entities.Empty;
-import Entities.Entity;
 import Entities.Glazed;
 import Entities.Stripped;
 import Entities.Wrapped;

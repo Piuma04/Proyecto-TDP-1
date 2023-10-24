@@ -23,11 +23,12 @@ import Interfaces.VisualEntity;
 public class Board {
     private static final int ROWS = 6;
     private static final int COLUMNS = 6;
-    private static final int blockSize = 80;
     private static final SoundPlayer explosion = new SoundPlayer("ps/move2.wav"); // new SoundPlayer("nam.wav");
     private static final SoundPlayer blockMove = new SoundPlayer("ps/move100.wav");
     private static final SoundPlayer entityMove = new SoundPlayer("ps/click.wav");
     private static final Entity dummy = new Candy(0, 0, Colour.NONE);
+    private static final Random candyPicker = new Random();
+    
     private int playerRow, playerColumn;
     private Block[][] matrix;
     private Gui myGui;
@@ -54,8 +55,6 @@ public class Board {
     public static int getRows() { return ROWS; }
 
     public static int getColumns() { return COLUMNS; }
-
-    public static int getBoardLabelSize() { return blockSize; }
 
     /**
      * @see {@link Game#UP} {@link Game#DOWN} {@link Game#LEFT} {@link Game#RIGHT}
@@ -180,7 +179,7 @@ public class Board {
                         combinations = combinationLogic.checkRemainingCombinations(emptyBlocks, powerCandys);
                     }
                     while (!combinations.isEmpty());
-                } // else b1.swapEntity(b2);
+                }  else b1.swapEntity(b2);
             }
         }
         return destroyed;
@@ -224,10 +223,12 @@ public class Board {
                 candys.add(createRandomCandy(-i, column));
             emptyColumns.put(column, emptyBlocks);
         }
-        // for every column which has empty blocks,
-        // get lower empty block and try to fill it obtaining the entity above.
-        // for all non movable blocks, stop.
-        // if above all non movables, get candys above.
+        /* *
+         * for every column which has empty blocks,
+         * get lower empty block and try to fill it obtaining the entity above.
+         * for all non movable blocks, stop.
+         * if above all non movables, get candys above. 
+         * */
         for (int col = 0; col < COLUMNS; col++) {
             List<Block> emptyBlocks = emptyColumns.get(col);
             int amountExtraCandys = newCandys.get(col);
@@ -296,8 +297,7 @@ public class Board {
 
     private Colour randomColour() {
         Colour[] colores = { Colour.BLUE, Colour.GREEN, Colour.PURPLE, Colour.RED, Colour.YELLOW };
-        Random r = new Random();
-        return colores[Math.abs(r.nextInt()) % 5];
+        return colores[candyPicker.nextInt(0, colores.length)];
     }
 
     private boolean canSwap(Block block1, Block block2) {
@@ -305,8 +305,6 @@ public class Board {
         final Entity e2 = block2.getEntity();
         return e1.isSwappable(e2);
     }
-
-    //private boolean hasBooster(Block block1, Block block2) { return block1.getEntity().bothBooster(block2.getEntity()); }
 
     public static boolean hasMovableEntity(Block block) { return dummy.isSwappable(block.getEntity()); }
 

@@ -15,8 +15,6 @@ public class Candy extends Entity {
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
     @Override public boolean isEqual(Candy c)    { return this.colour == c.getColour(); }
-    @Override public boolean isEqual(Wrapped w)  { return this.colour == w.getColour(); }
-    @Override public boolean isEqual(Stripped s) { return this.colour == s.getColour(); }
 
     @Override public boolean isSwappable(Swappable e) { return e.canReceive(this); }
     @Override public boolean canReceive(Candy c)      { return true; }
@@ -43,11 +41,29 @@ public class Candy extends Entity {
 
     @Override
     public void destroy() {
-        if (colour != Colour.GREEN)
-            playGif("explosion.gif");
-        else
-            playGif("GREEN/GREENG.gif");
+        playGif("explosion.gif");
         setImage(null);
+    }
+    
+    public int getScore()
+    {
+    	int score = 0;
+    	switch(this.colour)
+    	{
+    	case RED:score = 5;
+    	break;
+    	case BLUE:score = 20;
+    	break;
+    	case YELLOW:score = 20;
+    	break;
+    	case PURPLE:score = 25;
+    	break;
+    	case GREEN:score = 10;
+    	break;
+    	//case ORANGE:score = 15;
+    	//break
+    	}
+    	return score;
     }
 
     public String toString() { return super.setStringColor("C"); }

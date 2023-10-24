@@ -9,11 +9,12 @@ import javax.swing.SwingUtilities;
 import GUI.Gui;
 
 import Animations.SoundPlayer;
-
+import Entities.Entity;
 import Interfaces.Equivalent;
 
 public class Game {
 
+    private static int label_size = 80;
     private static final SoundPlayer backgroundMusic = new SoundPlayer("ps/introMusic.wav");
     private static final SoundPlayer lostSound = new SoundPlayer("ps/ps2error.wav");
 
@@ -28,16 +29,21 @@ public class Game {
     private Timer myTimer;
     private int lives;
     private boolean animationNextLevel;
+    private Score score;
 
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
+        score = new Score();
         int level = 1;//= myGui.chooseLevel();
         lives = 3;
         loadLevel(level);
         myGui.setVisible(true);
-        //backgroundMusic.loop();
+        backgroundMusic.loop();
     }
+
+    public void startBackgroundMusic() { backgroundMusic.loop(); }
+    public void stopBackgroundMusic() { backgroundMusic.stop();}
 
     public void loadLevel(int level) {
         myGui.reset();
@@ -52,7 +58,6 @@ public class Game {
 
     public void swap(int direction) {
         List<Equivalent> destroyed = myBoard.swap(direction);
-        myGui.updateMoves(myLevel.getMoves());
         update(destroyed);
     }
 
@@ -64,10 +69,11 @@ public class Game {
 
     public void update(List<Equivalent> destroyed) {
         boolean finished = myLevel.update(destroyed);
-
+        System.out.println(score.update(destroyed)); ///WARNING
         myGui.executeAfterAnimation(() -> {
             SwingUtilities.invokeLater( () -> {
                 myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
+                myGui.updateMoves(myLevel.getMoves());
             });
         });
 
@@ -135,4 +141,6 @@ public class Game {
         });
     }
 
+    public static int getLabelSize() { return label_size; }
+    public static void setLabelSize(int size) { label_size = size; }
 }

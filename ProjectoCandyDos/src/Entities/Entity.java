@@ -46,6 +46,9 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     @Override public Set<Block> getSpecialDestroyables(Wrapped c, Board b)	 {return new HashSet<Block>();}
     @Override public Set<Block> getSpecialDestroyables(Glazed g, Board b)	 {return new HashSet<Block>();}
     @Override public Set<Block> getSpecialDestroyables(Empty e, Board b)	 {return new HashSet<Block>();}
+    
+    @Override public int getScore() {return 0;}
+
 
     public void destroy() {
         playGif("explosion.gif");
@@ -64,7 +67,6 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
         final String ANSI_BLUE = "\u001B[34m";
         final String ANSI_BLACK = "\u001B[30m";
         final String ANSI_CYAN = "\u001B[36m";
-        // final String ANSI_WHITE = "\u001B[37m";
         String colourStr = null;
         switch (this.colour) {
         case RED:

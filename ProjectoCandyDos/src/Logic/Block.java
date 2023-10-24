@@ -13,7 +13,6 @@ import Interfaces.Focusable;
  */
 public class Block extends VisualEntityDummy implements Focusable {
 
-    protected static final int picSize = Board.getBoardLabelSize();
     protected static final Empty empty = new Empty();
     protected static final String[] images = { "BLOCK/vacio.png", "BLOCK/vacio-resaltado.png" };
 

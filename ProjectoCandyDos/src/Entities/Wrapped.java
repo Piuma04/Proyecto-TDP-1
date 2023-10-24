@@ -3,11 +3,12 @@ package Entities;
 import java.util.List;
 import java.util.Set;
 
+import java.util.HashSet;
+
 import Interfaces.Equivalent;
 import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
 
-import java.util.HashSet;
 import java.util.LinkedList;
 import Logic.Block;
 import Logic.Board;
@@ -21,6 +22,8 @@ public class Wrapped extends Entity {
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
     @Override public boolean isEqual(Wrapped w)         { return w.getColour() == colour; }
+    @Override public boolean isEqual(Candy c)         { return c.getColour() == colour; }
+
     @Override public boolean isSwappable(Swappable e)   { return e.canReceive(this); }
     @Override public boolean canReceive(Candy c)        { return true; }
     @Override public boolean canReceive(Stripped s)     { return true; }
@@ -67,15 +70,16 @@ public class Wrapped extends Entity {
         List<Block> toDestroy = new LinkedList<Block>();
         visited = true;
         toDestroy.add(b.getBlock(row, column));
-        if(!visited)
-        {
-        	 for (int j = column - 1; j <= column + 1; j++)
-                 for (int i = row - 1; i <= row + 1; i++) 
-                     if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns() && !b.getBlock(i, j).getEntity().isVisited())
-                         toDestroy.add(b.getBlock(i, j));
-        }
+        for (int j = column - 1; j <= column + 1; j++)
+            for (int i = row - 1; i <= row + 1; i++) 
+                if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns() && !b.getBlock(i, j).getEntity().isVisited())
+                    toDestroy.addAll(b.getBlock(i, j).getEntity().getDestroyables(b));
         return toDestroy;
     }
 
+    public int getScore()
+    {
+    	return 50;
+    }
     public String toString() { return super.setStringColor("W"); }
 }
