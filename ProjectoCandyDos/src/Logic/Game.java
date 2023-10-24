@@ -36,9 +36,10 @@ public class Game {
         int level = 1;//= myGui.chooseLevel();
         lives = 3;
         loadLevel(level);
-        myGui.setVisible(true);
-        backgroundMusic.loop();
     }
+
+    public void startBackgroundMusic() { backgroundMusic.loop(); }
+    public void stopBackgroundMusic() { backgroundMusic.stop();}
 
     public void loadLevel(int level) {
         myGui.reset();

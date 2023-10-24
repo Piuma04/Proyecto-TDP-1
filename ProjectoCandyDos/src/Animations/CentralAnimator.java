@@ -132,9 +132,8 @@ public class CentralAnimator implements AnimatorDriver {
      */
     private boolean hasAnimationInProgress(Drawable c) {
         boolean retorno = false;
-        if (map_drawable_animations.get(c) != null) {
+        if (map_drawable_animations.get(c) != null)
             retorno = !map_drawable_animations.get(c).isEmpty();
-        }
         return retorno;
     }
 }

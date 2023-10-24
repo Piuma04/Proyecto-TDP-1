@@ -4,7 +4,7 @@ import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
 import Logic.VisualEntityDummy;
 
-public abstract class Modifier extends VisualEntityDummy implements Equivalent, VisualEntity {
+public abstract class Modifier extends VisualEntityDummy implements Equivalent {
 
     public abstract void destroy();
     @Override public boolean isEquivalent(Equivalent e) { return false; }

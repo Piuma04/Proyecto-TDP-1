@@ -61,7 +61,7 @@ public class SoundPlayer {
     }
 
     public void loop() { mySound.loop(Clip.LOOP_CONTINUOUSLY); }
-    public void stop() { mySound.stop(); }
+    public void stop() { mySound.stop(); mySound.setFramePosition(0); }
     public void start() { mySound.start(); }
     public boolean isActive() { return mySound.isActive(); }
     
