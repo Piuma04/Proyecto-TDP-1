@@ -1,11 +1,11 @@
 package Entities;
 
 import java.util.List;
-
+import java.util.Set;
+import java.util.HashSet;
 import Interfaces.Equivalent;
 import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
-
 import java.util.LinkedList;
 import Logic.Block;
 import Logic.Board;
@@ -26,9 +26,41 @@ public class Wrapped extends Entity {
     @Override public boolean canReceive(Stripped s)     { return true; }
     @Override public boolean canReceive(Wrapped w)      { return true; }
 
-    @Override public boolean isSpecialSwap(SpecialDestroy e) { return e.hasSpecialExplosion(this); }
-    @Override public boolean hasSpecialExplosion(Stripped c) { return true; }
-    @Override public boolean hasSpecialExplosion(Wrapped c)  { return true; }
+    @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b){return e.getSpecialDestroyables(this, b);}
+    @Override public Set<Block> getSpecialDestroyables(Stripped car, Board b)
+    {
+    	Set<Block> toDestroy = new HashSet<Block>();
+    	toDestroy.add(b.getBlock(this.row, this.column));
+   	 	visited = true;
+   	 	toDestroy.add(b.getBlock(car.getRow(), car.getColumn()));
+   	 	car.visited();
+            for (int c = 0; c < Board.getColumns(); c++) {
+           	 for(int widthR = row-1; widthR<=row+1;widthR++)
+           		 if (!(c == column) && widthR>=0 && widthR<Board.getRows() && !b.getBlock(widthR, c).getEntity().isVisited())
+           			 toDestroy.add(b.getBlock(widthR, c));
+            }
+            
+            for (int r = 0; r < Board.getRows(); r++) {
+           	 for(int widthC = column-1; widthC<=column+1;widthC++)
+                  if (!(r == row) && widthC>=0 && widthC<Board.getColumns() && !b.getBlock(r, widthC).getEntity().isVisited())
+                    toDestroy.add(b.getBlock(r, widthC));
+            }
+        return toDestroy;
+
+    }
+    @Override public Set<Block> getSpecialDestroyables(Wrapped c, Board b)	
+    {
+    	Set<Block> toDestroy = new HashSet<Block>();
+    	toDestroy.add(b.getBlock(this.row, this.column));
+   	 	visited = true;
+   	 	toDestroy.add(b.getBlock(c.getRow(), c.getColumn()));
+   	 	c.visited();
+        for (int j = column - 2; j <= column + 2; j++)
+            for (int i = row - 2; i <= row + 2; i++) 
+                if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns() && !b.getBlock(i, j).getEntity().isVisited())
+                    toDestroy.add(b.getBlock(i, j));
+        return toDestroy;
+    }
     
     @Override
     public List<Block> getDestroyables(Board b) {

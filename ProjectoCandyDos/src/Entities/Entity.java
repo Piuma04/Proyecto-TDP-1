@@ -1,6 +1,8 @@
 package Entities;
 
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import Interfaces.SpecialDestroy;
 import Interfaces.Equivalent;
@@ -39,12 +41,12 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     @Override public boolean canReceive(Wrapped w)    { return false; }
     @Override public boolean canReceive(Glazed g)     { return false; }
 
-    @Override public boolean isSpecialSwap(SpecialDestroy e) { return false; }
-    @Override public boolean hasSpecialExplosion(Candy c)    { return false; }
-    @Override public boolean hasSpecialExplosion(Empty e)    { return false; }
-    @Override public boolean hasSpecialExplosion(Wrapped w)  { return false; }
-    @Override public boolean hasSpecialExplosion(Stripped s) { return false; }
-    @Override public boolean hasSpecialExplosion(Glazed g)  { return false; }
+    @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b) {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Candy c, Board b)	 {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Stripped c, Board b)  {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Wrapped c, Board b)	 {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Glazed g, Board b)	 {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Empty e, Board b)	 {return new HashSet<Block>();}
     
     @Override public int getScore() {return 0;}
 
