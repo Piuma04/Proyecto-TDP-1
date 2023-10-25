@@ -21,9 +21,7 @@ public class Glazed extends Entity {
         return toDestroy;
     }
 
-    public int getScore()
-    {
-    	return 25;
-    }
+    @Override public int getScore(){ return 25; }
+    
     public String toString() { return super.setStringColor("M"); }
 }

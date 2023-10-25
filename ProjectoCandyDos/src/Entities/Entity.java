@@ -35,6 +35,7 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     @Override public boolean isEqual(Empty e)    { return false; }
     @Override public boolean isEqual(Jelly j)    { return false; }
     @Override public boolean isEqual(MegaStripped m)    { return false; }
+    @Override public boolean isEqual(Bomb b)     { return false; }
 
     @Override public boolean isSwappable(Swappable e) { return false; }
     @Override public boolean canReceive(Candy c)      { return false; }
@@ -42,6 +43,7 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     @Override public boolean canReceive(Wrapped w)    { return false; }
     @Override public boolean canReceive(Glazed g)     { return false; }
     @Override public boolean canReceive(MegaStripped m)  { return false; }
+    @Override public boolean canReceive(Bomb b) { return false; }
     
 
     @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b) {return new HashSet<Block>();}
@@ -70,6 +72,7 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
         final String ANSI_BLUE = "\u001B[34m";
         final String ANSI_BLACK = "\u001B[30m";
         final String ANSI_CYAN = "\u001B[36m";
+        final String ANSI_WHITE = "\\033[0;37m";
         String colourStr = null;
         switch (this.colour) {
         case RED:
@@ -93,6 +96,9 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
         case GLAZED:
             colourStr = ANSI_CYAN;
             break;
+        case BOMB:
+        	colourStr = ANSI_WHITE;
+        	break;
         }
         return colourStr + str + ANSI_RESET;
     }

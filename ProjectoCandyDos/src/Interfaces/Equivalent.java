@@ -1,5 +1,6 @@
 package Interfaces;
 
+import Entities.Bomb;
 import Entities.Candy;
 import Entities.Empty;
 import Entities.Glazed;
@@ -76,6 +77,14 @@ public interface Equivalent extends LogicEntity {
 	 * @return true if this Entity is equal to the MegaStripped object, false otherwise.
 	 */
 	public boolean isEqual(MegaStripped e);
+	
+	/**
+	 * Checks if this Entity is equal to a Bomb
+	 * 
+	 * @param b the Bomb object to compare with
+	 * @return true if equals false otherwise
+	 */
+	public boolean isEqual(Bomb b);
 	
 	public int getScore();
 }
