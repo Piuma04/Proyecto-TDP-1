@@ -69,12 +69,12 @@ public class Wrapped extends Entity {
         toDestroy.add(b.getBlock(row, column));
         if(!visited)
         {
+        	visited = true;
         	 for (int j = column - 1; j <= column + 1; j++)
                  for (int i = row - 1; i <= row + 1; i++) 
                      if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns() && !b.getBlock(i, j).getEntity().isVisited())
                          toDestroy.addAll(b.getBlock(i, j).getEntity().getDestroyables(b));	
         }
-        visited = true;
         return toDestroy;
     }
 

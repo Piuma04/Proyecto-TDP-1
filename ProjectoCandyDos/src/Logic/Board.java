@@ -173,6 +173,7 @@ public class Board {
                 combinations.add(b2);
                 combinations = combinationLogic.checkCombinations(combinations, powerCandys);
                 combinations.addAll(b2.getEntity().getSpecialDestroy(b1.getEntity(), this));
+                System.out.println(combinations);
                 if (!combinations.isEmpty()) {
                     do // While there are remaining combinations, destroy them,fill the board, and
                        // check again
