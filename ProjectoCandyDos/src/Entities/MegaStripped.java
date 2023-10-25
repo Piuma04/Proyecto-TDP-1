@@ -1,7 +1,9 @@
 package Entities;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import Interfaces.Equivalent;
 import Interfaces.SpecialDestroy;
@@ -30,11 +32,34 @@ public class MegaStripped extends Entity {
     @Override public boolean canReceive(Stripped s)     { return true; }
     @Override public boolean canReceive(Wrapped w)      { return true; }
     @Override public boolean canReceive(MegaStripped m)      { return true; }
-
+    
+    @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b){return e.getSpecialDestroyables(this, b);}
+    public Set<Block> getSpecialDestroyables(Candy c, Board b){
+    	return specialCase(c, b);
+    	
+    }
+    public Set<Block> getSpecialDestroyables(Stripped c, Board b){
+    	return specialCase(c, b);
+    	
+    }
+    public Set<Block> getSpecialDestroyables(Wrapped c, Board b){
+    	return specialCase(c,b);
+    	
+    }
+    public Set<Block> getSpecialDestroyables(MegaStripped m,  Board b){
+    	return specialCase(m, b);
+    }
+    
+    private Set<Block> specialCase(Entity e, Board b){
+    	Set<Block> s = new HashSet<>();
+    	if(e.getColour() == colour) s.addAll(getDestroyables(b));
+    	return s;
+    }
     
 
+    
     @Override
-    public List<Block> getDestroyables(Board b) {
+     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
         toDestroy.add(b.getBlock(row, column));
         if(!visited)

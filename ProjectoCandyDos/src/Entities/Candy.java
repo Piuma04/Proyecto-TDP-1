@@ -1,10 +1,13 @@
 package Entities;
 
 import java.util.List;
+import java.util.Set;
 
 import Interfaces.Equivalent;
+import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import Logic.Block;
@@ -22,6 +25,16 @@ public class Candy extends Entity {
     @Override public boolean canReceive(Wrapped w)    { return true; }
     @Override public boolean canReceive(MegaStripped m)      { return true; }
 
+    @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b){return e.getSpecialDestroyables(this, b);}
+    
+    public Set<Block> getSpecialDestroyables(MegaStripped m,  Board b){
+    	Set<Block> s = new HashSet<>();
+    	if(m.getColour() == colour) {
+    		s.addAll(m.getDestroyables(b));
+    	}
+    	return s;
+    }
+    
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
