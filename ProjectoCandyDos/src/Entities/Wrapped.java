@@ -63,6 +63,14 @@ public class Wrapped extends Entity {
         return toDestroy;
     }
     
+    public Set<Block> getSpecialDestroyables(MegaStripped m,  Board b){
+    	Set<Block> s = new HashSet<>();
+    	if(m.getColour() == colour) {
+    		s.addAll(m.getDestroyables(b));
+    	}
+    	return s;
+    }
+    
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
