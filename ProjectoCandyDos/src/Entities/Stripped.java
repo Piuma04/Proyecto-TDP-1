@@ -87,6 +87,7 @@ public class Stripped extends Entity {
         toDestroy.add(b.getBlock(row, column));
         if(!visited)
         {
+            visited = true;
         	if (isHorizontal)
                 for (int c = 0; c < Board.getColumns(); c++) {
                     if (!(c == column) && !b.getBlock(row, c).getEntity().isVisited())
@@ -109,7 +110,7 @@ public class Stripped extends Entity {
                 }
             }
         }
-        visited = true;
+
         return toDestroy;
     }
 

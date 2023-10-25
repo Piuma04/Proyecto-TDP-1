@@ -62,8 +62,8 @@ public class MegaStripped extends Entity {
      public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
         toDestroy.add(b.getBlock(row, column));
-        if(!visited)
-        {
+        if(!visited) {
+        	 visited = true;
         	  for (int c = 0; c < Board.getColumns(); c++) {
                   if (!(c == column) && !b.getBlock(row, c).getEntity().isVisited())
                          toDestroy.addAll(b.getBlock(row, c).getEntity().getDestroyables(b));
@@ -73,7 +73,7 @@ public class MegaStripped extends Entity {
                          toDestroy.addAll(b.getBlock(r, column).getEntity().getDestroyables(b));
              }	
         }  
-        visited = true;
+       
         return toDestroy;
     }
 
