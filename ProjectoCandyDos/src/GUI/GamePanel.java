@@ -1,23 +1,36 @@
 package GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
 import Logic.Board;
 import Logic.Game;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
     private static final String imagesPath = "src/resources/images/";
+    private static final String font = "Stencil";
+    //private static final String font = "DejaVu";
+    //private static final String font = "MonoLisa";
+
+
+    protected JPanel contentPanel;
 
     protected JPanel boardPanel;
+    protected JPanel gameDataPanel;
     
     private JLabel live1;
     private JLabel live2;
@@ -29,9 +42,26 @@ public class GamePanel extends JPanel {
 
     private ImageIcon backgroundGif = new ImageIcon(imagesPath + "stars.gif");
 
-    public GamePanel() {
+    public GamePanel(Dimension windowSize) {
         setForeground(Color.BLACK);
-        
+        setPreferredSize(windowSize);
+
+        contentPanel = new JPanel(new BorderLayout());
+        contentPanel.setPreferredSize(windowSize);
+        add(contentPanel);
+
+        Game.setLabelSize(getPreferredSize().height / Board.getRows());
+        initializeContentPanel();
+    }
+
+    protected void initializeContentPanel() {
+        initializeBoardPanel();
+        initializeGameDataPanel();
+        contentPanel.add(boardPanel, BorderLayout.WEST);
+        contentPanel.add(gameDataPanel);
+    }
+
+    private void initializeBoardPanel() {
         boardPanel =  new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -39,47 +69,36 @@ public class GamePanel extends JPanel {
                 backgroundGif.paintIcon(this, g, 0, 0);
             }
         };
-        initializeGamePanel();
+
+        int boardWidth  = Game.getLabelSize()*Board.getRows();
+        int boardHeight = Game.getLabelSize()*Board.getColumns();
+
+        backgroundGif.setImage(backgroundGif.getImage().getScaledInstance(boardWidth, boardHeight, 0));
+
+        boardPanel.setLocation(0, 0);
+        boardPanel.setPreferredSize(new Dimension(boardWidth, boardHeight));
+        boardPanel.setSize(boardPanel.getPreferredSize());
+        boardPanel.setLayout(null);
     }
 
-    protected void initializeGamePanel() {
+    private void initializeGameDataPanel() {
+        gameDataPanel = new JPanel();
+        gameDataPanel.setLayout(new BoxLayout(gameDataPanel, BoxLayout.Y_AXIS));
+
+        levelShower = new JLabel();
         typeOfCandy = new JLabel[3];
         amountToGo = new JLabel[3];
         cantMoves = new JLabel();
-        levelShower = new JLabel();
         watch = new JLabel();
-
-        int x = 0;
-        int y = 0;
-        int w = 0;
-        int h = 0;
-
-        int topBorderFrameHeight = 10;
-        int boardWidth = Game.getLabelSize()*Board.getRows();
-        int boardHeight = Game.getLabelSize()*Board.getColumns();
-        backgroundGif.setImage(backgroundGif.getImage().getScaledInstance(boardWidth, boardHeight, 0));
-
-        setLayout(null);
-        w = 80;
-        h = 20;
-        x = boardWidth / 2 - w / 2;
-        y = topBorderFrameHeight;
-        levelShower.setBounds(x, y, w, h);
-        levelShower.setFont(new Font("Stencil", Font.PLAIN, 20));
-        add(levelShower);
-
-        x = 0;
-        y = levelShower.getHeight()+topBorderFrameHeight;
-        w = boardWidth;
-        h = boardHeight;
-        boardPanel.setLocation(x, y);
-        boardPanel.setSize(w, h);
         
-        boardPanel.setLayout(null);
-        add(boardPanel);
+        int padding = 10;
+        Border borderPadding = BorderFactory.createEmptyBorder(padding, padding, padding, padding);
+        
 
-        int widthPadding = 20;
-        int heightPadding = 25;
+        JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        levelShower.setFont(new Font(font, Font.PLAIN, 20));
+        levelPanel.add(levelShower, BorderLayout.CENTER);
+        
 
         // START SET UP LIVES.
         ImageIcon imageIcon = new ImageIcon(imagesPath + "life.gif");
@@ -89,85 +108,46 @@ public class GamePanel extends JPanel {
         live2 = new JLabel(imageIcon);
         live3 = new JLabel(imageIcon);
 
-        x = boardWidth + widthPadding;
-        y = topBorderFrameHeight;
-        w = imageIcon.getIconWidth();
-        h = imageIcon.getIconWidth();
-        live1.setBounds(x, y, w, h);
-        add(live1);
+        JPanel livesPanel = new JPanel(new BorderLayout());
+        livesPanel.add(live1, BorderLayout.WEST);
+        livesPanel.add(live2, BorderLayout.CENTER);
+        livesPanel.add(live3, BorderLayout.EAST);
         
-        x += live1.getWidth();
-        live2.setBounds(x, y, w, h);
-        add(live2);
-        
-        x += live2.getWidth();
-        live3.setBounds(x, y, w, h);
-        add(live3);
         // END SET UP LIVES.
 
         // START SET UP WATCH.
-        x = boardWidth + widthPadding;
-        y = live1.getY() + live1.getHeight() + heightPadding;
-        w = 175;
-        h = 30;
-        watch = new JLabel();
-        watch.setForeground(new Color(0, 0, 0));
-        watch.setBounds(x, y, w, h);
-        add(watch);
+        JPanel watchPanel = new JPanel(new BorderLayout());
+        watchPanel.setBorder(borderPadding);
+        watchPanel.add(watch);
         // END SET UP WATCH.
 
         // START SET UP MOVIMIENTOS RESTANTES.
-        x = boardWidth + widthPadding;
-        y = watch.getY() + watch.getHeight();
-        cantMoves.setBounds(x, y, w, h);
-        add(cantMoves);
+        JPanel movesPanel = new JPanel(new BorderLayout());
+        movesPanel.setBorder(borderPadding);
+        movesPanel.add(cantMoves);
         // END SET UP MOVIMIENTOS RESTANTES.
 
+        gameDataPanel.add(levelPanel);
+        gameDataPanel.add(livesPanel);
+        gameDataPanel.add(watchPanel);
+        gameDataPanel.add(movesPanel);
+
         // START SET UP GOALS.
-        JLabel amountToGoLabel = null;
+        JPanel goalPanel = null;
         JLabel typeOfCandyLabel = null;
-
-        typeOfCandyLabel = new JLabel();
-        x = boardWidth + widthPadding;
-        y = cantMoves.getY() + cantMoves.getHeight() + heightPadding;
-        w = Game.getLabelSize();
-        h = Game.getLabelSize();
-        typeOfCandyLabel.setBounds(x, y, w, h);
-        add(typeOfCandyLabel);
-        typeOfCandy[0] = typeOfCandyLabel;
-
-        typeOfCandyLabel = new JLabel();
-        y = typeOfCandy[0].getY() + typeOfCandy[0].getHeight() + heightPadding;
-        typeOfCandyLabel.setBounds(x, y, w, h);
-        add(typeOfCandyLabel);
-        typeOfCandy[1] = typeOfCandyLabel;
+        JLabel amountToGoLabel = null;
         
-        typeOfCandyLabel = new JLabel();
-        y = typeOfCandy[1].getY() + typeOfCandy[1].getHeight() + heightPadding;
-        typeOfCandyLabel.setBounds(x, y, w, h);
-        add(typeOfCandyLabel);
-        typeOfCandy[2] = typeOfCandyLabel;
-
-        amountToGoLabel = new JLabel();
-        w = 50;
-        h = 30;
-        x = typeOfCandyLabel.getX() + typeOfCandyLabel.getWidth() + widthPadding;
-        y = typeOfCandy[0].getY() + typeOfCandy[0].getHeight()/2 - h/2;
-        amountToGoLabel.setBounds(x, y, w, h);
-        add(amountToGoLabel);
-        amountToGo[0] = amountToGoLabel;
-
-        amountToGoLabel = new JLabel();
-        y = typeOfCandy[1].getY() + typeOfCandy[1].getHeight()/2 - h/2;
-        amountToGoLabel.setBounds(x, y, w, h);
-        add(amountToGoLabel);
-        amountToGo[1] = amountToGoLabel;
-
-        amountToGoLabel = new JLabel();
-        y = typeOfCandy[2].getY() + typeOfCandy[2].getHeight()/2 - h/2;
-        amountToGoLabel.setBounds(x, y, w, h);
-        add(amountToGoLabel);
-        amountToGo[2] = amountToGoLabel;
+        for (int i = 0; i < typeOfCandy.length; i++) {
+            goalPanel = new JPanel(new BorderLayout());
+            typeOfCandyLabel = new JLabel();
+            amountToGoLabel = new JLabel();
+            typeOfCandy[i] = typeOfCandyLabel;
+            amountToGo[i] = amountToGoLabel;
+            typeOfCandyLabel.setBorder(borderPadding);
+            goalPanel.add(typeOfCandyLabel, BorderLayout.WEST);
+            goalPanel.add(amountToGoLabel);
+            gameDataPanel.add(goalPanel);
+        }
         // END SET UP GOALS.
     }
 

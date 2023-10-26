@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import java.awt.event.KeyAdapter;
@@ -37,28 +36,27 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     public Gui(Game game) {
 
+        // minimum width: 600
         final int width = 800;
-        final int height = 800;
+        final int height = width - 150;
         final Dimension dim = new Dimension(width, height);
 
+        setTitle(gameName);
+        setResizable(true);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setPreferredSize(dim);
+        pack();
+        setLocationRelativeTo(null);
+
         myGame = game;
-        Game.setLabelSize(width / 8);
 
         menuPanel = new JPanel();
-        gamePanel = new GamePanel();
-
-        menuPanel.setSize(dim);
-        gamePanel.setSize(dim);
+        gamePanel = new GamePanel(getContentPane().getSize());
+        menuPanel.setPreferredSize(dim);
 
         animator = new CentralAnimator(this);
         pendingAnimations = 0;
         stopInterchanges = false;
-
-        setTitle(gameName);
-        setSize(new Dimension(width, height));
-        setResizable(false);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
 
         //openPanel(menuPanel);
         openPanel(gamePanel);
@@ -67,6 +65,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         initializeGamePanel();
 
         setVisible(true);
+
     }
 
     protected void initializeMenuPanel() {

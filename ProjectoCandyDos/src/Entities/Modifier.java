@@ -1,7 +1,6 @@
 package Entities;
 
 import Interfaces.Equivalent;
-import Interfaces.VisualEntity;
 import Logic.VisualEntityDummy;
 
 public abstract class Modifier extends VisualEntityDummy implements Equivalent {
