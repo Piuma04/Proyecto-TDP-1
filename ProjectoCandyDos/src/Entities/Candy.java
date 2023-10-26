@@ -1,10 +1,13 @@
 package Entities;
 
 import java.util.List;
+import java.util.Set;
 
 import Interfaces.Equivalent;
+import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import Logic.Block;
@@ -20,21 +23,36 @@ public class Candy extends Entity {
     @Override public boolean canReceive(Candy c)      { return true; }
     @Override public boolean canReceive(Stripped s)   { return true; }
     @Override public boolean canReceive(Wrapped w)    { return true; }
+    @Override public boolean canReceive(MegaStripped m)      { return true; }
+    @Override public boolean canReceive(Bomb b) { return true; }
 
+    @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b){return e.getSpecialDestroyables(this, b);}
+    
+    public Set<Block> getSpecialDestroyables(MegaStripped m,  Board b){
+    	Set<Block> s = new HashSet<>();
+    	if(m.getColour() == colour) {
+    		s.addAll(m.getDestroyables(b));
+    	}
+    	return s;
+    }
+    
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
         toDestroy.add(b.getBlock(row, column));
         visited = true;
-        int[] adyacentRows = { -1, 0, 1, 0 };
-        int[] adyacentColumns = { 0, -1, 0, 1 };
-        for (int i = 0; i < 4; i++) {
-            int newRow = row + adyacentRows[i];
-            int newColumn = column + adyacentColumns[i];
-            if (Board.isValidBlock(newRow, newColumn) && b.getBlock(newRow, newColumn).getEntity()
-                    .getColour() == Colour.GLAZED) {
-                toDestroy.add(b.getBlock(newRow, newColumn));
-            }
+        if(!visited)
+        {
+        	 int[] adyacentRows = { -1, 0, 1, 0 };
+             int[] adyacentColumns = { 0, -1, 0, 1 };
+             for (int i = 0; i < 4; i++) {
+                 int newRow = row + adyacentRows[i];
+                 int newColumn = column + adyacentColumns[i];
+                 if (Board.isValidBlock(newRow, newColumn) && b.getBlock(newRow, newColumn).getEntity()
+                         .getColour() == Colour.GLAZED) {
+                     toDestroy.add(b.getBlock(newRow, newColumn));
+                 }
+             }
         }
         return toDestroy;
     }
@@ -43,6 +61,27 @@ public class Candy extends Entity {
     public void destroy() {
         playGif("explosion.gif");
         setImage(null);
+    }
+    
+    public int getScore()
+    {
+    	int score = 0;
+    	switch(this.colour)
+    	{
+    	case RED:score = 5;
+    	break;
+    	case BLUE:score = 20;
+    	break;
+    	case YELLOW:score = 20;
+    	break;
+    	case PURPLE:score = 25;
+    	break;
+    	case GREEN:score = 10;
+    	break;
+    	//case ORANGE:score = 15;
+    	//break
+    	}
+    	return score;
     }
 
     public String toString() { return super.setStringColor("C"); }

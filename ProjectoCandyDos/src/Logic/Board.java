@@ -17,6 +17,7 @@ import Entities.Candy;
 import Entities.Colour;
 import Entities.Empty;
 import Entities.Entity;
+import Entities.MegaStripped;
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
 
@@ -111,8 +112,14 @@ public class Board {
         matrix[newRow][newColumn].focus();
     }
 
-    public Candy createRandomCandy(int row, int column) {
-        Candy entity = new Candy(row, column, randomColour());
+    public Entity createRandomCandy(int row, int column) {
+        double i = Math.random();
+        Entity entity;
+    	if(i>0.02 )
+    		 entity = new Candy(row, column, randomColour());
+    	else
+    		 entity = new MegaStripped(row, column, randomColour());
+    		
         addVisualEntity(entity);
         return entity;
     }
@@ -157,19 +164,16 @@ public class Board {
         List<Entity> powerCandys = new LinkedList<Entity>();
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
         if (isValidBlock(newRow, newColumn)) {
-            Block b1 = matrix[playerRow][playerColumn];
-            Block b2 = matrix[newRow][newColumn];
+            Block b1 = matrix[newRow][newColumn];
+            Block b2 = matrix[playerRow][playerColumn];
             if (canSwap(b1, b2)) {
                 entityMove.playNew();
                 b1.swapEntity(b2);
                 combinations.add(b1);
                 combinations.add(b2);
-                if (specialSwap(b1, b2)) {
-                    combinations.addAll(b1.getEntity().getDestroyables(this));
-                    combinations.addAll(b2.getEntity().getDestroyables(this));
-                }
-                else
-                    combinations = combinationLogic.checkCombinations(combinations, powerCandys);
+                combinations = combinationLogic.checkCombinations(combinations, powerCandys);
+                combinations.addAll(b2.getEntity().getSpecialDestroy(b1.getEntity(), this));
+                System.out.println(combinations);
                 if (!combinations.isEmpty()) {
                     do // While there are remaining combinations, destroy them,fill the board, and
                        // check again
@@ -308,8 +312,6 @@ public class Board {
         final Entity e2 = block2.getEntity();
         return e1.isSwappable(e2);
     }
-
-    private boolean specialSwap(Block block1, Block block2) { return block1.getEntity().isSpecialSwap(block2.getEntity()); }
 
     public static boolean hasMovableEntity(Block block) { return dummy.isSwappable(block.getEntity()); }
 

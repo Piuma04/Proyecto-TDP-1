@@ -1,6 +1,8 @@
 package Entities;
 
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import Interfaces.SpecialDestroy;
 import Interfaces.Equivalent;
@@ -32,19 +34,26 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     @Override public boolean isEqual(Glazed g)   { return false; }
     @Override public boolean isEqual(Empty e)    { return false; }
     @Override public boolean isEqual(Jelly j)    { return false; }
+    @Override public boolean isEqual(MegaStripped m)    { return false; }
+    @Override public boolean isEqual(Bomb b)     { return false; }
 
     @Override public boolean isSwappable(Swappable e) { return false; }
     @Override public boolean canReceive(Candy c)      { return false; }
     @Override public boolean canReceive(Stripped s)   { return false; }
     @Override public boolean canReceive(Wrapped w)    { return false; }
     @Override public boolean canReceive(Glazed g)     { return false; }
+    @Override public boolean canReceive(MegaStripped m)  { return false; }
+    @Override public boolean canReceive(Bomb b) { return false; }
+    
 
-    @Override public boolean isSpecialSwap(Entity e) { return false; }
-    @Override public boolean hasSpecialExplosion(Candy c)    { return false; }
-    @Override public boolean hasSpecialExplosion(Empty e)    { return false; }
-    @Override public boolean hasSpecialExplosion(Wrapped w)  { return false; }
-    @Override public boolean hasSpecialExplosion(Stripped s) { return false; }
-    @Override public boolean hasSpecialExplosion(Glazed g)  { return false; }
+    @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b) {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Candy c, Board b)	 {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Stripped c, Board b)  {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Wrapped c, Board b)	 {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Glazed g, Board b)	 {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Empty e, Board b)	 {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(MegaStripped m, Board b)  { return new HashSet<Block>(); }
+    @Override public int getScore() {return 0;}
 
     public void destroy() {
         playGif("explosion.gif");
@@ -63,6 +72,7 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
         final String ANSI_BLUE = "\u001B[34m";
         final String ANSI_BLACK = "\u001B[30m";
         final String ANSI_CYAN = "\u001B[36m";
+        final String ANSI_MAGENTA = "\u001B[35m";
         String colourStr = null;
         switch (this.colour) {
         case RED:
@@ -86,6 +96,9 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
         case GLAZED:
             colourStr = ANSI_CYAN;
             break;
+        case BOMB:
+        	colourStr = ANSI_MAGENTA;
+        	break;
         }
         return colourStr + str + ANSI_RESET;
     }

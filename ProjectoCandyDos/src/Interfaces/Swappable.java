@@ -1,7 +1,9 @@
 package Interfaces;
 
+import Entities.Bomb;
 import Entities.Candy;
 import Entities.Glazed;
+import Entities.MegaStripped;
 import Entities.Stripped;
 import Entities.Wrapped;
 
@@ -50,4 +52,20 @@ public interface Swappable {
 	 * @return true if it can receive, false otherwise.
 	 */
 	public boolean canReceive(Wrapped w);
+
+	/**
+	 * Checks if this object can receive a MegaStripped candy.
+	 *
+	 * @param w The MegaStripped candy to receive.
+	 * @return true if it can receive, false otherwise.
+	 */
+	public boolean canReceive(MegaStripped m);
+
+	/**
+	 * Checks if this object can receive a Bomb
+	 * 
+	 * @param b the Bomb to receive
+	 * @return true if it can receive, false otherwise
+	 */
+	public boolean canReceive(Bomb b);
 }
