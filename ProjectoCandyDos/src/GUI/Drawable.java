@@ -26,7 +26,7 @@ public class Drawable extends JComponent implements GraphicalEntity {
         sizeIcon = sizeImg;
         bSkipQueue = false;
         
-        int pos[] = getVisualLocation(logicBlock.getRow(), logicBlock.getColumn());
+        int pos[] = getVisualLocation();
         setLocation(pos[0], pos[1]);
         setImage(logicBlock.getImage());
         setSize(sizeIcon, sizeIcon);
@@ -53,11 +53,11 @@ public class Drawable extends JComponent implements GraphicalEntity {
         super.paintComponent(g);
         myIcon.paintIcon(this, g, 0, 0);
     }
-    
-    public int[] getVisualLocation(int row, int column) {
+
+    public int[] getVisualLocation() {
         int boardLabelSize = Game.getLabelSize();
-        int x = column * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
-        int y = row * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
+        int x = myLogicEntity.getColumn() * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
+        int y = myLogicEntity.getRow() * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
         return new int[]{x, y};
     }
 }

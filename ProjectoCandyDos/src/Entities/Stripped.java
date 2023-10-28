@@ -105,8 +105,8 @@ public class Stripped extends Entity {
             for (int i = 0; i < 4; i++) {
                 int newRow = row + adyacentRows[i];
                 int newColumn = column + adyacentColumns[i];
-                if (Board.isValidBlock(newRow, newColumn) && b.getBlock(newRow, newColumn).getEntity()
-                        .getColour() == Colour.GLAZED) {
+                if (Board.isValidBlockPosition(newRow, newColumn)
+                        && b.getBlockColour(newRow, newColumn) == Colour.GLAZED) {
                     toDestroy.add(b.getBlock(newRow, newColumn));
                 }
             }
@@ -115,14 +115,7 @@ public class Stripped extends Entity {
         return toDestroy;
     }
 
-    public int getScore()
-    {
-    	int score = 0;
-    	if(isHorizontal)
-    		score = 45;
-    	else
-    		score = 35;
-    	return score;
-    }
+    @Override public int getScore() { return isHorizontal ? 45 : 35; }
+
     public String toString() { return super.setStringColor((isHorizontal ? "H" : "V")); }
 }

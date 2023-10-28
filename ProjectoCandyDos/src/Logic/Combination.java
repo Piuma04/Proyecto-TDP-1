@@ -118,16 +118,16 @@ public class Combination {
         if (!Board.hasMovableEntity(block))
             return blocks;
         boolean cumple = true;
-        for (int r = row + 1; Board.isValidBlock(r, column) && cumple; r++) {
+        for (int r = row + 1; Board.isValidBlockPosition(r, column) && cumple; r++) {
             Block current = board.getBlock(r, column);
-            cumple = board.compareColors(block, current);
+            cumple = board.getBlockColour(block) == board.getBlockColour(current);
             if (cumple)
                 blocks.add(current);
         }
         cumple = true;
         for (int r = row - 1; r >= 0 && r < Board.getRows() && cumple; r--) {
             Block current = board.getBlock(r, column);
-            cumple = board.compareColors(block, current);
+            cumple = board.getBlockColour(block) == board.getBlockColour(current);
             if (cumple)
                 blocks.add(current);
         }
@@ -154,16 +154,16 @@ public class Combination {
         if (!Board.hasMovableEntity(block))
             return blocks;
         boolean cumple = true;
-        for (int c = column + 1; Board.isValidBlock(row, c) && cumple; c++) {
+        for (int c = column + 1; Board.isValidBlockPosition(row, c) && cumple; c++) {
             Block current = board.getBlock(row, c);
-            cumple = board.compareColors(block, current);
+            cumple = board.getBlockColour(block) == board.getBlockColour(current);
             if (cumple)
                 blocks.add(current);
         }
         cumple = true;
-        for (int c = column - 1; Board.isValidBlock(row, c) && cumple; c--) {
+        for (int c = column - 1; Board.isValidBlockPosition(row, c) && cumple; c--) {
             Block current = board.getBlock(row, c);
-            cumple = board.compareColors(block, current);
+            cumple = board.getBlockColour(block) == board.getBlockColour(current);
             if (cumple)
                 blocks.add(current);
         }

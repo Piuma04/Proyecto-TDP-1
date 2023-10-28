@@ -9,7 +9,6 @@ import javax.swing.SwingUtilities;
 import GUI.Gui;
 
 import Animations.SoundPlayer;
-import Entities.Entity;
 import Interfaces.Equivalent;
 
 public class Game {
@@ -67,7 +66,7 @@ public class Game {
 
     public void update(List<Equivalent> destroyed) {
         boolean finished = myLevel.update(destroyed);
-        System.out.println(score.update(destroyed)); ///WARNING
+        score.update(destroyed); ///WARNING
         myGui.executeAfterAnimation(() -> {
             SwingUtilities.invokeLater( () -> {
                 myGui.updateGraphicObjective(myLevel.getRemainingObjectives());

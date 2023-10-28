@@ -28,14 +28,14 @@ public class AnimatorMovement extends Thread implements Animator {
      * @param d El delay establecido entre desplazamiento y desplazamiento.
      * @param c La celda animada.
      */
-    public AnimatorMovement(AnimatorDriver m, int step, int d, Drawable c, int finalRow, int finalColumn) {
+    public AnimatorMovement(AnimatorDriver m, int step, int d, Drawable c) {
         manager = m;
         drawableAnimated = c;
         
         this.step = step;
         delay = d;
 
-        int pos[] = c.getVisualLocation(finalRow, finalColumn);
+        int pos[] = c.getVisualLocation();
         pos_x_destination = pos[0];
         pos_y_destination = pos[1];
     }

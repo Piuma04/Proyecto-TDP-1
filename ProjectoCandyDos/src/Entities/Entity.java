@@ -25,35 +25,35 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
 
     public Colour getColour() { return colour; }
 
-    public abstract List<Block> getDestroyables(Board b);
-
     @Override public boolean isEquivalent(Equivalent e) { return false; }
-    @Override public boolean isEqual(Candy c)    { return false; }
-    @Override public boolean isEqual(Stripped s) { return false; }
-    @Override public boolean isEqual(Wrapped w)  { return false; }
-    @Override public boolean isEqual(Glazed g)   { return false; }
-    @Override public boolean isEqual(Empty e)    { return false; }
-    @Override public boolean isEqual(Jelly j)    { return false; }
+    @Override public boolean isEqual(Candy c)           { return false; }
+    @Override public boolean isEqual(Stripped s)        { return false; }
+    @Override public boolean isEqual(Wrapped w)         { return false; }
+    @Override public boolean isEqual(Glazed g)          { return false; }
+    @Override public boolean isEqual(Empty e)           { return false; }
+    @Override public boolean isEqual(Jelly j)           { return false; }
     @Override public boolean isEqual(MegaStripped m)    { return false; }
-    @Override public boolean isEqual(Bomb b)     { return false; }
+    @Override public boolean isEqual(Bomb b)            { return false; }
+    @Override public int getScore() { return 0; }
 
-    @Override public boolean isSwappable(Swappable e) { return false; }
-    @Override public boolean canReceive(Candy c)      { return false; }
-    @Override public boolean canReceive(Stripped s)   { return false; }
-    @Override public boolean canReceive(Wrapped w)    { return false; }
-    @Override public boolean canReceive(Glazed g)     { return false; }
-    @Override public boolean canReceive(MegaStripped m)  { return false; }
-    @Override public boolean canReceive(Bomb b) { return false; }
+    @Override public boolean isSwappable(Swappable e)   { return false; }
+    @Override public boolean canReceive(Candy c)        { return false; }
+    @Override public boolean canReceive(Stripped s)     { return false; }
+    @Override public boolean canReceive(Wrapped w)      { return false; }
+    @Override public boolean canReceive(Glazed g)       { return false; }
+    @Override public boolean canReceive(MegaStripped m) { return false; }
+    @Override public boolean canReceive(Bomb b)         { return false; }
     
 
-    @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b) {return new HashSet<Block>();}
-    @Override public Set<Block> getSpecialDestroyables(Candy c, Board b)	 {return new HashSet<Block>();}
-    @Override public Set<Block> getSpecialDestroyables(Stripped c, Board b)  {return new HashSet<Block>();}
-    @Override public Set<Block> getSpecialDestroyables(Wrapped c, Board b)	 {return new HashSet<Block>();}
-    @Override public Set<Block> getSpecialDestroyables(Glazed g, Board b)	 {return new HashSet<Block>();}
-    @Override public Set<Block> getSpecialDestroyables(Empty e, Board b)	 {return new HashSet<Block>();}
-    @Override public Set<Block> getSpecialDestroyables(MegaStripped m, Board b)  { return new HashSet<Block>(); }
-    @Override public int getScore() {return 0;}
+    @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b)    {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Candy c, Board b)        {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Stripped c, Board b)     {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Wrapped c, Board b)      {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Glazed g, Board b)       {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Empty e, Board b)        {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(MegaStripped m, Board b) {return new HashSet<Block>();}
+
+    public abstract List<Block> getDestroyables(Board b);
 
     public void destroy() {
         playGif("explosion.gif");
@@ -75,30 +75,14 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
         final String ANSI_MAGENTA = "\u001B[35m";
         String colourStr = null;
         switch (this.colour) {
-        case RED:
-            colourStr = ANSI_RED;
-            break;
-        case YELLOW:
-            colourStr = ANSI_YELLOW;
-            break;
-        case GREEN:
-            colourStr = ANSI_GREEN;
-            break;
-        case PURPLE:
-            colourStr = ANSI_PURPLE;
-            break;
-        case BLUE:
-            colourStr = ANSI_BLUE;
-            break;
-        case NONE:
-            colourStr = ANSI_BLACK;
-            break;
-        case GLAZED:
-            colourStr = ANSI_CYAN;
-            break;
-        case BOMB:
-        	colourStr = ANSI_MAGENTA;
-        	break;
+            case RED:    colourStr = ANSI_RED;     break;
+            case YELLOW: colourStr = ANSI_YELLOW;  break;
+            case GREEN:  colourStr = ANSI_GREEN;   break;
+            case PURPLE: colourStr = ANSI_PURPLE;  break;
+            case BLUE:   colourStr = ANSI_BLUE;    break;
+            case NONE:   colourStr = ANSI_BLACK;   break;
+            case GLAZED: colourStr = ANSI_CYAN;    break;
+            case BOMB:   colourStr = ANSI_MAGENTA; break;
         }
         return colourStr + str + ANSI_RESET;
     }

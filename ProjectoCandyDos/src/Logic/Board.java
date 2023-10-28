@@ -54,88 +54,54 @@ public class Board {
     }
 
     public static int getRows() { return ROWS; }
-
     public static int getColumns() { return COLUMNS; }
-
-    /**
-     * @see {@link Game#UP} {@link Game#DOWN} {@link Game#LEFT} {@link Game#RIGHT}
-     */
-    public void movePlayerDirection(int direction) {
-        if (playerSetted)
-            switch (direction) {
-            case Game.DOWN:
-                movePlayerPosition(playerRow + 1, playerColumn);
-                break;
-            case Game.UP:
-                movePlayerPosition(playerRow - 1, playerColumn);
-                break;
-            case Game.LEFT:
-                movePlayerPosition(playerRow, playerColumn - 1);
-                break;
-            case Game.RIGHT:
-                movePlayerPosition(playerRow, playerColumn + 1);
-                break;
-            }
-    }
-
-    /**
-     * Swaps the element the player is on with one that is relative to a specific
-     * direction
-     * 
-     * @param direction in which the element will be swapped
-     * @return a list of the elements destroyed
-     * @see {@link Game#UP} {@link Game#DOWN} {@link Game#LEFT} {@link Game#RIGHT}
-     */
-    public List<Equivalent> swap(int direction) {
-        List<Equivalent> destroyed = new LinkedList<Equivalent>();
-        switch (direction) {
-        case Game.UP:
-            destroyed = swapEntities(playerRow - 1, playerColumn);
-            break;
-        case Game.DOWN:
-            destroyed = swapEntities(playerRow + 1, playerColumn);
-            break;
-        case Game.LEFT:
-            destroyed = swapEntities(playerRow, playerColumn - 1);
-            break;
-        case Game.RIGHT:
-            destroyed = swapEntities(playerRow, playerColumn + 1);
-            break;
-        }
-        return destroyed;
-    }
+    public static boolean isValidBlockPosition(int row, int column) { return row >= 0 && row < ROWS && column >= 0 && column < COLUMNS; }
+    public static boolean hasMovableEntity(Block block) { return dummy.isSwappable(block.getEntity()); }
 
     public Block getBlock(int row, int column) { return matrix[row][column]; }
+    public Colour getBlockColour(Block block) { return block.getEntity().getColour(); }
+    public Colour getBlockColour(int row, int column) { return getBlock(row, column).getEntity().getColour(); }
+
+    private int[] getNewPosition(int direction) {
+        int row = playerRow;
+        int column = playerColumn;
+        switch (direction) {
+        case Game.UP:
+            row -= 1;
+            break;
+        case Game.DOWN:
+            row += 1;
+            break;
+        case Game.LEFT:
+            column -= 1;
+            break;
+        case Game.RIGHT:
+            column += 1;
+            break;
+        }
+        
+        return new int[]{row, column};
+    }
 
     public void setPlayerPosition(int newRow, int newColumn) {
         playerSetted = true;
         matrix[newRow][newColumn].focus();
     }
 
+    public Entity destroyEntity(int row, int column) { return getBlock(row, column).destroyEntity(); }
+
     public Entity createRandomCandy(int row, int column) {
         double i = Math.random();
         Entity entity;
-    	if(i>0.02 )
-    		 entity = new Candy(row, column, randomColour());
-    	else
-    		 entity = new MegaStripped(row, column, randomColour());
-    		
+        if(i>0.02 )
+             entity = new Candy(row, column, randomColour());
+        else
+             entity = new MegaStripped(row, column, randomColour());
         addVisualEntity(entity);
         return entity;
     }
 
-    /**
-     * Sets the entity of block at (column, row) to new entity. associates to the
-     * GUI the entity. mostly used for creation.
-     * 
-     * @param row
-     * @param column
-     * @param entity MUST NOT HAVE BEEN ALREADY ADDED TO GUI.
-     */
-    public void associateEntity(int row, int column, Entity entity) {
-        getBlock(row, column).setEntity(entity);
-        addVisualEntity(entity);
-    }
+//////////START GUI RELATED METHODS
 
     /**
      * Sets the entity of block at (column, row) to new entity AND changes the
@@ -157,37 +123,87 @@ public class Board {
      */
     public void addVisualEntity(VisualEntity entity) { entity.setGraphicalEntity(myGui.addLogicEntity(entity)); }
 
-    public Entity destroyEntity(int row, int column) { return getBlock(row, column).destroyEntity(); }
+    /**
+     * Sets the entity of block at (column, row) to new entity. associates to the
+     * GUI the entity. mostly used for creation.
+     * 
+     * @param row
+     * @param column
+     * @param entity MUST NOT HAVE BEEN ALREADY ADDED TO GUI.
+     */
+    public void associateEntity(int row, int column, Entity entity) {
+        getBlock(row, column).setEntity(entity);
+        addVisualEntity(entity);
+    }
+
+////////END GUI RELATED METHODS
+
+    /**
+     * @see {@link Game#UP} {@link Game#DOWN} {@link Game#LEFT} {@link Game#RIGHT}
+     */
+    public void movePlayerDirection(int direction) {
+        int[] newPosition = getNewPosition(direction);
+        int newRow = newPosition[0];
+        int newColumn = newPosition[1];
+        if (playerSetted && isValidBlockPosition(newRow, newColumn))
+            movePlayerPosition(newRow, newColumn);
+    }
+
+
+
+    private void movePlayerPosition(int newRow, int newColumn) {
+        blockMove.playNew();
+        matrix[playerRow][playerColumn].defocus();
+        matrix[newRow][newColumn].focus();
+        playerRow = newRow;
+        playerColumn = newColumn;
+    }
+
+    /**
+     * Swaps the element the player is on with one that is relative to a specific
+     * direction
+     * 
+     * @param direction in which the element will be swapped
+     * @return a list of the elements destroyed
+     * @see {@link Game#UP} {@link Game#DOWN} {@link Game#LEFT} {@link Game#RIGHT}
+     */
+    public List<Equivalent> swap(int direction) {
+        List<Equivalent> destroyed = new LinkedList<Equivalent>();
+
+        int[] newPosition = getNewPosition(direction);
+        int newRow = newPosition[0];
+        int newColumn = newPosition[1];
+        if (isValidBlockPosition(newRow, newColumn))
+            destroyed = swapEntities(newRow, newColumn);
+        return destroyed;
+    }
 
     private List<Equivalent> swapEntities(int newRow, int newColumn) {
         Set<Block> combinations = new HashSet<Block>();
         List<Entity> powerCandys = new LinkedList<Entity>();
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
-        if (isValidBlock(newRow, newColumn)) {
-            Block b1 = matrix[newRow][newColumn];
-            Block b2 = matrix[playerRow][playerColumn];
-            if (canSwap(b1, b2)) {
-                entityMove.playNew();
-                b1.swapEntity(b2);
-                combinations.add(b1);
-                combinations.add(b2);
-                combinations = combinationLogic.checkCombinations(combinations, powerCandys);
-                combinations.addAll(b2.getEntity().getSpecialDestroy(b1.getEntity(), this));
-                System.out.println(combinations);
-                if (!combinations.isEmpty()) {
-                    do // While there are remaining combinations, destroy them,fill the board, and
-                       // check again
-                    {
-                        destroyed.addAll(destroyEntities(combinations));
-                        for (Entity entity : powerCandys)
-                            associateEntity(entity.getRow(), entity.getColumn(), entity);
-                        powerCandys.clear();
-                        Map<Integer, List<Block>> emptyBlocks = fillBoard();
-                        combinations = combinationLogic.checkRemainingCombinations(emptyBlocks, powerCandys);
-                    }
-                    while (!combinations.isEmpty());
-                }  else b1.swapEntity(b2);
-            }
+        Block b1 = matrix[newRow][newColumn];
+        Block b2 = matrix[playerRow][playerColumn];
+        if (canSwap(b1, b2)) {
+            entityMove.playNew();
+            b1.swapEntity(b2);
+            combinations.add(b1);
+            combinations.add(b2);
+            combinations = combinationLogic.checkCombinations(combinations, powerCandys);
+            combinations.addAll(b2.getEntity().getSpecialDestroy(b1.getEntity(), this));
+            if (!combinations.isEmpty()) {
+                do // While there are remaining combinations, destroy them,fill the board, and
+                   // check again
+                {
+                    destroyed.addAll(destroyEntities(combinations));
+                    for (Entity entity : powerCandys)
+                        associateEntity(entity.getRow(), entity.getColumn(), entity);
+                    powerCandys.clear();
+                    Map<Integer, List<Block>> emptyBlocks = fillBoard();
+                    combinations = combinationLogic.checkRemainingCombinations(emptyBlocks, powerCandys);
+                }
+                while (!combinations.isEmpty());
+            }  else b1.swapEntity(b2);
         }
         return destroyed;
     }
@@ -234,7 +250,7 @@ public class Board {
          * for every column which has empty blocks,
          * get lower empty block and try to fill it obtaining the entity above.
          * for all non movable blocks, stop.
-         * if above all non movables, get candys above. 
+         * if above all non movables, get candys above and get created candys. 
          * */
         for (int col = 0; col < COLUMNS; col++) {
             List<Block> emptyBlocks = emptyColumns.get(col);
@@ -269,7 +285,7 @@ public class Board {
      * @return entity above in the same column that is not empty. null if non
      * movable entity found.
      */
-    public Block upperNotEmpty(Block block) {
+    private Block upperNotEmpty(Block block) {
         Block nextNotEmpty = null;
         int col = block.getColumn();
         for (int i = block.getRow() - 1; i >= 0 && nextNotEmpty == null; i--) {
@@ -283,23 +299,10 @@ public class Board {
         return nextNotEmpty;
     }
 
-    /**
-     * @param row valid {@code row} values are ({@code row >= 0}) &&
-     * ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) &&
-     * ({@code column < }{@link Board#COLUMNS}}
-     * @return {@code true} if it is a valid position inside the board.
-     */
-    public static boolean isValidBlock(int row, int column) { return row >= 0 && row < ROWS && column >= 0 && column < COLUMNS; }
-
-    private void movePlayerPosition(int newRow, int newColumn) {
-        if (isValidBlock(newRow, newColumn)) {
-            blockMove.playNew();
-            matrix[playerRow][playerColumn].defocus();
-            matrix[newRow][newColumn].focus();
-            playerRow = newRow;
-            playerColumn = newColumn;
-        }
+    private boolean canSwap(Block block1, Block block2) {
+        final Entity e1 = block1.getEntity();
+        final Entity e2 = block2.getEntity();
+        return e1.isSwappable(e2);
     }
 
     private Colour randomColour() {
@@ -307,15 +310,5 @@ public class Board {
         return colores[candyPicker.nextInt(0, colores.length)];
     }
 
-    private boolean canSwap(Block block1, Block block2) {
-        final Entity e1 = block1.getEntity();
-        final Entity e2 = block2.getEntity();
-        return e1.isSwappable(e2);
-    }
 
-    public static boolean hasMovableEntity(Block block) { return dummy.isSwappable(block.getEntity()); }
-
-    public boolean compareColors(Block block1, Block block2) {
-        return block1.getEntity().getColour() == block2.getEntity().getColour();
-    }
 }

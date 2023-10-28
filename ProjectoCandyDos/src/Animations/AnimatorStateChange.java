@@ -18,7 +18,7 @@ public class AnimatorStateChange extends Thread implements Animator {
 
     protected AnimatorDriver manager;
     protected Drawable drawableAnimated;
-    protected String imagePat;
+    protected String animationPath;
     protected boolean bGif;
     
     /**
@@ -26,20 +26,20 @@ public class AnimatorStateChange extends Thread implements Animator {
      * @param m El manejador de animaciones al que le notificará el fin de la animación, cuando corresponda.
      * @param c La celda animada.
      */
-    public AnimatorStateChange(AnimatorDriver m, Drawable c, String animationPath) {
+    public AnimatorStateChange(AnimatorDriver m, Drawable c) {
         manager = m;
         drawableAnimated = c;
-        imagePat = animationPath;
+        animationPath = c.getLogicalEntity().getImage();
         bGif = isGif(animationPath);
         if (bGif) gifPlayer.add(animationPath, drawableAnimated.getImageSize());
     }
 
     @Override
     public void run() {
-        drawableAnimated.setImage(imagesPath + imagePat);
-        if (bGif) gifPlayer.play(imagePat, drawableAnimated);
+        drawableAnimated.setImage(imagesPath + animationPath);
+        if (bGif) gifPlayer.play(animationPath, drawableAnimated);
         drawableAnimated.repaint();
-        manager.notifyEndAnimation(this, imagePat == null);
+        manager.notifyEndAnimation(this, animationPath == null);
     }
 
     @Override public Drawable getDrawable() { return drawableAnimated; }
