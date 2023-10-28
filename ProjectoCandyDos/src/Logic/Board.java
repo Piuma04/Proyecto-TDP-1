@@ -60,7 +60,6 @@ public class Board {
 
     public Block getBlock(int row, int column) { return matrix[row][column]; }
     public Colour getBlockColour(Block block) { return block.getEntity().getColour(); }
-    public Colour getBlockColour(int row, int column) { return getBlock(row, column).getEntity().getColour(); }
 
     private int[] getNewPosition(int direction) {
         int row = playerRow;

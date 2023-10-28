@@ -105,9 +105,10 @@ public class Stripped extends Entity {
             for (int i = 0; i < 4; i++) {
                 int newRow = row + adyacentRows[i];
                 int newColumn = column + adyacentColumns[i];
-                if (Board.isValidBlockPosition(newRow, newColumn)
-                        && b.getBlockColour(newRow, newColumn) == Colour.GLAZED) {
-                    toDestroy.add(b.getBlock(newRow, newColumn));
+                if (Board.isValidBlockPosition(newRow, newColumn)) {
+                    Block block = b.getBlock(newRow, newColumn);
+                    if (b.getBlockColour(block) == Colour.GLAZED)
+                        toDestroy.add(block);
                 }
             }
         }
