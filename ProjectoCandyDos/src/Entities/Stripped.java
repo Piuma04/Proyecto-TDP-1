@@ -102,7 +102,7 @@ public class Stripped extends Entity {
                     if (!(r == row) && !b.getBlock(r, column).getEntity().isVisited())
                         toDestroy.addAll(b.getBlock(r, column).getEntity().getDestroyables(b));
                 }
-        	// ahora destruye si hay glazed en pos adyacentes
+        	// ahora destruye si hay glazed/ bombas en pos adyacentes
             int[] adyacentRows = { -1, 0, 1, 0 };
             int[] adyacentColumns = { 0, -1, 0, 1 };
             for (int i = 0; i < 4; i++) {
@@ -110,7 +110,7 @@ public class Stripped extends Entity {
                 int newColumn = column + adyacentColumns[i];
                 if (Board.isValidBlockPosition(newRow, newColumn)) {
                     Block block = b.getBlock(newRow, newColumn);
-                    if (b.getBlockColour(block) == Colour.GLAZED)
+                    if (!block.getEntity().isSwappable(this))
                         toDestroy.add(block);
                 }
             }
