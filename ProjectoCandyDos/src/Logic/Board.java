@@ -168,7 +168,6 @@ public class Board {
      */
     public List<Equivalent> swap(int direction) {
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
-
         int[] newPosition = getNewPosition(direction);
         int newRow = newPosition[0];
         int newColumn = newPosition[1];
