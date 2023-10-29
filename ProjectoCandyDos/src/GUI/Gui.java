@@ -134,7 +134,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
                     case KeyEvent.VK_D:     { if (!animator.isActive() && !myGame.isAnimating()) myGame.swap(Game.RIGHT); break; }
                     case KeyEvent.VK_O:     { if (!animator.isActive() && !myGame.isAnimating()) myGame.lost(); break; }
                     case KeyEvent.VK_J:     { System.out.println(gamePanel.boardPanel.getComponents().length); break; }
-                    case KeyEvent.VK_P:     { openMenu(); break; }
+                    case KeyEvent.VK_ESCAPE:
+                    case KeyEvent.VK_P:     { executeAfterAnimation(() -> { openMenu(); }); break; }
                 }
             }
         });
@@ -172,10 +173,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public int chooseLevel() { return Integer.valueOf(JOptionPane.showInputDialog(getContentPane(), "Ingrese el nivel")); }
     public void showMessage(String message) { JOptionPane.showMessageDialog(getContentPane(), message); }
 
-    public void executeAfterAnimation(Runnable r) {
-        System.out.println("eaa");
-        animator.executeAfterAnimation(r);
-    }
+    public void executeAfterAnimation(Runnable r) { animator.executeAfterAnimation(r); }
 
     @Override
     public void notifyAnimationInProgress() {
@@ -199,7 +197,10 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     public int getPendingAnimations() { return pendingAnimations; }
 
-    public void setTheme(boolean old) { Resources.setTheme(old); }
+    public void setTheme(boolean old) {
+        Resources.setTheme(old);
+        gamePanel.updateResources();
+    }
 
     public void close() { this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)); }
 }

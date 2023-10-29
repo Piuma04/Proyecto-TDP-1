@@ -39,11 +39,11 @@ public class Level {
     }
 
     public boolean hasMove()     { return remainingMoves > 0; }
-    public int getMoves()        { return remainingMoves;     }
-    public long getTimeLimit()   { return timeLimit;          }
-    public boolean lost()        { return !hasMove();         }
+    public int getMoves()        { return remainingMoves; }
+    public long getTimeLimit()   { return timeLimit; }
+    public boolean lost()        { return !hasMove(); }
     public boolean isLastLevel() { return currentLevel == lastLevel; }
-    public int getCurrentLevel() { return currentLevel;       }
+    public int getCurrentLevel() { return currentLevel; }
 
     public List<Integer> getRemainingObjectives() {
         List<Integer> l = new LinkedList<>();

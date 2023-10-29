@@ -39,7 +39,7 @@ public class GamePanel extends JPanel {
 
     private JLabel cantMoves, levelShower, watch;
 
-    private ImageIcon backgroundGif = new ImageIcon(Resources.getImagesFolderPath() + resources[0]);
+    private ImageIcon backgroundGif;
 
     public GamePanel(Dimension windowSize) {
         setPreferredSize(windowSize);
@@ -47,7 +47,6 @@ public class GamePanel extends JPanel {
         contentPanel = new JPanel(new BorderLayout());
         contentPanel.setPreferredSize(windowSize);
         add(contentPanel);
-
         Game.setLabelSize(getPreferredSize().height / Board.getRows());
         initializeContentPanel();
     }
@@ -68,15 +67,15 @@ public class GamePanel extends JPanel {
             }
         };
 
+
         int boardWidth  = Game.getLabelSize()*Board.getRows();
         int boardHeight = Game.getLabelSize()*Board.getColumns();
-
-        backgroundGif.setImage(backgroundGif.getImage().getScaledInstance(boardWidth, boardHeight, 0));
 
         boardPanel.setLocation(0, 0);
         boardPanel.setPreferredSize(new Dimension(boardWidth, boardHeight));
         boardPanel.setSize(boardPanel.getPreferredSize());
         boardPanel.setLayout(null);
+        updateResources();
     }
 
     private void initializeGameDataPanel() {
@@ -99,18 +98,10 @@ public class GamePanel extends JPanel {
         
 
         // START SET UP LIVES.
-        ImageIcon imageIcon = new ImageIcon(Resources.getImagesFolderPath() + resources[1]);
-        imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-
-        live1 = new JLabel(imageIcon);
-        live2 = new JLabel(imageIcon);
-        live3 = new JLabel(imageIcon);
-
         JPanel livesPanel = new JPanel(new BorderLayout());
         livesPanel.add(live1, BorderLayout.WEST);
         livesPanel.add(live2, BorderLayout.CENTER);
         livesPanel.add(live3, BorderLayout.EAST);
-        
         // END SET UP LIVES.
 
         // START SET UP WATCH.
@@ -191,4 +182,15 @@ public class GamePanel extends JPanel {
     public void setTime(String timeString) { watch.setText("Tiempo restante: " + timeString); }
 
     public void reset() { boardPanel.removeAll(); }
+
+    public void updateResources() {
+        backgroundGif = new ImageIcon(Resources.getImagesFolderPath() + resources[0]);
+        backgroundGif.setImage(backgroundGif.getImage().getScaledInstance(boardPanel.getWidth(), boardPanel.getHeight(), 0));
+
+        ImageIcon imageIcon = new ImageIcon(Resources.getImagesFolderPath() + resources[1]);
+        imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
+        live1 = new JLabel(imageIcon);
+        live2 = new JLabel(imageIcon);
+        live3 = new JLabel(imageIcon);
+    }
 }

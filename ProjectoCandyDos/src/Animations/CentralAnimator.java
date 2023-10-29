@@ -94,7 +94,7 @@ public class CentralAnimator implements AnimatorDriver {
             SwingUtilities.invokeLater( () -> {
                 Animator head = queue.peek();
                 while (head != null) {
-                    Integer id = head.id();
+                    int id = head.id();
                     if (currentAnimatorType != id) {
                         if (gui.getPendingAnimations() > 0)
                             break;

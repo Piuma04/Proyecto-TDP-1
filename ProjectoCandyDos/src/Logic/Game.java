@@ -28,15 +28,13 @@ public class Game {
     private int lives;
     private boolean animationNextLevel;
     private Score score;
-    private int level;
 
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
         score = new Score();
-        level = 1;
         lives = 3;
-        loadLevel(level);
+        loadLevel(1);
         pauseTimer();
     }
 
@@ -55,7 +53,7 @@ public class Game {
     }
 
     public void reloadLevel() {
-        loadLevel(level);
+        loadLevel(myLevel.getCurrentLevel());
         pauseTimer();
     }
 
