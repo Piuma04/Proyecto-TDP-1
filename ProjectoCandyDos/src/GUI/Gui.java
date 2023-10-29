@@ -1,7 +1,13 @@
 package GUI;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
-
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
@@ -10,6 +16,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import Logic.Game;
@@ -22,7 +31,6 @@ import Animations.SoundPlayer;
 @SuppressWarnings("serial")
 public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
-    //private static final String imagesPath = "src/resources/images/";
     private static final String gameName = "PlayCrush";
 
     protected Game myGame;
@@ -52,14 +60,14 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
         menuPanel = new JPanel();
         gamePanel = new GamePanel(getContentPane().getSize());
-        menuPanel.setPreferredSize(dim);
+        menuPanel.setPreferredSize(getContentPane().getSize());
 
         animator = new CentralAnimator(this);
         pendingAnimations = 0;
         stopInterchanges = false;
 
-        //openPanel(menuPanel);
-        openPanel(gamePanel);
+        openPanel(menuPanel);
+        //openPanel(gamePanel);
 
         initializeMenuPanel();
         initializeGamePanel();
@@ -69,18 +77,48 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
 
     protected void initializeMenuPanel() {
+        menuPanel.setLayout(new BorderLayout());
         menuPanel.setFocusable(true);
-        menuPanel.add(new JLabel("ESTE ES EL MENU"));
-        menuPanel.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                switch(e.getKeyCode()) {
-                    case KeyEvent.VK_L:  {
-                        openGame();
-                        break; }
-                }
-            }
+        
+        JLabel menu = new JLabel("ESTE ES EL MENU");
+        menu.setHorizontalAlignment(JLabel.CENTER);
+        menuPanel.add(menu, BorderLayout.NORTH);
+        JCheckBox checkBox = new JCheckBox("MENU ANTIGUO", false);
+        checkBox.setHorizontalAlignment(JCheckBox.CENTER);
+        
+        checkBox.addItemListener( (ItemEvent ev) -> {
+            setTheme(ev.getStateChange() != ItemEvent.SELECTED);
+            myGame.reloadLevel();
         });
+        
+        menuPanel.add(checkBox, BorderLayout.CENTER);
+
+        JButton startGame = new JButton("Start Game");
+        startGame.setPreferredSize(new Dimension(30, 20));
+        startGame.setHorizontalAlignment(JButton.CENTER);
+        startGame.addActionListener( (ActionEvent ev) -> { openGame(); });
+        menuPanel.add(startGame, BorderLayout.SOUTH);
+
+        JPanel levels = new JPanel(new GridLayout(0, 1));
+        levels.setBackground(Color.BLACK);
+        JButton level_1 = new JButton("Level 1");
+        JButton level_2 = new JButton("Level 2");
+        JButton level_3 = new JButton("Level 3");
+        JButton level_4 = new JButton("Level 4");
+        JButton level_5 = new JButton("Level 5");
+
+        level_1.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(1); openGame(); });
+        level_2.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(2); openGame(); });
+        level_3.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(3); openGame(); });
+        level_4.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(4); openGame(); });
+        level_5.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(5); openGame(); });
+
+        levels.add(level_1);
+        levels.add(level_2);
+        levels.add(level_3);
+        levels.add(level_4);
+        levels.add(level_5);
+        menuPanel.add(levels, BorderLayout.WEST);
     }
 
     protected void initializeGamePanel() {
@@ -155,6 +193,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     @Override public void playSound(SoundPlayer sound) { animator.playSound(sound); }
 
     public int getPendingAnimations() { return pendingAnimations; }
+
+    public void setTheme(boolean old) { Resources.setTheme(old); }
 
     public void close() { this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)); }
 }

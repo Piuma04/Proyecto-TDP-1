@@ -17,12 +17,10 @@ import javax.imageio.metadata.IIOMetadataNode;
 import GUI.Drawable;
 
 public class GifPlayer {
-
     private static Map<String, List<Image>> gifImages = new HashMap<String, List<Image>>();
     private static Map<String, List<Integer>> gifDelay = new HashMap<String, List<Integer>>();
 
     private String path;
-
     GifPlayer(String basePath) { path = basePath; }
 
     public void play(String animationPath, Drawable drawableAnimated) {

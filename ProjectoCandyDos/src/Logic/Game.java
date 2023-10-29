@@ -7,7 +7,6 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import GUI.Gui;
-
 import Animations.SoundPlayer;
 import Interfaces.Equivalent;
 
@@ -29,12 +28,13 @@ public class Game {
     private int lives;
     private boolean animationNextLevel;
     private Score score;
+    private int level;
 
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
         score = new Score();
-        int level = 1;//= myGui.chooseLevel();
+        level = 1;
         lives = 3;
         loadLevel(level);
     }
@@ -51,6 +51,10 @@ public class Game {
         myGui.showObjective(myLevel.getObjectives(), myLevel.getRemainingObjectives());
         myGui.setCurrentLevel("Nivel " + myLevel.getCurrentLevel());
         myTimer.startTimer(myLevel.getTimeLimit());
+    }
+
+    public void reloadLevel() {
+        loadLevel(level);
     }
 
     public void swap(int direction) {

@@ -15,6 +15,7 @@ import Entities.Bomb;
 import Entities.Candy;
 import Entities.Stripped;
 import Entities.Wrapped;
+import GUI.Resources;
 import Entities.Glazed;
 import Entities.Jelly;
 import Entities.MegaStripped;
@@ -22,7 +23,7 @@ import Interfaces.Equivalent;
 
 public class LevelGenerator {
 
-	private static final String levelPath = "src/resources/levels/";
+	private static final String levelPath = Resources.getLevelsFolderPath();
 
 	/**
 	 * Reads filename, which is comma separated with the following format</br>

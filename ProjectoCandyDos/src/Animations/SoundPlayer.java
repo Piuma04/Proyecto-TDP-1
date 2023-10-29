@@ -12,11 +12,10 @@ import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import GUI.Resources;
+
 
 public class SoundPlayer {
-
-    private static final String musicPath = "src/resources/music/";
-
     private boolean stopped;
     private Clip mySound;
     private AudioFormat audioFormat;
@@ -84,9 +83,9 @@ public class SoundPlayer {
     
     private void loadAudioData(String filePath) {
         try {
-            File audioFile = new File(musicPath + filePath);
+            File audioFile = new File(Resources.getAudioFolderPath() + filePath);
             if (!audioFile.exists() || !audioFile.isFile()) {
-                throw new IllegalArgumentException("Invalid audio file path: " + musicPath + filePath);
+                throw new IllegalArgumentException("Invalid audio file path: " + Resources.getAudioFolderPath() + filePath);
             }
 
             try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile)) {

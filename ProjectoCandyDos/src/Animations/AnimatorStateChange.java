@@ -1,6 +1,7 @@
 package Animations;
 
 import GUI.Drawable;
+import GUI.Resources;
 
 /**
  * Modela el comportamiento de un animador que permite visualizar el cambio de estado de una entidad.
@@ -12,9 +13,7 @@ import GUI.Drawable;
  *
  */
 public class AnimatorStateChange extends Thread implements Animator {
-
-    private static final String imagesPath = "src/Resources/images/";
-    private static GifPlayer gifPlayer = new GifPlayer(imagesPath);
+    private static GifPlayer gifPlayer = new GifPlayer(Resources.getImagesFolderPath());
 
     protected AnimatorDriver manager;
     protected Drawable drawableAnimated;
@@ -36,7 +35,7 @@ public class AnimatorStateChange extends Thread implements Animator {
 
     @Override
     public void run() {
-        drawableAnimated.setImage(imagesPath + animationPath);
+        drawableAnimated.setImage(Resources.getImagesFolderPath() + animationPath);
         if (bGif) gifPlayer.play(animationPath, drawableAnimated);
         drawableAnimated.repaint();
         manager.notifyEndAnimation(this, animationPath == null);

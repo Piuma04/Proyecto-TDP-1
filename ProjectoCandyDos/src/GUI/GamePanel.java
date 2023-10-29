@@ -21,11 +21,11 @@ import Logic.Game;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {
-    private static final String imagesPath = "src/resources/images/";
     private static final String font = "Stencil";
     //private static final String font = "DejaVu";
     //private static final String font = "MonoLisa";
 
+    private static final String[] resources = { "background.gif", "life.gif" };
 
     protected JPanel contentPanel;
 
@@ -40,10 +40,9 @@ public class GamePanel extends JPanel {
 
     private JLabel cantMoves, levelShower, watch;
 
-    private ImageIcon backgroundGif = new ImageIcon(imagesPath + "stars.gif");
+    private ImageIcon backgroundGif = new ImageIcon(Resources.getImagesFolderPath() + resources[0]);
 
     public GamePanel(Dimension windowSize) {
-        setForeground(Color.BLACK);
         setPreferredSize(windowSize);
 
         contentPanel = new JPanel(new BorderLayout());
@@ -101,7 +100,7 @@ public class GamePanel extends JPanel {
         
 
         // START SET UP LIVES.
-        ImageIcon imageIcon = new ImageIcon(imagesPath + "life.gif");
+        ImageIcon imageIcon = new ImageIcon(Resources.getImagesFolderPath() + resources[1]);
         imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
 
         live1 = new JLabel(imageIcon);
@@ -176,7 +175,7 @@ public class GamePanel extends JPanel {
             amountToGo[i].setVisible(true);
 
             // set entity image.
-            ImageIcon imageIconAux = new ImageIcon(imagesPath + entities.get(i));
+            ImageIcon imageIconAux = new ImageIcon(Resources.getImagesFolderPath() + entities.get(i));
             imageIconAux.setImage(imageIconAux.getImage().getScaledInstance(Game.getLabelSize(), Game.getLabelSize(), Image.SCALE_DEFAULT));
             typeOfCandy[i].setIcon(imageIconAux);
 

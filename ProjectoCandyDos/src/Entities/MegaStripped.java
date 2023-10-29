@@ -15,7 +15,7 @@ public class MegaStripped extends Entity {
     public MegaStripped(int rowPosition, int columnPosition, Colour colour) {
         super(rowPosition, columnPosition, colour);
         String[] p = imagePath.split("/");
-        imagePath = p[0] + "/" + "Z" + p[1];
+        imagePath = p[0] + "/" + "MS" + p[1];
     }
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
@@ -75,5 +75,5 @@ public class MegaStripped extends Entity {
 
     @Override public int getScore() { return 100; }
 
-    public String toString() { return super.setStringColor("Z"); }
+    public String toString() { return super.setStringColor("M"); }
 }
