@@ -84,7 +84,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         checkBox.setHorizontalAlignment(JCheckBox.CENTER);
         
         checkBox.addItemListener( (ItemEvent ev) -> {
-            setTheme(ev.getStateChange() != ItemEvent.SELECTED);
+            setTheme(ev.getStateChange() == ItemEvent.SELECTED);
             myGame.reloadLevel();
         });
         
@@ -199,7 +199,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public int getPendingAnimations() { return pendingAnimations; }
 
     public void setTheme(boolean old) {
-        Resources.setTheme(old);
+        Resources.setTheme(old ? 1 : 0);
         gamePanel.updateResources();
     }
 

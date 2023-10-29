@@ -12,10 +12,13 @@ import Logic.Block;
 import Logic.Board;
 
 public class MegaStripped extends Entity {
+
     public MegaStripped(int rowPosition, int columnPosition, Colour colour) {
         super(rowPosition, columnPosition, colour);
-        String[] p = imagePath.split("/");
-        imagePath = p[0] + "/" + "MS" + p[1];
+        
+        String prefix = "MS";
+        imagePath = colour.toString() + "/" + prefix + colour.toString() + ".png";
+        explosionGif = colour.toString() + "/explosion/" + prefix + colour.toString() + ".gif";
     }
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
@@ -28,7 +31,7 @@ public class MegaStripped extends Entity {
     @Override public boolean canReceive(Wrapped w)      { return true; }
     @Override public boolean canReceive(MegaStripped m) { return true; }
     @Override public boolean canReceive(Bomb b)         { return true; }
-    
+
     @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b){return e.getSpecialDestroyables(this, b);}
     public Set<Block> getSpecialDestroyables(Candy c, Board b){
     	return specialCase(c, b);

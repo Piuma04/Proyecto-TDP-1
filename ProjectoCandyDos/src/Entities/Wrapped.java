@@ -11,10 +11,13 @@ import Logic.Block;
 import Logic.Board;
 
 public class Wrapped extends Entity {
+
     public Wrapped(int rowPosition, int columnPosition, Colour colour) {
         super(rowPosition, columnPosition, colour);
-        String p[] = imagePath.split("/");
-        imagePath = p[0] + "/w" + p[1];
+
+        String prefix = "w";
+        imagePath = colour.toString() + "/" + prefix + colour.toString() + ".png";
+        explosionGif = colour.toString() + "/explosion/" + prefix + colour.toString() + ".gif";
     }
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }

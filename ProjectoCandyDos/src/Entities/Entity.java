@@ -14,13 +14,16 @@ import Logic.VisualEntityDummy;
 public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable, SpecialDestroy {
     protected Colour colour;
     protected boolean visited = false;
+    protected String explosionGif;
 
     Entity(int rowPosition, int columnPosition, Colour colour) {
         this.setPicSize(this.getPicSize() - 35);
         row = rowPosition;
         column = columnPosition;
         this.colour = colour;
+
         imagePath = colour.toString() + "/" + colour.toString() + ".png";
+        explosionGif = colour.toString() + "/explosion/" + colour.toString() + ".gif";
     }
 
     public Colour getColour() { return colour; }
@@ -56,7 +59,7 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     public abstract List<Block> getDestroyables(Board b);
 
     public void destroy() {
-        playGif("explosion.gif");
+        playGif(explosionGif);
         setImage(null);
     }
 

@@ -15,17 +15,19 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 
 import GUI.Drawable;
+import GUI.Resources;
 
 public class GifPlayer {
     private static Map<String, List<Image>> gifImages = new HashMap<String, List<Image>>();
     private static Map<String, List<Integer>> gifDelay = new HashMap<String, List<Integer>>();
 
-    private String path;
-    GifPlayer(String basePath) { path = basePath; }
+    GifPlayer() { }
 
     public void play(String animationPath, Drawable drawableAnimated) {
-        List<Image> gifImageFrames = gifImages.get(animationPath);
-        List<Integer> gifDelayFrames = gifDelay.get(animationPath);
+        final String key = Resources.getTheme() +  animationPath;
+
+        List<Image> gifImageFrames = gifImages.get(key);
+        List<Integer> gifDelayFrames = gifDelay.get(key);
         int currentFrame = 0;
         for (Image frame : gifImageFrames) {
                 drawableAnimated.setImage(frame);
@@ -35,11 +37,13 @@ public class GifPlayer {
     }
     
     public void add(String animationPath, int gifSize) {
-        if (!gifImages.containsKey(animationPath)) {
+        final String key = Resources.getTheme() +  animationPath;
+
+        if (!gifImages.containsKey(key)) {
             List<BufferedImage> gifFrameImages = new LinkedList<BufferedImage>();
             List<Integer> gifDelayFrames = new LinkedList<Integer>();
             try {
-                File gifFile = new File(path + animationPath);
+                File gifFile = new File(Resources.getImagesFolderPath() + animationPath);
                 ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
                 reader.setInput(ImageIO.createImageInputStream(gifFile));
                 int i = reader.getMinIndex();
@@ -59,8 +63,8 @@ public class GifPlayer {
                 }
                 reader.dispose();
             } catch (Exception e) { System.out.println("ERROR: Gif (" + animationPath + ") may not exist!"); }
-            gifDelay.put(animationPath, gifDelayFrames);
-            gifImages.put(animationPath, resizeGifImages(gifFrameImages, gifSize));
+            gifDelay.put(key, gifDelayFrames);
+            gifImages.put(key, resizeGifImages(gifFrameImages, gifSize));
         }
     }
     /**

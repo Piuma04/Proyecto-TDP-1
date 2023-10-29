@@ -13,7 +13,7 @@ import GUI.Resources;
  *
  */
 public class AnimatorStateChange extends Thread implements Animator {
-    private static GifPlayer gifPlayer = new GifPlayer(Resources.getImagesFolderPath());
+    private static GifPlayer gifPlayer = new GifPlayer();
 
     protected AnimatorDriver manager;
     protected Drawable drawableAnimated;

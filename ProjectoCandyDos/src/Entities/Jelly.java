@@ -13,7 +13,10 @@ public class Jelly extends Modifier {
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); } 
     @Override public boolean isEqual(Jelly j) { return true; }
 
-    @Override public void destroy() { setImage(null); }
+    @Override public void destroy() {
+        playGif("JELLY/explosion/JELLY.gif");
+        setImage(null);
+    }
 
     @Override public int getScore() { return 10; }
 

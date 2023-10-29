@@ -11,13 +11,16 @@ import Logic.Block;
 import Logic.Board;
 
 public class Stripped extends Entity {
+
     protected boolean isHorizontal;
 
     public Stripped(int rowPosition, int columnPosition, Colour colour, boolean isHorizontal) {
         super(rowPosition, columnPosition, colour);
         this.isHorizontal = isHorizontal;
-        String[] p = imagePath.split("/");
-        imagePath = p[0] + "/" + (isHorizontal ? "H" : "V") + p[1];
+
+        String prefix = isHorizontal ? "H" : "V";
+        imagePath = colour.toString() + "/" + prefix + colour.toString() + ".png";
+        explosionGif = colour.toString() + "/explosion/" + prefix + colour.toString() + ".gif";
     }
 
     public Stripped(int rowPosition, int columnPosition, Colour colour) {
