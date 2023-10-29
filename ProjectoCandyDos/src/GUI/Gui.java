@@ -101,8 +101,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         menuPanel.add(startGame, BorderLayout.SOUTH);
         
         JButton maxScores = new JButton("Consultar maximas puntuaciones");
-        maxScores.addActionListener((ActionEvent ev) -> {showMaxScores();});
-        menuPanel.add(maxScores,BorderLayout.EAST);
+        maxScores.addActionListener((ActionEvent ev) -> { showMaxScores(); });
+        menuPanel.add(maxScores, BorderLayout.EAST);
 
         JPanel levels = new JPanel(new GridLayout(0, 1));
         levels.setBackground(Color.BLACK);
