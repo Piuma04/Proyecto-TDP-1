@@ -40,6 +40,8 @@ public class GamePanel extends JPanel {
 
     private JLabel cantMoves, levelShower, watch;
 
+    private JLabel score;
+    
     private ImageIcon backgroundGif;
 
     public GamePanel(Dimension windowSize) {
@@ -123,10 +125,17 @@ public class GamePanel extends JPanel {
         movesPanel.add(cantMoves);
         // END SET UP MOVIMIENTOS RESTANTES.
 
+        
+        score = new JLabel("Puntaje: ");
+        JPanel scorePanel = new JPanel(new FlowLayout());
+        scorePanel.setBorder(borderPadding);
+        scorePanel.add(score);
+        
         gameDataPanel.add(levelPanel);
         gameDataPanel.add(livesPanel);
         gameDataPanel.add(watchPanel);
         gameDataPanel.add(movesPanel);
+        gameDataPanel.add(scorePanel);
 
         // START SET UP GOALS.
         JPanel goalPanel = null;
@@ -184,6 +193,10 @@ public class GamePanel extends JPanel {
         for (int i = 0; i < list.size(); i++)
             amountToGo[i].setText(list.get(i).toString());
     }
+    
+    public void updateScore(int i) {
+    	score.setText("Puntaje: "+i);
+    }
 
     public void setCurrentLevel(String level) { levelShower.setText(level); }
     public void setTime(String timeString) { watch.setText("Tiempo restante: " + timeString); }
@@ -202,4 +215,5 @@ public class GamePanel extends JPanel {
         live2.setIcon(liveIcon);
         live3.setIcon(liveIcon);
     }
+    
 }

@@ -211,7 +211,7 @@ public class LevelGenerator {
 	 * @param filename file name to open and read.
 	 * @return List of String which every element is a String(line) of the file.
 	 */
-	private static List<String> readFileLines(String filename) {
+	public static List<String> readFileLines(String filename) {
 		List<String> fileText = null;
 		try {
 			fileText = Files.readAllLines(Paths.get(filename), StandardCharsets.UTF_8);
