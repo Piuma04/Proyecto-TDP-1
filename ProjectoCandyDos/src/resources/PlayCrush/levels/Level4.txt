@@ -1,8 +1,0 @@
-20,90
-M,12
-G,R,Y,P,B,B
-Y,P,P,R,G,Y
-B,P,G,G,R,P
-M,M,M,M,M,M
-T,M,M,M,M,T
-T,T,M,M,T,T

@@ -10,5 +10,5 @@ public class Resources {
 
     public static String getImagesFolderPath() { return "src/resources/" + theme + "/images/"; }
     public static String getAudioFolderPath()  { return "src/resources/" + theme + "/music/"; }
-    public static String getLevelsFolderPath() { return "src/resources/" + theme + "/levels/"; }
+    public static String getLevelsFolderPath() { return "src/resources/levels/"; }
 }

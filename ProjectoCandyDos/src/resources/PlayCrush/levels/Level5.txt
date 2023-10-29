@@ -1,8 +1,0 @@
-30,180
-BW,1
-R,B,G,Y,P,P
-Y,P,G,R,B,G
-P,Y,P,G,R,B
-G,B,R,Y,P,Y
-B,P,R,G,Y,R
-G,Y,Y,R,B,P

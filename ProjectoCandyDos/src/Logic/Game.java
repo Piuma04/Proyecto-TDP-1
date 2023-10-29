@@ -37,6 +37,7 @@ public class Game {
         level = 1;
         lives = 3;
         loadLevel(level);
+        pauseTimer();
     }
 
     public void startBackgroundMusic() { backgroundMusic.loop(); }
@@ -55,6 +56,7 @@ public class Game {
 
     public void reloadLevel() {
         loadLevel(level);
+        pauseTimer();
     }
 
     public void swap(int direction) {
@@ -72,10 +74,8 @@ public class Game {
         boolean finished = myLevel.update(destroyed);
         score.update(destroyed); ///WARNING
         myGui.executeAfterAnimation(() -> {
-            SwingUtilities.invokeLater( () -> {
-                myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
-                myGui.updateMoves(myLevel.getMoves());
-            });
+            myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
+            myGui.updateMoves(myLevel.getMoves());
         });
 
         if (finished)
@@ -87,10 +87,8 @@ public class Game {
     public void win() {
         animationNextLevel = true;
         myGui.executeAfterAnimation(() -> {
-            SwingUtilities.invokeLater( () -> {
-                _win();
-                animationNextLevel = false;
-            });
+            _win();
+            animationNextLevel = false;
         });
     }
 
@@ -109,10 +107,8 @@ public class Game {
     public void lost() {
         animationNextLevel = true;
         myGui.executeAfterAnimation(() -> {
-            SwingUtilities.invokeLater( () -> {
-                _lost();
-                animationNextLevel = false;
-            });
+            _lost();
+            animationNextLevel = false;
         });
     }
 
@@ -131,6 +127,14 @@ public class Game {
             loadLevel(myLevel.getCurrentLevel());
         }
         backgroundMusic.start();
+    }
+
+    public void pauseTimer() {
+        myTimer.stopTimer();
+    }
+
+    public void unpauseTimer() {
+        myTimer.continueTimer();
     }
 
     public boolean isAnimating() { return animationNextLevel; }

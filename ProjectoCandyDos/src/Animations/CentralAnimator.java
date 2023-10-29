@@ -22,6 +22,7 @@ public class CentralAnimator implements AnimatorDriver {
     protected Gui gui;
     protected DrawableAnimator drawableAnimator;
 
+    protected Queue<Runnable> extraTasks;
     protected Queue<Animator> queue;
     protected int currentAnimatorType;
 
@@ -29,6 +30,7 @@ public class CentralAnimator implements AnimatorDriver {
         gui = v;
         drawableAnimator = new DrawableAnimator();
         queue = new ArrayDeque<Animator>();
+        extraTasks = new ArrayDeque<Runnable>();
         currentAnimatorType = 2;
     }
 
@@ -102,10 +104,21 @@ public class CentralAnimator implements AnimatorDriver {
                     queue.poll();
                     head = queue.peek();
                 }
+
+                if (!isActive())
+                    while (!extraTasks.isEmpty())
+                        extraTasks.poll().run();
             });
 
         if (bDestroy)
             SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); }); 
+    }
+
+    public void executeAfterAnimation(Runnable r) {
+        if (isActive())
+            extraTasks.add(r);
+        else
+            r.run();
     }
 
     public boolean isActive() { return !queue.isEmpty() || gui.getPendingAnimations() > 0; }

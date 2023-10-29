@@ -2,12 +2,10 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
@@ -17,7 +15,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JCheckBox;
-import javax.swing.JComponent;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
@@ -93,7 +90,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         
         menuPanel.add(checkBox, BorderLayout.CENTER);
 
-        JButton startGame = new JButton("Start Game");
+        JButton startGame = new JButton("Continue Game");
         startGame.setPreferredSize(new Dimension(30, 20));
         startGame.setHorizontalAlignment(JButton.CENTER);
         startGame.addActionListener( (ActionEvent ev) -> { openGame(); });
@@ -144,8 +141,18 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
 
     public void openPanel(JPanel panel) { setContentPane(panel); panel.requestFocus(true); }
-    public void openGame() { myGame.startBackgroundMusic(); openPanel(gamePanel); }
-    public void openMenu() { myGame.stopBackgroundMusic(); openPanel(menuPanel); }
+
+    public void openGame() {
+        openPanel(gamePanel);
+        myGame.startBackgroundMusic();
+        myGame.unpauseTimer();
+    }
+
+    public void openMenu() {
+        openPanel(menuPanel);
+        myGame.stopBackgroundMusic();
+        myGame.pauseTimer();
+    }
 
     public GraphicalEntity addLogicEntity(LogicEntity e) {
         Drawable drawable = new Drawable(this, e, e.getPicSize());
@@ -166,10 +173,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public void showMessage(String message) { JOptionPane.showMessageDialog(getContentPane(), message); }
 
     public void executeAfterAnimation(Runnable r) {
-        new Thread(() -> {
-            while (animator.isActive()) { try { Thread.sleep(1); } catch (InterruptedException e) { e.printStackTrace(); } }
-            new Thread(r).start();
-        }).start();
+        System.out.println("eaa");
+        animator.executeAfterAnimation(r);
     }
 
     @Override

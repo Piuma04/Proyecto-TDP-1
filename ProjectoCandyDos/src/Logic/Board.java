@@ -50,7 +50,7 @@ public class Board {
                 addVisualEntity(block);
                 block.getGraphicalEntity().setSkipQueue(true);
             }
-        gui.executeAfterAnimation(() -> { setPlayerPosition(playerRow, playerColumn); });
+        setPlayerPosition(playerRow, playerColumn);
     }
 
     public static int getRows() { return ROWS; }
