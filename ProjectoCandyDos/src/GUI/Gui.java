@@ -41,8 +41,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     public Gui(Game game) {
 
-        // minimum width: 600
-        final int width = 800;
+        // minimum width: 700
+        final int width = 700;
         final int height = width - 150;
         final Dimension dim = new Dimension(width, height);
 
@@ -135,7 +135,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
                     case KeyEvent.VK_O:     { if (!animator.isActive() && !myGame.isAnimating()) myGame.lost(); break; }
                     case KeyEvent.VK_J:     { System.out.println(gamePanel.boardPanel.getComponents().length); break; }
                     case KeyEvent.VK_ESCAPE:
-                    case KeyEvent.VK_P:     { executeAfterAnimation(() -> { openMenu(); }); break; }
+                    case KeyEvent.VK_P:     {  if (!animator.isActive() && !myGame.isAnimating()) openMenu(); break; }
+                    //case KeyEvent.VK_P:     { executeAfterAnimation(() -> { openMenu(); }); break; }
                 }
             }
         });

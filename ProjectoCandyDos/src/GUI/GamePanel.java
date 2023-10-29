@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class GamePanel extends JPanel {
 
     protected JPanel boardPanel;
     protected JPanel gameDataPanel;
-    
+
     private JLabel live1;
     private JLabel live2;
     private JLabel live3;
@@ -48,6 +49,7 @@ public class GamePanel extends JPanel {
         contentPanel.setPreferredSize(windowSize);
         add(contentPanel);
         Game.setLabelSize(getPreferredSize().height / Board.getRows());
+
         initializeContentPanel();
     }
 
@@ -67,7 +69,6 @@ public class GamePanel extends JPanel {
             }
         };
 
-
         int boardWidth  = Game.getLabelSize()*Board.getRows();
         int boardHeight = Game.getLabelSize()*Board.getColumns();
 
@@ -75,6 +76,11 @@ public class GamePanel extends JPanel {
         boardPanel.setPreferredSize(new Dimension(boardWidth, boardHeight));
         boardPanel.setSize(boardPanel.getPreferredSize());
         boardPanel.setLayout(null);
+
+        live1 = new JLabel();
+        live2 = new JLabel();
+        live3 = new JLabel();
+
         updateResources();
     }
 
@@ -90,7 +96,6 @@ public class GamePanel extends JPanel {
         
         int padding = 10;
         Border borderPadding = BorderFactory.createEmptyBorder(padding, padding, padding, padding);
-        
 
         JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         levelShower.setFont(new Font(font, Font.PLAIN, 20));
@@ -98,20 +103,22 @@ public class GamePanel extends JPanel {
         
 
         // START SET UP LIVES.
-        JPanel livesPanel = new JPanel(new BorderLayout());
+        JPanel livesPanel = new JPanel(new GridLayout(1,0));
+
+        livesPanel.setBorder(borderPadding);
         livesPanel.add(live1, BorderLayout.WEST);
         livesPanel.add(live2, BorderLayout.CENTER);
         livesPanel.add(live3, BorderLayout.EAST);
         // END SET UP LIVES.
 
         // START SET UP WATCH.
-        JPanel watchPanel = new JPanel(new BorderLayout());
+        JPanel watchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         watchPanel.setBorder(borderPadding);
         watchPanel.add(watch);
         // END SET UP WATCH.
 
         // START SET UP MOVIMIENTOS RESTANTES.
-        JPanel movesPanel = new JPanel(new BorderLayout());
+        JPanel movesPanel = new JPanel(new FlowLayout());
         movesPanel.setBorder(borderPadding);
         movesPanel.add(cantMoves);
         // END SET UP MOVIMIENTOS RESTANTES.
@@ -187,10 +194,12 @@ public class GamePanel extends JPanel {
         backgroundGif = new ImageIcon(Resources.getImagesFolderPath() + resources[0]);
         backgroundGif.setImage(backgroundGif.getImage().getScaledInstance(boardPanel.getWidth(), boardPanel.getHeight(), 0));
 
-        ImageIcon imageIcon = new ImageIcon(Resources.getImagesFolderPath() + resources[1]);
-        imageIcon.setImage(imageIcon.getImage().getScaledInstance(50, 50, Image.SCALE_DEFAULT));
-        live1 = new JLabel(imageIcon);
-        live2 = new JLabel(imageIcon);
-        live3 = new JLabel(imageIcon);
+        int liveIconSize = (int)((contentPanel.getPreferredSize().getWidth() - boardPanel.getPreferredSize().getWidth()) / 4.0);
+
+        ImageIcon liveIcon = new ImageIcon(Resources.getImagesFolderPath() + resources[1]);
+        liveIcon.setImage(liveIcon.getImage().getScaledInstance(liveIconSize, liveIconSize, Image.SCALE_DEFAULT));
+        live1.setIcon(liveIcon);
+        live2.setIcon(liveIcon);
+        live3.setIcon(liveIcon);
     }
 }
