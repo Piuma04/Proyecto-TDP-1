@@ -14,6 +14,7 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -84,8 +85,10 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         checkBox.setHorizontalAlignment(JCheckBox.CENTER);
         
         checkBox.addItemListener( (ItemEvent ev) -> {
-            setTheme(ev.getStateChange() == ItemEvent.SELECTED);
-            myGame.reloadLevel();
+            SwingUtilities.invokeLater( () -> {
+                setTheme(ev.getStateChange() == ItemEvent.SELECTED);
+                myGame.reloadLevel();
+            });
         });
         
         menuPanel.add(checkBox, BorderLayout.CENTER);
@@ -93,7 +96,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         JButton startGame = new JButton("Continue Game");
         startGame.setPreferredSize(new Dimension(30, 20));
         startGame.setHorizontalAlignment(JButton.CENTER);
-        startGame.addActionListener( (ActionEvent ev) -> { openGame(); });
+        startGame.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { openGame(); }); });
         menuPanel.add(startGame, BorderLayout.SOUTH);
 
         JPanel levels = new JPanel(new GridLayout(0, 1));
@@ -104,11 +107,11 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         JButton level_4 = new JButton("Level 4");
         JButton level_5 = new JButton("Level 5");
 
-        level_1.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(1); openGame(); });
-        level_2.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(2); openGame(); });
-        level_3.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(3); openGame(); });
-        level_4.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(4); openGame(); });
-        level_5.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(5); openGame(); });
+        level_1.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(1); openGame(); }); });
+        level_2.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(2); openGame(); }); });
+        level_3.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(3); openGame(); }); });
+        level_4.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(4); openGame(); }); });
+        level_5.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(5); openGame(); }); });
 
         levels.add(level_1);
         levels.add(level_2);

@@ -90,6 +90,9 @@ public class CentralAnimator implements AnimatorDriver {
 
         drawableAnimator.endAnimation(a);
 
+        if (bDestroy)
+            SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); }); 
+
         if (gui.getPendingAnimations() == 0)
             SwingUtilities.invokeLater( () -> {
                 Animator head = queue.peek();
@@ -110,8 +113,6 @@ public class CentralAnimator implements AnimatorDriver {
                         extraTasks.poll().run();
             });
 
-        if (bDestroy)
-            SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); }); 
     }
 
     public void executeAfterAnimation(Runnable r) {
