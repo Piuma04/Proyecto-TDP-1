@@ -42,7 +42,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public Gui(Game game) {
 
         // minimum width: 700
-        final int width = 700;
+        final int width = 800;
         final int height = width - 150;
         final Dimension dim = new Dimension(width, height);
 
