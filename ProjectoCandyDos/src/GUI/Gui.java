@@ -19,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import Logic.Game;
+import Logic.LevelGenerator;
 import Interfaces.LogicEntity;
 
 import Animations.CentralAnimator;
@@ -95,6 +96,10 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         startGame.setHorizontalAlignment(JButton.CENTER);
         startGame.addActionListener( (ActionEvent ev) -> { openGame(); });
         menuPanel.add(startGame, BorderLayout.SOUTH);
+        
+        JButton maxScores = new JButton("Consultar maximas puntuaciones");
+        maxScores.addActionListener((ActionEvent ev) -> {showMaxScores();});
+        menuPanel.add(maxScores,BorderLayout.EAST);
 
         JPanel levels = new JPanel(new GridLayout(0, 1));
         levels.setBackground(Color.BLACK);
@@ -167,6 +172,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public void updateGraphicObjective(List<Integer> list) { gamePanel.updateGraphicObjective(list); }
     public void updateLives(int lives)        { gamePanel.updateLives(lives); }
     public void updateMoves(int i)            { gamePanel.updateMoves(i); }
+    public void updateScore(int i)            { gamePanel.updateScore(i); }
     public void setCurrentLevel(String level) { gamePanel.setCurrentLevel(level); }
     public void setTime(String timeString)    { gamePanel.setTime(timeString); }
     public void reset()                       { gamePanel.reset(); }
@@ -201,6 +207,14 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public void setTheme(boolean old) {
         Resources.setTheme(old ? 1 : 0);
         gamePanel.updateResources();
+    }
+    private void showMaxScores() {
+    	List<String> lines = LevelGenerator.readFileLines(Resources.getScorePath());
+    	String toDisplay = "";
+    	for(int i = 0; i<lines.size(); i++) {
+    		toDisplay += lines.get(i)+"\n";
+    	}
+    	JOptionPane.showMessageDialog(this, toDisplay, "Score maximo", 1);
     }
 
     public void close() { this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)); }

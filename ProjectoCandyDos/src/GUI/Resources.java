@@ -13,4 +13,5 @@ public class Resources {
     public static String getImagesFolderPath() { return "src/resources/" + themes[theme] + "/images/"; }
     public static String getAudioFolderPath()  { return "src/resources/" + themes[theme] + "/music/"; }
     public static String getLevelsFolderPath() { return "src/resources/levels/"; }
+    public static String getScorePath() { return "src/resources/levels/maxScores.txt"; }
 }

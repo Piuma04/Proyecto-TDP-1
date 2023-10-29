@@ -70,10 +70,10 @@ public class Game {
 
     public void update(List<Equivalent> destroyed) {
         boolean finished = myLevel.update(destroyed);
-        score.update(destroyed); ///WARNING
         myGui.executeAfterAnimation(() -> {
             myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
             myGui.updateMoves(myLevel.getMoves());
+            myGui.updateScore(score.update(destroyed));
         });
 
         if (finished)
@@ -94,6 +94,7 @@ public class Game {
         myTimer.stopTimer();
         if (myLevel.isLastLevel()) {
             myGui.showMessage("Felicitaciones! Ha ganado el juego");
+            score.setNewScores();
             myGui.close();
         }
         else {
