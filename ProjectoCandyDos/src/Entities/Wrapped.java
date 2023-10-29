@@ -87,9 +87,7 @@ public class Wrapped extends Entity {
         return toDestroy;
     }
 
-    public int getScore()
-    {
-    	return 50;
-    }
+    @Override public int getScore() { return 50; }
+
     public String toString() { return super.setStringColor("W"); }
 }

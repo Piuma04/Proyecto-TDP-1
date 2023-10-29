@@ -15,9 +15,7 @@ public class Jelly extends Modifier {
 
     @Override public void destroy() { setImage(null); }
 
-    public int getScore()
-    {
-    	return 10;
-    }
+    @Override public int getScore() { return 10; }
+
     public String toString() { return "J"; }
 }

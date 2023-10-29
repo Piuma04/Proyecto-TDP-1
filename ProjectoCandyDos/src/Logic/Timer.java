@@ -43,8 +43,10 @@ public class Timer {
         minutes = time / 60;
         seconds = time % 60;
         stopped = false;
-        if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
+        continueTimer();
     }
 
     public void stopTimer() { stopped = true; }
+
+    public void continueTimer() { stopped = false; if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); } }
 }

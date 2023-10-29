@@ -1,8 +1,5 @@
 package Animations;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
 
 import javax.swing.SwingUtilities;
@@ -23,33 +20,18 @@ import GUI.Gui;
  */
 public class CentralAnimator implements AnimatorDriver {
     protected Gui gui;
-    protected HashMap<Drawable, List<Animator>> map_drawable_animations;
-    
+    protected DrawableAnimator drawableAnimator;
+
+    protected Queue<Runnable> extraTasks;
     protected Queue<Animator> queue;
-    protected Runnable myTask;
-    protected Thread myThread;
+    protected int currentAnimatorType;
 
     public CentralAnimator(Gui v) {
         gui = v;
-        map_drawable_animations = new HashMap<Drawable, List<Animator>>();
+        drawableAnimator = new DrawableAnimator();
         queue = new ArrayDeque<Animator>();
-
-        myTask = () -> {
-            int currentAnimatorType = 0;
-            Animator head = queue.poll();
-            while (head != null) {
-                Integer id = head.id();
-                if (currentAnimatorType != id) {
-                    while (gui.getPendingAnimations() > 0) {
-                        try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace();}
-                    }
-                    currentAnimatorType = id;
-                }
-                startAnimation(head);
-                head = queue.poll();
-            }
-        };
-        myThread = new Thread(myTask);
+        extraTasks = new ArrayDeque<Runnable>();
+        currentAnimatorType = 2;
     }
 
     /**
@@ -61,12 +43,8 @@ public class CentralAnimator implements AnimatorDriver {
      * referenciada por c.
      */
     public void animateChangePosition(Drawable c) {
-        int finalRow = c.getLogicalEntity().getRow();
-        int finalColumn = c.getLogicalEntity().getColumn();
-        Animator animador = new AnimatorMovement(this, 1, 2, c, finalRow, finalColumn);
-        queue.add(animador);
-
-        if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
+        Animator animator = new AnimatorMovement(this, 1, 2, c);
+        enqueueAnimator(animator);
     }
     
     /**
@@ -77,63 +55,71 @@ public class CentralAnimator implements AnimatorDriver {
      * @param c Celda que debe animarse, en relación a la imagen actual que la representa.
      */
     public void animateChangeState(Drawable c) {
-        String imagePath = c.getLogicalEntity().getImage();
-        Animator animador = new AnimatorStateChange(this, c, imagePath);
+        Animator animator = new AnimatorStateChange(this, c);
 
         if (c.getSkipQueue())
-            startAnimation(animador);
-        else {
-            queue.add(animador);
-            if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); }
-        }
+            startDrawableAnimation(animator);
+        else
+            enqueueAnimator(animator);
     }
 
     public void playSound(SoundPlayer sound) {
-        Animator animador = new AnimatorSound(this, sound);
-        queue.add(animador);
+        Animator animator = new AnimatorSound(this, sound);
+        enqueueAnimator(animator);
     }
 
-    public void startAnimation(Animator animador) {
+    private void startDrawableAnimation(Animator animator) {
         gui.notifyAnimationInProgress();
-        Drawable c = animador.getDrawable();
-        if (hasAnimationInProgress(c) ) {
-            map_drawable_animations.get(c).add(animador);
-        } else {
-            map_drawable_animations.put(c, new LinkedList<Animator>());
-            map_drawable_animations.get(c).add(animador);
-            animador.startAnimation();
+        drawableAnimator.startAnimation(animator);
+    }
+
+    private void enqueueAnimator(Animator animator) {
+        if (gui.getPendingAnimations() == 0)
+            currentAnimatorType = animator.id();
+        if (queue.isEmpty() && currentAnimatorType == animator.id()) {
+            startDrawableAnimation(animator);
         }
+        else
+            queue.add(animator);
     }
 
     @Override
     public void notifyEndAnimation(Animator a, boolean bDestroy) {
-        Animator animator;
-        List<Animator> drawableAnimations;
 
         gui.notifyAnimationEnd();
 
-        drawableAnimations = map_drawable_animations.get(a.getDrawable());
-        drawableAnimations.remove(a);
-        
-        if (!drawableAnimations.isEmpty()) {
-            animator = drawableAnimations.get(0);
-            animator.startAnimation();
-        }
-        if (bDestroy)
-            SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); });
-    }
-    
-    public boolean isActive() { return !queue.isEmpty() || gui.getPendingAnimations() > 0; }
+        drawableAnimator.endAnimation(a);
 
-    /**
-     * Estima si la celda parametrizada actualmente cuenta con animaciones en progreso. 
-     * @param c Celda que se desea considerar para el chequeo de animaciones en progreso.
-     * @return True si la celda tiene animaciones actualmente en progreso; false en caso contrario.
-     */
-    private boolean hasAnimationInProgress(Drawable c) {
-        boolean retorno = false;
-        if (map_drawable_animations.get(c) != null)
-            retorno = !map_drawable_animations.get(c).isEmpty();
-        return retorno;
+        if (gui.getPendingAnimations() == 0)
+            SwingUtilities.invokeLater( () -> {
+                Animator head = queue.peek();
+                while (head != null) {
+                    int id = head.id();
+                    if (currentAnimatorType != id) {
+                        if (gui.getPendingAnimations() > 0)
+                            break;
+                        currentAnimatorType = id;
+                    }
+                    startDrawableAnimation(head);
+                    queue.poll();
+                    head = queue.peek();
+                }
+
+                if (!isActive())
+                    while (!extraTasks.isEmpty())
+                        extraTasks.poll().run();
+            });
+
+        if (bDestroy)
+            SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); }); 
     }
+
+    public void executeAfterAnimation(Runnable r) {
+        if (isActive())
+            extraTasks.add(r);
+        else
+            r.run();
+    }
+
+    public boolean isActive() { return !queue.isEmpty() || gui.getPendingAnimations() > 0; }
 }

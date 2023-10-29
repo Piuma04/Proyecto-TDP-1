@@ -7,9 +7,7 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import GUI.Gui;
-
 import Animations.SoundPlayer;
-import Entities.Entity;
 import Interfaces.Equivalent;
 
 public class Game {
@@ -35,9 +33,9 @@ public class Game {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
         score = new Score();
-        int level = 1;//= myGui.chooseLevel();
         lives = 3;
-        loadLevel(level);
+        loadLevel(1);
+        pauseTimer();
     }
 
     public void startBackgroundMusic() { backgroundMusic.loop(); }
@@ -54,6 +52,11 @@ public class Game {
         myTimer.startTimer(myLevel.getTimeLimit());
     }
 
+    public void reloadLevel() {
+        loadLevel(myLevel.getCurrentLevel());
+        pauseTimer();
+    }
+
     public void swap(int direction) {
         List<Equivalent> destroyed = myBoard.swap(direction);
         update(destroyed);
@@ -67,12 +70,10 @@ public class Game {
 
     public void update(List<Equivalent> destroyed) {
         boolean finished = myLevel.update(destroyed);
-        System.out.println(score.update(destroyed)); ///WARNING
+        score.update(destroyed); ///WARNING
         myGui.executeAfterAnimation(() -> {
-            SwingUtilities.invokeLater( () -> {
-                myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
-                myGui.updateMoves(myLevel.getMoves());
-            });
+            myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
+            myGui.updateMoves(myLevel.getMoves());
         });
 
         if (finished)
@@ -84,10 +85,8 @@ public class Game {
     public void win() {
         animationNextLevel = true;
         myGui.executeAfterAnimation(() -> {
-            SwingUtilities.invokeLater( () -> {
-                _win();
-                animationNextLevel = false;
-            });
+            _win();
+            animationNextLevel = false;
         });
     }
 
@@ -106,10 +105,8 @@ public class Game {
     public void lost() {
         animationNextLevel = true;
         myGui.executeAfterAnimation(() -> {
-            SwingUtilities.invokeLater( () -> {
-                _lost();
-                animationNextLevel = false;
-            });
+            _lost();
+            animationNextLevel = false;
         });
     }
 
@@ -128,6 +125,14 @@ public class Game {
             loadLevel(myLevel.getCurrentLevel());
         }
         backgroundMusic.start();
+    }
+
+    public void pauseTimer() {
+        myTimer.stopTimer();
+    }
+
+    public void unpauseTimer() {
+        myTimer.continueTimer();
     }
 
     public boolean isAnimating() { return animationNextLevel; }

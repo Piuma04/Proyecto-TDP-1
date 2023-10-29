@@ -5,7 +5,7 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="imagenes/|Levels/|music/|resources/images/|resources/|resources/images/|resources/music/|resources/levels/" kind="src" path="src"/>
-	<classpathentry excluding="images/|music/|levels/" kind="src" path="src/resources"/>
+	<classpathentry excluding="imagenes/|Levels/|music/|resources/images/|resources/|resources/images/|resources/music/|resources/levels/|resources/CandyCrush/|resources/PlayCrush/images/|resources/PlayCrush/" kind="src" path="src"/>
+	<classpathentry excluding="images/|music/|levels/|CandyCrush/|PlayCrush/images/|PlayCrush/" kind="src" path="src/resources"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
