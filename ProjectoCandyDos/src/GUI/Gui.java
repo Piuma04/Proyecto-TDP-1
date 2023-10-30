@@ -2,6 +2,7 @@ package GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -20,7 +21,6 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import Logic.Game;
-import Logic.LevelGenerator;
 import Interfaces.LogicEntity;
 
 import Animations.CentralAnimator;
@@ -33,9 +33,12 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     private static final String gameName = "PlayCrush";
 
     protected Game myGame;
-    
+
+    protected Component emptyGlassPanel;
+
     protected GamePanel gamePanel;
     protected JPanel menuPanel;
+    protected ScorePanel scorePanel;
 
     protected CentralAnimator animator;
     protected int pendingAnimations;
@@ -54,12 +57,16 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         setPreferredSize(dim);
         pack();
         setLocationRelativeTo(null);
+        emptyGlassPanel = getGlassPane();
 
         myGame = game;
 
-        menuPanel = new JPanel();
         gamePanel = new GamePanel(getContentPane().getSize());
+        menuPanel = new JPanel();
+        scorePanel = new ScorePanel();
+
         menuPanel.setPreferredSize(getContentPane().getSize());
+        scorePanel.setPreferredSize(getContentPane().getSize());
 
         animator = new CentralAnimator(this);
         pendingAnimations = 0;
@@ -101,7 +108,11 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         menuPanel.add(startGame, BorderLayout.SOUTH);
         
         JButton maxScores = new JButton("Consultar maximas puntuaciones");
-        maxScores.addActionListener((ActionEvent ev) -> { showMaxScores(); });
+        maxScores.addActionListener((ActionEvent ev) -> {
+            Component toOpen = getGlassPane() == scorePanel ? emptyGlassPanel : scorePanel;
+            openOverlayPanel(toOpen);
+            //showMaxScores();
+        });
         menuPanel.add(maxScores, BorderLayout.EAST);
 
         JPanel levels = new JPanel(new GridLayout(0, 1));
@@ -157,21 +168,28 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
 
     public void openPanel(JPanel panel) { setContentPane(panel); panel.requestFocus(true); }
+    public void openOverlayPanel(Component component) {
+        //getGlassPane().setVisible(false);
+        setGlassPane(component);
+        component.setVisible(true);
+        //panel.requestFocus(true);
+    }
 
     public void openGame() {
         openPanel(gamePanel);
         myGame.startBackgroundMusic();
         myGame.unpauseTimer();
        }
-    
-    private void resetScore() {
-    	myGame.resetScore();
-    	updateScore(0);
-    }
+
     public void openMenu() {
         openPanel(menuPanel);
         myGame.stopBackgroundMusic();
         myGame.pauseTimer();
+    }
+
+    private void resetScore() {
+        myGame.resetScore();
+        updateScore(0);
     }
 
     public GraphicalEntity addLogicEntity(LogicEntity e) {
@@ -220,14 +238,6 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public void setTheme(boolean old) {
         Resources.setTheme(old ? 1 : 0);
         gamePanel.updateResources();
-    }
-    private void showMaxScores() {
-        List<String> lines = LevelGenerator.readFileLines(Resources.getScorePath());
-        String toDisplay = "";
-        for(int i = 0; i<lines.size(); i++) {
-            toDisplay += lines.get(i)+"\n";
-        }
-        JOptionPane.showMessageDialog(this, toDisplay, "Score maximo", 1);
     }
 
     public void close() { this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)); }

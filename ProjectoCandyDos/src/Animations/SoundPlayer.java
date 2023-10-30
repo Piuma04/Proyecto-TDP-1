@@ -30,42 +30,47 @@ public class SoundPlayer {
         audioBytes = 0;
         loadAudioData(filename);
         mySound = getClip(getAudioStream());
-        mySound.addLineListener(event -> {
-            if(event.getType() == LineEvent.Type.STOP) { stopped = true; }
-        });
+        if (mySound != null)
+            mySound.addLineListener(event -> {
+                if(event.getType() == LineEvent.Type.STOP) { stopped = true; }
+            });
     }
 
     public void play() {
         stopped = false;
-        if (mySound.isActive()) {
-            mySound.stop();
-            mySound.flush();
-            while (!stopped)
-                try { Thread.sleep(5); } catch (InterruptedException e) { e.printStackTrace(); }
+        if (mySound != null) {
+            if (mySound.isActive()) {
+                mySound.stop();
+                mySound.flush();
+                while (!stopped)
+                    try { Thread.sleep(5); } catch (InterruptedException e) { e.printStackTrace(); }
+            }
+            mySound.setFramePosition(0);
+            mySound.start();
         }
-        mySound.setFramePosition(0);
-        mySound.start();
     }
 
     public void playNew() {
         AudioInputStream audioStream = getAudioStream();
         Clip clip = getClip(audioStream);
-        clip.addLineListener(event -> {
-            if(event.getType() == LineEvent.Type.STOP) {
-                clip.close();
-                try { audioStream.close(); } catch (IOException e) { e.printStackTrace();}
-            }
-        });
-        clip.start();
+        if (clip != null) {
+            clip.addLineListener(event -> {
+                if(event.getType() == LineEvent.Type.STOP) {
+                    clip.close();
+                    try { audioStream.close(); } catch (IOException e) { e.printStackTrace();}
+                }
+            });
+            clip.start();
+        }
     }
 
-    public void loop() { mySound.loop(Clip.LOOP_CONTINUOUSLY); }
-    public void stop() { mySound.stop(); mySound.setFramePosition(0); }
-    public void start() { mySound.start(); }
-    public boolean isActive() { return mySound.isActive(); }
+    public void loop() { if (mySound != null) mySound.loop(Clip.LOOP_CONTINUOUSLY); }
+    public void stop() { if (mySound != null) { mySound.stop(); mySound.setFramePosition(0); } }
+    public void start() { if (mySound != null) mySound.start(); }
+    public boolean isActive() { return mySound != null && mySound.isActive(); }
     
     private AudioInputStream getAudioStream() {
-        return new AudioInputStream(
+        return audioData == null ? null : new AudioInputStream(
                 new ByteArrayInputStream(audioData),
                 audioFormat,
                 audioBytes
@@ -76,7 +81,8 @@ public class SoundPlayer {
         Clip clip = null;
         try {
             clip = AudioSystem.getClip();
-            clip.open(audioStream);
+            if (audioStream != null)
+                clip.open(audioStream);
         } catch (LineUnavailableException | IOException e) { e.printStackTrace(); }
         return clip;
     }

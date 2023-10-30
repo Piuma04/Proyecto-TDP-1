@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Interfaces.Equivalent;
-import Interfaces.Swappable;
 import Logic.Block;
 import Logic.Board;
 

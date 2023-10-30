@@ -45,6 +45,7 @@ public class GamePanel extends JPanel {
     private ImageIcon backgroundGif;
 
     public GamePanel(Dimension windowSize) {
+        super();
         setPreferredSize(windowSize);
 
         contentPanel = new JPanel(new BorderLayout());
