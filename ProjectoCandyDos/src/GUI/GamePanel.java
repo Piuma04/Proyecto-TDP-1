@@ -1,6 +1,7 @@
 package GUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -25,7 +26,7 @@ public class GamePanel extends JPanel {
     //private static final String font = "DejaVu";
     //private static final String font = "MonoLisa";
 
-    private static final String[] resources = { "background.gif", "life.gif" };
+    private static final String[] resources = { "bg_board.gif", "life.gif", "bg_gamedata.jpg" };
 
     protected JPanel contentPanel;
 
@@ -42,16 +43,29 @@ public class GamePanel extends JPanel {
 
     private JLabel score;
     
-    private ImageIcon backgroundGif;
+    protected Color stringColor;
+    private ImageIcon boardBackground;
+    private ImageIcon gameDataBackground;
 
     public GamePanel(Dimension windowSize) {
         super();
         setPreferredSize(windowSize);
 
-        contentPanel = new JPanel(new BorderLayout());
+        contentPanel = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                gameDataBackground.paintIcon(this, g, 0, 0);
+            }
+        };
+        contentPanel.setBackground(Color.BLACK);
+
         contentPanel.setPreferredSize(windowSize);
+        contentPanel.setSize(windowSize);
         add(contentPanel);
         Game.setLabelSize(getPreferredSize().height / Board.getRows());
+        
+        stringColor = new Color(255, 255, 255);
 
         initializeContentPanel();
     }
@@ -59,6 +73,7 @@ public class GamePanel extends JPanel {
     protected void initializeContentPanel() {
         initializeBoardPanel();
         initializeGameDataPanel();
+        updateResources();
         contentPanel.add(boardPanel, BorderLayout.WEST);
         contentPanel.add(gameDataPanel);
     }
@@ -68,7 +83,7 @@ public class GamePanel extends JPanel {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                backgroundGif.paintIcon(this, g, 0, 0);
+                boardBackground.paintIcon(this, g, 0, 0);
             }
         };
 
@@ -77,37 +92,38 @@ public class GamePanel extends JPanel {
 
         boardPanel.setLocation(0, 0);
         boardPanel.setPreferredSize(new Dimension(boardWidth, boardHeight));
-        boardPanel.setSize(boardPanel.getPreferredSize());
+        //boardPanel.setSize(boardPanel.getPreferredSize());
         boardPanel.setLayout(null);
+
+        boardPanel.setOpaque(false);
+    }
+
+    private void initializeGameDataPanel() {
+        gameDataPanel =  new JPanel();
+        gameDataPanel.setLayout(new BoxLayout(gameDataPanel, BoxLayout.Y_AXIS));
+        
 
         live1 = new JLabel();
         live2 = new JLabel();
         live3 = new JLabel();
-
-        updateResources();
-    }
-
-    private void initializeGameDataPanel() {
-        gameDataPanel = new JPanel();
-        gameDataPanel.setLayout(new BoxLayout(gameDataPanel, BoxLayout.Y_AXIS));
-
         levelShower = new JLabel();
         typeOfCandy = new JLabel[3];
         amountToGo = new JLabel[3];
         cantMoves = new JLabel();
         watch = new JLabel();
+        score = new JLabel();
         
         int padding = 10;
         Border borderPadding = BorderFactory.createEmptyBorder(padding, padding, padding, padding);
 
         JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        levelPanel.setOpaque(false);
         levelShower.setFont(new Font(font, Font.PLAIN, 20));
         levelPanel.add(levelShower, BorderLayout.CENTER);
         
 
         // START SET UP LIVES.
         JPanel livesPanel = new JPanel(new GridLayout(1,0));
-
         livesPanel.setBorder(borderPadding);
         livesPanel.add(live1, BorderLayout.WEST);
         livesPanel.add(live2, BorderLayout.CENTER);
@@ -116,6 +132,7 @@ public class GamePanel extends JPanel {
 
         // START SET UP WATCH.
         JPanel watchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        watchPanel.setOpaque(false);
         watchPanel.setBorder(borderPadding);
         watchPanel.add(watch);
         // END SET UP WATCH.
@@ -127,7 +144,7 @@ public class GamePanel extends JPanel {
         // END SET UP MOVIMIENTOS RESTANTES.
 
         
-        score = new JLabel("Puntaje: ");
+        score.setText("Puntaje: 0");
         JPanel scorePanel = new JPanel(new FlowLayout());
         scorePanel.setBorder(borderPadding);
         scorePanel.add(score);
@@ -139,9 +156,12 @@ public class GamePanel extends JPanel {
         gameDataPanel.add(scorePanel);
 
         // START SET UP GOALS.
+        JPanel[] goalsPanels = new JPanel[typeOfCandy.length]; 
+
         JPanel goalPanel = null;
         JLabel typeOfCandyLabel = null;
         JLabel amountToGoLabel = null;
+
         
         for (int i = 0; i < typeOfCandy.length; i++) {
             goalPanel = new JPanel(new BorderLayout());
@@ -153,8 +173,47 @@ public class GamePanel extends JPanel {
             goalPanel.add(typeOfCandyLabel, BorderLayout.WEST);
             goalPanel.add(amountToGoLabel);
             gameDataPanel.add(goalPanel);
+
+            goalsPanels[i] = goalPanel;
         }
         // END SET UP GOALS.
+
+        // START SET LABEL COLORS.
+        levelShower.setForeground(stringColor);
+        watch.setForeground(stringColor);
+        cantMoves.setForeground(stringColor);
+        score.setForeground(stringColor);
+        for (JLabel typeCandy : typeOfCandy)
+            typeCandy.setForeground(stringColor);
+        for (JLabel amount : amountToGo)
+            amount.setForeground(stringColor);
+        // END SET LABEL COLORS.
+
+        // START SET OPACITY TO SEE BACKGROUND.
+
+        gameDataPanel.setOpaque(false);
+
+        // LABELS.
+        /*live1.setOpaque(false);
+        live2.setOpaque(false);
+        live3.setOpaque(false);
+        levelShower.setOpaque(false);
+        for (JLabel typeCandy : typeOfCandy)
+            typeCandy.setOpaque(false);
+        for (JLabel amount : amountToGo)
+            amount.setOpaque(false);
+        cantMoves.setOpaque(false);
+        watch.setOpaque(false);*/
+        
+        // PANELS.
+        levelPanel.setOpaque(false);
+        livesPanel.setOpaque(false);
+        watchPanel.setOpaque(false);
+        movesPanel.setOpaque(false);
+        scorePanel.setOpaque(false);
+        for (JPanel goal : goalsPanels)
+            goal.setOpaque(false);
+        // END SET OPACITY TO SEE BACKGROUND.
     }
 
     public void updateLives(int lives) {
@@ -205,11 +264,15 @@ public class GamePanel extends JPanel {
     public void reset() { boardPanel.removeAll(); }
 
     public void updateResources() {
-        backgroundGif = new ImageIcon(Resources.getImagesFolderPath() + resources[0]);
-        backgroundGif.setImage(backgroundGif.getImage().getScaledInstance(boardPanel.getWidth(), boardPanel.getHeight(), 0));
+        Dimension s = boardPanel.getPreferredSize();
+        boardBackground = new ImageIcon(Resources.getImagesFolderPath() + resources[0]);
+        boardBackground.setImage(boardBackground.getImage().getScaledInstance(s.width, s.height, 0));
+        
+        s = contentPanel.getPreferredSize();
+        gameDataBackground = new ImageIcon(Resources.getImagesFolderPath() + resources[2]);
+        gameDataBackground.setImage(gameDataBackground.getImage().getScaledInstance(s.width, s.height, 0));
 
         int liveIconSize = (int)((contentPanel.getPreferredSize().getWidth() - boardPanel.getPreferredSize().getWidth()) / 4.0);
-
         ImageIcon liveIcon = new ImageIcon(Resources.getImagesFolderPath() + resources[1]);
         liveIcon.setImage(liveIcon.getImage().getScaledInstance(liveIconSize, liveIconSize, Image.SCALE_DEFAULT));
         live1.setIcon(liveIcon);

@@ -21,22 +21,23 @@ public class SoundPlayer {
     private AudioFormat audioFormat;
     private int audioBytes;
     private byte[] audioData;
+
+    private String filename;
+    private int theme;
     
 
     public SoundPlayer(String filename) {
+        this.filename = filename;
+        theme = -1;
         mySound = null;
         stopped = true;
         audioFormat = null;
         audioBytes = 0;
-        loadAudioData(filename);
-        mySound = getClip(getAudioStream());
-        if (mySound != null)
-            mySound.addLineListener(event -> {
-                if(event.getType() == LineEvent.Type.STOP) { stopped = true; }
-            });
+        checkUpdatedResources();
     }
 
     public void play() {
+        checkUpdatedResources();
         stopped = false;
         if (mySound != null) {
             if (mySound.isActive()) {
@@ -51,6 +52,7 @@ public class SoundPlayer {
     }
 
     public void playNew() {
+        checkUpdatedResources();
         AudioInputStream audioStream = getAudioStream();
         Clip clip = getClip(audioStream);
         if (clip != null) {
@@ -64,9 +66,9 @@ public class SoundPlayer {
         }
     }
 
-    public void loop() { if (mySound != null) mySound.loop(Clip.LOOP_CONTINUOUSLY); }
+    public void loop() { checkUpdatedResources(); if (mySound != null) mySound.loop(Clip.LOOP_CONTINUOUSLY); }
     public void stop() { if (mySound != null) { mySound.stop(); mySound.setFramePosition(0); } }
-    public void start() { if (mySound != null) mySound.start(); }
+    public void start() { checkUpdatedResources(); if (mySound != null) mySound.start(); }
     public boolean isActive() { return mySound != null && mySound.isActive(); }
     
     private AudioInputStream getAudioStream() {
@@ -86,7 +88,20 @@ public class SoundPlayer {
         } catch (LineUnavailableException | IOException e) { e.printStackTrace(); }
         return clip;
     }
-    
+
+    private void checkUpdatedResources() {
+        int actualTheme = Resources.getTheme();
+        if (actualTheme != theme) {
+            theme = actualTheme;
+            loadAudioData(filename);
+            mySound = getClip(getAudioStream());
+            if (mySound != null)
+                mySound.addLineListener(event -> {
+                    if(event.getType() == LineEvent.Type.STOP) { stopped = true; }
+                });
+        }
+    }
+
     private void loadAudioData(String filePath) {
         try {
             File audioFile = new File(Resources.getAudioFolderPath() + filePath);
