@@ -32,7 +32,7 @@ public class Game {
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
-        score = new Score();
+        score = new Score(myGui.requestPlayerName());
         lives = 3;
         loadLevel(1);
         pauseTimer();

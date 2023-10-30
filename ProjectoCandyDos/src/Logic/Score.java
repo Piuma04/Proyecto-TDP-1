@@ -10,9 +10,10 @@ import GUI.Resources;
 import Interfaces.Equivalent;
 public class Score {
 	private int score;
-	
-	public Score()
+	private String playerName;
+	public Score(String pn)
 	{
+		playerName = pn;
 		score = 0;
 	}
 	public int update(List<Equivalent> values)
@@ -24,13 +25,17 @@ public class Score {
 	public void setNewScores() {
 		//here the new score would be put in the maxScores.txt file
     	List<String> maxScores = LevelGenerator.readFileLines(Resources.getScorePath());
+    	 String[] playerAndScore = null;
     	boolean foundPos = false;
     	int i = 0;
     	FileWriter fileWriter;  PrintWriter printWriter;
     	while(i<5 && !foundPos) {
-    		if(Integer.parseInt(maxScores.get(i)) < score ) {
+    		// TODO HACER BIEN ESTO, PONER PARA QUE TENGA EL NOMBRE Y ESO 
+    		// tambien pedir el nombre por la gui y eso
+    		 playerAndScore = maxScores.get(i).split(",");
+    		if(Integer.parseInt(playerAndScore[1]) < score ) {
     			foundPos = true;
-    			maxScores.add(i, String.valueOf(score));
+    			maxScores.add(i, playerName+","+String.valueOf(score));
     		}
     		else i++;
     	}

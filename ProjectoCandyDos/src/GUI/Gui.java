@@ -241,4 +241,8 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     }
 
     public void close() { this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)); }
+
+	public String requestPlayerName() {
+		return JOptionPane.showInputDialog(getContentPane(), "Ingrese su nombre");
+	}
 }

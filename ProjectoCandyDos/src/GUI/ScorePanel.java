@@ -3,6 +3,7 @@ package GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.List;
+import java.util.regex.PatternSyntaxException;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -47,9 +48,15 @@ public class ScorePanel extends JPanel {
 
     public void updateScore() {
         List<String> maxScores = getMaxScores();
-        
-        for (int i = 0; i < scores.length; i++)
-            scores[i].setText("Score: " + maxScores.get(i));
+        String[] playerAndScore = null;
+        for (int i = 0; i < scores.length; i++) {
+        	
+           try {
+        	   playerAndScore = maxScores.get(i).split(",");
+        	   if(Integer.valueOf(playerAndScore[1])!=-1)
+        		scores[i].setText(playerAndScore[0]+": "+ playerAndScore[1]);
+           }catch(ArrayIndexOutOfBoundsException | PatternSyntaxException e) {System.out.println(e.getMessage());}
+        }
     }
 
     private List<String> getMaxScores() {

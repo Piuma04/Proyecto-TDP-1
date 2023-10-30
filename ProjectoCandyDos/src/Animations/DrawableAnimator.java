@@ -29,7 +29,7 @@ public class DrawableAnimator {
         List<Animator> drawableAnimations;
 
         drawableAnimations = map_drawable_animations.get(a.getDrawable());
-        drawableAnimations.remove(a);
+        if(a!=null) drawableAnimations.remove(a);
 
         if (!drawableAnimations.isEmpty()) {
             animator = drawableAnimations.get(0);
