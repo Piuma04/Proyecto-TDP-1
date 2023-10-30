@@ -46,4 +46,8 @@ public class Score {
 	
 		
 	}
+	public void resetScore() {
+		score=0;
+		
+	}
 }

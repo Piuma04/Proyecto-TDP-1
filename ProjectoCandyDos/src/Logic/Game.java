@@ -149,4 +149,9 @@ public class Game {
 
     public static int getLabelSize() { return label_size; }
     public static void setLabelSize(int size) { label_size = size; }
+
+	public void resetScore() {
+		score.resetScore();
+		
+	}
 }
