@@ -123,6 +123,12 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         levels.add(level_3);
         levels.add(level_4);
         levels.add(level_5);
+        
+        JButton level_6 = new JButton("Level 6");
+        level_6.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(6); openGame(); }); });
+        levels.add(level_6);
+        
+        
         menuPanel.add(levels, BorderLayout.WEST);
     }
 
@@ -212,12 +218,12 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         gamePanel.updateResources();
     }
     private void showMaxScores() {
-    	List<String> lines = LevelGenerator.readFileLines(Resources.getScorePath());
-    	String toDisplay = "";
-    	for(int i = 0; i<lines.size(); i++) {
-    		toDisplay += lines.get(i)+"\n";
-    	}
-    	JOptionPane.showMessageDialog(this, toDisplay, "Score maximo", 1);
+        List<String> lines = LevelGenerator.readFileLines(Resources.getScorePath());
+        String toDisplay = "";
+        for(int i = 0; i<lines.size(); i++) {
+            toDisplay += lines.get(i)+"\n";
+        }
+        JOptionPane.showMessageDialog(this, toDisplay, "Score maximo", 1);
     }
 
     public void close() { this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)); }
