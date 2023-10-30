@@ -116,7 +116,6 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         menuPanel.add(maxScores, BorderLayout.EAST);
 
         JPanel levels = new JPanel(new GridLayout(0, 1));
-        levels.setBackground(Color.BLACK);
         JButton level_1 = new JButton("Level 1");
         JButton level_2 = new JButton("Level 2");
         JButton level_3 = new JButton("Level 3");
@@ -243,6 +242,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public void close() { this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING)); }
 
 	public String requestPlayerName() {
-		return JOptionPane.showInputDialog(getContentPane(), "Ingrese su nombre");
+	    return "Nombre";
+		//return JOptionPane.showInputDialog(getContentPane(), "Ingrese su nombre");
 	}
 }
