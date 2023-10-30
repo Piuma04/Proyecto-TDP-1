@@ -112,11 +112,11 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         JButton level_4 = new JButton("Level 4");
         JButton level_5 = new JButton("Level 5");
 
-        level_1.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(1); openGame(); }); });
-        level_2.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(2); openGame(); }); });
-        level_3.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(3); openGame(); }); });
-        level_4.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(4); openGame(); }); });
-        level_5.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(5); openGame(); }); });
+        level_1.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(1); openGame(); resetScore();}); });
+        level_2.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(2); openGame(); resetScore();}); });
+        level_3.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(3); openGame(); resetScore();}); });
+        level_4.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(4); openGame(); resetScore();}); });
+        level_5.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(5); openGame(); resetScore();}); });
 
         levels.add(level_1);
         levels.add(level_2);
@@ -162,8 +162,12 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         openPanel(gamePanel);
         myGame.startBackgroundMusic();
         myGame.unpauseTimer();
+       }
+    
+    private void resetScore() {
+    	myGame.resetScore();
+    	updateScore(0);
     }
-
     public void openMenu() {
         openPanel(menuPanel);
         myGame.stopBackgroundMusic();
