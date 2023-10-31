@@ -6,34 +6,39 @@ import java.util.Set;
 import java.util.LinkedList;
 import java.util.HashSet;
 
-import Entities.Colour;
 import Entities.Entity;
 import Entities.PriorityEntity;
-import Entities.Stripped;
-import Entities.Wrapped;
 
 public class Combination {
 	private Board board;
 	private List<CombinationStrategy> combinationStrategies = new LinkedList<CombinationStrategy>();
 
-	public Combination(Board b) { board = b; }
-	
-	/*public void addCombination(CombinationStrategy cs) { combinationStrategies.add(cs); }
-	
-	public void deleteCombination(CombinationStrategy cs) { combinationStrategies.remove(cs); }
-	
-	public List<Set<Block>> findCombinations(Board board, Block block){
-		List<Set<Block>> allCombinations = new LinkedList();
-		int hSize = consecutiveH(block).size();
-		int vSize = consecutiveV(block).size();
-		int row = block.getRow();
-		int column = block.getColumn();
-		Colour colour = block.getEntity().getColour();
-		
-		for(CombinationStrategy cs: combinationStrategies)
-			allCombinations.add(cs.findCombination(block));
-		return allCombinations;
-	}*/
+	public Combination(Board b) {
+		board = b;
+		addCombination(new Match3PlusStrategy(b));
+		addCombination(new WrappedShapeStrategy(b));
+		//TODO falta parsear el archivo para solucionar el addCombination
+		// TODO solo funciona si el match3 esta primero
+	}	
+
+	public void addCombination(CombinationStrategy cs) {
+		combinationStrategies.add(cs);
+	}
+
+	public void deleteCombination(CombinationStrategy cs) {
+		combinationStrategies.remove(cs);
+	}
+
+	/*
+	 * public List<Set<Block>> findCombinations(Board board, Block block){
+	 * List<Set<Block>> allCombinations = new LinkedList(); int hSize =
+	 * consecutiveH(block).size(); int vSize = consecutiveV(block).size(); int row =
+	 * block.getRow(); int column = block.getColumn(); Colour colour =
+	 * block.getEntity().getColour();
+	 * 
+	 * for(CombinationStrategy cs: combinationStrategies)
+	 * allCombinations.add(cs.findCombination(block)); return allCombinations; }
+	 */
 
 	public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
 		Set<Block> unchecked = new HashSet<Block>();
@@ -52,21 +57,19 @@ public class Combination {
 
 	public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut) {
 		Set<Block> combinations = new HashSet<Block>();
-        Entity candy = null;
-
-        for (CombinationStrategy strategy : combinationStrategies) {
-            Set<Block> currentCombinations = combinationStrategies.checkCombinations(blocks, candysOut);
-
-            // Realiza cualquier lógica adicional si es necesario
-
-            combinations.addAll(currentCombinations);
-        }
-
-        return combinations;
+		Entity candy = null;
+		for (Block block : blocks) {
+			if (!combinations.contains(block)) {
+				candy = checkFullCombination(block, combinations);
+				if (candy != null)
+					candysOut.add(candy);
+			}
+		}
+		return combinations;
 	}
 
 	private Entity checkFullCombination(Block block, Set<Block> combinationsOut) {
-		List<PriorityEntity> candys = new LinkedList<PriorityEntity>();	
+		List<PriorityEntity> candys = new LinkedList<PriorityEntity>();
 		PriorityEntity candy = null;
 
 		Set<Block> combination = new HashSet<Block>();
@@ -95,100 +98,9 @@ public class Combination {
 	}
 
 	private PriorityEntity checkBlockCombination(Block block, Set<Block> combinationsOut) {
-		Set<Block> combination = new HashSet<Block>();
-		Set<Block> consecutiveH = new HashSet<Block>();
-		Set<Block> consecutiveV = new HashSet<Block>();
-		Colour color = block.getEntity().getColour();
-		consecutiveH = consecutiveH(block);
-		consecutiveV = consecutiveV(block);
-		combination.add(block);
-		combination.addAll(consecutiveV);
-		combination.addAll(consecutiveH);
-		int hSize = consecutiveH.size();
-		int vSize = consecutiveV.size();
-		int row = block.getRow();
-		int column = block.getColumn();
-		PriorityEntity entity = null;
-		if ((hSize + vSize < 6) && (hSize + vSize > 3) && (hSize >= 2) && (vSize >= 2))
-			entity = new PriorityEntity(new Wrapped(row, column, color), 2);
-		else if (hSize == 3)
-			entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
-		else if (vSize == 3)
-			entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
-		if (combination.size() >= 3)
-			combinationsOut.addAll(combination);
-		return entity;
-	}
-
-	/**
-	 * Checks the horizontal combinations an element specified with row and column
-	 * makes
-	 * 
-	 * @param row         valid {@code row} values are ({@code row >= 0}) &&
-	 *                    ({@code row < }{@link Board#ROWS})
-	 * @param column      valid {@code column} values are ({@code column >= 0}) &&
-	 *                    ({@code column < }{@link Board#COLUMNS}}
-	 * @param combination blocks that make combinations
-	 * @return amount of horizontal combinations
-	 */
-	private Set<Block> consecutiveV(Block block) {
-		Set<Block> blocks = new HashSet<Block>();
-		int row = block.getRow();
-		int column = block.getColumn();
-		if (!Board.hasMovableEntity(block))
-			return blocks;
-		boolean cumple = true;
-		for (int r = row + 1; Board.isValidBlockPosition(r, column) && cumple; r++) {
-			Block current = board.getBlock(r, column);
-			cumple = board.getBlockColour(block) == board.getBlockColour(current);
-			if (cumple)
-				blocks.add(current);
-		}
-		cumple = true;
-		for (int r = row - 1; r >= 0 && r < Board.getRows() && cumple; r--) {
-			Block current = board.getBlock(r, column);
-			cumple = board.getBlockColour(block) == board.getBlockColour(current);
-			if (cumple)
-				blocks.add(current);
-		}
-		if (blocks.size() < 2)
-			blocks.clear();
-		return blocks;
-	}
-
-	/**
-	 * Checks the vertical combinations an element specified with row and column
-	 * makes
-	 * 
-	 * @param row         valid {@code row} values are ({@code row >= 0}) &&
-	 *                    ({@code row < }{@link Board#ROWS})
-	 * @param column      valid {@code column} values are ({@code column >= 0}) &&
-	 *                    ({@code column < }{@link Board#COLUMNS}}
-	 * @param combination blocks that make combinations
-	 * @return amount of vertical combinations
-	 */
-	private Set<Block> consecutiveH(Block block) {
-		Set<Block> blocks = new HashSet<Block>();
-		int row = block.getRow();
-		int column = block.getColumn();
-		if (!Board.hasMovableEntity(block))
-			return blocks;
-		boolean cumple = true;
-		for (int c = column + 1; Board.isValidBlockPosition(row, c) && cumple; c++) {
-			Block current = board.getBlock(row, c);
-			cumple = board.getBlockColour(block) == board.getBlockColour(current);
-			if (cumple)
-				blocks.add(current);
-		}
-		cumple = true;
-		for (int c = column - 1; Board.isValidBlockPosition(row, c) && cumple; c--) {
-			Block current = board.getBlock(row, c);
-			cumple = board.getBlockColour(block) == board.getBlockColour(current);
-			if (cumple)
-				blocks.add(current);
-		}
-		if (blocks.size() < 2)
-			blocks.clear();
-		return blocks;
-	}
+        PriorityEntity toReturn = null;
+        for(CombinationStrategy cs: combinationStrategies) 
+        	toReturn = (toReturn == null) ? cs.checkBlockCombination(block, combinationsOut) : toReturn;
+        return toReturn;
+    }
 }

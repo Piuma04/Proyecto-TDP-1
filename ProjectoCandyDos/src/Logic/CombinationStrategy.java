@@ -13,6 +13,8 @@ public abstract class CombinationStrategy {
 
 	public CombinationStrategy(Board board) { this.board = board; }
 
+	public abstract PriorityEntity checkBlockCombination(Block block, Set<Block> combinationsOut);
+	
 	protected Set<Block> consecutiveV(Block block) {
 		Set<Block> blocks = new HashSet<Block>();
 		int row = block.getRow();
@@ -62,23 +64,6 @@ public abstract class CombinationStrategy {
 			blocks.clear();
 		return blocks;
 	}
-
-	public abstract Set<Block> findCombination(Block block);
-
-	public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> blocksOut){
-		 Set<Block> combinations = new HashSet<Block>();
-		    for (Block block : blocks) {
-		        if (!combinations.contains(block)) {
-		            Set<Block> combination = findCombination(block);
-		            if (!combination.isEmpty()) {
-		                // No se agrega entidad (candy) a la lista de candysOut
-		                blocksOut.addAll(combination);
-		                combinations.addAll(combination);
-		            }
-		        }
-		    }
-		    return combinations;
-	}
 	
-	protected abstract PriorityEntity checkBlockCombination(Block block, Set<Block> combinationsOut);
+	
 }

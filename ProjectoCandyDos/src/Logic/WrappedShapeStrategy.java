@@ -11,25 +11,9 @@ import Entities.Stripped;
 import Entities.Wrapped;
 
 public class WrappedShapeStrategy extends CombinationStrategy {
-	public WrappedShapeStrategy(Board board) {
-		super(board);
-	}
-
-	@Override
-	public Set<Block> findCombination(Block block) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public WrappedShapeStrategy(Board board) { super(board); }
 	
-	
-	
-	protected PriorityEntity checkBlockCombination(Block block, Set<Block> combinationsOut) {
+	public PriorityEntity checkBlockCombination(Block block, Set<Block> combinationsOut) {
 		Set<Block> combination = new HashSet<Block>();
 		Set<Block> consecutiveH = new HashSet<Block>();
 		Set<Block> consecutiveV = new HashSet<Block>();
