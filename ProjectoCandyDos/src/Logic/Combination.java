@@ -12,8 +12,8 @@ import Entities.PriorityEntity;
 import Entities.Stripped;
 import Entities.Wrapped;
 
-public class Combination {
-    private Board board;
+public abstract class Combination {
+    protected Board board;
 
     public Combination(Board b) { board = b; }
 
@@ -46,7 +46,7 @@ public class Combination {
         return combinations;
     }
 
-    private Entity checkFullCombination(Block block, Set<Block> combinationsOut) {
+    protected Entity checkFullCombination(Block block, Set<Block> combinationsOut) {
         List<PriorityEntity> candys = new LinkedList<PriorityEntity>();
         PriorityEntity candy = null;
 
@@ -74,7 +74,7 @@ public class Combination {
         return candy != null ? candy.getEntity() : null;
     }
 
-    private PriorityEntity checkBlockCombination(Block block, Set<Block> combinationsOut) {
+    protected PriorityEntity checkBlockCombination(Block block, Set<Block> combinationsOut) {
         Set<Block> combination = new HashSet<Block>();
         Set<Block> consecutiveH = new HashSet<Block>();
         Set<Block> consecutiveV = new HashSet<Block>();
@@ -111,7 +111,7 @@ public class Combination {
      * @param combination blocks that make combinations
      * @return amount of horizontal combinations
      */
-    private Set<Block> consecutiveV(Block block) {
+    protected Set<Block> consecutiveV(Block block) {
         Set<Block> blocks = new HashSet<Block>();
         int row = block.getRow();
         int column = block.getColumn();
@@ -147,7 +147,7 @@ public class Combination {
      * @param combination blocks that make combinations
      * @return amount of vertical combinations
      */
-    private Set<Block> consecutiveH(Block block) {
+    protected Set<Block> consecutiveH(Block block) {
         Set<Block> blocks = new HashSet<Block>();
         int row = block.getRow();
         int column = block.getColumn();
