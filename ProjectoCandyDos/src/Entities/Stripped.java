@@ -39,8 +39,7 @@ public class Stripped extends Entity {
     @Override public boolean canReceive(Bomb b) { return true; }
 
     @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b){return e.getSpecialDestroyables(this, b);}
-    @Override public Set<Block> getSpecialDestroyables(Stripped car, Board b)
-    {
+    @Override public Set<Block> getSpecialDestroyables(Stripped car, Board b){
     	 Set<Block> toDestroy = new HashSet<Block>();
     	 toDestroy.add(b.getBlock(this.row, this.column));
     	 visited = true;
@@ -57,8 +56,7 @@ public class Stripped extends Entity {
              }
          return toDestroy;
     }
-    @Override public Set<Block> getSpecialDestroyables(Wrapped car, Board b)	
-    {
+    @Override public Set<Block> getSpecialDestroyables(Wrapped car, Board b){
     	 Set<Block> toDestroy = new HashSet<Block>();
     	 toDestroy.add(b.getBlock(this.row, this.column));
     	 visited = true;
@@ -78,15 +76,15 @@ public class Stripped extends Entity {
          return toDestroy;
     }
 
-    public Set<Block> getSpecialDestroyables(MegaStripped m,  Board b){
+    @Override public Set<Block> getSpecialDestroyables(MegaStripped m,  Board b){
     	Set<Block> s = new HashSet<>();
     	if(m.getColour() == colour) {
     		s.addAll(m.getDestroyables(b));
     	}
     	return s;
     }
-    @Override
-    public List<Block> getDestroyables(Board b) {
+    
+    @Override public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
         toDestroy.add(b.getBlock(row, column));
         if(!visited)
