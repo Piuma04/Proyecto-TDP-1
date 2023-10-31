@@ -18,7 +18,7 @@ public class Combination {
 
 	public Combination(Board b) { board = b; }
 	
-	public void addCombination(CombinationStrategy cs) { combinationStrategies.add(cs); }
+	/*public void addCombination(CombinationStrategy cs) { combinationStrategies.add(cs); }
 	
 	public void deleteCombination(CombinationStrategy cs) { combinationStrategies.remove(cs); }
 	
@@ -31,9 +31,9 @@ public class Combination {
 		Colour colour = block.getEntity().getColour();
 		
 		for(CombinationStrategy cs: combinationStrategies)
-			allCombinations.add(cs.findCombination(board, hSize, vSize, row, column, colour));
+			allCombinations.add(cs.findCombination(block));
 		return allCombinations;
-	}
+	}*/
 
 	public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
 		Set<Block> unchecked = new HashSet<Block>();
@@ -52,15 +52,17 @@ public class Combination {
 
 	public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut) {
 		Set<Block> combinations = new HashSet<Block>();
-		Entity candy = null;
-		for (Block block : blocks) {
-			if (!combinations.contains(block)) {
-				candy = checkFullCombination(block, combinations);
-				if (candy != null)
-					candysOut.add(candy);
-			}
-		}
-		return combinations;
+        Entity candy = null;
+
+        for (CombinationStrategy strategy : combinationStrategies) {
+            Set<Block> currentCombinations = combinationStrategies.checkCombinations(blocks, candysOut);
+
+            // Realiza cualquier lógica adicional si es necesario
+
+            combinations.addAll(currentCombinations);
+        }
+
+        return combinations;
 	}
 
 	private Entity checkFullCombination(Block block, Set<Block> combinationsOut) {
