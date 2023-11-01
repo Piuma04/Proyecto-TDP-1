@@ -76,7 +76,7 @@ public class ScorePanel extends JPanel {
         // END SET JLABEL COLOR
 
         // START SET JPANEL TRANSPARENCY
-        scoreBox.setOpaque(false);
+        scoreBox.setOpaque(true);
         for (JPanel user_score : users_scores_panel)
             user_score.setOpaque(false);
         // END SET JPANEL TRANSPARENCY
