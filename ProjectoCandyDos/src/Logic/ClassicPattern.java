@@ -8,9 +8,9 @@ import Entities.PriorityEntity;
 import Entities.Stripped;
 import Entities.Wrapped;
 
-public class VanillaPattern extends Combination{
+public class ClassicPattern extends Combination{
 
-	public VanillaPattern(Board b) {
+	public ClassicPattern(Board b) {
 		super(b);
 	}
 

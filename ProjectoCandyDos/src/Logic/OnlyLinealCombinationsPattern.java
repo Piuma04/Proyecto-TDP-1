@@ -4,9 +4,9 @@ import java.util.HashSet;
 import java.util.Set;
 import Entities.PriorityEntity;
 
-public class LegacyPattern extends Combination{
+public class OnlyLinealCombinationsPattern extends Combination{
 
-	public LegacyPattern(Board b) {
+	public OnlyLinealCombinationsPattern(Board b) {
 		super(b);
 		// TODO Auto-generated constructor stub
 	}
@@ -18,8 +18,10 @@ public class LegacyPattern extends Combination{
         consecutiveH = consecutiveH(block);
         consecutiveV = consecutiveV(block);
         combination.add(block);
-        combination.addAll(consecutiveV);
-        combination.addAll(consecutiveH);
+        
+        if(consecutiveV.size()>=2) combination.addAll(consecutiveV);
+        else if(consecutiveH.size()>=2) combination.addAll(consecutiveH);
+        
         PriorityEntity entity = null;
         if (combination.size() >= 3)
             combinationsOut.addAll(combination);

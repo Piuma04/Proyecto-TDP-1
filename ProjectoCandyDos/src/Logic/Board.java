@@ -41,7 +41,7 @@ public class Board {
         playerRow = ROWS / 2;
         playerColumn = COLUMNS / 2;
         myGui = gui;
-        combinationLogic = new VanillaPattern(this);
+        combinationLogic = new ClassicPattern(this);
         playerSetted = false;
         for (int row = 0; row < ROWS; row++)
             for (int column = 0; column < COLUMNS; column++) {
