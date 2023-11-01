@@ -29,6 +29,7 @@ public class LevelGenerator {
 	 * Reads filename, which is comma separated with the following format</br>
 	 * </br>
 	 * 
+	 * (allowed moves)</br>
 	 * (moves),(time)</br>
 	 * (entity),(amount of entities),...</br>
 	 * (entity),(entity),...</br>
@@ -147,7 +148,7 @@ public class LevelGenerator {
 	 *           'W' for WRAPPED</br>
 	 *           'J' for JELLY</br>
 	 *           </br>
-	 *           'Z' for SS for MegaStripped</br>
+	 *           'Z' for MegaStripped</br>
 	 *           </br>
 	 *           'Q' for BOMB</br>
 	 *           </br>
