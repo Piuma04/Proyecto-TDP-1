@@ -1,4 +1,4 @@
-package Logic;
+package Combinations;
 
 import java.util.List;
 import java.util.Map;
@@ -11,11 +11,18 @@ import Entities.Entity;
 import Entities.PriorityEntity;
 import Entities.Stripped;
 import Entities.Wrapped;
+import Logic.Block;
+import Logic.Board;
 
-public abstract class Combination {
+public abstract class BaseCombination implements CombinationLogic {
+
+    protected static final int MAX_WRAPPED_COMBINATION_SIZE = 6;
+    protected static final int STRIPPED_COMBINATION_SIZE = 4;
+    protected static final int MIN_COMBINATION_SIZE = 3;
+
     protected Board board;
 
-    public Combination(Board b) { board = b; }
+    public BaseCombination(Board b) { board = b; }
 
     public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
         Set<Block> unchecked = new HashSet<Block>();
@@ -33,70 +40,74 @@ public abstract class Combination {
         return checkCombinations(unchecked, candysOut);
     }
  
-    public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut) {
-        Set<Block> combinations = new HashSet<Block>();
-        Entity candy = null;
-        for (Block block : blocks) {
-            if (!combinations.contains(block)) {
-                candy = checkFullCombination(block, combinations);
-                if (candy != null)
-                    candysOut.add(candy);
-            }
-        }
-        return combinations;
-    }
+    public abstract Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut);
 
     protected Entity checkFullCombination(Block block, Set<Block> combinationsOut) {
+        final int MAX_NUMER_CANDYS_FOR_CREATION = 7;
         List<PriorityEntity> candys = new LinkedList<PriorityEntity>();
         PriorityEntity candy = null;
 
         Set<Block> combination = new HashSet<Block>();
-        candy = checkBlockCombination(block, combination);
+        candy = checkBlockHorizontalVerticalCombination(block, combination);
         if (candy != null) candys.add(candy);
 
         combinationsOut.addAll(combination);
 
         for (Block b : combination) {
             Set<Block> currentCombinations = new HashSet<Block>();
-            candy = checkBlockCombination(b, currentCombinations);
+            candy = checkBlockHorizontalVerticalCombination(b, currentCombinations);
             if (candy != null)
                 candys.add(candy);
             combinationsOut.addAll(currentCombinations);
         }
-        // Get maximum priority.
-        candy = candys.size() > 0 ? candys.get(0) : null;
-        
-        for (PriorityEntity pe : candys) {
-            if (pe.getPriority() > candy.getPriority())
-                candy = pe;
-        }
+
+        if (combinationsOut.size() < MAX_NUMER_CANDYS_FOR_CREATION) {
+            // Get maximum priority.
+            candy = candys.size() > 0 ? candys.get(0) : null;
+            
+            for (PriorityEntity pe : candys) {
+                if (pe.getPriority() > candy.getPriority())
+                    candy = pe;
+            }
+        } else candy = null;
 
         return candy != null ? candy.getEntity() : null;
     }
 
-    protected PriorityEntity checkBlockCombination(Block block, Set<Block> combinationsOut) {
-        Set<Block> combination = new HashSet<Block>();
-        Set<Block> consecutiveH = new HashSet<Block>();
-        Set<Block> consecutiveV = new HashSet<Block>();
-        Colour color = block.getEntity().getColour();
-        consecutiveH = consecutiveH(block);
-        consecutiveV = consecutiveV(block);
-        combination.add(block);
-        combination.addAll(consecutiveV);
-        combination.addAll(consecutiveH);
-        int hSize = consecutiveH.size();
-        int vSize = consecutiveV.size();
-        int row = block.getRow();
-        int column = block.getColumn();
+    protected PriorityEntity checkBlockHorizontalVerticalCombination(Block block, Set<Block> combinationsOut) {
+        final Colour color = board.getBlockColour(block);
+
+        final Set<Block> consecutiveH = consecutiveHorizontal(block);
+        final Set<Block> consecutiveV = consecutiveVertical(block);
+
+        final int hSize = consecutiveH.size();
+        final int vSize = consecutiveV.size();
+        final int combinationSize = hSize + vSize + 1; // + 1 is the checked block. 
+
         PriorityEntity entity = null;
-        if ((hSize + vSize < 6) && (hSize + vSize > 3) && (hSize >= 2) && (vSize >= 2))
+        final int row = block.getRow();
+        final int column = block.getColumn();
+
+        final boolean createWrapped =
+                (combinationSize <= MAX_WRAPPED_COMBINATION_SIZE) &&
+                (hSize + 1 >= MIN_COMBINATION_SIZE) &&
+                (vSize + 1 >= MIN_COMBINATION_SIZE);
+        final boolean createStrippedVertical   = hSize+1 == STRIPPED_COMBINATION_SIZE;
+        final boolean createStrippedHorizontal = vSize+1 == STRIPPED_COMBINATION_SIZE;
+
+        if (createWrapped)
             entity = new PriorityEntity(new Wrapped(row, column, color), 2);
-        else if (hSize == 3)
-            entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
-        else if (vSize == 3)
+        else if (createStrippedVertical)
             entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
-        if (combination.size() >= 3)
-            combinationsOut.addAll(combination);
+        else if (createStrippedHorizontal)
+            entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
+
+        if (combinationSize >= MIN_COMBINATION_SIZE) {
+            combinationsOut.add(block);
+            combinationsOut.addAll(consecutiveH);
+            combinationsOut.addAll(consecutiveV);
+        }
+
         return entity;
     }
 
@@ -111,7 +122,7 @@ public abstract class Combination {
      * @param combination blocks that make combinations
      * @return amount of horizontal combinations
      */
-    protected Set<Block> consecutiveV(Block block) {
+    protected Set<Block> consecutiveVertical(Block block) {
         Set<Block> blocks = new HashSet<Block>();
         int row = block.getRow();
         int column = block.getColumn();
@@ -147,7 +158,7 @@ public abstract class Combination {
      * @param combination blocks that make combinations
      * @return amount of vertical combinations
      */
-    protected Set<Block> consecutiveH(Block block) {
+    protected Set<Block> consecutiveHorizontal(Block block) {
         Set<Block> blocks = new HashSet<Block>();
         int row = block.getRow();
         int column = block.getColumn();

@@ -30,8 +30,7 @@ public class Score {
     	int i = 0;
     	FileWriter fileWriter;  PrintWriter printWriter;
     	while(i<5 && !foundPos) {
-    		// TODO HACER BIEN ESTO, PONER PARA QUE TENGA EL NOMBRE Y ESO 
-    		// tambien pedir el nombre por la gui y eso
+    		
     		 playerAndScore = maxScores.get(i).split(",");
     		if(Integer.parseInt(playerAndScore[1]) < score ) {
     			foundPos = true;

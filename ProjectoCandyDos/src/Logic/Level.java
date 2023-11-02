@@ -10,9 +10,10 @@ public class Level {
     private long timeLimit;
     private int currentLevel;
     private List<Goal> goals;
+    
     private static final int lastLevel = 5;
 
-    public Level(List<Goal> l, int remainingMoves, int timeLimit, int cR) {
+    public Level(List<Goal> l, int remainingMoves, int timeLimit, int cR ) {
         goals = l;
         this.remainingMoves = remainingMoves;
         currentLevel = cR;

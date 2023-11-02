@@ -8,6 +8,10 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
+import Combinations.CombinationLogic;
+import Combinations.ClassicPattern;
+import Combinations.OnlyLinealCombinationsPattern;
+
 import Entities.Entity;
 import Entities.Empty;
 import Entities.Colour;
@@ -29,6 +33,7 @@ public class LevelGenerator {
 	 * Reads filename, which is comma separated with the following format</br>
 	 * </br>
 	 * 
+	 * (allowed moves)</br>
 	 * (moves),(time)</br>
 	 * (entity),(amount of entities),...</br>
 	 * (entity),(entity),...</br>
@@ -53,15 +58,23 @@ public class LevelGenerator {
 		List<String> lines = null;
 		Level level = null;
 		String[] candys = null, obj = null;
+		int currentLine = 0;
+		char combinationType = 'C';
 
 		lines = readFileLines(levelPath + filename);
 
+		
 		if (lines != null) {
 			int aux;
 			Equivalent equiAux;
-			obj = lines.get(1).split(",");
+			
+			combinationType = lines.get(currentLine++).charAt(0);
+			board.setCombinationLogic( createCombinationLogic(combinationType, board) );
+			
+			candys = lines.get(currentLine++).split(",");
+			obj = lines.get(currentLine++).split(",");
 
-			candys = lines.get(0).split(",");
+			
 			List<Goal> goalListAux = new LinkedList<Goal>();
 			for (int i = 0; i < obj.length; i += 2) {
 				aux = Integer.valueOf(obj[i + 1]);
@@ -71,7 +84,8 @@ public class LevelGenerator {
 
 			level = new Level(goalListAux, // Amount of entities to win. (GOAL)
 					Integer.valueOf(candys[0]), // Amount of Moves.
-					Integer.valueOf(candys[1]), Integer.valueOf(filename.charAt(filename.length() - 5)) - '0'); // max
+					Integer.valueOf(candys[1]), 
+					Integer.valueOf(filename.charAt(filename.length() - 5)) - '0'); // max
 																												// time
 																												// in
 																												// SECONDS.
@@ -79,8 +93,9 @@ public class LevelGenerator {
 			// Must add first what will be drawn from back to front!. Same for.
 
 			// ADD MODIFIERS TO BLOCKS.
+			int temp = currentLine;
 			for (int r = 0; r < Board.getRows(); r++) {
-				candys = lines.get(r + 2).split(",");
+				candys = lines.get(currentLine++).split(",");
 
 				for (int c = 0; c < Board.getColumns(); c++) {
 					String id = candys[c];
@@ -94,9 +109,10 @@ public class LevelGenerator {
 				}
 			}
 
+			currentLine = temp;
 			// ADD CANDYS TO BLOCKS.
 			for (int r = 0; r < Board.getRows(); r++) {
-				candys = lines.get(r + 2).split(",");
+				candys = lines.get(currentLine++).split(",");
 				for (int c = 0; c < Board.getColumns(); c++) {
 					String id = candys[c];
 
@@ -137,7 +153,7 @@ public class LevelGenerator {
 	 *           'W' for WRAPPED</br>
 	 *           'J' for JELLY</br>
 	 *           </br>
-	 *           'Z' for SS for MegaStripped</br>
+	 *           'Z' for MegaStripped</br>
 	 *           </br>
 	 *           'Q' for BOMB</br>
 	 *           </br>
@@ -221,4 +237,8 @@ public class LevelGenerator {
 		}
 		return fileText;
 	}
+	
+    public static CombinationLogic createCombinationLogic(char c, Board b) {
+        return c == 'L' ? new OnlyLinealCombinationsPattern(b) : new ClassicPattern(b);
+    }
 }
