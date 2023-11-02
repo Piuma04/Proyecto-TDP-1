@@ -1,6 +1,7 @@
 package Interfaces;
 import java.util.Set;
 
+import Entities.Bomb;
 import Entities.Candy;
 import Entities.Empty;
 import Entities.Glazed;
@@ -18,4 +19,5 @@ public interface SpecialDestroy {
     public Set<Block> getSpecialDestroyables(Glazed g, Board b);
     public Set<Block> getSpecialDestroyables(Empty e, Board b);
     public Set<Block> getSpecialDestroyables(MegaStripped m,  Board b) ;
+    public Set<Block> getSpecialDestroyables(Bomb bomb, Board b);
 }
