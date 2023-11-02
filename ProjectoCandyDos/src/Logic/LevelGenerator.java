@@ -19,6 +19,7 @@ import Entities.Bomb;
 import Entities.Candy;
 import Entities.Stripped;
 import Entities.Wrapped;
+import GUI.Gui;
 import GUI.Resources;
 import Entities.Glazed;
 import Entities.Jelly;
@@ -53,7 +54,7 @@ public class LevelGenerator {
 	 * @param board    {@link Board} object to initialize matrix.
 	 * @return level {@link Level} object initialized.
 	 */
-	public static Level generateLevel(String filename, Board board) {
+	public static Level generateLevel(String filename, Board board, Game game, Gui gui) {
 
 		List<String> lines = null;
 		Level level = null;
@@ -85,7 +86,9 @@ public class LevelGenerator {
 			level = new Level(goalListAux, // Amount of entities to win. (GOAL)
 					Integer.valueOf(candys[0]), // Amount of Moves.
 					Integer.valueOf(candys[1]), 
-					Integer.valueOf(filename.charAt(filename.length() - 5)) - '0'); // max
+					Integer.valueOf(filename.charAt(filename.length() - 5)) - '0', // max
+					gui, 
+					game); 
 																												// time
 																												// in
 																												// SECONDS.

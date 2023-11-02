@@ -6,21 +6,27 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import GUI.Gui;
 import GUI.Resources;
 import Interfaces.Equivalent;
-public class Score {
+import Interfaces.EventListener;
+public class Score implements EventListener{
 	private int score;
 	private String playerName;
-	public Score(String pn)
+	private Gui myGui;
+	public Score(Gui gui)
 	{
-		playerName = pn;
+		myGui = gui;
+		playerName = gui.requestPlayerName();
 		score = 0;
 	}
-	public int update(List<Equivalent> values)
+	public void update(List<Equivalent> values)
 	{
 		for(Equivalent e: values)
 			score += e.getScore();
-		return score;
+		myGui.executeAfterAnimation(() -> {
+			myGui.updateScore(score);
+        });
 	}
 	public void setNewScores() {
 		//here the new score would be put in the maxScores.txt file

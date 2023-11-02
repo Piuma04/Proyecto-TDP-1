@@ -4,6 +4,6 @@ B,15
 Q,R,Q,B,P,G
 P,RZ,G,B,Y,B
 G,P,R,Y,B,R
-G,R,B,P,B,Y
-R,B,R,G,B,G
+G,R,B,P,P,Y
+R,B,R,G,PZ,G
 B,P,R,R,R,R

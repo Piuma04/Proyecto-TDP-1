@@ -32,7 +32,7 @@ public class Game {
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
-        score = new Score(myGui.requestPlayerName());
+        score = new Score(myGui);
         lives = 3;
         loadLevel(1);
         pauseTimer();
@@ -44,11 +44,8 @@ public class Game {
     public void loadLevel(int level) {
         myGui.reset();
         myBoard = new Board(myGui);
-        myLevel = LevelGenerator.generateLevel("level" + String.valueOf(level) + ".txt", myBoard);
-        myGui.updateMoves(myLevel.getMoves());
+        myLevel = LevelGenerator.generateLevel("level" + String.valueOf(level) + ".txt", myBoard, this, myGui);
         myGui.updateLives(lives);
-        myGui.showObjective(myLevel.getObjectives(), myLevel.getRemainingObjectives());
-        myGui.setCurrentLevel("Nivel " + myLevel.getCurrentLevel());
         myTimer.startTimer(myLevel.getTimeLimit());
     }
 
@@ -70,17 +67,8 @@ public class Game {
 
     public void update(List<Equivalent> destroyed) {
     	
-        boolean finished = myLevel.update(destroyed);
-        myGui.executeAfterAnimation(() -> {
-            myGui.updateGraphicObjective(myLevel.getRemainingObjectives());
-            myGui.updateMoves(myLevel.getMoves());
-            myGui.updateScore(score.update(destroyed));
-        });
-
-        if (finished)
-            win();
-        else if (myLevel.lost())
-            lost();
+        myLevel.update(destroyed);
+        score.update(destroyed);
     }
 
     public void win() {
