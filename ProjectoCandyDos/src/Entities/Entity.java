@@ -55,6 +55,7 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     @Override public Set<Block> getSpecialDestroyables(Glazed g, Board b)       {return new HashSet<Block>();}
     @Override public Set<Block> getSpecialDestroyables(Empty e, Board b)        {return new HashSet<Block>();}
     @Override public Set<Block> getSpecialDestroyables(MegaStripped m, Board b) {return new HashSet<Block>();}
+    @Override public Set<Block> getSpecialDestroyables(Bomb bomb, Board b)      {return new HashSet<Block>();}
 
     public abstract List<Block> getDestroyables(Board b);
 
