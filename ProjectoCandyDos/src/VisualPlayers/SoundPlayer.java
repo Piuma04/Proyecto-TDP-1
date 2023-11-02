@@ -1,4 +1,4 @@
-package Animations;
+package VisualPlayers;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -12,10 +12,11 @@ import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-import GUI.Resources;
-
-
-public class SoundPlayer {
+/**
+ * IF INSTANCES WILL BE DELETED,
+ * MUST CALL CLEANUP METHOD TO UNSUBSCRIBE FROM SUBJECT.
+ */
+public class SoundPlayer implements Observer {
     private boolean stopped;
     private Clip mySound;
     private AudioFormat audioFormat;
@@ -23,21 +24,19 @@ public class SoundPlayer {
     private byte[] audioData;
 
     private String filename;
-    private int theme;
     
 
     public SoundPlayer(String filename) {
         this.filename = filename;
-        theme = -1;
         mySound = null;
         stopped = true;
         audioFormat = null;
         audioBytes = 0;
-        checkUpdatedResources();
+        Resources.registerObserver(this);
+        update(Resources.getTheme());
     }
 
     public void play() {
-        checkUpdatedResources();
         stopped = false;
         if (mySound != null) {
             if (mySound.isActive()) {
@@ -52,7 +51,6 @@ public class SoundPlayer {
     }
 
     public void playNew() {
-        checkUpdatedResources();
         AudioInputStream audioStream = getAudioStream();
         Clip clip = getClip(audioStream);
         if (clip != null) {
@@ -66,9 +64,9 @@ public class SoundPlayer {
         }
     }
 
-    public void loop() { checkUpdatedResources(); if (mySound != null) mySound.loop(Clip.LOOP_CONTINUOUSLY); }
+    public void loop() { if (mySound != null) mySound.loop(Clip.LOOP_CONTINUOUSLY); }
     public void stop() { if (mySound != null) { mySound.stop(); mySound.setFramePosition(0); } }
-    public void start() { checkUpdatedResources(); if (mySound != null) mySound.start(); }
+    public void start() { if (mySound != null) mySound.start(); }
     public boolean isActive() { return mySound != null && mySound.isActive(); }
     
     private AudioInputStream getAudioStream() {
@@ -89,26 +87,11 @@ public class SoundPlayer {
         return clip;
     }
 
-    private void checkUpdatedResources() {
-        int actualTheme = Resources.getTheme();
-        if (actualTheme != theme) {
-            theme = actualTheme;
-            loadAudioData(filename);
-            mySound = getClip(getAudioStream());
-            if (mySound != null)
-                mySound.addLineListener(event -> {
-                    if(event.getType() == LineEvent.Type.STOP) { stopped = true; }
-                });
-        }
-    }
-
     private void loadAudioData(String filePath) {
         try {
-            File audioFile = new File(Resources.getAudioFolderPath() + filePath);
-            if (!audioFile.exists() || !audioFile.isFile()) {
-                throw new IllegalArgumentException("Invalid audio file path: " + Resources.getAudioFolderPath() + filePath);
-            }
-
+            File audioFile = new File(filePath);
+            if (!audioFile.exists() || !audioFile.isFile())
+                throw new IllegalArgumentException("Invalid audio file path: " + filePath);
             try (AudioInputStream audioStream = AudioSystem.getAudioInputStream(audioFile)) {
                 audioFormat = audioStream.getFormat();
                 audioBytes = (int) (audioStream.getFrameLength() * audioFormat.getFrameSize());
@@ -120,4 +103,17 @@ public class SoundPlayer {
             e.printStackTrace();
         }
     }
+
+    // MUST BE CALLED BEFORE DELETING INSTANCE.
+    public void cleanup() { Resources.removeObserver(this); }
+
+    @Override
+    public void update(int newTheme) {
+        loadAudioData(Resources.getAudioFolderPath() + filename);
+        mySound = getClip(getAudioStream());
+        if (mySound != null)
+            mySound.addLineListener(event -> {
+                if(event.getType() == LineEvent.Type.STOP) { stopped = true; }
+            });
+     }
 }

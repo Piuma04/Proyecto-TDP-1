@@ -1,6 +1,6 @@
 package GUI;
 
-import Animations.SoundPlayer;
+import VisualPlayers.SoundPlayer;
 
 /**
  * Define las operaciones esperables por sobre una ventana que permite animar los cambios de sus entidades.

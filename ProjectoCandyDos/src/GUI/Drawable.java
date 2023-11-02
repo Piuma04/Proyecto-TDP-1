@@ -1,7 +1,6 @@
 package GUI;
 
 import java.awt.Graphics;
-import java.awt.Image;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -13,6 +12,7 @@ import Logic.Game;
 @SuppressWarnings("serial")
 public class Drawable extends JComponent implements GraphicalEntity {
 
+    protected static Icon EMPTY_ICON = new ImageIcon();
     protected GuiAnimable agui;
     protected LogicEntity myLogicEntity;
     protected Icon myIcon;
@@ -27,22 +27,17 @@ public class Drawable extends JComponent implements GraphicalEntity {
         sizeIcon = sizeImg;
         bSkipQueue = false;
         
-        int pos[] = getVisualLocation();
+        final int pos[] = getVisualLocation();
         setLocation(pos[0], pos[1]);
-        setImage(logicBlock.getImage());
         setSize(sizeIcon, sizeIcon);
+        myIcon = EMPTY_ICON;
         notifyChangeState();
     }
 
     public int getImageSize() { return sizeIcon; }
     public LogicEntity getLogicalEntity() { return myLogicEntity; }
 
-    public void setImage(String path) {
-        Image scaledImage = new ImageIcon(path).getImage().getScaledInstance(sizeIcon, sizeIcon, Image.SCALE_SMOOTH);
-        myIcon = new ImageIcon(scaledImage);
-    }
-
-    public void setImage(Image im) { myIcon = new ImageIcon(im); }
+    public void setIcon(Icon icon) { myIcon = icon; }
     
     @Override public void notifyChangeState()    { agui.animateChangeState(this); }
     @Override public void notifyChangePosition() { agui.animateMovement(this); }
@@ -56,9 +51,9 @@ public class Drawable extends JComponent implements GraphicalEntity {
     }
 
     public int[] getVisualLocation() {
-        int boardLabelSize = Game.getLabelSize();
-        int x = myLogicEntity.getColumn() * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
-        int y = myLogicEntity.getRow() * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
+        final int boardLabelSize = Game.getLabelSize();
+        final int x = myLogicEntity.getColumn() * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
+        final int y = myLogicEntity.getRow() * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
         return new int[]{x, y};
     }
 }

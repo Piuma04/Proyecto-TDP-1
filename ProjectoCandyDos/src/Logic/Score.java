@@ -7,10 +7,10 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import GUI.Gui;
-import GUI.Resources;
 import Interfaces.Equivalent;
-import Interfaces.EventListener;
-public class Score implements EventListener{
+import VisualPlayers.Resources;
+public class Score {
+
 	private int score;
 	private String playerName;
 	private Gui myGui;

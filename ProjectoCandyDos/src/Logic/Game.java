@@ -7,8 +7,8 @@ import java.util.List;
 import javax.swing.SwingUtilities;
 
 import GUI.Gui;
-import Animations.SoundPlayer;
 import Interfaces.Equivalent;
+import VisualPlayers.SoundPlayer;
 
 public class Game {
 
