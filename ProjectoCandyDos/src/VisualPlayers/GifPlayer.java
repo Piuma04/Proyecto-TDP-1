@@ -17,7 +17,12 @@ import javax.imageio.metadata.IIOMetadataNode;
 
 import GUI.Drawable;
 
+/**
+ * IF INSTANCES WILL BE DELETED,
+ * MUST CALL CLEANUP METHOD TO UNSUBSCRIBE FROM SUBJECT.
+ */
 public class GifPlayer implements Observer {
+
     private static Map<String, List<Icon>> gifImages = new HashMap<String, List<Icon>>();
     private static Map<String, List<Integer>> gifDelay = new HashMap<String, List<Integer>>();
 

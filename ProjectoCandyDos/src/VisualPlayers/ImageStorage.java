@@ -7,6 +7,10 @@ import java.util.HashMap;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+/**
+ * IF INSTANCES WILL BE DELETED,
+ * MUST CALL CLEANUP METHOD TO UNSUBSCRIBE FROM SUBJECT.
+ */
 public class ImageStorage implements Observer {
 
     private static Map<String, Icon> images = new HashMap<String, Icon>();

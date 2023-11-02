@@ -4,8 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Resources {
-
-    
     private static int theme = 0;
     private static String[] themes = { "PlayCrush", "CandyCrush" };
     private static List<Observer> observers = new LinkedList<Observer>();
