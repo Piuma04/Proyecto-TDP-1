@@ -4,6 +4,7 @@ import java.util.Queue;
 
 import javax.swing.SwingUtilities;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayDeque;
 
 import GUI.Drawable;
@@ -88,6 +89,11 @@ public class CentralAnimator implements AnimatorDriver {
     @Override
     public void notifyEndAnimation(Animator a, boolean bDestroy) {
 
+        if (bDestroy) {
+            try { SwingUtilities.invokeAndWait(() -> { gui.removeEntity(a.getDrawable()); }); }
+            catch (InvocationTargetException | InterruptedException e) { e.printStackTrace(); }
+        }
+
         gui.notifyAnimationEnd();
 
         drawableAnimator.endAnimation(a);
@@ -111,9 +117,6 @@ public class CentralAnimator implements AnimatorDriver {
                     while (!extraTasks.isEmpty())
                         extraTasks.poll().run();
             });
-
-        if (bDestroy)
-            SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); });
     }
 
     public void executeAfterAnimation(Runnable r) {
