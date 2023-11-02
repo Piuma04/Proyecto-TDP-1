@@ -20,10 +20,11 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 import Logic.Game;
+import VisualPlayers.Resources;
+import VisualPlayers.SoundPlayer;
 import Interfaces.LogicEntity;
 
 import Animations.CentralAnimator;
-import Animations.SoundPlayer;
 
 
 @SuppressWarnings("serial")

@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import GUI.Resources;
 import Interfaces.Equivalent;
+import VisualPlayers.Resources;
 public class Score {
 	private int score;
 	private String playerName;

@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import Logic.LevelGenerator;
+import VisualPlayers.Resources;
 
 @SuppressWarnings("serial")
 public class ScorePanel extends JPanel {

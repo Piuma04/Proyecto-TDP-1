@@ -19,6 +19,7 @@ import javax.swing.border.Border;
 
 import Logic.Board;
 import Logic.Game;
+import VisualPlayers.Resources;
 
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel {

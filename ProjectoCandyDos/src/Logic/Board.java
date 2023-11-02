@@ -10,8 +10,6 @@ import java.util.HashSet;
 
 import java.util.Random;
 
-import Animations.SoundPlayer;
-
 import GUI.Gui;
 
 import Combinations.CombinationLogic;
@@ -23,6 +21,7 @@ import Entities.Entity;
 import Entities.MegaStripped;
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
+import VisualPlayers.SoundPlayer;
 
 public class Board {
     private static final int ROWS = 6;

@@ -9,6 +9,8 @@ import java.util.ArrayDeque;
 import GUI.Drawable;
 import GUI.Gui;
 
+import VisualPlayers.SoundPlayer;
+
 /**
  * Modela el manager de animaciones requerido para efectivizar las mismas en función al orden en el que fueron solicitadas desde la ventana.
  * Ante cada nueva animación solicitada por ventana y que se debe realizar por sobre una celda, se encarga de efectivizar estas animaciones 
@@ -90,9 +92,6 @@ public class CentralAnimator implements AnimatorDriver {
 
         drawableAnimator.endAnimation(a);
 
-        if (bDestroy)
-            SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); }); 
-
         if (gui.getPendingAnimations() == 0)
             SwingUtilities.invokeLater( () -> {
                 Animator head = queue.peek();
@@ -113,6 +112,8 @@ public class CentralAnimator implements AnimatorDriver {
                         extraTasks.poll().run();
             });
 
+        if (bDestroy)
+            SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); });
     }
 
     public void executeAfterAnimation(Runnable r) {

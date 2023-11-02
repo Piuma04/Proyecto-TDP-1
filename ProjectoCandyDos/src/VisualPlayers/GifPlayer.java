@@ -1,7 +1,6 @@
-package Animations;
+package VisualPlayers;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.HashMap;
@@ -9,45 +8,42 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+import javax.swing.Icon;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReader;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 
 import GUI.Drawable;
-import GUI.Resources;
 
-public class GifPlayer {
-    private static Map<String, List<Image>> gifImages = new HashMap<String, List<Image>>();
+public class GifPlayer implements Observer {
+    private static Map<String, List<Icon>> gifImages = new HashMap<String, List<Icon>>();
     private static Map<String, List<Integer>> gifDelay = new HashMap<String, List<Integer>>();
 
-    GifPlayer() { }
+    public GifPlayer() { Resources.registerObserver(this); }
 
     public void play(String animationPath, Drawable drawableAnimated) {
-        final String key = Resources.getTheme() +  animationPath;
-
-        List<Image> gifImageFrames = gifImages.get(key);
-        List<Integer> gifDelayFrames = gifDelay.get(key);
+        final List<Icon> gifImageFrames = gifImages.get(animationPath);
+        final List<Integer> gifDelayFrames = gifDelay.get(animationPath);
         int currentFrame = 0;
-        for (Image frame : gifImageFrames) {
-                drawableAnimated.setImage(frame);
+        for (Icon frame : gifImageFrames) {
+                drawableAnimated.setIcon(frame);
                 drawableAnimated.repaint();
                 try { Thread.sleep(gifDelayFrames.get(currentFrame++)); } catch (InterruptedException e) {  e.printStackTrace(); }
         }
     }
     
     public void add(String animationPath, int gifSize) {
-        final String key = Resources.getTheme() +  animationPath;
-
-        if (!gifImages.containsKey(key)) {
+        if (!gifImages.containsKey(animationPath)) {
             List<BufferedImage> gifFrameImages = new LinkedList<BufferedImage>();
             List<Integer> gifDelayFrames = new LinkedList<Integer>();
             try {
-                File gifFile = new File(Resources.getImagesFolderPath() + animationPath);
+                final File gifFile = new File(Resources.getImagesFolderPath() + animationPath);
                 ImageReader reader = ImageIO.getImageReadersBySuffix("gif").next();
                 reader.setInput(ImageIO.createImageInputStream(gifFile));
                 int i = reader.getMinIndex();
-                int gifAmountFrames = reader.getNumImages(true);
+                final int gifAmountFrames = reader.getNumImages(true);
 
                 while (i < gifAmountFrames)
                 {
@@ -63,14 +59,14 @@ public class GifPlayer {
                 }
                 reader.dispose();
             } catch (Exception e) { System.out.println("ERROR: Gif (" + animationPath + ") may not exist!"); }
-            gifDelay.put(key, gifDelayFrames);
-            gifImages.put(key, resizeGifImages(gifFrameImages, gifSize));
+            gifDelay.put(animationPath, gifDelayFrames);
+            gifImages.put(animationPath, resizeGifImages(gifFrameImages, gifSize));
         }
     }
     /**
      * @author @SantinoDF - ChatGPT3 
      */
-    public static List<Image> resizeGifImages(List<BufferedImage> frames, int targetSize) {
+    public static List<Icon> resizeGifImages(List<BufferedImage> frames, int targetSize) {
         // Find the largest frame
         BufferedImage largestFrame = frames.get(0);
         for (BufferedImage frame : frames)
@@ -78,10 +74,10 @@ public class GifPlayer {
                 largestFrame = frame;
 
         // Calculate the scaling factor based on the largest frame to maintain proportions
-        double scaleFactor = (double) targetSize / Math.max(largestFrame.getWidth(), largestFrame.getHeight());
+        final double scaleFactor = (double) targetSize / Math.max(largestFrame.getWidth(), largestFrame.getHeight());
 
         // Resize all frames proportionally and center them with padding
-        List<Image> resizedFrames = new LinkedList<Image>();
+        List<Icon> resizedFrames = new LinkedList<Icon>();
         for (BufferedImage current : frames) {
             int width = (int) (current.getWidth() * scaleFactor);
             int height = (int) (current.getHeight() * scaleFactor);
@@ -96,8 +92,7 @@ public class GifPlayer {
             g2d.drawImage(current, xOffset, yOffset, width, height, null);
             g2d.dispose();
 
-            resizedFrames.add(resizedImage);
-            
+            resizedFrames.add( new ImageIcon(resizedImage) );
         }
 
         return resizedFrames;
@@ -114,5 +109,12 @@ public class GifPlayer {
         return(node);
   }
 
-    
+    // MUST BE CALLED BEFORE DELETING INSTANCE.
+    public void cleanup() { Resources.removeObserver(this); }
+
+    @Override
+    public void update(int newTheme) {
+        gifImages.clear();
+        gifDelay.clear();
+     }
 }

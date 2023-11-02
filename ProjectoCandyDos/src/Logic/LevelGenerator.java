@@ -19,11 +19,11 @@ import Entities.Bomb;
 import Entities.Candy;
 import Entities.Stripped;
 import Entities.Wrapped;
-import GUI.Resources;
 import Entities.Glazed;
 import Entities.Jelly;
 import Entities.MegaStripped;
 import Interfaces.Equivalent;
+import VisualPlayers.Resources;
 
 public class LevelGenerator {
 

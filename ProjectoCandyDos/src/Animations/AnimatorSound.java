@@ -2,6 +2,8 @@ package Animations;
 
 import GUI.Drawable;
 
+import VisualPlayers.SoundPlayer;
+
 public class AnimatorSound implements Animator {
 
     protected AnimatorDriver manager;
