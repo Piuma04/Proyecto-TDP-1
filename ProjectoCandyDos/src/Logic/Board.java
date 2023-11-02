@@ -11,7 +11,10 @@ import java.util.HashSet;
 import java.util.Random;
 
 import Animations.SoundPlayer;
+
 import GUI.Gui;
+
+import Combinations.CombinationLogic;
 
 import Entities.Candy;
 import Entities.Colour;
@@ -33,7 +36,7 @@ public class Board {
     private int playerRow, playerColumn;
     private Block[][] matrix;
     private Gui myGui;
-    private Combination combinationLogic;
+    private CombinationLogic combinationLogic;
     private boolean playerSetted;
 
     public Board(Gui gui) {
@@ -53,9 +56,6 @@ public class Board {
         setPlayerPosition(playerRow, playerColumn);
     }
 
-    public void setTypeOfCombinations(char ToC) {
-    	combinationLogic = TypeOfCombinations.setTypeOfCombination(ToC, this);
-    }
     
     public static int getRows() { return ROWS; }
     public static int getColumns() { return COLUMNS; }
@@ -85,6 +85,8 @@ public class Board {
         
         return new int[]{row, column};
     }
+
+    public void setCombinationLogic(CombinationLogic combination) { combinationLogic = combination; }
 
     public void setPlayerPosition(int newRow, int newColumn) {
         playerSetted = true;

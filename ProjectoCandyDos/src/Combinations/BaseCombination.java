@@ -1,4 +1,4 @@
-package Logic;
+package Combinations;
 
 import java.util.List;
 import java.util.Map;
@@ -11,11 +11,14 @@ import Entities.Entity;
 import Entities.PriorityEntity;
 import Entities.Stripped;
 import Entities.Wrapped;
+import Logic.Block;
+import Logic.Board;
 
-public abstract class Combination {
+public abstract class BaseCombination implements CombinationLogic {
+
     protected Board board;
 
-    public Combination(Board b) { board = b; }
+    public BaseCombination(Board b) { board = b; }
 
     public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
         Set<Block> unchecked = new HashSet<Block>();
@@ -33,48 +36,40 @@ public abstract class Combination {
         return checkCombinations(unchecked, candysOut);
     }
  
-    public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut) {
-        Set<Block> combinations = new HashSet<Block>();
-        Entity candy = null;
-        for (Block block : blocks) {
-            if (!combinations.contains(block)) {
-                candy = checkFullCombination(block, combinations);
-                if (candy != null)
-                    candysOut.add(candy);
-            }
-        }
-        return combinations;
-    }
+    public abstract Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut);
 
     protected Entity checkFullCombination(Block block, Set<Block> combinationsOut) {
         List<PriorityEntity> candys = new LinkedList<PriorityEntity>();
         PriorityEntity candy = null;
 
         Set<Block> combination = new HashSet<Block>();
-        candy = checkBlockCombination(block, combination);
+        candy = checkBlockHorizontalVerticalCombination(block, combination);
         if (candy != null) candys.add(candy);
 
         combinationsOut.addAll(combination);
 
         for (Block b : combination) {
             Set<Block> currentCombinations = new HashSet<Block>();
-            candy = checkBlockCombination(b, currentCombinations);
+            candy = checkBlockHorizontalVerticalCombination(b, currentCombinations);
             if (candy != null)
                 candys.add(candy);
             combinationsOut.addAll(currentCombinations);
         }
-        // Get maximum priority.
-        candy = candys.size() > 0 ? candys.get(0) : null;
-        
-        for (PriorityEntity pe : candys) {
-            if (pe.getPriority() > candy.getPriority())
-                candy = pe;
+
+        if (combinationsOut.size() < 7) {
+            // Get maximum priority.
+            candy = candys.size() > 0 ? candys.get(0) : null;
+            
+            for (PriorityEntity pe : candys) {
+                if (pe.getPriority() > candy.getPriority())
+                    candy = pe;
+            }
         }
 
         return candy != null ? candy.getEntity() : null;
     }
 
-    protected PriorityEntity checkBlockCombination(Block block, Set<Block> combinationsOut) {
+    protected PriorityEntity checkBlockHorizontalVerticalCombination(Block block, Set<Block> combinationsOut) {
         Set<Block> combination = new HashSet<Block>();
         Set<Block> consecutiveH = new HashSet<Block>();
         Set<Block> consecutiveV = new HashSet<Block>();

@@ -8,6 +8,10 @@ import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
+import Combinations.CombinationLogic;
+import Combinations.ClassicPattern;
+import Combinations.OnlyLinealCombinationsPattern;
+
 import Entities.Entity;
 import Entities.Empty;
 import Entities.Colour;
@@ -55,7 +59,8 @@ public class LevelGenerator {
 		Level level = null;
 		String[] candys = null, obj = null;
 		int currentLine = 0;
-		String typeOfCombinations = null;
+		char combinationType = 'C';
+
 		lines = readFileLines(levelPath + filename);
 
 		
@@ -63,8 +68,8 @@ public class LevelGenerator {
 			int aux;
 			Equivalent equiAux;
 			
-			typeOfCombinations = lines.get(currentLine++);
-			board.setTypeOfCombinations(typeOfCombinations.charAt(0));
+			combinationType = lines.get(currentLine++).charAt(0);
+			board.setCombinationLogic( createCombinationLogic(combinationType, board) );
 			
 			candys = lines.get(currentLine++).split(",");
 			obj = lines.get(currentLine++).split(",");
@@ -232,4 +237,8 @@ public class LevelGenerator {
 		}
 		return fileText;
 	}
+	
+    public static CombinationLogic createCombinationLogic(char c, Board b) {
+        return c == 'L' ? new OnlyLinealCombinationsPattern(b) : new ClassicPattern(b);
+    }
 }
