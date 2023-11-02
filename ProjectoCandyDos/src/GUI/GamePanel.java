@@ -26,7 +26,7 @@ public class GamePanel extends JPanel {
     //private static final String font = "DejaVu";
     //private static final String font = "MonoLisa";
 
-    private static final String[] resources = { "bg_board.gif", "life.gif", "bg_gamedata.jpg" };
+    private static final String[] resources = { "bg_board.gif", "life.gif", "bg_gamedata.png" };
 
     protected JPanel contentPanel;
 
