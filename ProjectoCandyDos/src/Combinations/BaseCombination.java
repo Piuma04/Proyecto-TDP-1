@@ -16,6 +16,10 @@ import Logic.Board;
 
 public abstract class BaseCombination implements CombinationLogic {
 
+    protected static final int MAX_WRAPPED_COMBINATION_SIZE = 6;
+    protected static final int STRIPPED_COMBINATION_SIZE = 4;
+    protected static final int MIN_COMBINATION_SIZE = 3;
+
     protected Board board;
 
     public BaseCombination(Board b) { board = b; }
@@ -71,28 +75,39 @@ public abstract class BaseCombination implements CombinationLogic {
     }
 
     protected PriorityEntity checkBlockHorizontalVerticalCombination(Block block, Set<Block> combinationsOut) {
-        Set<Block> combination = new HashSet<Block>();
-        Set<Block> consecutiveH = new HashSet<Block>();
-        Set<Block> consecutiveV = new HashSet<Block>();
-        Colour color = block.getEntity().getColour();
-        consecutiveH = consecutiveH(block);
-        consecutiveV = consecutiveV(block);
-        combination.add(block);
-        combination.addAll(consecutiveV);
-        combination.addAll(consecutiveH);
-        int hSize = consecutiveH.size();
-        int vSize = consecutiveV.size();
-        int row = block.getRow();
-        int column = block.getColumn();
+        final Colour color = board.getBlockColour(block);
+
+        final Set<Block> consecutiveH = consecutiveHorizontal(block);
+        final Set<Block> consecutiveV = consecutiveVertical(block);
+
+        final int hSize = consecutiveH.size();
+        final int vSize = consecutiveV.size();
+        final int combinationSize = hSize + vSize + 1; // + 1 is the checked block. 
+
         PriorityEntity entity = null;
-        if ((hSize + vSize < 6) && (hSize + vSize > 3) && (hSize >= 2) && (vSize >= 2))
+        final int row = block.getRow();
+        final int column = block.getColumn();
+
+        final boolean createWrapped =
+                (combinationSize <= MAX_WRAPPED_COMBINATION_SIZE) &&
+                (hSize + 1 >= MIN_COMBINATION_SIZE) &&
+                (vSize + 1 >= MIN_COMBINATION_SIZE);
+        final boolean createStrippedVertical   = hSize+1 == STRIPPED_COMBINATION_SIZE;
+        final boolean createStrippedHorizontal = vSize+1 == STRIPPED_COMBINATION_SIZE;
+
+        if (createWrapped)
             entity = new PriorityEntity(new Wrapped(row, column, color), 2);
-        else if (hSize == 3)
-            entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
-        else if (vSize == 3)
+        else if (createStrippedVertical)
             entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
-        if (combination.size() >= 3)
-            combinationsOut.addAll(combination);
+        else if (createStrippedHorizontal)
+            entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
+
+        if (combinationSize >= MIN_COMBINATION_SIZE) {
+            combinationsOut.add(block);
+            combinationsOut.addAll(consecutiveH);
+            combinationsOut.addAll(consecutiveV);
+        }
+
         return entity;
     }
 
@@ -107,7 +122,7 @@ public abstract class BaseCombination implements CombinationLogic {
      * @param combination blocks that make combinations
      * @return amount of horizontal combinations
      */
-    protected Set<Block> consecutiveV(Block block) {
+    protected Set<Block> consecutiveVertical(Block block) {
         Set<Block> blocks = new HashSet<Block>();
         int row = block.getRow();
         int column = block.getColumn();
@@ -143,7 +158,7 @@ public abstract class BaseCombination implements CombinationLogic {
      * @param combination blocks that make combinations
      * @return amount of vertical combinations
      */
-    protected Set<Block> consecutiveH(Block block) {
+    protected Set<Block> consecutiveHorizontal(Block block) {
         Set<Block> blocks = new HashSet<Block>();
         int row = block.getRow();
         int column = block.getColumn();
