@@ -9,6 +9,7 @@ import Logic.Block;
 import Logic.Board;
 
 public class ClassicPattern extends BaseCombination {
+
     public ClassicPattern(Board b) { super(b); }
 
     @Override
