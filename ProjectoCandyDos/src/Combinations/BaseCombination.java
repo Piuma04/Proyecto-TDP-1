@@ -39,6 +39,7 @@ public abstract class BaseCombination implements CombinationLogic {
     public abstract Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut);
 
     protected Entity checkFullCombination(Block block, Set<Block> combinationsOut) {
+        final int MAX_NUMER_CANDYS_FOR_CREATION = 7;
         List<PriorityEntity> candys = new LinkedList<PriorityEntity>();
         PriorityEntity candy = null;
 
@@ -56,7 +57,7 @@ public abstract class BaseCombination implements CombinationLogic {
             combinationsOut.addAll(currentCombinations);
         }
 
-        if (combinationsOut.size() < 7) {
+        if (combinationsOut.size() < MAX_NUMER_CANDYS_FOR_CREATION) {
             // Get maximum priority.
             candy = candys.size() > 0 ? candys.get(0) : null;
             
@@ -64,7 +65,7 @@ public abstract class BaseCombination implements CombinationLogic {
                 if (pe.getPriority() > candy.getPriority())
                     candy = pe;
             }
-        }
+        } else candy = null;
 
         return candy != null ? candy.getEntity() : null;
     }
