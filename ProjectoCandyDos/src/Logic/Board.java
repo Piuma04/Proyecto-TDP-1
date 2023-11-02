@@ -41,7 +41,7 @@ public class Board {
         playerRow = ROWS / 2;
         playerColumn = COLUMNS / 2;
         myGui = gui;
-        combinationLogic = new Combination(this);
+        combinationLogic = null;
         playerSetted = false;
         for (int row = 0; row < ROWS; row++)
             for (int column = 0; column < COLUMNS; column++) {
@@ -53,6 +53,10 @@ public class Board {
         setPlayerPosition(playerRow, playerColumn);
     }
 
+    public void setTypeOfCombinations(char ToC) {
+    	combinationLogic = TypeOfCombinations.setTypeOfCombination(ToC, this);
+    }
+    
     public static int getRows() { return ROWS; }
     public static int getColumns() { return COLUMNS; }
     public static boolean isValidBlockPosition(int row, int column) { return row >= 0 && row < ROWS && column >= 0 && column < COLUMNS; }
