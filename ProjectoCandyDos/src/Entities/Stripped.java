@@ -42,35 +42,29 @@ public class Stripped extends Entity {
     @Override public Set<Block> getSpecialDestroyables(Stripped car, Board b){
     	 Set<Block> toDestroy = new HashSet<Block>();
     	 toDestroy.add(b.getBlock(this.row, this.column));
-    	 visited = true;
     	 toDestroy.add(b.getBlock(car.getRow(), car.getColumn()));
-    	 car.visited();
              for (int c = 0; c < Board.getColumns(); c++) {
-                 if (!b.getBlock(row, c).getEntity().isVisited())
-                     toDestroy.addAll(b.getBlock(row, c).getEntity().getDestroyables(b));
+                 toDestroy.addAll(b.getBlock(row, c).getEntity().getDestroyables(b));
              }
              
              for (int r = 0; r < Board.getRows(); r++) {
-                   if (!b.getBlock(r, column).getEntity().isVisited())
-                     toDestroy.addAll(b.getBlock(r, column).getEntity().getDestroyables(b));
+                 toDestroy.addAll(b.getBlock(r, column).getEntity().getDestroyables(b));
              }
          return toDestroy;
     }
     @Override public Set<Block> getSpecialDestroyables(Wrapped car, Board b){
     	 Set<Block> toDestroy = new HashSet<Block>();
     	 toDestroy.add(b.getBlock(this.row, this.column));
-    	 visited = true;
     	 toDestroy.add(b.getBlock(car.getRow(), car.getColumn()));
-    	 car.visited();
-             for (int c = 0; c < Board.getColumns(); c++) {
-            	 for(int widthR = row-1; widthR<=row+1;widthR++)
-            		 if (!(c == column) && widthR>=0 && widthR<Board.getRows() && !b.getBlock(widthR, c).getEntity().isVisited())
-            			 toDestroy.add(b.getBlock(widthR, c));
-             }
+         for (int c = 0; c < Board.getColumns(); c++) {
+        	 for(int widthR = row-1; widthR<=row+1;widthR++)
+        		 if (!(c == column) && widthR>=0 && widthR<Board.getRows())
+        			 toDestroy.add(b.getBlock(widthR, c));
+         }
              
              for (int r = 0; r < Board.getRows(); r++) {
             	 for(int widthC = column-1; widthC<=column+1;widthC++)
-                   if (!(r == row) && widthC>=0 && widthC<Board.getColumns() && !b.getBlock(r, widthC).getEntity().isVisited())
+                   if (!(r == row) && widthC>=0 && widthC<Board.getColumns())
                      toDestroy.add(b.getBlock(r, widthC));
              }
          return toDestroy;
@@ -87,30 +81,24 @@ public class Stripped extends Entity {
     @Override public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
         toDestroy.add(b.getBlock(row, column));
-        if(!visited)
-        {
-            visited = true;
-        	if (isHorizontal)
-                for (int c = 0; c < Board.getColumns(); c++) {
-                    if (!(c == column) && !b.getBlock(row, c).getEntity().isVisited())
-                        toDestroy.addAll(b.getBlock(row, c).getEntity().getDestroyables(b));
-                }
-            else
-                for (int r = 0; r < Board.getRows(); r++) {
-                    if (!(r == row) && !b.getBlock(r, column).getEntity().isVisited())
-                        toDestroy.addAll(b.getBlock(r, column).getEntity().getDestroyables(b));
-                }
-        	// ahora destruye si hay glazed/ bombas en pos adyacentes
-            int[] adyacentRows = { -1, 0, 1, 0 };
-            int[] adyacentColumns = { 0, -1, 0, 1 };
-            for (int i = 0; i < 4; i++) {
-                int newRow = row + adyacentRows[i];
-                int newColumn = column + adyacentColumns[i];
-                if (Board.isValidBlockPosition(newRow, newColumn)) {
-                    Block block = b.getBlock(newRow, newColumn);
-                    if (!block.getEntity().isSwappable(this))
-                        toDestroy.add(block);
-                }
+    	if (isHorizontal)
+            for (int c = 0; c < Board.getColumns(); c++) {
+                toDestroy.add(b.getBlock(row, c));
+            }
+        else
+            for (int r = 0; r < Board.getRows(); r++) {
+                toDestroy.add(b.getBlock(r, column));
+            }
+    	// ahora destruye si hay glazed/ bombas en pos adyacentes
+        int[] adyacentRows = { -1, 0, 1, 0 };
+        int[] adyacentColumns = { 0, -1, 0, 1 };
+        for (int i = 0; i < 4; i++) {
+            int newRow = row + adyacentRows[i];
+            int newColumn = column + adyacentColumns[i];
+            if (Board.isValidBlockPosition(newRow, newColumn)) {
+                Block block = b.getBlock(newRow, newColumn);
+                if (!block.getEntity().isSwappable(this))
+                    toDestroy.add(block);
             }
         }
 

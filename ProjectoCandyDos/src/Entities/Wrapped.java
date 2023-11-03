@@ -36,20 +36,18 @@ public class Wrapped extends Entity {
     {
     	Set<Block> toDestroy = new HashSet<Block>();
     	toDestroy.add(b.getBlock(this.row, this.column));
-   	 	visited = true;
    	 	toDestroy.add(b.getBlock(car.getRow(), car.getColumn()));
-   	 	car.visited();
-            for (int c = 0; c < Board.getColumns(); c++) {
-           	 for(int widthR = row-1; widthR<=row+1;widthR++)
-           		 if (!(c == column) && widthR>=0 && widthR<Board.getRows() && !b.getBlock(widthR, c).getEntity().isVisited())
-           			 toDestroy.add(b.getBlock(widthR, c));
-            }
-            
-            for (int r = 0; r < Board.getRows(); r++) {
-           	 for(int widthC = column-1; widthC<=column+1;widthC++)
-                  if (!(r == row) && widthC>=0 && widthC<Board.getColumns() && !b.getBlock(r, widthC).getEntity().isVisited())
-                    toDestroy.add(b.getBlock(r, widthC));
-            }
+        for (int c = 0; c < Board.getColumns(); c++) {
+       	 for(int widthR = row-1; widthR<=row+1;widthR++)
+       		 if ((c != column) && widthR>=0 && widthR<Board.getRows())
+       			 toDestroy.add(b.getBlock(widthR, c));
+        }
+        
+        for (int r = 0; r < Board.getRows(); r++) {
+       	 for(int widthC = column-1; widthC<=column+1;widthC++)
+              if ((r != row) && widthC>=0 && widthC<Board.getColumns())
+                toDestroy.add(b.getBlock(r, widthC));
+        }
         return toDestroy;
 
     }
@@ -57,12 +55,10 @@ public class Wrapped extends Entity {
     {
     	Set<Block> toDestroy = new HashSet<Block>();
     	toDestroy.add(b.getBlock(this.row, this.column));
-   	 	visited = true;
    	 	toDestroy.add(b.getBlock(c.getRow(), c.getColumn()));
-   	 	c.visited();
         for (int j = column - 2; j <= column + 2; j++)
             for (int i = row - 2; i <= row + 2; i++) 
-                if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns() && !b.getBlock(i, j).getEntity().isVisited())
+                if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns())
                     toDestroy.add(b.getBlock(i, j));
         return toDestroy;
     }
@@ -79,14 +75,10 @@ public class Wrapped extends Entity {
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
         toDestroy.add(b.getBlock(row, column));
-        if(!visited)
-        {
-        	visited = true;
-        	 for (int j = column - 1; j <= column + 1; j++)
-                 for (int i = row - 1; i <= row + 1; i++) 
-                     if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns() && !b.getBlock(i, j).getEntity().isVisited())
-                         toDestroy.addAll(b.getBlock(i, j).getEntity().getDestroyables(b));	
-        }
+    	 for (int j = column - 1; j <= column + 1; j++)
+             for (int i = row - 1; i <= row + 1; i++) 
+                 if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns())
+                     toDestroy.add(b.getBlock(i, j));	
         return toDestroy;
     }
 

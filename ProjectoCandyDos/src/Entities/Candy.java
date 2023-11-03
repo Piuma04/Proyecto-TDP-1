@@ -40,18 +40,15 @@ public class Candy extends Entity {
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
         toDestroy.add(b.getBlock(row, column));
-        if (!visited) {
-            visited = true;
-            int[] adyacentRows = { -1, 0, 1, 0 };
-            int[] adyacentColumns = { 0, -1, 0, 1 };
-            for (int i = 0; i < 4; i++) {
-                int newRow = row + adyacentRows[i];
-                int newColumn = column + adyacentColumns[i];
-                if (Board.isValidBlockPosition(newRow, newColumn)) {
-                    Block block = b.getBlock(newRow, newColumn);
-                    if (!block.getEntity().isSwappable(this))
-                        toDestroy.add(block);
-                }
+        int[] adyacentRows = { -1, 0, 1, 0 };
+        int[] adyacentColumns = { 0, -1, 0, 1 };
+        for (int i = 0; i < 4; i++) {
+            int newRow = row + adyacentRows[i];
+            int newColumn = column + adyacentColumns[i];
+            if (Board.isValidBlockPosition(newRow, newColumn)) {
+                Block block = b.getBlock(newRow, newColumn);
+                if (!block.getEntity().isSwappable(this))
+                    toDestroy.add(block);
             }
         }
         return toDestroy;

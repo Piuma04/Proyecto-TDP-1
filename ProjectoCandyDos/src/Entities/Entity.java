@@ -13,7 +13,6 @@ import Logic.VisualEntityDummy;
 
 public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable, SpecialDestroy {
     protected Colour colour;
-    protected boolean visited = false;
     protected String explosionGif;
 
     Entity(int rowPosition, int columnPosition, Colour colour) {
@@ -63,9 +62,6 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
         playGif(explosionGif);
         setImage(null);
     }
-
-    public void visited() { visited = true; }
-    public boolean isVisited() { return visited; }
 
     protected String setStringColor(String str) {
         final String ANSI_RESET = "\u001B[0m";

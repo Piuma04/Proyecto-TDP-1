@@ -214,16 +214,20 @@ public class Board {
 
     private List<Equivalent> destroyEntities(Set<Block> toDestroy) {
         List<Equivalent> destroyed = new LinkedList<Equivalent>();
-        List<Block> destroyables = new LinkedList<Block>();
-        for (Block b : toDestroy) { destroyables.addAll(b.getEntity().getDestroyables(this)); }
-        if (!destroyables.isEmpty()) { myGui.playSound(explosion); }
-        for (Block b : destroyables) {
-            if (b.hasModifiers())
-                destroyed.add(b.popModifier());
-            destroyed.add(b.getEntity());
-            destroyEntity(b.getRow(), b.getColumn());
+
+        if (!toDestroy.isEmpty()) { myGui.playSound(explosion); }
+        while (!toDestroy.isEmpty()) {
+            Block next = toDestroy.iterator().next();
+            toDestroy.addAll(next.getEntity().getDestroyables(this));
+
+            if (next.hasModifiers())
+                destroyed.add(next.popModifier());
+            destroyed.add(next.getEntity());
+            destroyEntity(next.getRow(), next.getColumn());
+
+            toDestroy.remove(next);
         }
-        toDestroy.clear();
+
         return destroyed;
     }
 
