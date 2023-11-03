@@ -1,5 +1,7 @@
 package Animations;
 
+import GUI.Drawable;
+
 /**
  * Define las operaciones esperables por sobre un Manejador de Animaciones.
  * @author FJoaquin (federico.joaquin@cs.uns.edu.ar)
@@ -12,5 +14,7 @@ public interface AnimatorDriver {
      * Notifica a la ventana asociada al manejador que se finalizó con una de las animaciones pendientes.
      * @param a Animador que se encontraba en progreso y finalizó su actividad
      */
-    public void notifyEndAnimation(Animator a, boolean destroyEntity);
+    public void notifyEndAnimation(Animator a);
+
+    public void notifyToDelete(Drawable drawable);
 }

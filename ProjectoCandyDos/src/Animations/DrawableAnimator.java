@@ -29,11 +29,13 @@ public class DrawableAnimator {
         List<Animator> drawableAnimations;
 
         drawableAnimations = map_drawable_animations.get(a.getDrawable());
-        if(a!=null) drawableAnimations.remove(a);
+        drawableAnimations.remove(a);
 
         if (!drawableAnimations.isEmpty()) {
             animator = drawableAnimations.get(0);
             animator.startAnimation();
+        } else {
+            map_drawable_animations.remove(a.getDrawable());
         }
     }
 

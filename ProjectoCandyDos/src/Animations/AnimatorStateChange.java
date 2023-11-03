@@ -34,16 +34,22 @@ public class AnimatorStateChange extends Thread implements Animator {
         drawableAnimated = c;
         animationPath = c.getLogicalEntity().getImage();
         bGif = isGif(animationPath);
-        if (bGif) gifPlayer.add(animationPath, drawableAnimated.getImageSize());
-        else imageStorage.add(animationPath, drawableAnimated.getImageSize());
+        if (bGif)
+            gifPlayer.add(animationPath, drawableAnimated.getImageSize());
+        else
+            imageStorage.add(animationPath, drawableAnimated.getImageSize());
     }
 
     @Override
     public void run() {
-        if (bGif) gifPlayer.play(animationPath, drawableAnimated);
-        else drawableAnimated.setIcon(imageStorage.get(animationPath));
+        if (bGif)
+            gifPlayer.play(animationPath, drawableAnimated);
+        else if (animationPath == null)
+            manager.notifyToDelete(drawableAnimated);
+        else
+            drawableAnimated.setIcon(imageStorage.get(animationPath));
         drawableAnimated.repaint();
-        manager.notifyEndAnimation(this, animationPath == null);
+        manager.notifyEndAnimation(this);
     }
 
     @Override public Drawable getDrawable() { return drawableAnimated; }

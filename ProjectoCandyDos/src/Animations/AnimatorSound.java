@@ -17,7 +17,7 @@ public class AnimatorSound implements Animator {
     @Override public Drawable getDrawable() { return null; }
     @Override public void startAnimation() {
         mySound.play();
-        manager.notifyEndAnimation(this, false);
+        manager.notifyEndAnimation(this);
     }
     @Override public int id() { return 3; }
     public String toString()  { return "Sound"; }

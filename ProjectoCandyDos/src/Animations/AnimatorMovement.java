@@ -39,7 +39,7 @@ public class AnimatorMovement extends Thread implements Animator {
         pos_x_destination = pos[0];
         pos_y_destination = pos[1];
     }
-    
+
     @Override
     public void run() {
         int pos_x_actual = drawableAnimated.getX();
@@ -54,16 +54,17 @@ public class AnimatorMovement extends Thread implements Animator {
         if (pos_y_actual != pos_y_destination)
             paso_en_y = (pos_y_actual < pos_y_destination ? 1 : -1);
 
-        
         while( (pos_x_actual != pos_x_destination) || (pos_y_actual != pos_y_destination)) {
-            pos_x_actual += paso_en_x * step;
-            pos_y_actual += paso_en_y * step;
+            int dx = paso_en_x * step;
+            int dy = paso_en_y * step;
+            pos_x_actual += dx;
+            pos_y_actual += dy;
 
             drawableAnimated.setLocation(pos_x_actual, pos_y_actual);
             drawableAnimated.repaint();
             try { sleep(delay); } catch (InterruptedException e) { e.printStackTrace(); }
         }
-        manager.notifyEndAnimation(this, false);
+        manager.notifyEndAnimation(this);
     }
 
     @Override public Drawable getDrawable() { return drawableAnimated; }

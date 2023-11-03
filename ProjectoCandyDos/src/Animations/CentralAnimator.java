@@ -4,12 +4,11 @@ import java.util.Queue;
 
 import javax.swing.SwingUtilities;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayDeque;
 
 import GUI.Drawable;
 import GUI.Gui;
-
+import Interfaces.LogicEntity;
 import VisualPlayers.SoundPlayer;
 
 /**
@@ -59,7 +58,6 @@ public class CentralAnimator implements AnimatorDriver {
      */
     public void animateChangeState(Drawable c) {
         Animator animator = new AnimatorStateChange(this, c);
-
         if (c.getSkipQueue())
             startDrawableAnimation(animator);
         else
@@ -71,7 +69,7 @@ public class CentralAnimator implements AnimatorDriver {
         enqueueAnimator(animator);
     }
 
-    private void startDrawableAnimation(Animator animator) {
+    synchronized private void startDrawableAnimation(Animator animator) {
         gui.notifyAnimationInProgress();
         drawableAnimator.startAnimation(animator);
     }
@@ -86,14 +84,14 @@ public class CentralAnimator implements AnimatorDriver {
             queue.add(animator);
     }
 
-    @Override
-    public void notifyEndAnimation(Animator a, boolean bDestroy) {
+    public void notifyToDelete(Drawable drawable) { SwingUtilities.invokeLater(() -> { gui.removeEntity(drawable); }); }
 
+    @Override
+    public void notifyEndAnimation(Animator a) {
+        drawableAnimator.endAnimation(a);
         gui.notifyAnimationEnd();
 
-        drawableAnimator.endAnimation(a);
-
-        if (gui.getPendingAnimations() == 0)
+        if (gui.getPendingAnimations() == 0 && !queue.isEmpty()) {
             SwingUtilities.invokeLater( () -> {
                 Animator head = queue.peek();
                 while (head != null) {
@@ -107,14 +105,14 @@ public class CentralAnimator implements AnimatorDriver {
                     queue.poll();
                     head = queue.peek();
                 }
-
-                if (!isActive())
-                    while (!extraTasks.isEmpty())
-                        extraTasks.poll().run();
             });
+        }
 
-        if (bDestroy)
-            SwingUtilities.invokeLater(() -> { gui.removeEntity(a.getDrawable()); });
+        if (!isActive())
+            SwingUtilities.invokeLater( () -> {
+                while (!extraTasks.isEmpty())
+                    extraTasks.poll().run();
+            });
     }
 
     public void executeAfterAnimation(Runnable r) {
@@ -124,5 +122,6 @@ public class CentralAnimator implements AnimatorDriver {
             r.run();
     }
 
-    public boolean isActive() { return !queue.isEmpty() || gui.getPendingAnimations() > 0; }
+    public boolean isActive() { return gui.getPendingAnimations() > 0 || !queue.isEmpty(); }
+    
 }
