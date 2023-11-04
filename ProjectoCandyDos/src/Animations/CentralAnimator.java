@@ -84,10 +84,10 @@ public class CentralAnimator implements AnimatorDriver {
             queue.add(animator);
     }
 
-    public void notifyToDelete(Drawable drawable) { SwingUtilities.invokeLater(() -> { gui.removeEntity(drawable); }); }
+    synchronized public void notifyToDelete(Drawable drawable) { SwingUtilities.invokeLater(() -> { gui.removeEntity(drawable); }); }
 
     @Override
-    public void notifyEndAnimation(Animator a) {
+    synchronized public void notifyEndAnimation(Animator a) {
         drawableAnimator.endAnimation(a);
         gui.notifyAnimationEnd();
 

@@ -213,19 +213,15 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public void executeAfterAnimation(Runnable r) { animator.executeAfterAnimation(r); }
 
     @Override
-    public void notifyAnimationInProgress() {
-        synchronized(this) {
+    synchronized public void notifyAnimationInProgress() {
             pendingAnimations++;
             stopInterchanges = true;
-        }
     }
     
     @Override
-    public void notifyAnimationEnd() {
-        synchronized(this) {
-            pendingAnimations--;
-            stopInterchanges = pendingAnimations > 0;
-        }
+    synchronized public void notifyAnimationEnd() {
+        pendingAnimations--;
+        stopInterchanges = pendingAnimations > 0;
     }
 
     @Override public void animateMovement(Drawable c) { animator.animateChangePosition(c); }
