@@ -14,7 +14,6 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.JCheckBox;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -93,10 +92,9 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         checkBox.setHorizontalAlignment(JCheckBox.CENTER);
         
         checkBox.addItemListener( (ItemEvent ev) -> {
-            SwingUtilities.invokeLater( () -> {
                 setTheme(ev.getStateChange() == ItemEvent.SELECTED);
                 myGame.reloadLevel();
-            });
+                myGame.resetScore();
         });
         
         menuPanel.add(checkBox, BorderLayout.CENTER);
@@ -104,7 +102,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         JButton startGame = new JButton("Continue Game");
         startGame.setPreferredSize(new Dimension(30, 20));
         startGame.setHorizontalAlignment(JButton.CENTER);
-        startGame.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { openGame(); }); });
+        startGame.addActionListener( (ActionEvent ev) -> { openGame(); });
         menuPanel.add(startGame, BorderLayout.SOUTH);
         
         JButton maxScores = new JButton("Consultar maximas puntuaciones");
@@ -122,11 +120,11 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         JButton level_4 = new JButton("Level 4");
         JButton level_5 = new JButton("Level 5");
 
-        level_1.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(1); openGame(); resetScore();}); });
-        level_2.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(2); openGame(); resetScore();}); });
-        level_3.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(3); openGame(); resetScore();}); });
-        level_4.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(4); openGame(); resetScore();}); });
-        level_5.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(5); openGame(); resetScore();}); });
+        level_1.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(1); openGame(); resetScore(); });
+        level_2.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(2); openGame(); resetScore(); });
+        level_3.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(3); openGame(); resetScore(); });
+        level_4.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(4); openGame(); resetScore(); });
+        level_5.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(5); openGame(); resetScore(); });
 
         levels.add(level_1);
         levels.add(level_2);
@@ -135,7 +133,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         levels.add(level_5);
         
         JButton level_6 = new JButton("Level 6");
-        level_6.addActionListener( (ActionEvent ev) -> { SwingUtilities.invokeLater( () -> { myGame.loadLevel(6); openGame(); }); });
+        level_6.addActionListener( (ActionEvent ev) -> { myGame.loadLevel(6); openGame(); });
         levels.add(level_6);
         
         
@@ -229,7 +227,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 
     public int getPendingAnimations() { return pendingAnimations; }
 
-    public void setTheme(boolean old) {
+    synchronized public void setTheme(boolean old) {
         Resources.setTheme(old ? 1 : 0);
         gamePanel.updateResources();
     }

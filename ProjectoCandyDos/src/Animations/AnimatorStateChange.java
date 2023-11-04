@@ -1,7 +1,7 @@
 package Animations;
 
 import GUI.Drawable;
-
+import Interfaces.LogicEntity;
 import VisualPlayers.ImageStorage;
 import VisualPlayers.GifPlayer;
 
@@ -57,5 +57,10 @@ public class AnimatorStateChange extends Thread implements Animator {
     @Override public int id() { return 2; }
     private static boolean isGif(String imagePath) { return imagePath != null && imagePath.endsWith(".gif"); }
     
-    public String toString() { return "State(" + drawable.getLogicalEntity().toString() + ")"; }
+    //public String toString() { return "State(" + drawable.getLogicalEntity().toString() + ")"; }
+    public String toString() {
+        LogicEntity log = drawable.getLogicalEntity();
+        String s = "State(" + "("+ log.getRow() + ", " + log.getColumn() + ")) (" + log.toString() + ")";
+        return  s;
+    }
 }

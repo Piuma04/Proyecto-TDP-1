@@ -7,9 +7,8 @@ import GUI.Drawable;
  * Un animador podrá llevar adelante la animación de movimiento o de cambio de estado, de una entidad.
  * @author FJoaquin (federico.joaquin@cs.uns.edu.ar)
  */
-public interface Animator {
+public interface Animator extends Identifiable {
 
     public Drawable getDrawable();
     public void startAnimation();
-    public int id();
 }

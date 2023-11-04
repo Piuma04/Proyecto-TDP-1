@@ -5,34 +5,38 @@ import java.util.Queue;
 import javax.swing.SwingUtilities;
 
 import java.util.ArrayDeque;
+import java.util.List;
 
 import GUI.Drawable;
 import GUI.Gui;
 import VisualPlayers.SoundPlayer;
 
 /**
- * Modela el manager de animaciones requerido para efectivizar las mismas en función al orden en el que fueron solicitadas desde la ventana.
- * Ante cada nueva animación solicitada por ventana y que se debe realizar por sobre una celda, se encarga de efectivizar estas animaciones 
- * en el orden que corresponda a su arriba (FIFO).
- * Permite que dos o más animaciones por sobre una misma celda se realicen efectivamente en orden secuencial, sin solapamientos.
- * Las animaciones entre entidades diferentes se resolverán, recurrentemente, considerando que algunos animadores se efectivizarán mediante Threads.
+ * Modela el manager de animaciones requerido para efectivizar las mismas en
+ * función al orden en el que fueron solicitadas desde la ventana. Ante cada
+ * nueva animación solicitada por ventana y que se debe realizar por sobre una
+ * celda, se encarga de efectivizar estas animaciones en el orden que
+ * corresponda a su arriba (FIFO). Permite que dos o más animaciones por sobre
+ * una misma celda se realicen efectivamente en orden secuencial, sin
+ * solapamientos. Las animaciones entre entidades diferentes se resolverán,
+ * recurrentemente, considerando que algunos animadores se efectivizarán
+ * mediante Threads.
+ * 
  * @author FJoaquin (federico.joaquin@cs.uns.edu.ar)
  *
  */
 public class CentralAnimator implements AnimatorDriver {
     protected Gui gui;
     protected DrawableAnimator drawableAnimator;
-
+    protected SyncList<Animator> animatorList;
     protected Queue<Runnable> extraTasks;
-    protected Queue<Animator> queue;
-    protected int currentAnimatorType;
+    public static int counter = 0;
 
     public CentralAnimator(Gui v) {
         gui = v;
         drawableAnimator = new DrawableAnimator();
-        queue = new ArrayDeque<Animator>();
+        animatorList = new SyncList<Animator>();
         extraTasks = new ArrayDeque<Runnable>();
-        currentAnimatorType = 2;
     }
 
     public void animateChangePosition(Drawable drawable) {
@@ -42,6 +46,7 @@ public class CentralAnimator implements AnimatorDriver {
 
     public void animateChangeState(Drawable drawable) {
         Animator animator = new AnimatorStateChange(this, drawable);
+
         if (drawable.getSkipQueue())
             startDrawableAnimation(animator);
         else
@@ -55,6 +60,7 @@ public class CentralAnimator implements AnimatorDriver {
 
     private void startDrawableAnimation(Animator animator) {
         gui.notifyAnimationInProgress();
+
         if (animator.getDrawable() != null)
             drawableAnimator.startAnimation(animator);
         else
@@ -62,43 +68,36 @@ public class CentralAnimator implements AnimatorDriver {
     }
 
     private void enqueueAnimator(Animator animator) {
-        if (gui.getPendingAnimations() == 0)
-            currentAnimatorType = animator.id();
-
-        if (queue.isEmpty() && currentAnimatorType == animator.id())
+        if (animatorList.add(animator))
             startDrawableAnimation(animator);
-        else
-            queue.add(animator);
     }
 
     @Override
     synchronized public void notifyEndAnimation(Animator animator) {
+
         if (animator.getDrawable() != null)
             drawableAnimator.endAnimation(animator);
+
         gui.notifyAnimationEnd();
 
-        if (gui.getPendingAnimations() == 0 && !queue.isEmpty()) {
-            SwingUtilities.invokeLater( () -> {
-                Animator head = queue.peek();
-                while (head != null) {
-                    int id = head.id();
-                    if (currentAnimatorType != id) {
-                        if (gui.getPendingAnimations() > 0)
-                            break;
-                        currentAnimatorType = id;
+        animatorList.remove(animator);
+
+        if (gui.getPendingAnimations() == 0) {
+            SwingUtilities.invokeLater(() -> {
+                if (!animatorList.isEmpty()) {
+                    int lastType = animatorList.getCurrentType();
+                    animatorList.updateType();
+                    if (lastType != animatorList.getCurrentType()) {
+                        List<Animator> sameTypes = animatorList.peekSameTypes();
+                        for (Animator a : sameTypes)
+                            startDrawableAnimation(a);  
                     }
-                    startDrawableAnimation(head);
-                    queue.poll();
-                    head = queue.peek();
+                } else {
+                    while (!extraTasks.isEmpty())
+                        extraTasks.poll().run();
                 }
             });
         }
-
-        if (!isActive())
-            SwingUtilities.invokeLater( () -> {
-                while (!extraTasks.isEmpty())
-                    extraTasks.poll().run();
-            });
     }
 
     public void executeAfterAnimation(Runnable task) {
@@ -108,6 +107,5 @@ public class CentralAnimator implements AnimatorDriver {
             task.run();
     }
 
-    public boolean isActive() { return gui.getPendingAnimations() > 0 || !queue.isEmpty(); }
-    
+    public boolean isActive() { return gui.getPendingAnimations() > 0 || !animatorList.isEmpty(); }
 }

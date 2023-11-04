@@ -51,8 +51,8 @@ public class SoundPlayer implements Observer {
     }
 
     public void playNew() {
-        AudioInputStream audioStream = getAudioStream();
-        Clip clip = getClip(audioStream);
+        AudioInputStream audioStream = getNewAudioStream();
+        Clip clip = getNewClip(audioStream);
         if (clip != null) {
             clip.addLineListener(event -> {
                 if(event.getType() == LineEvent.Type.STOP) {
@@ -69,7 +69,7 @@ public class SoundPlayer implements Observer {
     public void start() { if (mySound != null) mySound.start(); }
     public boolean isActive() { return mySound != null && mySound.isActive(); }
     
-    private AudioInputStream getAudioStream() {
+    private AudioInputStream getNewAudioStream() {
         return audioData == null ? null : new AudioInputStream(
                 new ByteArrayInputStream(audioData),
                 audioFormat,
@@ -77,7 +77,7 @@ public class SoundPlayer implements Observer {
         );
     }
     
-    private Clip getClip(AudioInputStream audioStream) {
+    private Clip getNewClip(AudioInputStream audioStream) {
         Clip clip = null;
         try {
             clip = AudioSystem.getClip();
@@ -105,12 +105,18 @@ public class SoundPlayer implements Observer {
     }
 
     // MUST BE CALLED BEFORE DELETING INSTANCE.
-    public void cleanup() { Resources.removeObserver(this); }
+    public void cleanup() {
+        if (mySound != null)
+            mySound.close();
+        Resources.removeObserver(this); }
 
     @Override
     public void update(int newTheme) {
+        if (mySound != null)
+            mySound.close();
+        
         loadAudioData(Resources.getAudioFolderPath() + filename);
-        mySound = getClip(getAudioStream());
+        mySound = getNewClip(getNewAudioStream());
         if (mySound != null)
             mySound.addLineListener(event -> {
                 if(event.getType() == LineEvent.Type.STOP) { stopped = true; }
