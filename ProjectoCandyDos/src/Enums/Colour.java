@@ -1,4 +1,4 @@
-package Entities;
+package Enums;
 
 public enum Colour {
     NONE,

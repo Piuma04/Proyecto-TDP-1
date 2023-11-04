@@ -15,10 +15,11 @@ import GUI.Gui;
 import Combinations.CombinationLogic;
 
 import Entities.Candy;
-import Entities.Colour;
+
 import Entities.Empty;
 import Entities.Entity;
 import Entities.MegaStripped;
+import Enums.Colour;
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
 import VisualPlayers.SoundPlayer;
