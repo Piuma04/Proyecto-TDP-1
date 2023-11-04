@@ -8,7 +8,6 @@ import java.util.ArrayDeque;
 
 import GUI.Drawable;
 import GUI.Gui;
-import Interfaces.LogicEntity;
 import VisualPlayers.SoundPlayer;
 
 /**
@@ -36,29 +35,14 @@ public class CentralAnimator implements AnimatorDriver {
         currentAnimatorType = 2;
     }
 
-    /**
-     * Indica que la celda parametrizada debe ser animada a partir de un cambio de posición.
-     * La animación será lanzada de inmediato, siempre que no existan animaciones en progreso sobre c.
-     * La animación será encolada para efectivizarse en el futuro, a la espera de que las animaciones solicitadas previamente sobre c
-     * se realicen primero.
-     * @param c Celda que debe animarse, en relación a la posición que ubica la JLabel y la ubicación indicada por la entidad lógica
-     * referenciada por c.
-     */
-    public void animateChangePosition(Drawable c) {
-        Animator animator = new AnimatorMovement(this, 1, 2, c);
+    public void animateChangePosition(Drawable drawable) {
+        Animator animator = new AnimatorMovement(this, 1, 2, drawable);
         enqueueAnimator(animator);
     }
-    
-    /**
-     * Indica que la celda parametrizada debe ser animada a partir de un cambio de estado.
-     * La animación será lanzada de inmediato, siempre que no existan animaciones en progreso sobre c.
-     * La animación será encolada para efectivizarse en el futuro, a la espera de que las animaciones solicitadas previamente sobre c
-     * se realicen primero.
-     * @param c Celda que debe animarse, en relación a la imagen actual que la representa.
-     */
-    public void animateChangeState(Drawable c) {
-        Animator animator = new AnimatorStateChange(this, c);
-        if (c.getSkipQueue())
+
+    public void animateChangeState(Drawable drawable) {
+        Animator animator = new AnimatorStateChange(this, drawable);
+        if (drawable.getSkipQueue())
             startDrawableAnimation(animator);
         else
             enqueueAnimator(animator);
@@ -69,26 +53,28 @@ public class CentralAnimator implements AnimatorDriver {
         enqueueAnimator(animator);
     }
 
-    synchronized private void startDrawableAnimation(Animator animator) {
+    private void startDrawableAnimation(Animator animator) {
         gui.notifyAnimationInProgress();
-        drawableAnimator.startAnimation(animator);
+        if (animator.getDrawable() != null)
+            drawableAnimator.startAnimation(animator);
+        else
+            animator.startAnimation();
     }
 
     private void enqueueAnimator(Animator animator) {
         if (gui.getPendingAnimations() == 0)
             currentAnimatorType = animator.id();
-        if (queue.isEmpty() && currentAnimatorType == animator.id()) {
+
+        if (queue.isEmpty() && currentAnimatorType == animator.id())
             startDrawableAnimation(animator);
-        }
         else
             queue.add(animator);
     }
 
-    synchronized public void notifyToDelete(Drawable drawable) { SwingUtilities.invokeLater(() -> { gui.removeEntity(drawable); }); }
-
     @Override
-    synchronized public void notifyEndAnimation(Animator a) {
-        drawableAnimator.endAnimation(a);
+    synchronized public void notifyEndAnimation(Animator animator) {
+        if (animator.getDrawable() != null)
+            drawableAnimator.endAnimation(animator);
         gui.notifyAnimationEnd();
 
         if (gui.getPendingAnimations() == 0 && !queue.isEmpty()) {
@@ -115,11 +101,11 @@ public class CentralAnimator implements AnimatorDriver {
             });
     }
 
-    public void executeAfterAnimation(Runnable r) {
+    public void executeAfterAnimation(Runnable task) {
         if (isActive())
-            extraTasks.add(r);
+            extraTasks.add(task);
         else
-            r.run();
+            task.run();
     }
 
     public boolean isActive() { return gui.getPendingAnimations() > 0 || !queue.isEmpty(); }

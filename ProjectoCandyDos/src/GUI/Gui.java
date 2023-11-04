@@ -196,7 +196,6 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         gamePanel.addEntity(drawable);
         return drawable;
     }
-    public void removeEntity(Drawable gentity) { gamePanel.removeEntity(gentity); }
 
     public void showObjective(List<String> entities, List<Integer> remaining) { gamePanel.showObjective(entities, remaining); }
     public void updateGraphicObjective(List<Integer> list) { gamePanel.updateGraphicObjective(list); }
@@ -241,4 +240,6 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
 	    return "Nombre";
 		//return JOptionPane.showInputDialog(getContentPane(), "Ingrese su nombre");
 	}
+
+    @Override public void deleteDrawable(Drawable drawable) { gamePanel.removeEntity(drawable); }
 }

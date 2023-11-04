@@ -6,19 +6,21 @@ import VisualPlayers.SoundPlayer;
 
 public class AnimatorSound implements Animator {
 
-    protected AnimatorDriver manager;
-    private SoundPlayer mySound;
+    private static final int _id = 3;
 
-    public AnimatorSound(AnimatorDriver m, SoundPlayer sound) {
-        manager = m;
-        mySound = sound;
+    protected AnimatorDriver manager;
+    private SoundPlayer sound;
+
+    public AnimatorSound(AnimatorDriver manager, SoundPlayer sound) {
+        this.manager = manager;
+        this.sound = sound;
     }
 
     @Override public Drawable getDrawable() { return null; }
     @Override public void startAnimation() {
-        mySound.play();
+        sound.play();
         manager.notifyEndAnimation(this);
     }
-    @Override public int id() { return 3; }
-    public String toString()  { return "Sound"; }
+    @Override public final int id() { return _id; }
+    public String toString()  { return "Sound(" + sound.toString() + ")"; }
 }

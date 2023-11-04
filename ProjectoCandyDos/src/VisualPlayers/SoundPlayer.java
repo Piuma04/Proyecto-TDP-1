@@ -116,4 +116,6 @@ public class SoundPlayer implements Observer {
                 if(event.getType() == LineEvent.Type.STOP) { stopped = true; }
             });
      }
+
+    public String toString() { return filename; }
 }

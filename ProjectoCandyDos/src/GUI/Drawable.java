@@ -56,4 +56,6 @@ public class Drawable extends JComponent implements GraphicalEntity {
         final int y = myLogicEntity.getRow() * boardLabelSize + (boardLabelSize - sizeIcon) / 2;
         return new int[]{x, y};
     }
+
+    public void delete() { agui.deleteDrawable(this); }
 }

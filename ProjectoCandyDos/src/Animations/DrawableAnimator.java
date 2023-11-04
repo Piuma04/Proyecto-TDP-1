@@ -15,6 +15,7 @@ public class DrawableAnimator {
     
     public void startAnimation(Animator animator) {
         Drawable c = animator.getDrawable();
+
         if (hasAnimationInProgress(c)) {
             map_drawable_animations.get(c).add(animator);
         } else {
@@ -24,30 +25,29 @@ public class DrawableAnimator {
         }
     }
 
-    public void endAnimation(Animator a) {
-        Animator animator;
+    public void endAnimation(Animator animator) {
+        Animator nextAnimator;
         List<Animator> drawableAnimations;
+        final Drawable drawable = animator.getDrawable();
 
-        drawableAnimations = map_drawable_animations.get(a.getDrawable());
-        drawableAnimations.remove(a);
+        drawableAnimations = map_drawable_animations.get(drawable);
+        drawableAnimations.remove(animator);
 
         if (!drawableAnimations.isEmpty()) {
-            animator = drawableAnimations.get(0);
-            animator.startAnimation();
+            nextAnimator = drawableAnimations.get(0);
+            nextAnimator.startAnimation();
         } else {
-            map_drawable_animations.remove(a.getDrawable());
+            map_drawable_animations.remove(drawable);
         }
     }
 
     /**
      * Estima si la celda parametrizada actualmente cuenta con animaciones en progreso. 
-     * @param c Celda que se desea considerar para el chequeo de animaciones en progreso.
+     * @param drawable Celda que se desea considerar para el chequeo de animaciones en progreso.
      * @return True si la celda tiene animaciones actualmente en progreso; false en caso contrario.
      */
-    private boolean hasAnimationInProgress(Drawable c) {
-        boolean retorno = false;
-        if (map_drawable_animations.get(c) != null)
-            retorno = !map_drawable_animations.get(c).isEmpty();
-        return retorno;
+    private boolean hasAnimationInProgress(Drawable drawable) {
+        final List<Animator> list = map_drawable_animations.get(drawable); 
+        return list != null && !list.isEmpty();
     }
 }

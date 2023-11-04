@@ -12,8 +12,10 @@ import GUI.Drawable;
  */
 public class AnimatorMovement extends Thread implements Animator {
 
+    private static final int _id = 1;
+
     protected AnimatorDriver manager;
-    protected Drawable drawableAnimated;
+    protected Drawable drawable;
     
     protected int pos_x_destination;
     protected int pos_y_destination;
@@ -28,22 +30,21 @@ public class AnimatorMovement extends Thread implements Animator {
      * @param d El delay establecido entre desplazamiento y desplazamiento.
      * @param c La celda animada.
      */
-    public AnimatorMovement(AnimatorDriver m, int step, int d, Drawable c) {
-        manager = m;
-        drawableAnimated = c;
-        
+    public AnimatorMovement(AnimatorDriver manager, int step, int delay, Drawable drawable) {
+        this.manager = manager;
+        this.drawable = drawable;
         this.step = step;
-        delay = d;
+        this.delay = delay;
 
-        int pos[] = c.getVisualLocation();
+        int pos[] = drawable.getVisualLocation();
         pos_x_destination = pos[0];
         pos_y_destination = pos[1];
     }
 
     @Override
     public void run() {
-        int pos_x_actual = drawableAnimated.getX();
-        int pos_y_actual = drawableAnimated.getY();
+        int pos_x_actual = drawable.getX();
+        int pos_y_actual = drawable.getY();
         
         int paso_en_x = 0;
         int paso_en_y = 0;
@@ -60,16 +61,16 @@ public class AnimatorMovement extends Thread implements Animator {
             pos_x_actual += dx;
             pos_y_actual += dy;
 
-            drawableAnimated.setLocation(pos_x_actual, pos_y_actual);
-            drawableAnimated.repaint();
+            drawable.setLocation(pos_x_actual, pos_y_actual);
+            drawable.repaint();
             try { sleep(delay); } catch (InterruptedException e) { e.printStackTrace(); }
         }
         manager.notifyEndAnimation(this);
     }
 
-    @Override public Drawable getDrawable() { return drawableAnimated; }
+    @Override public Drawable getDrawable() { return drawable; }
     @Override public void startAnimation() { this.start(); }
-    @Override public int id() { return 1; }
+    @Override public final int id() { return _id; }
     
-    public String toString() { return "Movement(" + drawableAnimated.getLogicalEntity().toString() + ")"; }
+    public String toString() { return "Movement(" + drawable.getLogicalEntity().toString() + ")"; }
 }

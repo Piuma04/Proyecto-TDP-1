@@ -20,7 +20,7 @@ public class AnimatorStateChange extends Thread implements Animator {
     private static GifPlayer gifPlayer = new GifPlayer();
 
     protected AnimatorDriver manager;
-    protected Drawable drawableAnimated;
+    protected Drawable drawable;
     protected String animationPath;
     protected boolean bGif;
     
@@ -29,33 +29,33 @@ public class AnimatorStateChange extends Thread implements Animator {
      * @param m El manejador de animaciones al que le notificará el fin de la animación, cuando corresponda.
      * @param c La celda animada.
      */
-    public AnimatorStateChange(AnimatorDriver m, Drawable c) {
-        manager = m;
-        drawableAnimated = c;
-        animationPath = c.getLogicalEntity().getImage();
+    public AnimatorStateChange(AnimatorDriver manager, Drawable drawable) {
+        this.manager = manager;
+        this.drawable = drawable;
+        animationPath = drawable.getLogicalEntity().getImage();
         bGif = isGif(animationPath);
         if (bGif)
-            gifPlayer.add(animationPath, drawableAnimated.getImageSize());
+            gifPlayer.add(animationPath, drawable.getImageSize());
         else
-            imageStorage.add(animationPath, drawableAnimated.getImageSize());
+            imageStorage.add(animationPath, drawable.getImageSize());
     }
 
     @Override
     public void run() {
-        if (bGif)
-            gifPlayer.play(animationPath, drawableAnimated);
-        else if (animationPath == null)
-            manager.notifyToDelete(drawableAnimated);
+        if (animationPath == null)
+            drawable.delete();
+        else if (bGif)
+            gifPlayer.play(animationPath, drawable);
         else
-            drawableAnimated.setIcon(imageStorage.get(animationPath));
-        drawableAnimated.repaint();
+            drawable.setIcon(imageStorage.get(animationPath));
+        drawable.repaint();
         manager.notifyEndAnimation(this);
     }
 
-    @Override public Drawable getDrawable() { return drawableAnimated; }
+    @Override public Drawable getDrawable() { return drawable; }
     @Override public void startAnimation() { this.start(); }
     @Override public int id() { return 2; }
     private static boolean isGif(String imagePath) { return imagePath != null && imagePath.endsWith(".gif"); }
     
-    public String toString() { return "State(" + drawableAnimated.getLogicalEntity().toString() + ")"; }
+    public String toString() { return "State(" + drawable.getLogicalEntity().toString() + ")"; }
 }
