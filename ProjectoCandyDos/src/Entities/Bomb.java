@@ -20,6 +20,7 @@ public class Bomb extends Entity {
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEquivalent(this); }
     @Override public boolean isEqual(Bomb b)            { return true; }
+    @Override public boolean hasCollateralDamage()		{ return true; }
 
     @Override public int getScore() { return 150; }
     

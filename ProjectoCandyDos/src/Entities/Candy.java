@@ -48,7 +48,7 @@ public class Candy extends Entity {
             int newColumn = column + adyacentColumns[i];
             if (Board.isValidBlockPosition(newRow, newColumn)) {
                 Block block = b.getBlock(newRow, newColumn);
-                if (!block.getEntity().isSwappable(this))
+                if (block.getEntity().hasCollateralDamage())
                     toDestroy.add(block);
             }
         }

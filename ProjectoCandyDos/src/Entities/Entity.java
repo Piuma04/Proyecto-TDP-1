@@ -8,13 +8,14 @@ import Enums.Colour;
 import java.util.HashSet;
 
 import Interfaces.SpecialDestroy;
+import Interfaces.Collateral;
 import Interfaces.Equivalent;
 import Interfaces.Swappable;
 import Logic.Block;
 import Logic.Board;
 import Logic.VisualEntityDummy;
 
-public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable, SpecialDestroy {
+public abstract class Entity extends VisualEntityDummy implements Equivalent, Swappable, SpecialDestroy,Collateral {
     protected Colour colour;
     protected String explosionGif;
 
@@ -49,6 +50,7 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
     @Override public boolean canReceive(MegaStripped m) { return false; }
     @Override public boolean canReceive(Bomb b)         { return false; }
     
+    @Override public boolean hasCollateralDamage()      { return false; }
 
     @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b)    {return new HashSet<Block>();}
     @Override public Set<Block> getSpecialDestroyables(Candy c, Board b)        {return new HashSet<Block>();}
