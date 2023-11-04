@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import Entities.Colour;
+import Enums.Colour;
 import Entities.Entity;
 import Entities.PriorityEntity;
 import Entities.Stripped;

@@ -6,7 +6,7 @@ import java.util.Set;
 import java.util.LinkedList;
 import java.util.HashSet;
 
-import Entities.Colour;
+import Enums.Colour;
 import Entities.Entity;
 import Entities.PriorityEntity;
 import Entities.Stripped;

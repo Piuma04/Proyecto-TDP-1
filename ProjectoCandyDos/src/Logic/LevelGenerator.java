@@ -14,7 +14,7 @@ import Combinations.OnlyLinealCombinationsPattern;
 
 import Entities.Entity;
 import Entities.Empty;
-import Entities.Colour;
+import Enums.Colour;
 import Entities.Bomb;
 import Entities.Candy;
 import Entities.Stripped;

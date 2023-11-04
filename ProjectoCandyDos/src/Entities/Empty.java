@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Interfaces.Equivalent;
+
+import Enums.Colour;
+
 import Logic.Block;
 import Logic.Board;
 
