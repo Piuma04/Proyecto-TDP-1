@@ -7,6 +7,8 @@ import java.util.Set;
 import Enums.Colour;
 
 import java.util.HashSet;
+
+import Interfaces.Collateral;
 import Interfaces.Equivalent;
 import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
@@ -43,33 +45,19 @@ public class Stripped extends Entity {
 
     @Override public Set<Block> getSpecialDestroy(SpecialDestroy e, Board b){return e.getSpecialDestroyables(this, b);}
     @Override public Set<Block> getSpecialDestroyables(Stripped car, Board b){
-    	 Set<Block> toDestroy = new HashSet<Block>();
-    	 toDestroy.add(b.getBlock(this.row, this.column));
-    	 toDestroy.add(b.getBlock(car.getRow(), car.getColumn()));
-             for (int c = 0; c < Board.getColumns(); c++) {
-                 toDestroy.addAll(b.getBlock(row, c).getEntity().getDestroyables(b));
-             }
-             
-             for (int r = 0; r < Board.getRows(); r++) {
-                 toDestroy.addAll(b.getBlock(r, column).getEntity().getDestroyables(b));
-             }
+    	 Set<Block> toDestroy = new HashSet<Block>();   	 
+    	 toDestroy.addAll(getBlockRow(this.row, b));
+    	 toDestroy.addAll(getBlockColumn(this.column,b));
          return toDestroy;
     }
     @Override public Set<Block> getSpecialDestroyables(Wrapped car, Board b){
     	 Set<Block> toDestroy = new HashSet<Block>();
-    	 toDestroy.add(b.getBlock(this.row, this.column));
-    	 toDestroy.add(b.getBlock(car.getRow(), car.getColumn()));
-         for (int c = 0; c < Board.getColumns(); c++) {
-        	 for(int widthR = row-1; widthR<=row+1;widthR++)
-        		 if (!(c == column) && widthR>=0 && widthR<Board.getRows())
-        			 toDestroy.add(b.getBlock(widthR, c));
-         }
-             
-             for (int r = 0; r < Board.getRows(); r++) {
-            	 for(int widthC = column-1; widthC<=column+1;widthC++)
-                   if (!(r == row) && widthC>=0 && widthC<Board.getColumns())
-                     toDestroy.add(b.getBlock(r, widthC));
-             }
+         toDestroy.addAll(getBlockColumn(this.column,b));
+         toDestroy.addAll(getBlockColumn(this.column+1,b));
+         toDestroy.addAll(getBlockColumn(this.column-1,b));
+         toDestroy.addAll(getBlockRow(this.row,b));
+         toDestroy.addAll(getBlockRow(this.row+1,b));
+         toDestroy.addAll(getBlockRow(this.row-1,b));
          return toDestroy;
     }
 
@@ -83,15 +71,11 @@ public class Stripped extends Entity {
     
     @Override public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
-        toDestroy.add(b.getBlock(row, column));
     	if (isHorizontal)
-            for (int c = 0; c < Board.getColumns(); c++) {
-                toDestroy.add(b.getBlock(row, c));
-            }
+            toDestroy.addAll(getBlockRow(row,b));
         else
-            for (int r = 0; r < Board.getRows(); r++) {
-                toDestroy.add(b.getBlock(r, column));
-            }
+            toDestroy.addAll(getBlockColumn(column,b));
+    	
     	// ahora destruye si hay glazed/ bombas en pos adyacentes
         int[] adyacentRows = { -1, 0, 1, 0 };
         int[] adyacentColumns = { 0, -1, 0, 1 };
@@ -100,7 +84,8 @@ public class Stripped extends Entity {
             int newColumn = column + adyacentColumns[i];
             if (Board.isValidBlockPosition(newRow, newColumn)) {
                 Block block = b.getBlock(newRow, newColumn);
-                if (block.getEntity().hasCollateralDamage())
+                Collateral c = block.getEntity();
+                if (c.hasCollateralDamage())
                     toDestroy.add(block);
             }
         }

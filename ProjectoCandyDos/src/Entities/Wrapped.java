@@ -38,31 +38,18 @@ public class Wrapped extends Entity {
     @Override public Set<Block> getSpecialDestroyables(Stripped car, Board b)
     {
     	Set<Block> toDestroy = new HashSet<Block>();
-    	toDestroy.add(b.getBlock(this.row, this.column));
-   	 	toDestroy.add(b.getBlock(car.getRow(), car.getColumn()));
-        for (int c = 0; c < Board.getColumns(); c++) {
-       	 for(int widthR = row-1; widthR<=row+1;widthR++)
-       		 if ((c != column) && widthR>=0 && widthR<Board.getRows())
-       			 toDestroy.add(b.getBlock(widthR, c));
-        }
-        
-        for (int r = 0; r < Board.getRows(); r++) {
-       	 for(int widthC = column-1; widthC<=column+1;widthC++)
-              if ((r != row) && widthC>=0 && widthC<Board.getColumns())
-                toDestroy.add(b.getBlock(r, widthC));
-        }
+        toDestroy.addAll(getBlockColumn(this.column,b));
+        toDestroy.addAll(getBlockColumn(this.column+1,b));
+        toDestroy.addAll(getBlockColumn(this.column-1,b));
+        toDestroy.addAll(getBlockRow(this.row,b));
+        toDestroy.addAll(getBlockRow(this.row+1,b));
+        toDestroy.addAll(getBlockRow(this.row-1,b));
         return toDestroy;
-
     }
     @Override public Set<Block> getSpecialDestroyables(Wrapped c, Board b)	
     {
     	Set<Block> toDestroy = new HashSet<Block>();
-    	toDestroy.add(b.getBlock(this.row, this.column));
-   	 	toDestroy.add(b.getBlock(c.getRow(), c.getColumn()));
-        for (int j = column - 2; j <= column + 2; j++)
-            for (int i = row - 2; i <= row + 2; i++) 
-                if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns())
-                    toDestroy.add(b.getBlock(i, j));
+        toDestroy.addAll(getBlockSquare(this.row,this.column,2,b));
         return toDestroy;
     }
     
@@ -77,11 +64,7 @@ public class Wrapped extends Entity {
     @Override
     public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
-        toDestroy.add(b.getBlock(row, column));
-    	 for (int j = column - 1; j <= column + 1; j++)
-             for (int i = row - 1; i <= row + 1; i++) 
-                 if (i >= 0 && i < Board.getRows() && j >= 0 && j < Board.getColumns())
-                     toDestroy.add(b.getBlock(i, j));	
+        toDestroy.addAll(getBlockSquare(this.row, this.column, 1, b));	
         return toDestroy;
     }
 

@@ -1,6 +1,7 @@
 package Entities;
 
 import java.util.List;
+import java.util.LinkedList;
 import java.util.Set;
 
 import Enums.Colour;
@@ -90,5 +91,34 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
             case BOMB:   colourStr = ANSI_MAGENTA; break;
         }
         return colourStr + str + ANSI_RESET;
+    }
+    protected List<Block> getBlockRow(int row, Board b)
+    {
+    	List<Block> blockRow = new LinkedList<Block>();
+    	if(row>=0 && row<Board.getRows())
+    		for(int col = 0;col<Board.getColumns();col++)
+    		{
+    			blockRow.add(b.getBlock(row, col));
+    		}
+    	return blockRow;
+    }
+    protected List<Block> getBlockColumn(int col, Board b)
+    {
+    	List<Block> blockColumn = new LinkedList<Block>();
+    	if(col>=0 && col<Board.getColumns())
+    		for(int row = 0;row<Board.getRows();row++)
+    		{
+    			blockColumn.add(b.getBlock(row, col));
+    		}
+    	return blockColumn;
+    }
+    protected List<Block> getBlockSquare(int row,int col,int radius,Board b)
+    {
+    	List<Block> blockSquare = new LinkedList<Block>();
+    	for (int j = col - radius; j <= col + radius; j++)
+            for (int i = row - radius; i <= row + radius; i++) 
+                if (Board.isValidBlockPosition(i, j))
+                    blockSquare.add(b.getBlock(i, j));
+    	return blockSquare;
     }
 }

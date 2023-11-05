@@ -7,6 +7,7 @@ import Enums.Colour;
 import Interfaces.Equivalent;
 import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
+import Interfaces.Collateral;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -48,7 +49,8 @@ public class Candy extends Entity {
             int newColumn = column + adyacentColumns[i];
             if (Board.isValidBlockPosition(newRow, newColumn)) {
                 Block block = b.getBlock(newRow, newColumn);
-                if (block.getEntity().hasCollateralDamage())
+                Collateral c = block.getEntity();
+                if (c.hasCollateralDamage())
                     toDestroy.add(block);
             }
         }

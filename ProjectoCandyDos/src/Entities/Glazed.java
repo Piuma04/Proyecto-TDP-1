@@ -15,7 +15,8 @@ public class Glazed extends Entity {
     public Glazed(int rowPosition, int columnPosition) { super(rowPosition, columnPosition, Colour.GLAZED); }
 
     @Override public boolean isEquivalent(Equivalent e) { return e.isEqual(this); }
-    @Override public boolean isEqual(Glazed g) { return true; }
+    @Override public boolean isEqual(Glazed g) 			{ return true; }
+    @Override public boolean hasCollateralDamage()		{ return true;}
 
     @Override
     public List<Block> getDestroyables(Board b) {
