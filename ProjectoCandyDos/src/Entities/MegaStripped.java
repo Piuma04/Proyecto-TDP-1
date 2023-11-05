@@ -61,15 +61,10 @@ public class MegaStripped extends Entity {
     @Override
      public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
+        
         toDestroy.add(b.getBlock(row, column));
-    	  for (int c = 0; c < Board.getColumns(); c++) {
-              if (c != column)
-                     toDestroy.add(b.getBlock(row, c));
-         }
-         for (int r = 0; r < Board.getRows(); r++) {
-         	if (r != row)
-                     toDestroy.add(b.getBlock(r, column));
-         }	
+        toDestroy.addAll(getBlockRow(row,b));
+        toDestroy.addAll(getBlockColumn(column,b));
        
         return toDestroy;
     }

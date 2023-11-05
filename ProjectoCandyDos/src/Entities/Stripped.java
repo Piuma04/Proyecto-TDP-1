@@ -8,7 +8,7 @@ import Enums.Colour;
 
 import java.util.HashSet;
 
-import Interfaces.Collateral;
+
 import Interfaces.Equivalent;
 import Interfaces.SpecialDestroy;
 import Interfaces.Swappable;
@@ -71,24 +71,14 @@ public class Stripped extends Entity {
     
     @Override public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
-    	if (isHorizontal)
+    	
+        if (isHorizontal)
             toDestroy.addAll(getBlockRow(row,b));
         else
             toDestroy.addAll(getBlockColumn(column,b));
     	
     	// ahora destruye si hay glazed/ bombas en pos adyacentes
-        int[] adyacentRows = { -1, 0, 1, 0 };
-        int[] adyacentColumns = { 0, -1, 0, 1 };
-        for (int i = 0; i < 4; i++) {
-            int newRow = row + adyacentRows[i];
-            int newColumn = column + adyacentColumns[i];
-            if (Board.isValidBlockPosition(newRow, newColumn)) {
-                Block block = b.getBlock(newRow, newColumn);
-                Collateral c = block.getEntity();
-                if (c.hasCollateralDamage())
-                    toDestroy.add(block);
-            }
-        }
+        addSurroundingEntities(toDestroy, b);
 
         return toDestroy;
     }
