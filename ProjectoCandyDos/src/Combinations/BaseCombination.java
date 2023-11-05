@@ -49,19 +49,20 @@ public abstract class BaseCombination implements CombinationLogic {
 
         Set<Block> combination = new HashSet<Block>();
         candy = checkBlockHorizontalVerticalCombination(block, combination);
-        if (candy != null) candys.add(candy);
+        if (candy != null)
+            candys.add(candy);
 
-        combinationsOut.addAll(combination);
-
+        Set<Block> currentCombinations = new HashSet<Block>();
         for (Block b : combination) {
-            Set<Block> currentCombinations = new HashSet<Block>();
             candy = checkBlockHorizontalVerticalCombination(b, currentCombinations);
             if (candy != null)
                 candys.add(candy);
-            combinationsOut.addAll(currentCombinations);
         }
 
-        if (combinationsOut.size() < MAX_NUMER_CANDYS_FOR_CREATION) {
+        combination.addAll(currentCombinations);
+        combinationsOut.addAll(combination);
+
+        if (combination.size() < MAX_NUMER_CANDYS_FOR_CREATION) {
             // Get maximum priority.
             candy = candys.size() > 0 ? candys.get(0) : null;
             
