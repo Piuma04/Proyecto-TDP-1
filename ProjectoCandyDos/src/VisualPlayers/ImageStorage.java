@@ -1,8 +1,8 @@
 package VisualPlayers;
 
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import java.awt.Image;
-import java.util.HashMap;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
  */
 public class ImageStorage implements Observer {
 
-    private static Map<String, Icon> images = new HashMap<String, Icon>();
+    private static Map<String, Icon> images = new ConcurrentHashMap<String, Icon>();
 
     public ImageStorage() { Resources.registerObserver(this); }
     

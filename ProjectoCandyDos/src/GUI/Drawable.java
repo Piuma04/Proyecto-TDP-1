@@ -8,10 +8,11 @@ import javax.swing.JComponent;
 
 import Interfaces.LogicEntity;
 import Logic.Game;
-import VisualPlayers.Resources;
 
 @SuppressWarnings("serial")
 public class Drawable extends JComponent implements GraphicalEntity {
+
+    private static volatile Icon EMPTY_ICON = new ImageIcon();
 
     protected GuiAnimable agui;
     protected LogicEntity myLogicEntity;
@@ -30,7 +31,8 @@ public class Drawable extends JComponent implements GraphicalEntity {
         final int pos[] = getVisualLocation();
         setLocation(pos[0], pos[1]);
         setSize(sizeIcon, sizeIcon);
-        myIcon = new ImageIcon(Resources.getImagesFolderPath() + logicBlock.getImage());
+
+        myIcon = EMPTY_ICON;
         notifyChangeState();
     }
 

@@ -3,10 +3,10 @@ package VisualPlayers;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.Icon;
@@ -23,8 +23,8 @@ import GUI.Drawable;
  */
 public class GifPlayer implements Observer {
 
-    private static Map<String, List<Icon>> gifImages = new HashMap<String, List<Icon>>();
-    private static Map<String, List<Integer>> gifDelay = new HashMap<String, List<Integer>>();
+    private static Map<String, List<Icon>> gifImages = new ConcurrentHashMap<String, List<Icon>>();
+    private static Map<String, List<Integer>> gifDelay = new ConcurrentHashMap<String, List<Integer>>();
 
     public GifPlayer() { Resources.registerObserver(this); }
 

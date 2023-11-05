@@ -64,22 +64,22 @@ public class CentralAnimator implements AnimatorDriver {
         if (animator.getDrawable() != null)
             drawableAnimator.startAnimation(animator);
         else
-            animator.startAnimation();
+            animator.startAnimation(); // ANIMATION NOT ASOCIATED TO A DRAWABLE. FOR EXAMPLE SOUND.
     }
 
     private void enqueueAnimator(Animator animator) {
-        if (animatorList.add(animator))
+        if (animatorList.add(animator)) {
             startDrawableAnimation(animator);
+        }
     }
 
     @Override
-    synchronized public void notifyEndAnimation(Animator animator) {
+    public void notifyEndAnimation(Animator animator) {
 
         if (animator.getDrawable() != null)
             drawableAnimator.endAnimation(animator);
 
         gui.notifyAnimationEnd();
-
         animatorList.remove(animator);
 
         if (gui.getPendingAnimations() == 0) {

@@ -34,10 +34,12 @@ public class AnimatorStateChange extends Thread implements Animator {
         this.drawable = drawable;
         animationPath = drawable.getLogicalEntity().getImage();
         bGif = isGif(animationPath);
-        if (bGif)
-            gifPlayer.add(animationPath, drawable.getImageSize());
-        else
-            imageStorage.add(animationPath, drawable.getImageSize());
+        if (animationPath != null) {
+            if (bGif)
+                gifPlayer.add(animationPath, drawable.getImageSize());
+            else
+                imageStorage.add(animationPath, drawable.getImageSize());
+        }
     }
 
     @Override
@@ -60,7 +62,7 @@ public class AnimatorStateChange extends Thread implements Animator {
     //public String toString() { return "State(" + drawable.getLogicalEntity().toString() + ")"; }
     public String toString() {
         LogicEntity log = drawable.getLogicalEntity();
-        String s = "State(" + "("+ log.getRow() + ", " + log.getColumn() + ")) (" + log.toString() + ")";
+        String s = "State(" + log.toString() + ")";
         return  s;
     }
 }
