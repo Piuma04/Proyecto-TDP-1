@@ -21,8 +21,7 @@ import javax.swing.JOptionPane;
 import Logic.Game;
 import VisualPlayers.Resources;
 import VisualPlayers.SoundPlayer;
-import Interfaces.LogicEntity;
-
+import Interfaces.VisualEntity;
 import Animations.CentralAnimator;
 
 
@@ -189,10 +188,11 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         updateScore(0);
     }
 
-    public GraphicalEntity addLogicEntity(LogicEntity e) {
+
+    public void associateVisualEntity(VisualEntity e) {
         Drawable drawable = new Drawable(this, e, e.getPicSize());
         gamePanel.addEntity(drawable);
-        return drawable;
+        e.setGraphicalEntity(drawable);
     }
 
     public void showObjective(List<String> entities, List<Integer> remaining) { gamePanel.showObjective(entities, remaining); }

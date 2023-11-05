@@ -1,10 +1,6 @@
 package Logic;
 
-import java.awt.EventQueue;
-
 import java.util.List;
-
-import javax.swing.SwingUtilities;
 
 import GUI.Gui;
 import Interfaces.Equivalent;
@@ -60,7 +56,7 @@ public class Game {
     }
 
     public void move(int direction) {
-        SwingUtilities.invokeLater(() -> { myBoard.movePlayerDirection(direction); });
+        myBoard.movePlayerDirection(direction);
     }
 
     public void timerEnded() { if (!animationNextLevel && !myLevel.lost()) { lost(); } }
@@ -118,28 +114,12 @@ public class Game {
         backgroundMusic.start();
     }
 
-    public void pauseTimer() {
-        myTimer.stopTimer();
-    }
-
-    public void unpauseTimer() {
-        myTimer.continueTimer();
-    }
-
+    public void pauseTimer() { myTimer.stopTimer(); }
+    public void unpauseTimer() { myTimer.continueTimer(); }
     public boolean isAnimating() { return animationNextLevel; }
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try { new Game(); }catch (Exception e) { e.printStackTrace(); } }
-        });
-    }
 
     public static int getLabelSize() { return label_size; }
     public static void setLabelSize(int size) { label_size = size; }
 
-	public void resetScore() {
-		score.resetScore();
-		
-	}
+    public void resetScore() { score.resetScore(); }
 }

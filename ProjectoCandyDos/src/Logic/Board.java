@@ -56,7 +56,6 @@ public class Board {
         setPlayerPosition(playerRow, playerColumn);
     }
 
-    
     public static int getRows() { return ROWS; }
     public static int getColumns() { return COLUMNS; }
     public static boolean isValidBlockPosition(int row, int column) { return row >= 0 && row < ROWS && column >= 0 && column < COLUMNS; }
@@ -98,7 +97,7 @@ public class Board {
     public Entity createRandomCandy(int row, int column) {
         double i = Math.random();
         Entity entity;
-        if(i>0.02 )
+        if(i > 0.02)
              entity = new Candy(row, column, randomColour());
         else
              entity = new MegaStripped(row, column, randomColour());
@@ -123,10 +122,13 @@ public class Board {
 
     /**
      * Given a {@link VisualEntity} adds graphical entity to the GUI.
+     * Modifies internal state of entity.
      * 
      * @param entity
      */
-    public void addVisualEntity(VisualEntity entity) { entity.setGraphicalEntity(myGui.addLogicEntity(entity)); }
+    public void addVisualEntity(VisualEntity entity) {
+        myGui.associateVisualEntity(entity);
+    }
 
     /**
      * Sets the entity of block at (column, row) to new entity. associates to the
