@@ -12,9 +12,9 @@ import Entities.Stripped;
 import Logic.Block;
 import Logic.Board;
 
-public class OnlyLinealCombinationsPattern extends BaseCombination {
+public class OnlyStraightCombinationsPattern extends BaseCombination {
 
-    public OnlyLinealCombinationsPattern(Board b) { super(b); }
+    public OnlyStraightCombinationsPattern(Board b) { super(b); }
 
     @Override
     public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut) {

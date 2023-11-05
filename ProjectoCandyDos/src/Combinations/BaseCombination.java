@@ -124,27 +124,43 @@ public abstract class BaseCombination implements CombinationLogic {
      * @return amount of horizontal combinations
      */
     protected Set<Block> consecutiveVertical(Block block) {
+    	
         Set<Block> blocks = new HashSet<Block>();
-        int row = block.getRow();
-        int column = block.getColumn();
         if (!Board.hasMovableEntity(block))
             return blocks;
-        boolean cumple = true;
+        blocks.addAll(consecutiveVerticalDown(block));
+        blocks.addAll(consecutiveVerticalUp(block));
+        if (blocks.size() < 2)
+            blocks.clear();
+        return blocks;
+        
+    }
+    
+    protected Set<Block> consecutiveVerticalUp(Block block) {
+    	Set<Block> blocks = new HashSet<Block>();
+    	int row = block.getRow();
+        int column = block.getColumn();
+    	boolean cumple = true;
+    	for (int r = row - 1; r >= 0 && r < Board.getRows() && cumple; r--) {
+            Block current = board.getBlock(r, column);
+            cumple = board.getBlockColour(block) == board.getBlockColour(current);
+            if (cumple)
+                blocks.add(current);
+        }
+        return blocks;
+    }
+    
+    protected Set<Block> consecutiveVerticalDown(Block block) {
+    	Set<Block> blocks = new HashSet<Block>();
+    	int row = block.getRow();
+        int column = block.getColumn();
+    	boolean cumple = true;
         for (int r = row + 1; Board.isValidBlockPosition(r, column) && cumple; r++) {
             Block current = board.getBlock(r, column);
             cumple = board.getBlockColour(block) == board.getBlockColour(current);
             if (cumple)
                 blocks.add(current);
         }
-        cumple = true;
-        for (int r = row - 1; r >= 0 && r < Board.getRows() && cumple; r--) {
-            Block current = board.getBlock(r, column);
-            cumple = board.getBlockColour(block) == board.getBlockColour(current);
-            if (cumple)
-                blocks.add(current);
-        }
-        if (blocks.size() < 2)
-            blocks.clear();
         return blocks;
     }
 
@@ -161,10 +177,33 @@ public abstract class BaseCombination implements CombinationLogic {
      */
     protected Set<Block> consecutiveHorizontal(Block block) {
         Set<Block> blocks = new HashSet<Block>();
-        int row = block.getRow();
-        int column = block.getColumn();
         if (!Board.hasMovableEntity(block))
             return blocks;
+        blocks.addAll(consecutiveHorizontalRight(block));
+        blocks.addAll(consecutiveHorizontalLeft(block));
+        if (blocks.size() < 2)
+            blocks.clear();
+        return blocks;
+    }
+    
+    protected Set<Block> consecutiveHorizontalLeft(Block block) {
+    	Set<Block> blocks = new HashSet<Block>();
+        int row = block.getRow();
+        int column = block.getColumn();
+        boolean cumple = true;
+        for (int c = column - 1; Board.isValidBlockPosition(row, c) && cumple; c--) {
+            Block current = board.getBlock(row, c);
+            cumple = board.getBlockColour(block) == board.getBlockColour(current);
+            if (cumple)
+                blocks.add(current);
+        }
+        return blocks;
+    }
+    
+    protected Set<Block> consecutiveHorizontalRight(Block block) {
+    	Set<Block> blocks = new HashSet<Block>();
+        int row = block.getRow();
+        int column = block.getColumn();
         boolean cumple = true;
         for (int c = column + 1; Board.isValidBlockPosition(row, c) && cumple; c++) {
             Block current = board.getBlock(row, c);
@@ -172,15 +211,6 @@ public abstract class BaseCombination implements CombinationLogic {
             if (cumple)
                 blocks.add(current);
         }
-        cumple = true;
-        for (int c = column - 1; Board.isValidBlockPosition(row, c) && cumple; c--) {
-            Block current = board.getBlock(row, c);
-            cumple = board.getBlockColour(block) == board.getBlockColour(current);
-            if (cumple)
-                blocks.add(current);
-        }
-        if (blocks.size() < 2)
-            blocks.clear();
         return blocks;
     }
 }

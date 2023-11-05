@@ -43,7 +43,7 @@ public class Candy extends Entity {
         List<Block> toDestroy = new LinkedList<Block>();
         
         toDestroy.add(b.getBlock(row, column));
-        addSurroundingEntities(toDestroy, b);
+        toDestroy.addAll(addSurroundingEntities(b));
         
         return toDestroy;
     }

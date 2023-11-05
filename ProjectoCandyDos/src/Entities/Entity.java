@@ -6,6 +6,7 @@ import java.util.Set;
 
 import Enums.Colour;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import Interfaces.SpecialDestroy;
@@ -121,8 +122,9 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
                     blockSquare.add(b.getBlock(i, j));
     	return blockSquare;
     }
-    protected void addSurroundingEntities(List<Block> toDestroy, Board b) {
+    protected List<Block> addSurroundingEntities(Board b) {
     	
+    	List<Block> toDestroy = new ArrayList<>();
     	int[] adyacentRows = { -1, 0, 1, 0 };
         int[] adyacentColumns = { 0, -1, 0, 1 };
         for (int i = 0; i < 4; i++) {
@@ -135,5 +137,6 @@ public abstract class Entity extends VisualEntityDummy implements Equivalent, Sw
                     toDestroy.add(block);
             }
         }
+        return toDestroy;
     }
 }

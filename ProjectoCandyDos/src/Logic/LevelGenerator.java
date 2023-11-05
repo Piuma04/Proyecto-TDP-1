@@ -9,9 +9,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Combinations.CombinationLogic;
+import Combinations.OnlyLsCombinations;
 import Combinations.ClassicPattern;
-import Combinations.OnlyLinealCombinationsPattern;
-
+import Combinations.OnlyStraightCombinationsPattern;
+import Combinations.OnlyTsCombinations;
 import Entities.Entity;
 import Entities.Empty;
 import Enums.Colour;
@@ -244,6 +245,29 @@ public class LevelGenerator {
 	}
 	
     public static CombinationLogic createCombinationLogic(char c, Board b) {
-        return c == 'L' ? new OnlyLinealCombinationsPattern(b) : new ClassicPattern(b);
+    	CombinationLogic newCombLogic = null;
+    	switch(c) {
+    		case 'S':{
+    			newCombLogic = new OnlyStraightCombinationsPattern(b);
+    			break;
+    		}
+    		case 'T':{
+    			newCombLogic = new OnlyTsCombinations(b);
+    			break;
+    		}
+    		case 'L':{
+    			newCombLogic = new OnlyLsCombinations(b);
+    			break;
+    		}
+    		case 'C':{
+    			newCombLogic = new ClassicPattern(b);
+    			break;
+    		}
+    		default:{
+    			newCombLogic = new ClassicPattern(b);
+    			break;
+    		}
+    	}
+        return newCombLogic;
     }
 }

@@ -78,7 +78,7 @@ public class Stripped extends Entity {
             toDestroy.addAll(getBlockColumn(column,b));
     	
     	// ahora destruye si hay glazed/ bombas en pos adyacentes
-        addSurroundingEntities(toDestroy, b);
+        toDestroy.addAll(addSurroundingEntities(b));
 
         return toDestroy;
     }
