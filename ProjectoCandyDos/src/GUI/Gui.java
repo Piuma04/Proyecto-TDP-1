@@ -92,8 +92,10 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         
         checkBox.addItemListener( (ItemEvent ev) -> {
                 setTheme(ev.getStateChange() == ItemEvent.SELECTED);
-                myGame.reloadLevel();
-                myGame.resetScore();
+                if (myGame.isLoaded()) {
+                    myGame.reloadLevel();
+                    myGame.resetScore();
+                }
         });
         
         menuPanel.add(checkBox, BorderLayout.CENTER);
@@ -101,7 +103,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
         JButton startGame = new JButton("Continue Game");
         startGame.setPreferredSize(new Dimension(30, 20));
         startGame.setHorizontalAlignment(JButton.CENTER);
-        startGame.addActionListener( (ActionEvent ev) -> { openGame(); });
+        startGame.addActionListener( (ActionEvent ev) -> { if (myGame.isLoaded()) openGame(); });
         menuPanel.add(startGame, BorderLayout.SOUTH);
         
         JButton maxScores = new JButton("Consultar maximas puntuaciones");
@@ -202,6 +204,7 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public void updateScore(int i)            { gamePanel.updateScore(i); }
     public void setCurrentLevel(String level) { gamePanel.setCurrentLevel(level); }
     public void setTime(String timeString)    { gamePanel.setTime(timeString); }
+    public void setLevelType(String type)     { gamePanel.setLevelType(type); }
     public void reset()                       { gamePanel.reset(); }
 
     public int chooseLevel() { return Integer.valueOf(JOptionPane.showInputDialog(getContentPane(), "Ingrese el nivel")); }
