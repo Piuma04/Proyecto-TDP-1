@@ -16,8 +16,6 @@ import Logic.Board;
 public class OnlyTsCombinations extends BaseCombination {
 
 	public OnlyTsCombinations(Board b) {super(b); }
-
-	
 	//TODO Implement the class correctly
 	
 	@Override
@@ -45,6 +43,28 @@ public class OnlyTsCombinations extends BaseCombination {
 	        System.out.println(combinationsOut);
 	        return entity;
 	    }
+	 /*
+	 private Set<Block> getL(Block block)
+	 {
+		 Set<Block> l = new HashSet<Block>();
+		 for(List<Coord> lShape: getLShapesUpR())
+			 l.addAll(getBlockShape(block,lShape));
+		 for(List<Coord> lShape: getLShapesUpL())
+			 l.addAll(getBlockShape(block,lShape));
+	     for(List<Coord> lShape: getLShapesDownR())
+	    	 l.addAll(getBlockShape(block,lShape));
+	     for(List<Coord> lShape: getLShapesDownL())
+	    	 l.addAll(getBlockShape(block,lShape));
+	     for(List<Coord> lShape: getLShapesRightU())
+	    	 l.addAll(getBlockShape(block,lShape));
+	     for(List<Coord> lShape: getLShapesRightD())
+	    	 l.addAll(getBlockShape(block,lShape));
+	     for(List<Coord> lShape: getLShapesLeftU())
+	    	 l.addAll(getBlockShape(block,lShape));
+	     for(List<Coord> lShape: getLShapesLeftD())
+	    	 l.addAll(getBlockShape(block,lShape));
+	     return l;
+	 }*/
 	 private Set<Block> getT(Block block)
 	 {
 		 Set<Block> t = new HashSet<Block>();
@@ -154,5 +174,25 @@ public class OnlyTsCombinations extends BaseCombination {
 		if(!isT)
 			t.clear();
 		return t;
+	}
+	private Coord sum(Coord c,Coord c2)
+	{
+		int row1 = c.getRow();
+		int col1 = c.getColumn();
+		int row2 = c2.getRow();
+		int col2 = c2.getColumn();
+		Coord prod = new Coord();
+		prod.setRow(row1+row2);
+		prod.setColumn(col1+col2);
+		return prod;
+	}
+	private Coord mult(Coord c,int mult)
+	{
+		int row = c.getRow();
+		int col = c.getColumn();
+		Coord prod = new Coord();
+		prod.setRow(row*mult);
+		prod.setColumn(col*mult);
+		return prod;
 	}
 }
