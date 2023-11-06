@@ -2,6 +2,7 @@ package Combinations;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import Enums.Colour;
@@ -59,4 +60,10 @@ public class OnlyStraightCombinationsPattern extends BaseCombination {
 
         return entity;
     }
+
+	@Override
+	public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

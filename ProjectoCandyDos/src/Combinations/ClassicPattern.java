@@ -2,9 +2,11 @@ package Combinations;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import Entities.Entity;
+import Entities.PriorityEntity;
 import Logic.Block;
 import Logic.Board;
 
@@ -15,14 +17,20 @@ public class ClassicPattern extends BaseCombination {
     @Override
     public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut) {
         Set<Block> combinations = new HashSet<Block>();
-        Entity candy = null;
+        PriorityEntity candy = null;
         for (Block block : blocks) {
             if (!combinations.contains(block)) {
-                candy = checkFullCombination(block, combinations);
+                candy = checkBlockHorizontalVerticalCombination(block, combinations);
                 if (candy != null)
-                    candysOut.add(candy);
+                    candysOut.add(candy.getEntity());
             }
         }
         return combinations;
     }
+
+	@Override
+	public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
