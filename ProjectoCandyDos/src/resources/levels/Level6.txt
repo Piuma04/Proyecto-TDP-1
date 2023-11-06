@@ -2,9 +2,17 @@ T
 20,120
 J,1
 M,M,M,M,M,M
+T,T,T,T,T,T
+T,T,T,T,T,T
+T,T,B,B,B,T
+T,T,B,R,B,T
+B,B,B,B,B,B
+
+M,M,M,M,M,M
 T,T,B,T,T,T
-B,B,B,B,B,T
-T,R,B,R,R,P
+T,B,B,B,B,B
+T,G,B,R,R,P
+T,R,R,R,T,P
 T,R,B,G,G,P
 T,T,T,T,T,P
 

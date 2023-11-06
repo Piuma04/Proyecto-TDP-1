@@ -64,7 +64,6 @@ public class StraightAndT extends BaseCombination {
         // if T combinations available, use that. else use simple straight line combination.
         if (tCombinations.size() > 0)
             combination = tCombinations;
-
         combinationsOut.addAll(combination);
 
         if (combination.size() < MAX_NUMER_CANDYS_FOR_CREATION) {
@@ -93,44 +92,67 @@ public class StraightAndT extends BaseCombination {
         int vDownSize =  vDown.size();
         int vUpSize =    vUp.size();
 
+        int hSize = hLeftSize + hRightSize;
+        int vSize = vDownSize + vUpSize;
+
         final boolean plus = vDownSize >= 1 && vUpSize >= 1 && hLeftSize >= 1 && hRightSize >= 1;
 
         if (plus) {
             // REMOVE SMALLER SIDE.
-            // BIASED: LEFT-RIGHT-DOWN-UP
-            Set<Block> smallestSet;
-            int smallestSize = Math.min(hLeftSize, Math.min(hRightSize, Math.min(vDownSize, vUpSize)));
-
-            if (smallestSize == hLeftSize) {
-                smallestSet = hLeft;
-                hLeftSize = 0;
-            }
-            else if (smallestSize == hRightSize) {
-                smallestSet = hRight;
-                hRightSize = 0;
-            }
-            else if (smallestSize == vDownSize) {
-                smallestSet = vDown;
-                vDownSize = 0;
-            }
-            else {
-                smallestSet = vUp;
+            if (isSmaller(vUpSize, hLeftSize, hRightSize, vDownSize)) {
+                vUp.clear();
                 vUpSize = 0;
-            }
+                
+            } else if (isSmaller(hLeftSize, vUpSize, hRightSize, vDownSize)) {
+                hLeft.clear();
+                hLeftSize = 0;
+            } else if (isSmaller(hRightSize, hLeftSize, vUpSize, vDownSize)) {
+                hRight.clear();
+                hRightSize = 0;
+                
+            } else if (isSmaller(vDownSize, hLeftSize, hRightSize, vUpSize)) {
+                vDown.clear();
+                vDownSize = 0;
+            } else {
+                if (vSize < hSize) {
 
-            smallestSet.clear();
+                    if (hLeftSize < hRightSize) {
+                        hLeft.clear();
+                        hLeftSize = 0;
+                    } else {
+                        hRight.clear();
+                        hRightSize = 0;
+                    }
+
+                } else if (hSize < vSize) {
+
+                    if (vDownSize < vUpSize) {
+                        vDown.clear();
+                        vDownSize = 0;
+                    } else {
+                        vUp.clear();
+                        vUpSize = 0;
+                    }
+
+                } else { // all sides equal
+                    vUp.clear();
+                    vUpSize = 0;
+                }
+            }
         }
 
-        final int hSize = hLeftSize + hRightSize;
-        final int vSize = vDownSize + vUpSize;
+        hSize = hLeftSize + hRightSize;
+        vSize = vDownSize + vUpSize;
+
         final int combinationSize = hSize + vSize + 1; // + 1 is the checked block.
 
-        final boolean horizontalCombination = (hSize + 1 >= MIN_COMBINATION_SIZE);
-        final boolean verticalCombination = (vSize + 1 >= MIN_COMBINATION_SIZE);
+        final boolean horizontalCombination = hSize + 1 >= MIN_COMBINATION_SIZE;
+        final boolean verticalCombination = vSize + 1 >= MIN_COMBINATION_SIZE;
         final boolean tHorizontal = hLeftSize >= 1 && hRightSize >= 1;
         final boolean tVertical = vDownSize >= 1 && vUpSize >= 1;
         final boolean isT = tHorizontal || tVertical;
-
+        if (plus)
+            System.out.println(tHorizontal + " " + tVertical + " " + isT + " " + horizontalCombination + " " + verticalCombination);
         //boolean tHorizontal = (hLeftSize >= 1 && hRightSize >= 1 && vSize >= 1);// CAN HAVE T WITHOUT MIN_COMBINATION_SIZE
         //boolean tVertical = (vDownSize >= 1 && vUpSize >= 1 && hSize >= 1);
 
@@ -160,5 +182,9 @@ public class StraightAndT extends BaseCombination {
             combinationsOut.addAll(vUp);
         }
         return entity;
+    }
+
+    private boolean isSmaller(final int smallerThan, final int x1, final int x2, final int x3) {
+        return (smallerThan < x1) && (smallerThan < x2) && (smallerThan < x3);
     }
 }
