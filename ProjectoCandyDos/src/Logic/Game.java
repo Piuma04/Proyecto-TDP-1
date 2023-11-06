@@ -1,10 +1,13 @@
 package Logic;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import Entities.Bomb;
 import GUI.Gui;
 import Interfaces.Equivalent;
 import Interfaces.GameOverOnly;
+import Interfaces.PausableObserver;
 import VisualPlayers.SoundPlayer;
 
 public class Game implements GameOverOnly{
@@ -25,30 +28,42 @@ public class Game implements GameOverOnly{
     private int lives;
     private boolean animationNextLevel;
     private Score score;
+    private List<PausableObserver> pausableObservers;
 
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
         score = new Score(myGui);
         lives = 3;
-  
-        pauseTimer();
+        pausableObservers = new ArrayList<>();
     }
 
     public void startBackgroundMusic() { backgroundMusic.loop(); }
     public void stopBackgroundMusic() { backgroundMusic.stop();}
 
     public void loadLevel(int level) {
-        myGui.reset();
+    	resetPausableObservers();
+    	myGui.reset();
         myBoard = new Board(myGui);
         myLevel = LevelGenerator.generateLevel("level" + String.valueOf(level) + ".txt", myBoard, this, myGui);
         myGui.updateLives(lives);
         myTimer.startTimer(myLevel.getTimeLimit());
+       
     }
+    private void resetPausableObservers() {
+    	for(PausableObserver e: pausableObservers) {
+         	e.update(true);
+        }
+        pausableObservers = new ArrayList<>();	
+		
+	}
 
-    public void reloadLevel() {
+    
+
+	public void reloadLevel() {
+    	
         loadLevel(myLevel.getCurrentLevel());
-        pauseTimer();
+        myTimer.update(true);
     }
 
     public void swap(int direction) {
@@ -77,7 +92,7 @@ public class Game implements GameOverOnly{
     }
 
     private void _win() {
-        myTimer.stopTimer();
+    	myTimer.update(true);
         if (myLevel.isLastLevel()) {
             myGui.showMessage("Felicitaciones! Ha ganado el juego");
             score.setNewScores();
@@ -99,7 +114,7 @@ public class Game implements GameOverOnly{
 
     private void _lost() {
         lives--;
-        myTimer.stopTimer();
+        myTimer.update(true);
         myGui.updateLives(lives);
         backgroundMusic.stop();
         lostSound.play();
@@ -118,19 +133,34 @@ public class Game implements GameOverOnly{
     public void finalLost() {
     	backgroundMusic.stop();
         lostSound.play();
-    	myTimer.stopTimer();
+    	pause(true);
     	myGui.showMessage("Perdio el juego");
         score.setNewScores();
         myGui.close();
 		
 	}
 
-	public void pauseTimer() { myTimer.stopTimer(); }
-    public void unpauseTimer() { myTimer.continueTimer(); }
+	public void pause(boolean isPaused) { 
+		myTimer.update(isPaused);
+		for(PausableObserver e : pausableObservers) {
+			e.update(isPaused);
+		}
+		System.out.println(pausableObservers.size());
+	}
+	public void removePausableObserver(PausableObserver poToRemove) {
+		pausableObservers.remove(poToRemove);
+	}
+	
     public boolean isAnimating() { return animationNextLevel; }
+    public void addPausableObserver(PausableObserver toAdd) {
+    	pausableObservers.add(toAdd);
+    }
 
     public static int getLabelSize() { return label_size; }
     public static void setLabelSize(int size) { label_size = size; }
 
+    public boolean isLoaded() { return myLevel != null; }
     public void resetScore() { score.resetScore(); }
+    
+    
 }

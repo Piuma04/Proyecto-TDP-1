@@ -2,7 +2,6 @@ package Combinations;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import Entities.Entity;
@@ -10,9 +9,9 @@ import Entities.PriorityEntity;
 import Logic.Block;
 import Logic.Board;
 
-public class ClassicPattern extends BaseCombination {
+public class Classic extends BaseCombination {
 
-    public ClassicPattern(Board b) { super(b); }
+    public Classic(Board b) { super(b); }
 
     @Override
     public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut) {
@@ -27,10 +26,4 @@ public class ClassicPattern extends BaseCombination {
         }
         return combinations;
     }
-
-	@Override
-	public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

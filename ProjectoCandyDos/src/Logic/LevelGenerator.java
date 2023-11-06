@@ -10,9 +10,12 @@ import java.util.List;
 
 import Combinations.CombinationLogic;
 import Combinations.OnlyLsCombinations;
-import Combinations.ClassicPattern;
 import Combinations.OnlyStraightCombinationsPattern;
 import Combinations.OnlyTsCombinations;
+import Combinations.StraightAndL;
+import Combinations.Classic;
+import Combinations.Straight;
+import Combinations.StraightAndT;
 import Entities.Entity;
 import Entities.Empty;
 import Enums.Colour;
@@ -45,8 +48,10 @@ public class LevelGenerator {
 	 * ..., ..., ...</br>
 	 * </br>
 	 * example:</br>
+	 * S</br>
 	 * 40,40</br>
-	 * RS,6, R,R,Y,R,R,Y</br>
+	 * RS,6, </br>
+	 * R,R,Y,R,R,Y</br>
 	 * B,B,R,B,B,P</br>
 	 * B,B,Y,B,B,P</br>
 	 * Y,Y,R,Y,Y,B</br>
@@ -74,6 +79,7 @@ public class LevelGenerator {
 			
 			combinationType = lines.get(currentLine++).charAt(0);
 			board.setCombinationLogic( createCombinationLogic(combinationType, board) );
+			gui.setLevelType("LEVEL TYPE: " + String.valueOf(combinationType));
 			
 			candys = lines.get(currentLine++).split(",");
 			obj = lines.get(currentLine++).split(",");
@@ -193,7 +199,7 @@ public class LevelGenerator {
 					e = new Stripped(r, c, colour, true);
 				else if (id.charAt(1) == 'W')
 					e = new Wrapped(r, c, colour);
-				else if (id.charAt(1) == 'Z')
+				else if (id.charAt(1) == 'S')
 					e = new MegaStripped(r, c, colour);
 				
 			}
@@ -207,11 +213,13 @@ public class LevelGenerator {
 			e = new Glazed(r, c);
 			break;
 		case 'Q':
-			e = new Bomb(r, c,game);
+			e = createBomb(id,  r,  c,  game);
 			break;
 		}
 		return e;
 	}
+
+	
 
 	private static Equivalent createEquivalent(String id) {
 		Equivalent equivalent = null;
@@ -247,27 +255,28 @@ public class LevelGenerator {
     public static CombinationLogic createCombinationLogic(char c, Board b) {
     	CombinationLogic newCombLogic = null;
     	switch(c) {
-    		case 'S':{
+    		case 'S':
     			newCombLogic = new OnlyStraightCombinationsPattern(b);
     			break;
-    		}
-    		case 'T':{
+    		case 'T':
     			newCombLogic = new OnlyTsCombinations(b);
     			break;
-    		}
-    		case 'L':{
+    		case 'L':
     			newCombLogic = new OnlyLsCombinations(b);
     			break;
-    		}
-    		case 'C':{
-    			newCombLogic = new ClassicPattern(b);
+    		default: // 'C'
+    			newCombLogic = new Classic(b);
     			break;
-    		}
-    		default:{
-    			newCombLogic = new ClassicPattern(b);
-    			break;
-    		}
     	}
         return newCombLogic;
     }
+    private static Entity createBomb(String id, int r, int c, Game game) {
+		Bomb newBomb = null;
+		
+		String temp = String.valueOf(id.toCharArray(), 1, id.length()-1);
+		int seconds = Integer.valueOf(temp);
+		newBomb = new Bomb(r, c, game, seconds);
+		game.addPausableObserver(newBomb);
+		return newBomb;
+	}
 }

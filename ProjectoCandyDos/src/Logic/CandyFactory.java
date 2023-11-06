@@ -1,6 +1,6 @@
 package Logic;
 import Entities.*;
-import Enums.Colour;
+import Enums.Colour; 
 public interface CandyFactory {
 	public abstract PriorityEntity createWrapped(Block b,Colour color);
 	public abstract PriorityEntity createHorizontalStripped(Block b,Colour color);

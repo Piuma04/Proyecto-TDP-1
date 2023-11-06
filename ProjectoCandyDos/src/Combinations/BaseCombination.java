@@ -49,7 +49,6 @@ public abstract class BaseCombination implements CombinationLogic {
 	        final int vSize = consecutiveV.size() + 1; // block to check added.
 	        final int row = block.getRow();
 	        final int column = block.getColumn();
-
 	        PriorityEntity entity = null;
 	        //Set<Block> tComb = getT(block);
 	        Set<Block> lComb = getL(block);
@@ -77,6 +76,24 @@ public abstract class BaseCombination implements CombinationLogic {
 	        return entity;
 	    }
 	
+	        
+    public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
+        Set<Block> unchecked = new HashSet<Block>();
+        for (int col = 0; col < Board.getColumns(); col++) {
+            List<Block> oldEmptyBlocks = emptyColumnBlocks.get(col);
+            if (oldEmptyBlocks.size() > 0)
+            {
+                Block lower = oldEmptyBlocks.get(0);
+                for (int row = lower.getRow(); row >= 0; row--) {
+                    Block block = board.getBlock(row, col);
+                    if (!block.isEmpty())
+                        unchecked.add(block);
+                }
+            }
+        }
+        return checkCombinations(unchecked, candysOut);
+    }
+
 	protected Set<Block> getX(Block block) {
 		Set<Block> x = new HashSet<Block>();
 		for(List<Coord> xShape: getXShapes())
@@ -173,7 +190,6 @@ public abstract class BaseCombination implements CombinationLogic {
 	}
 	protected List<List<Coord>> getLShapesRightU() {
 		 List<List<Coord>> lShapes = new LinkedList<>();
-
 	        // Define las coordenadas de las 5 formas "L" y agrégalas a la lista
 	        List<Coord> lShape1 = List.of(right, mult(right,2), sum(mult(right,2),up), sum(mult(right,2),mult(up,2)));
 	        List<Coord> lShape2 = List.of(left, right, sum(right,up), sum(right,mult(up,2)));
@@ -191,7 +207,6 @@ public abstract class BaseCombination implements CombinationLogic {
 	}
 	protected List<List<Coord>> getLShapesRightD() {
 		 List<List<Coord>> lShapes = new LinkedList<>();
-
 	        // Define las coordenadas de las 5 formas "L" y agrégalas a la lista
 	        List<Coord> lShape1 = List.of(right, mult(right,2), sum(mult(right,2),down), sum(mult(right,2),mult(down,2)));
 	        List<Coord> lShape2 = List.of(left, right, sum(right,down), sum(right,mult(down,2)));
@@ -393,35 +408,56 @@ public abstract class BaseCombination implements CombinationLogic {
 	}
 
     /**
-     * Checks the horizontal combinations an element specified with row and column
-     * makes
-     * 
-     * @param row valid {@code row} values are ({@code row >= 0}) &&
-     * ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) &&
-     * ({@code column < }{@link Board#COLUMNS}}
-     * @param combination blocks that make combinations
-     * @return amount of horizontal combinations
+     * Biased to Horizontal Combinations.
      */
+    protected PriorityEntity checkStraightBlockHorizontalVerticalCombination(Block block, Set<Block> combinationsOut) {
+        final Colour color = board.getBlockColour(block);
+
+        final Set<Block> consecutiveH = consecutiveHorizontal(block);
+        final Set<Block> consecutiveV = consecutiveVertical(block);
+
+        final int hSize = consecutiveH.size() + 1; // block to check added.
+        final int vSize = consecutiveV.size() + 1; // block to check added.
+
+        PriorityEntity entity = null;
+        final int row = block.getRow();
+        final int column = block.getColumn();
+
+        if (hSize >= MIN_COMBINATION_SIZE) {
+            combinationsOut.add(block);
+            combinationsOut.addAll(consecutiveH);
+            if (hSize == STRIPPED_COMBINATION_SIZE)
+                entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
+        }
+        else if (vSize >= MIN_COMBINATION_SIZE) {
+            combinationsOut.add(block);
+            combinationsOut.addAll(consecutiveV);
+            if (vSize == STRIPPED_COMBINATION_SIZE)
+                entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
+        }
+        return entity;
+    }
+
     protected Set<Block> consecutiveVertical(Block block) {
-    	
         Set<Block> blocks = new HashSet<Block>();
         if (!Board.hasMovableEntity(block))
             return blocks;
-        blocks.addAll(consecutiveVerticalDown(block));
-        blocks.addAll(consecutiveVerticalUp(block));
-        if (blocks.size() < 2)
-            blocks.clear();
+        Set<Block> verticalDown = consecutiveVerticalDown(block);
+        Set<Block> verticalUp = consecutiveVerticalUp(block);
+        final int verticalSize = verticalDown.size() + verticalUp.size() + 1;  // + 1 is the checked block.
+        if (verticalSize >= MIN_COMBINATION_SIZE) {
+            blocks.addAll(verticalDown);
+            blocks.addAll(verticalUp);
+        }
         return blocks;
-        
     }
     
     protected Set<Block> consecutiveVerticalUp(Block block) {
-    	Set<Block> blocks = new HashSet<Block>();
-    	int row = block.getRow();
+        Set<Block> blocks = new HashSet<Block>();
+        int row = block.getRow();
         int column = block.getColumn();
-    	boolean cumple = true;
-    	for (int r = row - 1; r >= 0 && r < Board.getRows() && cumple; r--) {
+        boolean cumple = true;
+        for (int r = row - 1; r >= 0 && r < Board.getRows() && cumple; r--) {
             Block current = board.getBlock(r, column);
             cumple = board.getBlockColour(block) == board.getBlockColour(current);
             if (cumple)
@@ -431,10 +467,10 @@ public abstract class BaseCombination implements CombinationLogic {
     }
     
     protected Set<Block> consecutiveVerticalDown(Block block) {
-    	Set<Block> blocks = new HashSet<Block>();
-    	int row = block.getRow();
+        Set<Block> blocks = new HashSet<Block>();
+        int row = block.getRow();
         int column = block.getColumn();
-    	boolean cumple = true;
+        boolean cumple = true;
         for (int r = row + 1; Board.isValidBlockPosition(r, column) && cumple; r++) {
             Block current = board.getBlock(r, column);
             cumple = board.getBlockColour(block) == board.getBlockColour(current);
@@ -444,30 +480,24 @@ public abstract class BaseCombination implements CombinationLogic {
         return blocks;
     }
 
-    /**
-     * Checks the vertical combinations an element specified with row and column
-     * makes
-     * 
-     * @param row valid {@code row} values are ({@code row >= 0}) &&
-     * ({@code row < }{@link Board#ROWS})
-     * @param column valid {@code column} values are ({@code column >= 0}) &&
-     * ({@code column < }{@link Board#COLUMNS}}
-     * @param combination blocks that make combinations
-     * @return amount of vertical combinations
-     */
+
     protected Set<Block> consecutiveHorizontal(Block block) {
+        
         Set<Block> blocks = new HashSet<Block>();
         if (!Board.hasMovableEntity(block))
             return blocks;
-        blocks.addAll(consecutiveHorizontalRight(block));
-        blocks.addAll(consecutiveHorizontalLeft(block));
-        if (blocks.size() < 2)
-            blocks.clear();
+        Set<Block> horizontalLeft = consecutiveHorizontalLeft(block);
+        Set<Block> horizontalRight = consecutiveHorizontalRight(block);
+        final int horizontalSize = horizontalLeft.size() + horizontalRight.size() + 1; // + 1 is the checked block.
+        if (horizontalSize >= MIN_COMBINATION_SIZE) {
+            blocks.addAll(horizontalLeft);
+            blocks.addAll(horizontalRight);
+        }
         return blocks;
     }
     
     protected Set<Block> consecutiveHorizontalLeft(Block block) {
-    	Set<Block> blocks = new HashSet<Block>();
+        Set<Block> blocks = new HashSet<Block>();
         int row = block.getRow();
         int column = block.getColumn();
         boolean cumple = true;
@@ -481,7 +511,7 @@ public abstract class BaseCombination implements CombinationLogic {
     }
     
     protected Set<Block> consecutiveHorizontalRight(Block block) {
-    	Set<Block> blocks = new HashSet<Block>();
+        Set<Block> blocks = new HashSet<Block>();
         int row = block.getRow();
         int column = block.getColumn();
         boolean cumple = true;

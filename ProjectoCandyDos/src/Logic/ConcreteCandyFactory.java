@@ -3,7 +3,7 @@ package Logic;
 import java.util.Random;
 
 import Entities.*;
-import Enums.Colour;
+import Enums.Colour; 
 
 public class ConcreteCandyFactory implements CandyFactory{
 	private static final Random candyPicker = new Random();
