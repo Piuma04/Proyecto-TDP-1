@@ -40,7 +40,7 @@ public class GamePanel extends JPanel {
     private JLabel typeOfCandy[];
     private JLabel amountToGo[];
 
-    private JLabel cantMoves, levelShower, watch;
+    private JLabel cantMoves, levelShower, watch, levelType;
 
     private JLabel score;
     
@@ -104,10 +104,11 @@ public class GamePanel extends JPanel {
         gameDataPanel.setLayout(new BoxLayout(gameDataPanel, BoxLayout.Y_AXIS));
         
 
+        levelShower = new JLabel();
         live1 = new JLabel();
         live2 = new JLabel();
         live3 = new JLabel();
-        levelShower = new JLabel();
+        levelType = new JLabel();
         typeOfCandy = new JLabel[3];
         amountToGo = new JLabel[3];
         cantMoves = new JLabel();
@@ -121,7 +122,6 @@ public class GamePanel extends JPanel {
         levelPanel.setOpaque(false);
         levelShower.setFont(new Font(font, Font.PLAIN, 20));
         levelPanel.add(levelShower, BorderLayout.CENTER);
-        
 
         // START SET UP LIVES.
         JPanel livesPanel = new JPanel(new GridLayout(1,0));
@@ -131,9 +131,13 @@ public class GamePanel extends JPanel {
         livesPanel.add(live3, BorderLayout.EAST);
         // END SET UP LIVES.
 
+        // START SET UP LEVEL TYPE.
+        JPanel levelTypePanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        levelTypePanel.add(levelType);
+        // END SET UP LEVEL TYPE.
+
         // START SET UP WATCH.
         JPanel watchPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        watchPanel.setOpaque(false);
         watchPanel.setBorder(borderPadding);
         watchPanel.add(watch);
         // END SET UP WATCH.
@@ -152,6 +156,7 @@ public class GamePanel extends JPanel {
         
         gameDataPanel.add(levelPanel);
         gameDataPanel.add(livesPanel);
+        gameDataPanel.add(levelTypePanel);
         gameDataPanel.add(watchPanel);
         gameDataPanel.add(movesPanel);
         gameDataPanel.add(scorePanel);
@@ -181,6 +186,7 @@ public class GamePanel extends JPanel {
 
         // START SET LABEL COLORS.
         levelShower.setForeground(stringColor);
+        levelType.setForeground(stringColor);
         watch.setForeground(stringColor);
         cantMoves.setForeground(stringColor);
         score.setForeground(stringColor);
@@ -191,7 +197,6 @@ public class GamePanel extends JPanel {
         // END SET LABEL COLORS.
 
         // START SET OPACITY TO SEE BACKGROUND.
-
         gameDataPanel.setOpaque(false);
 
         // LABELS.
@@ -199,6 +204,7 @@ public class GamePanel extends JPanel {
         live2.setOpaque(false);
         live3.setOpaque(false);
         levelShower.setOpaque(false);
+        levelType.setOpaque(false);
         for (JLabel typeCandy : typeOfCandy)
             typeCandy.setOpaque(false);
         for (JLabel amount : amountToGo)
@@ -209,6 +215,7 @@ public class GamePanel extends JPanel {
         // PANELS.
         levelPanel.setOpaque(false);
         livesPanel.setOpaque(false);
+        levelTypePanel.setOpaque(false);
         watchPanel.setOpaque(false);
         movesPanel.setOpaque(false);
         scorePanel.setOpaque(false);
@@ -261,6 +268,7 @@ public class GamePanel extends JPanel {
 
     public void setCurrentLevel(String level) { levelShower.setText(level); }
     public void setTime(String timeString) { watch.setText("Tiempo restante: " + timeString); }
+    public void setLevelType(String type) { levelType.setText(type); }
 
     public void reset() { boardPanel.removeAll(); }
 

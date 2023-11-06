@@ -74,6 +74,7 @@ public class LevelGenerator {
 			
 			combinationType = lines.get(currentLine++).charAt(0);
 			board.setCombinationLogic( createCombinationLogic(combinationType, board) );
+			gui.setLevelType("LEVEL TYPE: " + String.valueOf(combinationType));
 			
 			candys = lines.get(currentLine++).split(",");
 			obj = lines.get(currentLine++).split(",");

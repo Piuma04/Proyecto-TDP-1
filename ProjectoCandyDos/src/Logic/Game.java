@@ -31,8 +31,6 @@ public class Game implements GameOverOnly{
         myTimer = new Timer(this, myGui);
         score = new Score(myGui);
         lives = 3;
-  
-        pauseTimer();
     }
 
     public void startBackgroundMusic() { backgroundMusic.loop(); }
@@ -132,5 +130,6 @@ public class Game implements GameOverOnly{
     public static int getLabelSize() { return label_size; }
     public static void setLabelSize(int size) { label_size = size; }
 
+    public boolean isLoaded() { return myLevel != null; }
     public void resetScore() { score.resetScore(); }
 }
