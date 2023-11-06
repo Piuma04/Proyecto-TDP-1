@@ -13,6 +13,7 @@ public abstract class VisualEntityDummy implements VisualEntity {
 
     protected GraphicalEntity gEntity;
 
+    
     /**
      * Must not be called if there is no {@link GraphicalEntity} initialized
      * 

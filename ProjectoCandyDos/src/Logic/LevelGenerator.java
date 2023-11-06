@@ -122,7 +122,7 @@ public class LevelGenerator {
 				for (int c = 0; c < Board.getColumns(); c++) {
 					String id = candys[c];
 
-					Entity entity = createEntity(id, r, c);
+					Entity entity = createEntity(id, r, c,game);
 					board.associateEntity(r, c, entity);
 				}
 			}
@@ -169,7 +169,7 @@ public class LevelGenerator {
 	 * @param c
 	 * @return
 	 */
-	private static Entity createEntity(String id, int r, int c) {
+	private static Entity createEntity(String id, int r, int c, Game game) {
 
 		Entity e = null;
 		Colour colour = null;
@@ -207,7 +207,7 @@ public class LevelGenerator {
 			e = new Glazed(r, c);
 			break;
 		case 'Q':
-			e = new Bomb(r, c);
+			e = new Bomb(r, c,game);
 			break;
 		}
 		return e;
@@ -215,7 +215,7 @@ public class LevelGenerator {
 
 	private static Equivalent createEquivalent(String id) {
 		Equivalent equivalent = null;
-		equivalent = createEntity(id, -1, -1);
+		equivalent = createEntity(id, -1, -1,null); //TODO maybe this isn't the best way to do this
 		if (equivalent == null) {
 			switch (id.charAt(0)) {
 			case 'J':

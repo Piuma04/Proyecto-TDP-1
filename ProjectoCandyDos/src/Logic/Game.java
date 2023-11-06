@@ -4,9 +4,10 @@ import java.util.List;
 
 import GUI.Gui;
 import Interfaces.Equivalent;
+import Interfaces.GameOverOnly;
 import VisualPlayers.SoundPlayer;
 
-public class Game {
+public class Game implements GameOverOnly{
 
     private static int label_size = 80;
     private static final SoundPlayer backgroundMusic = new SoundPlayer("ps/introMusic.wav");
@@ -30,7 +31,7 @@ public class Game {
         myTimer = new Timer(this, myGui);
         score = new Score(myGui);
         lives = 3;
-        loadLevel(1);
+  
         pauseTimer();
     }
 
@@ -103,7 +104,7 @@ public class Game {
         backgroundMusic.stop();
         lostSound.play();
         if (lives == 0) {
-            myGui.showMessage("Perdio el juego");
+        	myGui.showMessage("Perdio el juego");
             score.setNewScores();
             myGui.close();
         }
@@ -114,7 +115,17 @@ public class Game {
         backgroundMusic.start();
     }
 
-    public void pauseTimer() { myTimer.stopTimer(); }
+    public void finalLost() {
+    	backgroundMusic.stop();
+        lostSound.play();
+    	myTimer.stopTimer();
+    	myGui.showMessage("Perdio el juego");
+        score.setNewScores();
+        myGui.close();
+		
+	}
+
+	public void pauseTimer() { myTimer.stopTimer(); }
     public void unpauseTimer() { myTimer.continueTimer(); }
     public boolean isAnimating() { return animationNextLevel; }
 
