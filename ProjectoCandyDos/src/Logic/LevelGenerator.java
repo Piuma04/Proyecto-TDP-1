@@ -45,8 +45,10 @@ public class LevelGenerator {
 	 * ..., ..., ...</br>
 	 * </br>
 	 * example:</br>
+	 * S</br>
 	 * 40,40</br>
-	 * RS,6, R,R,Y,R,R,Y</br>
+	 * RS,6, </br>
+	 * R,R,Y,R,R,Y</br>
 	 * B,B,R,B,B,P</br>
 	 * B,B,Y,B,B,P</br>
 	 * Y,Y,R,Y,Y,B</br>
@@ -208,11 +210,13 @@ public class LevelGenerator {
 			e = new Glazed(r, c);
 			break;
 		case 'Q':
-			e = new Bomb(r, c,game);
+			e = createBomb(id,  r,  c,  game);
 			break;
 		}
 		return e;
 	}
+
+	
 
 	private static Equivalent createEquivalent(String id) {
 		Equivalent equivalent = null;
@@ -263,4 +267,13 @@ public class LevelGenerator {
     	}
         return newCombLogic;
     }
+    private static Entity createBomb(String id, int r, int c, Game game) {
+		Bomb newBomb = null;
+		
+		String temp = String.valueOf(id.toCharArray(), 1, id.length()-1);
+		int seconds = Integer.valueOf(temp);
+		newBomb = new Bomb(r, c, game, seconds);
+		
+		return newBomb;
+	}
 }
