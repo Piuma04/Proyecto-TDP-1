@@ -42,14 +42,26 @@ public class Game implements GameOverOnly{
     public void stopBackgroundMusic() { backgroundMusic.stop();}
 
     public void loadLevel(int level) {
-        myGui.reset();
+    	resetPausableObservers();
+    	myGui.reset();
         myBoard = new Board(myGui);
         myLevel = LevelGenerator.generateLevel("level" + String.valueOf(level) + ".txt", myBoard, this, myGui);
         myGui.updateLives(lives);
         myTimer.startTimer(myLevel.getTimeLimit());
+       
     }
+    private void resetPausableObservers() {
+    	for(PausableObserver e: pausableObservers) {
+         	e.update(true);
+        }
+        pausableObservers = new ArrayList<>();	
+		
+	}
 
-    public void reloadLevel() {
+    
+
+	public void reloadLevel() {
+    	
         loadLevel(myLevel.getCurrentLevel());
         myTimer.update(true);
     }
@@ -149,4 +161,6 @@ public class Game implements GameOverOnly{
 
     public boolean isLoaded() { return myLevel != null; }
     public void resetScore() { score.resetScore(); }
+    
+    
 }
