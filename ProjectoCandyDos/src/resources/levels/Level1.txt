@@ -1,9 +1,9 @@
-L
+T
 16,75
 B,15
-Q,R,Q,B,P,G
-P,RZ,G,B,Y,B
-G,P,R,Y,B,R
+Q,R,Q30,B,P,G
+P,R,G,B,Y,B
+G,P,R,GV,BW,R
 G,R,B,P,P,Y
-R,B,R,G,PZ,G
-B,P,R,R,R,R
+R,B,R,G,R,G
+B,P,R,R,G,R

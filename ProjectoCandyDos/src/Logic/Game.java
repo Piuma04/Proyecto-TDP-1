@@ -1,13 +1,15 @@
 package Logic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import GUI.Gui;
 import Interfaces.Equivalent;
 import Interfaces.GameOverOnly;
+import Interfaces.PausableObserver;
 import VisualPlayers.SoundPlayer;
 
-public class Game implements GameOverOnly{
+public class Game implements GameOverOnly {
 
     private static int label_size = 80;
     private static final SoundPlayer backgroundMusic = new SoundPlayer("ps/introMusic.wav");
@@ -25,28 +27,32 @@ public class Game implements GameOverOnly{
     private int lives;
     private boolean animationNextLevel;
     private Score score;
+    private List<PausableObserver> pausableObservers;
 
     public Game() {
         myGui = new Gui(this);
         myTimer = new Timer(this, myGui);
         score = new Score(myGui);
         lives = 3;
+        pausableObservers = new ArrayList<>();
     }
 
     public void startBackgroundMusic() { backgroundMusic.loop(); }
     public void stopBackgroundMusic() { backgroundMusic.stop();}
 
     public void loadLevel(int level) {
-        myGui.reset();
+    	resetPausableObservers();
+    	myGui.reset();
         myBoard = new Board(myGui);
         myLevel = LevelGenerator.generateLevel("level" + String.valueOf(level) + ".txt", myBoard, this, myGui);
         myGui.updateLives(lives);
         myTimer.startTimer(myLevel.getTimeLimit());
+       
     }
 
-    public void reloadLevel() {
+	public void reloadLevel() {
         loadLevel(myLevel.getCurrentLevel());
-        pauseTimer();
+        myTimer.update(true);
     }
 
     public void swap(int direction) {
@@ -75,7 +81,7 @@ public class Game implements GameOverOnly{
     }
 
     private void _win() {
-        myTimer.stopTimer();
+    	myTimer.update(true);
         if (myLevel.isLastLevel()) {
             myGui.showMessage("Felicitaciones! Ha ganado el juego");
             score.setNewScores();
@@ -97,39 +103,53 @@ public class Game implements GameOverOnly{
 
     private void _lost() {
         lives--;
-        myTimer.stopTimer();
+        myTimer.update(true);
         myGui.updateLives(lives);
-        backgroundMusic.stop();
-        lostSound.play();
         if (lives == 0) {
-        	myGui.showMessage("Perdio el juego");
-            score.setNewScores();
-            myGui.close();
+            finalLost();
         }
         else {
+            backgroundMusic.stop();
+            lostSound.play();
             myGui.showMessage("Perdio una vida, reintente!");
             loadLevel(myLevel.getCurrentLevel());
         }
         backgroundMusic.start();
     }
 
+    @Override
     public void finalLost() {
-    	backgroundMusic.stop();
+        backgroundMusic.stop();
         lostSound.play();
-    	myTimer.stopTimer();
-    	myGui.showMessage("Perdio el juego");
+        pause(true);
+        myGui.showMessage("Perdio el juego");
         score.setNewScores();
         myGui.close();
-		
-	}
+    }
 
-	public void pauseTimer() { myTimer.stopTimer(); }
-    public void unpauseTimer() { myTimer.continueTimer(); }
+
+    @Override public void addPausableObserver(PausableObserver toAdd) { pausableObservers.add(toAdd); }
+    @Override public void removePausableObserver(PausableObserver poToRemove) { pausableObservers.remove(poToRemove); }
+    public void pause(boolean isPaused) {
+        myTimer.update(isPaused);
+        for (PausableObserver e : pausableObservers)
+            e.update(isPaused);
+        System.out.println(pausableObservers.size());
+    }
+    private void resetPausableObservers() {
+        for (PausableObserver e : pausableObservers)
+            e.update(true);
+        pausableObservers = new ArrayList<>();
+    }
+
     public boolean isAnimating() { return animationNextLevel; }
+
 
     public static int getLabelSize() { return label_size; }
     public static void setLabelSize(int size) { label_size = size; }
 
     public boolean isLoaded() { return myLevel != null; }
     public void resetScore() { score.resetScore(); }
+    
+    
 }

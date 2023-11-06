@@ -39,7 +39,9 @@ public abstract class BaseFactory implements CandyFactory {
     @Override public Entity createEmpty(int row, int column)                      { return new Empty(row, column); }
 
     @Override public Entity createBomb(int row, int column, GameOverOnly game, int seconds) {
-        return new Bomb(row, column, game, seconds);
+        Bomb b = new Bomb(row, column, game, seconds);
+        game.addPausableObserver(b);
+        return b;
     }
 
     @Override public Modifier createJelly(int row, int column)                    { return new Jelly(row, column); }

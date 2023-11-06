@@ -176,13 +176,13 @@ public class Gui extends JFrame implements GuiAnimable, GuiNotifiable {
     public void openGame() {
         openPanel(gamePanel);
         myGame.startBackgroundMusic();
-        myGame.unpauseTimer();
+        myGame.pause(false);
        }
 
     public void openMenu() {
         openPanel(menuPanel);
         myGame.stopBackgroundMusic();
-        myGame.pauseTimer();
+        myGame.pause(true);
     }
 
     private void resetScore() {
