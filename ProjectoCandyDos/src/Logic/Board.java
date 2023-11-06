@@ -4,21 +4,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import CandyFactory.CandyFactory;
+import CandyFactory.SweetCandy;
+
 import java.util.LinkedList;
 import java.util.HashMap;
 import java.util.HashSet;
-
-import java.util.Random;
 
 import GUI.Gui;
 
 import Combinations.CombinationLogic;
 
-import Entities.Candy;
-
 import Entities.Empty;
 import Entities.Entity;
-import Entities.MegaStripped;
 import Enums.Colour;
 import Interfaces.Equivalent;
 import Interfaces.VisualEntity;
@@ -30,8 +28,9 @@ public class Board {
     private static final SoundPlayer explosion = new SoundPlayer("ps/move2.wav"); // new SoundPlayer("nam.wav");
     private static final SoundPlayer blockMove = new SoundPlayer("ps/move100.wav");
     private static final SoundPlayer entityMove = new SoundPlayer("ps/click.wav");
-    private static final Entity dummy = new Candy(0, 0, Colour.NONE);
-    private static final Random candyPicker = new Random();
+    
+    private static final CandyFactory candyFactory = new SweetCandy(2);
+    private static final Entity dummy = candyFactory.createCandy(0, 0, Colour.NONE);
     
     private int playerRow, playerColumn;
     private Block[][] matrix;
@@ -95,12 +94,7 @@ public class Board {
     public Entity destroyEntity(int row, int column) { return getBlock(row, column).destroyEntity(); }
 
     public Entity createRandomCandy(int row, int column) {
-        double i = Math.random();
-        Entity entity;
-        if(i > 0.02)
-             entity = new Candy(row, column, randomColour());
-        else
-             entity = new MegaStripped(row, column, randomColour());
+        Entity entity = candyFactory.createRandom(row, column);
         addVisualEntity(entity);
         return entity;
     }
@@ -315,11 +309,4 @@ public class Board {
         final Entity e2 = block2.getEntity();
         return e1.isSwappable(e2);
     }
-
-    private Colour randomColour() {
-        Colour[] colores = { Colour.BLUE, Colour.GREEN, Colour.PURPLE, Colour.RED, Colour.YELLOW };
-        return colores[candyPicker.nextInt(0, colores.length)];
-    }
-
-
 }

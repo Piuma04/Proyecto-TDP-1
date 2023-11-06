@@ -4,10 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import Enums.Colour;
 import Entities.Entity;
 import Entities.PriorityEntity;
-import Entities.Stripped;
 
 import Logic.Block;
 import Logic.Board;

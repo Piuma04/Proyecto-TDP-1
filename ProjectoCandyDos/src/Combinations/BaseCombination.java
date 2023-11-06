@@ -7,10 +7,13 @@ import java.util.LinkedList;
 import java.util.HashSet;
 
 import Enums.Colour;
+
+import CandyFactory.CandyFactory;
+import CandyFactory.NormalCandy;
+
 import Entities.Entity;
 import Entities.PriorityEntity;
-import Entities.Stripped;
-import Entities.Wrapped;
+
 import Logic.Block;
 import Logic.Board;
 
@@ -21,6 +24,7 @@ public abstract class BaseCombination implements CombinationLogic {
     protected static final int MIN_COMBINATION_SIZE = 3;
 
     protected Board board;
+    protected CandyFactory candyFactory = new NormalCandy();
 
     public BaseCombination(Board b) { board = b; }
 
@@ -64,49 +68,26 @@ public abstract class BaseCombination implements CombinationLogic {
         combinationsOut.addAll(combination);
 
         if (combination.size() < MAX_NUMER_CANDYS_FOR_CREATION) {
-            // Get maximum priority.
-            candy = candys.size() > 0 ? candys.get(0) : null;
-            
-            for (PriorityEntity pe : candys) {
-                if (pe.getPriority() > candy.getPriority())
-                    candy = pe;
-            }
+            candy = getMaximumPriority(candys);
         } else candy = null;
-
         return candy != null ? candy.getEntity() : null;
     }
 
     protected PriorityEntity checkBlockHorizontalVerticalCombination(Block block, Set<Block> combinationsOut) {
-        final Colour color = board.getBlockColour(block);
-
         final Set<Block> consecutiveH = consecutiveHorizontal(block);
         final Set<Block> consecutiveV = consecutiveVertical(block);
 
         final int hSize = consecutiveH.size();
-        final int vSize = consecutiveV.size();
-        final int combinationSize = hSize + vSize + 1; // + 1 is the checked block.
+        final int vSize = consecutiveV.size(); 
+        final int combinationSize = hSize + vSize + 1;  // + 1 is the checked block.
 
         PriorityEntity entity = null;
 
         if (combinationSize >= MIN_COMBINATION_SIZE) {
-            final int row = block.getRow();
-            final int column = block.getColumn();
-            final boolean createWrapped = (combinationSize <= MAX_WRAPPED_COMBINATION_SIZE) &&
-                    (hSize + 1 >= MIN_COMBINATION_SIZE) &&
-                    (vSize + 1 >= MIN_COMBINATION_SIZE);
-            final boolean createStrippedVertical   = hSize+1 == STRIPPED_COMBINATION_SIZE;
-            final boolean createStrippedHorizontal = vSize+1 == STRIPPED_COMBINATION_SIZE;
-    
-            if (createWrapped)
-                entity = new PriorityEntity(new Wrapped(row, column, color), 2);
-            else if (createStrippedVertical)
-                entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
-            else if (createStrippedHorizontal)
-                entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
-    
-                combinationsOut.add(block);
-                combinationsOut.addAll(consecutiveH);
-                combinationsOut.addAll(consecutiveV);
+            entity = checkSpecialCreation(block, hSize, vSize);
+            combinationsOut.add(block);
+            combinationsOut.addAll(consecutiveH);
+            combinationsOut.addAll(consecutiveV);
         }
 
         return entity;
@@ -132,13 +113,13 @@ public abstract class BaseCombination implements CombinationLogic {
             combinationsOut.add(block);
             combinationsOut.addAll(consecutiveH);
             if (hSize == STRIPPED_COMBINATION_SIZE)
-                entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
+                entity = new PriorityEntity(candyFactory.createHorizontalStripped(row, column, color), 1);
         }
         else if (vSize >= MIN_COMBINATION_SIZE) {
             combinationsOut.add(block);
             combinationsOut.addAll(consecutiveV);
             if (vSize == STRIPPED_COMBINATION_SIZE)
-                entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
+                entity = new PriorityEntity(candyFactory.createHorizontalStripped(row, column, color), 1);
         }
         return entity;
     }
@@ -227,5 +208,37 @@ public abstract class BaseCombination implements CombinationLogic {
                 blocks.add(current);
         }
         return blocks;
+    }
+
+
+    protected PriorityEntity checkSpecialCreation(Block block, int hSize, int vSize) {
+        final Colour color = board.getBlockColour(block);
+        final int row = block.getRow();
+        final int column = block.getColumn();
+
+        final int combinationSize = hSize + vSize + 1;  // + 1 is the checked block.
+
+        final boolean createWrapped = (combinationSize <= MAX_WRAPPED_COMBINATION_SIZE) &&
+                (hSize + 1 >= MIN_COMBINATION_SIZE) &&
+                (vSize + 1 >= MIN_COMBINATION_SIZE);
+        final boolean createStrippedVertical   = hSize+1 == STRIPPED_COMBINATION_SIZE;
+        final boolean createStrippedHorizontal = vSize+1 == STRIPPED_COMBINATION_SIZE;
+
+        PriorityEntity entity = null;
+        if (createWrapped)
+            entity = new PriorityEntity(candyFactory.createWrapped(row, column, color), 2);
+        else if (createStrippedVertical)
+            entity = new PriorityEntity(candyFactory.createVerticalStripped(row, column, color), 1);
+        else if (createStrippedHorizontal)
+            entity = new PriorityEntity(candyFactory.createHorizontalStripped(row, column, color), 1);
+        return entity;
+    }
+
+    protected PriorityEntity getMaximumPriority(List<PriorityEntity> candys) {
+        PriorityEntity candy = candys.size() > 0 ? candys.get(0) : null;
+        for (PriorityEntity pe : candys)
+            if (pe.getPriority() > candy.getPriority())
+                candy = pe;
+        return candy;
     }
 }

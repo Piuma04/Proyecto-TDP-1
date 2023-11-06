@@ -7,9 +7,6 @@ import java.util.Set;
 
 import Entities.Entity;
 import Entities.PriorityEntity;
-import Entities.Stripped;
-import Entities.Wrapped;
-import Enums.Colour;
 import Logic.Block;
 import Logic.Board;
 
@@ -67,21 +64,12 @@ public class StraightAndT extends BaseCombination {
         combinationsOut.addAll(combination);
 
         if (combination.size() < MAX_NUMER_CANDYS_FOR_CREATION) {
-            // Get maximum priority.
-            candy = candys.size() > 0 ? candys.get(0) : null;
-            
-            for (PriorityEntity pe : candys) {
-                if (pe.getPriority() > candy.getPriority())
-                    candy = pe;
-            }
+            candy = getMaximumPriority(candys);
         } else candy = null;
-
         return candy != null ? candy.getEntity() : null;
     }
 
     protected PriorityEntity checkTForm(Block block, Set<Block> combinationsOut) {
-        final Colour color = board.getBlockColour(block);
-
         Set<Block> hLeft = consecutiveHorizontalLeft(block);
         Set<Block> hRight = consecutiveHorizontalRight(block);
         Set<Block> vDown = consecutiveVerticalDown(block);
@@ -144,8 +132,6 @@ public class StraightAndT extends BaseCombination {
         hSize = hLeftSize + hRightSize;
         vSize = vDownSize + vUpSize;
 
-        final int combinationSize = hSize + vSize + 1; // + 1 is the checked block.
-
         final boolean horizontalCombination = hSize + 1 >= MIN_COMBINATION_SIZE;
         final boolean verticalCombination = vSize + 1 >= MIN_COMBINATION_SIZE;
         final boolean tHorizontal = hLeftSize >= 1 && hRightSize >= 1;
@@ -157,22 +143,7 @@ public class StraightAndT extends BaseCombination {
 
         PriorityEntity entity = null;
         if (isT && horizontalCombination && verticalCombination) {
-            final int row = block.getRow();
-            final int column = block.getColumn();
-
-            final boolean createWrapped =
-                    (combinationSize <= MAX_WRAPPED_COMBINATION_SIZE) &&
-                    (hSize + 1 >= MIN_COMBINATION_SIZE) &&
-                    (vSize + 1 >= MIN_COMBINATION_SIZE);
-            final boolean createStrippedVertical   = hSize+1 == STRIPPED_COMBINATION_SIZE;
-            final boolean createStrippedHorizontal = vSize+1 == STRIPPED_COMBINATION_SIZE;
-    
-            if (createWrapped)
-                entity = new PriorityEntity(new Wrapped(row, column, color), 2);
-            else if (createStrippedVertical)
-                entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
-            else if (createStrippedHorizontal)
-                entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
+            entity = checkSpecialCreation(block, hSize, vSize);
 
             combinationsOut.add(block);
             combinationsOut.addAll(hLeft);
