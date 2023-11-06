@@ -138,7 +138,7 @@ public class OnlyTsCombinations extends BaseCombination {
 	}
 
 
-	public static List<List<Coord>> getTShapesUp() {
+	private List<List<Coord>> getTShapesUp() {
 	        List<List<Coord>> tShapes = new LinkedList<>();
 
 	        // Define las coordenadas de las 5 formas "T" y agrégalas a la lista
