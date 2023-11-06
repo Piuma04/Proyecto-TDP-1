@@ -151,8 +151,7 @@ public class StraightAndT extends BaseCombination {
         final boolean tHorizontal = hLeftSize >= 1 && hRightSize >= 1;
         final boolean tVertical = vDownSize >= 1 && vUpSize >= 1;
         final boolean isT = tHorizontal || tVertical;
-        if (plus)
-            System.out.println(tHorizontal + " " + tVertical + " " + isT + " " + horizontalCombination + " " + verticalCombination);
+
         //boolean tHorizontal = (hLeftSize >= 1 && hRightSize >= 1 && vSize >= 1);// CAN HAVE T WITHOUT MIN_COMBINATION_SIZE
         //boolean tVertical = (vDownSize >= 1 && vUpSize >= 1 && hSize >= 1);
 
