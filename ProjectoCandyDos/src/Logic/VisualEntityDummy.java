@@ -35,7 +35,7 @@ public abstract class VisualEntityDummy implements VisualEntity {
 
     @Override public void setGraphicalEntity(GraphicalEntity graphicalEntity) { gEntity = graphicalEntity; }
     @Override public GraphicalEntity getGraphicalEntity() { return gEntity; }
-    
+
     /**
      * Must not be called if there is no {@link GraphicalEntity} initialized
      * @param newRow

@@ -9,10 +9,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 import Combinations.CombinationLogic;
-import Combinations.OnlyLsCombinations;
-import Combinations.ClassicPattern;
-import Combinations.OnlyStraightCombinationsPattern;
-import Combinations.OnlyTsCombinations;
+import Combinations.StraightAndL;
+import Combinations.Classic;
+import Combinations.Straight;
+import Combinations.StraightAndT;
 import Entities.Entity;
 import Entities.Empty;
 import Enums.Colour;
@@ -193,7 +193,7 @@ public class LevelGenerator {
 					e = new Stripped(r, c, colour, true);
 				else if (id.charAt(1) == 'W')
 					e = new Wrapped(r, c, colour);
-				else if (id.charAt(1) == 'Z')
+				else if (id.charAt(1) == 'S')
 					e = new MegaStripped(r, c, colour);
 				
 			}
@@ -247,26 +247,18 @@ public class LevelGenerator {
     public static CombinationLogic createCombinationLogic(char c, Board b) {
     	CombinationLogic newCombLogic = null;
     	switch(c) {
-    		case 'S':{
-    			newCombLogic = new OnlyStraightCombinationsPattern(b);
+    		case 'S':
+    			newCombLogic = new Straight(b);
     			break;
-    		}
-    		case 'T':{
-    			newCombLogic = new OnlyTsCombinations(b);
+    		case 'T':
+    			newCombLogic = new StraightAndT(b);
     			break;
-    		}
-    		case 'L':{
-    			newCombLogic = new OnlyLsCombinations(b);
+    		case 'L':
+    			newCombLogic = new StraightAndL(b);
     			break;
-    		}
-    		case 'C':{
-    			newCombLogic = new ClassicPattern(b);
+    		default: // 'C'
+    			newCombLogic = new Classic(b);
     			break;
-    		}
-    		default:{
-    			newCombLogic = new ClassicPattern(b);
-    			break;
-    		}
     	}
         return newCombLogic;
     }

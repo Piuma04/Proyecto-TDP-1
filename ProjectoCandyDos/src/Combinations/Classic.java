@@ -8,9 +8,9 @@ import Entities.Entity;
 import Logic.Block;
 import Logic.Board;
 
-public class ClassicPattern extends BaseCombination {
+public class Classic extends BaseCombination {
 
-    public ClassicPattern(Board b) { super(b); }
+    public Classic(Board b) { super(b); }
 
     @Override
     public Set<Block> checkCombinations(Set<Block> blocks, List<Entity> candysOut) {

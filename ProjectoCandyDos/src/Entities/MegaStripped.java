@@ -17,7 +17,7 @@ public class MegaStripped extends Entity {
     public MegaStripped(int rowPosition, int columnPosition, Colour colour) {
         super(rowPosition, columnPosition, colour);
         
-        String prefix = "MS";
+        String prefix = "S";
         imagePath = colour.toString() + "/" + prefix + colour.toString() + ".png";
         explosionGif = colour.toString() + "/explosion/" + prefix + colour.toString() + ".gif";
     }
@@ -55,9 +55,7 @@ public class MegaStripped extends Entity {
     	if(e.getColour() == colour) s.addAll(getDestroyables(b));
     	return s;
     }
-    
 
-    
     @Override
      public List<Block> getDestroyables(Board b) {
         List<Block> toDestroy = new LinkedList<Block>();
