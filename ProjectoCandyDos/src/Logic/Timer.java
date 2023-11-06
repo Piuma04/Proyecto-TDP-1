@@ -3,8 +3,9 @@ package Logic;
 import javax.swing.SwingUtilities;
 
 import GUI.Gui;
+import Interfaces.PausableObserver;
 
-public class Timer {
+public class Timer implements PausableObserver{
 
     private Gui myGui;
     private Game myGame;
@@ -42,11 +43,17 @@ public class Timer {
     public void startTimer(long time) {
         minutes = time / 60;
         seconds = time % 60;
-        stopped = false;
-        continueTimer();
+        update(false);
     }
 
-    public void stopTimer() { stopped = true; }
+   
 
-    public void continueTimer() { stopped = false; if (!myThread.isAlive()) { myThread = new Thread(myTask); myThread.start(); } }
+	@Override
+	public void update(boolean isPaused) {
+		stopped = isPaused;
+		if(!stopped && !myThread.isAlive()){ 
+			myThread = new Thread(myTask); myThread.start(); 
+		}
+		
+	}
 }

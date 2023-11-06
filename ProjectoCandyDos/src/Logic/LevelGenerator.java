@@ -273,7 +273,7 @@ public class LevelGenerator {
 		String temp = String.valueOf(id.toCharArray(), 1, id.length()-1);
 		int seconds = Integer.valueOf(temp);
 		newBomb = new Bomb(r, c, game, seconds);
-		
+		game.addPausableObserver(newBomb);
 		return newBomb;
 	}
 }
