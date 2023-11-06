@@ -18,24 +18,32 @@ public class OnlyTsCombinations extends BaseCombination {
 
 	public OnlyTsCombinations(Board b) {super(b); }
 	protected PriorityEntity checkBlockHorizontalVerticalCombination(Block block, Set<Block> combinationsOut) {
-	        final Colour color = board.getBlockColour(block);
-	        PriorityEntity entity = null;
-	        //Set<Block> tComb = getT(block);
-	        Set<Block> lComb = getL(block);
-	        Set<Block> xComb = getX(block);
-	        //combinationsOut.addAll(tComb);
-	        combinationsOut.addAll(lComb);
-	        combinationsOut.addAll(xComb);
-	        if(!lComb.isEmpty() || !xComb.isEmpty())
-	        {
-	        	entity = new PriorityEntity(new Wrapped(block.getRow(),block.getColumn(),color),2);
-	        }
-	        System.out.println(combinationsOut);
-	        return entity;
-	    }
-	@Override
-	public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        final Colour color = board.getBlockColour(block);
+        Set<Block> consecutiveH = consecutiveHorizontal(block);
+        Set<Block> consecutiveV = consecutiveVertical(block);
+        final int hSize = consecutiveH.size() + 1; // block to check added.
+        final int vSize = consecutiveV.size() + 1; // block to check added.
+        final int row = block.getRow();
+        final int column = block.getColumn();
+        PriorityEntity entity = null;
+        Set<Block> tComb = getT(block);
+        //combinationsOut.addAll(tComb);
+        if(!tComb.isEmpty())
+        {
+        	entity = new PriorityEntity(new Wrapped(block.getRow(),block.getColumn(),color),2);
+        }
+        if (hSize >= MIN_COMBINATION_SIZE) {
+            combinationsOut.add(block);
+            combinationsOut.addAll(consecutiveH);
+            if (hSize == STRIPPED_COMBINATION_SIZE)
+                entity = new PriorityEntity(new Stripped(row, column, color, false), 1);
+        }
+        else if (vSize >= MIN_COMBINATION_SIZE) {
+            combinationsOut.add(block);
+            combinationsOut.addAll(consecutiveV);
+            if (vSize == STRIPPED_COMBINATION_SIZE)
+                entity = new PriorityEntity(new Stripped(row, column, color, true), 1);
+        }
+        return entity;
+    }
 }

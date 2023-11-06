@@ -1,7 +1,7 @@
-T
-10000,100000
+C
 16,75
-Q15,R,Q15,B,P,G
+B,15
+R,R,G,B,P,G
 P,R,G,B,Y,B
 G,P,R,GV,BW,R
 G,R,B,P,P,Y

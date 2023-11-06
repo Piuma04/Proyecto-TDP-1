@@ -76,7 +76,6 @@ public abstract class BaseCombination implements CombinationLogic {
 	        return entity;
 	    }
 	
-	        
     public Set<Block> checkRemainingCombinations(Map<Integer, List<Block>> emptyColumnBlocks, List<Entity> candysOut) {
         Set<Block> unchecked = new HashSet<Block>();
         for (int col = 0; col < Board.getColumns(); col++) {
