@@ -44,7 +44,7 @@ public class Drawable extends JComponent implements GraphicalEntity {
         
         myJlabel = new JLabel();
         
-        myJlabel.setForeground(Color.WHITE);
+        myJlabel.setForeground(Color.RED);
         myJlabel.setSize(sizeImg, sizeImg);
         myJlabel.setFont( new Font(Font.SANS_SERIF, Font.BOLD, 30));
         add(myJlabel,BorderLayout.SOUTH);
